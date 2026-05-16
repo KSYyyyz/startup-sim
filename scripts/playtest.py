@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """12回合自动试玩脚本 — 5种策略跑满12回合，输出结局/现金/MRR/产品分/股权。
 
-Alpha 1.1 平衡验证：走完整 TurnEngine.process_turn_raw 流程，
+Alpha 1.2 平衡验证：走完整 TurnEngine.process_turn_raw 流程，
 覆盖 parse_multi / StateGuard / 竞品 / 客户 / 事件 / 结局。
 """
 
@@ -164,7 +164,7 @@ def format_result(r: dict) -> str:
 
 def main():
     print("=" * 90)
-    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.1)")
+    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.2)")
     print("  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局")
     print("=" * 90)
     print()
