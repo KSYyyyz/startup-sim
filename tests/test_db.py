@@ -151,3 +151,34 @@ class TestProcessTurnPersistence:
         assert loaded is not None
         assert loaded.cash != state.cash  # Cash changed
         assert loaded.product_score > state.product_score  # Product improved
+
+    def test_process_turn_rollback_preserves_previous_state(self, temp_db):
+        """If an exception occurs mid-transaction in process_turn, state is NOT changed."""
+        from unittest import mock
+        from src.db import repository
+        from src.core.turn_engine import TurnEngine
+
+        sid = repository.create_session("test_player")
+        state = CompanyState(cash=500_000, product_score=25)
+        repository.init_session_state(sid, state)
+
+        engine = TurnEngine(sid)
+
+        # Mock save_snapshot to raise an exception inside the transaction
+        original_save_snapshot = repository.save_snapshot
+        def failing_save(*args, **kwargs):
+            raise RuntimeError("simulated DB write failure")
+
+        try:
+            with mock.patch.object(repository, "save_snapshot", side_effect=failing_save):
+                try:
+                    engine.process_turn("花10万做产品研发")
+                except RuntimeError:
+                    pass  # expected
+
+            # After rollback, state should be unchanged
+            loaded = repository.load_state(sid)
+            assert loaded.cash == state.cash
+            assert loaded.product_score == state.product_score
+        finally:
+            repository.save_snapshot = original_save_snapshot

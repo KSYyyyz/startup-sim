@@ -81,11 +81,14 @@ def init_session_state(session_id: int, state: CompanyState,
 
 
 def load_state(session_id: int) -> CompanyState:
-    """Load current game state for a session."""
+    """Load current game state for a session, including current_month."""
     conn, owns = _get_conn()
     try:
         row = conn.execute(
-            "SELECT * FROM company_state WHERE session_id = ?", (session_id,)
+            """SELECT cs.*, gs.current_month
+               FROM company_state cs
+               JOIN game_sessions gs ON cs.session_id = gs.id
+               WHERE cs.session_id = ?""", (session_id,)
         ).fetchone()
         if row is None:
             raise RuntimeError(f"company_state missing for session {session_id}")
