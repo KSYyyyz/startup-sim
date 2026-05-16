@@ -1,17 +1,17 @@
-"""飞书路由 — 精简版：命令路由 + TurnEngine.process_turn_raw()
+"""飞书路由 — 薄适配层：命令路由 + TurnEngine.process_turn_raw()
 
 飞书入口只做：
   1. 命令识别：开始 / 状态 / 决策
-  2. user_id -> session_id 映射
+  2. user_id -> session_id 映射（通过 DB repository）
   3. 调用 TurnEngine.process_turn_raw(raw_input)
   4. 格式化 TurnResult 输出
 
 所有游戏规则只存在于 TurnEngine、ActionParser、StateGuard、EventEngine、Agent 模块里。
+状态持久化通过 src.db.repository 完成，不再使用 JSON 文件。
 """
 
-import json
-import os
 import sys
+import os
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,54 +19,49 @@ from src.core.models import CompanyState, TurnResult, EndingType
 from src.core.turn_engine import TurnEngine
 from src.core.difficulty import Difficulty, get_difficulty
 from src.core.ending_evaluator import evaluate as eval_ending, describe_ending
+from src.db import repository
+from src.db.connection import init_db
 
-STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "feishu_state.json")
-
-# ── Global state (single-user MVP, persisted across processes via JSON) ──────
-_game_state: CompanyState = None
-_difficulty: Difficulty = None
+# ── Session mapping: user_id (str) → session_id (int) ─────────────────────────
 
 
-def _save() -> None:
-    """Save game state to JSON file."""
-    if _game_state:
-        data = {
-            "state": _game_state.model_dump(),
-            "difficulty": _difficulty.model_dump() if _difficulty else None,
-        }
-        with open(STATE_FILE, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+def _get_or_create_session(user_id: str, player_name: str = "") -> int:
+    """Map a user_id to a session_id. Creates a new session if none exists."""
+    # Simple 1:1 mapping via session with player_name=user_id
+    # In production this would be a proper user_sessions table
+    sid = _session_map.get(user_id)
+    if sid is not None:
+        # Verify session still exists
+        status = repository.get_session_status(sid)
+        if status:
+            return sid
+        else:
+            del _session_map[user_id]
+
+    # Create new session
+    sid = repository.create_session(user_id)
+    _session_map[user_id] = sid
+    return sid
 
 
-def _load() -> bool:
-    """Load game state from JSON file. Returns True if loaded."""
-    global _game_state, _difficulty
-    if os.path.exists(STATE_FILE):
-        with open(STATE_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        _game_state = CompanyState(**data["state"])
-        if data.get("difficulty"):
-            _difficulty = Difficulty(**data["difficulty"])
-        return True
-    return False
+# In-memory session map (lives only for process lifetime; acceptable for MVP)
+_session_map: dict[str, int] = {}
 
 
 # ── Command: 开始 ─────────────────────────────────────────────────────────────
 
-def start(track: str = "AI客服SaaS", difficulty: str = "normal") -> str:
+def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal") -> str:
     """Start a new game with the given track and difficulty."""
-    global _game_state, _difficulty
-
     diff_map = {"easy": Difficulty.easy(), "hard": Difficulty.hard()}
-    _difficulty = diff_map.get(difficulty, Difficulty.normal())
+    diff = diff_map.get(difficulty, Difficulty.normal())
 
-    _game_state = CompanyState(
-        cash=int(1_000_000 * _difficulty.cash_multiplier),
+    state = CompanyState(
+        cash=int(1_000_000 * diff.cash_multiplier),
         monthly_burn=180_000,
         mrr=0,
         users=0,
-        product_score=max(0, 20 + _difficulty.product_score_add),
-        team_morale=max(0, 70 + _difficulty.team_morale_add),
+        product_score=max(0, 20 + diff.product_score_add),
+        team_morale=max(0, 70 + diff.team_morale_add),
         founder_equity=100,
         board_control=100,
         market_share=0,
@@ -76,51 +71,85 @@ def start(track: str = "AI客服SaaS", difficulty: str = "normal") -> str:
         valuation=5_000_000,
         month=1,
     )
-    _save()
-    return _render_state()
+
+    # Create or reset session
+    sid = _session_map.get(user_id)
+    if sid is not None:
+        repository.reset_session(sid, state)
+    else:
+        sid = repository.create_session(user_id)
+        repository.init_session_state(sid, state)
+        _session_map[user_id] = sid
+
+    return _render_state(state, difficulty)
 
 
 # ── Command: 决策 ─────────────────────────────────────────────────────────────
 
-def turn(raw_input: str) -> str:
+def turn(user_id: str, raw_input: str) -> str:
     """Process one turn. All game logic delegated to TurnEngine.process_turn_raw()."""
-    global _game_state
+    # Ensure DB is initialized
+    init_db()
 
-    if not _game_state:
-        _load()
-    if not _game_state:
+    sid = _session_map.get(user_id)
+    if sid is None:
         return "❌ 游戏还没开始。说「创业模拟器 开始」来开局。"
 
+    # Load state from DB
+    state = repository.load_state(sid)
+
     # Check if game already ended
-    ending = eval_ending(_game_state)
+    ending = eval_ending(state)
     if ending:
         return (
-            f"🎮 游戏已结束：{describe_ending(ending, _game_state)}\n"
+            f"🎮 游戏已结束：{describe_ending(ending, state)}\n"
             "说「创业模拟器 开始」重新开局。"
         )
 
-    # Delegate ALL game logic to TurnEngine
-    result: TurnResult = TurnEngine.process_turn_raw(
-        _game_state, raw_input, _difficulty
-    )
+    # Get difficulty from session metadata
+    session_status = repository.get_session_status(sid)
+    diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
+    difficulty = get_difficulty(diff_name)
 
-    # Update persisted state
-    _game_state = result.state_after
-    _save()
+    # Delegate ALL game logic to TurnEngine
+    result: TurnResult = TurnEngine.process_turn_raw(state, raw_input, difficulty)
+
+    # Persist state via DB
+    with repository.transaction() as conn:
+        repository.save_state(sid, result.state_after, conn=conn)
+        repository.update_session_month(
+            sid, result.state_after.month,
+            "active" if result.ending == EndingType.NONE else result.ending.value,
+            conn=conn,
+        )
+        repository.save_snapshot(sid, result.state_after.month, result.state_after, conn=conn)
 
     return _format_result(result)
 
 
+def turn_safe(user_id: str, raw_input: str) -> str:
+    """Process one turn with error handling for feishu message handler."""
+    try:
+        return turn(user_id, raw_input)
+    except Exception as exc:
+        return f"❌ 出错: {exc}"
+
+
 # ── Command: 状态 ─────────────────────────────────────────────────────────────
 
-def status() -> str:
+def status(user_id: str) -> str:
     """Return the current game state."""
-    global _game_state
-    if not _game_state:
-        _load()
-    if not _game_state:
+    sid = _session_map.get(user_id)
+    if sid is None:
         return "🎮 游戏还没开始。说「创业模拟器 开始」来开局。"
-    return _render_state()
+
+    session_status = repository.get_session_status(sid)
+    if session_status is None:
+        return "🎮 游戏还没开始。说「创业模拟器 开始」来开局。"
+
+    state = repository.load_state(sid)
+    diff_name = session_status.get("difficulty", "normal")
+    return _render_state(state, diff_name)
 
 
 # ── Formatting ────────────────────────────────────────────────────────────────
@@ -156,7 +185,7 @@ def _format_result(result: TurnResult) -> str:
         lines.append("")
 
     # Current state
-    lines.append(_render_state())
+    lines.append(_render_state(result.state_after, ""))
 
     # Events
     if result.events:
@@ -171,17 +200,14 @@ def _format_result(result: TurnResult) -> str:
     return "\n".join(lines)
 
 
-def _render_state() -> str:
+def _render_state(state: CompanyState, difficulty: str = "") -> str:
     """Render current game state as Feishu Markdown."""
-    if not _game_state:
-        return ""
-    s = _game_state
-    diff_name = _difficulty.name if _difficulty else "normal"
+    diff_str = f" | {difficulty}模式" if difficulty else ""
     return "\n".join([
-        f"🏢 AI客服SaaS | 第{s.month}月 | {diff_name}模式",
-        f"💰 现金:{s.cash//10000}万 | 🔥 烧钱:{s.monthly_burn//10000}万/月 | MRR:{s.mrr//10000}万",
-        f"👥 用户:{s.users} | 👨‍💻 员工:{s.employee_count}人 | 💰 单价:{s.price}元/月",
-        f"📦 产品:{s.product_score} | 💪 士气:{s.team_morale} | ⭐ 声誉:{s.reputation}",
-        f"📊 股权:创始人{s.founder_equity}% | 投资人{100 - s.founder_equity}% | 董事会控制:{s.board_control}%",
-        f"🏦 估值:{s.valuation//10000}万 | ⏳ 跑道:{s.runway_months:.1f}月",
+        f"🏢 AI客服SaaS | 第{state.month}月{diff_str}",
+        f"💰 现金:{state.cash//10000}万 | 🔥 烧钱:{state.monthly_burn//10000}万/月 | MRR:{state.mrr//10000}万",
+        f"👥 用户:{state.users} | 👨‍💻 员工:{state.employee_count}人 | 💰 单价:{state.price}元/月",
+        f"📦 产品:{state.product_score} | 💪 士气:{state.team_morale} | ⭐ 声誉:{state.reputation}",
+        f"📊 股权:创始人{state.founder_equity}% | 投资人{100 - state.founder_equity}% | 董事会控制:{state.board_control}%",
+        f"🏦 估值:{state.valuation//10000}万 | ⏳ 跑道:{state.runway_months:.1f}月",
     ])
