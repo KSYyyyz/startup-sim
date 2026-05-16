@@ -239,6 +239,25 @@ def get_session_status(session_id: int) -> Optional[dict]:
             conn.close()
 
 
+def find_active_session_by_player_name(player_name: str) -> Optional[int]:
+    """Find the most recent active session for a player. Returns session_id or None."""
+    conn, owns = _get_conn()
+    try:
+        row = conn.execute(
+            """SELECT id FROM game_sessions
+               WHERE player_name = ? AND status = 'active'
+               ORDER BY created_at DESC
+               LIMIT 1""",
+            (player_name,),
+        ).fetchone()
+        if row is None:
+            return None
+        return row["id"]
+    finally:
+        if owns:
+            conn.close()
+
+
 @contextmanager
 def transaction() -> Generator[sqlite3.Connection, None, None]:
     """Context manager for BEGIN IMMEDIATE transactions.
