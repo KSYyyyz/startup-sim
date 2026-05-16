@@ -1,4 +1,4 @@
-# Startup Sim 🚀  `Alpha 1.0`
+# Startup Sim 🚀  `Alpha 1.1`
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
@@ -136,13 +136,13 @@ startup-sim/
 │   │   └── customers.py        # 客户群体(四因子+转化率)
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
-└── tests/                  # 53个测试，pytest全覆盖
+└── tests/                  # 77个测试，pytest全覆盖
 ```
 
 ## 🧪 测试
 
 ```bash
-pytest tests/ -v    # 53 passed
+pytest tests/ -v    # 77 passed
 ```
 
 ## 🛠️ 技术栈
