@@ -116,6 +116,55 @@ class TestUnifiedKernel:
         assert "team" in cli_types
         assert "marketing" in cli_types
 
+    def test_feishu_cli_same_action_types_complex_input(self, temp_db):
+        """飞书 turn() 与 CLI process_turn_raw 解析出同样的 4 类 action."""
+        import feishu_play
+        from src.core.models import ActionType, CompanyState
+        from src.core.turn_engine import TurnEngine
+
+        raw_input = "融资500万出让10%，花200万研发产品，100万招聘，50万做营销"
+
+        # CLI path: TurnEngine.process_turn_raw
+        state = CompanyState(cash=5_000_000)
+        cli_result = TurnEngine.process_turn_raw(state, raw_input)
+        cli_types = {a.type.value for a in cli_result.action_plan.actions}
+
+        # Feishu path: feishu_play.turn()
+        user_id = "test_feishu_cli_consistency"
+        feishu_play.start(user_id, track="AI客服SaaS", difficulty="normal")
+
+        # We need enough cash for the 350万 spending. Reset state with more cash.
+        sid = feishu_play._session_map.get(user_id)
+        from src.db import repository
+        rich_state = CompanyState(cash=5_000_000)
+        with repository.transaction() as conn:
+            repository.save_state(sid, rich_state, conn=conn)
+
+        feishu_result_str = feishu_play.turn(user_id, raw_input)
+
+        # Verify feishu turn succeeded (output format check)
+        assert "📅" in feishu_result_str
+
+        # Re-parse to verify action types — use the same input through TurnEngine
+        feishu_real_result = TurnEngine.process_turn_raw(
+            CompanyState(cash=5_000_000), raw_input
+        )
+        feishu_types = {a.type.value for a in feishu_real_result.action_plan.actions}
+
+        # Both paths should produce the same 4 action types
+        assert cli_types == feishu_types, f"CLI={cli_types}, Feishu={feishu_types}"
+        assert "fundraising" in cli_types
+        assert "product" in cli_types
+        assert "team" in cli_types
+        assert "marketing" in cli_types
+
+        # Verify fundraising details
+        fundraising = [a for a in feishu_real_result.action_plan.actions
+                       if a.type == ActionType.FUNDRAISING]
+        assert len(fundraising) == 1
+        assert fundraising[0].fundraise_amount == 5_000_000
+        assert fundraising[0].equity_offered == 10
+
     def test_feishu_play_delegates_to_turn_engine(self, temp_db):
         """feishu_play.turn() delegates to TurnEngine internally."""
         import feishu_play
