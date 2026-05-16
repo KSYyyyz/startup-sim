@@ -66,19 +66,38 @@ class CustomerAgent:
                     f"自然增长{baseline * 5}人"
                 )
 
-        # ── 2. Player pricing / marketing → user growth but margin pressure ──
+        # -- 2. Player marketing → user growth via CAC + retention modifier --
         has_marketing = any(a.type == "marketing" for a in plan.actions)
         if has_marketing:
             marketing_budget = sum(
                 a.budget for a in plan.actions if a.type == "marketing"
             )
-            extra_users = max(1, marketing_budget // 500)
-            growth_change += extra_users
-            # Marketing often means discounts → MRR per user dips
-            revenue_change -= extra_users * 50
+            # CAC = 1000元/用户 (base acquisition cost)
+            new_users = max(1, marketing_budget // 1000)
+            # Product-score-based retention modifier
+            if state.product_score < 30:
+                retention = 0.4   # 产品太差，获客留存打4折
+            elif state.product_score < 60:
+                retention = 0.8   # 产品一般，留存打8折
+            else:
+                retention = 1.0 + (state.product_score - 60) / 200  # 1.0→1.2
+            retained_users = max(1, int(new_users * retention))
+            growth_change += retained_users
+            # MRR from retained users (same conversion-rate logic as baseline)
+            if state.product_score < 30:
+                conv = 0.02
+            elif state.product_score < 50:
+                conv = 0.05
+            elif state.product_score < 70:
+                conv = 0.10
+            else:
+                conv = 0.18
+            new_mrr = int(retained_users * conv * state.price)
+            revenue_change += new_mrr
             narratives.append(
-                f"市场投放带来{extra_users}个新用户，"
-                f"但获客折扣使人均付费下降"
+                f"市场投放带来{retained_users}个留存用户"
+                f"（CAC={marketing_budget // retained_users}元/人，留存率{retention*100:.0f}%），"
+                f"新增MRR≈{new_mrr//10000}万"
             )
 
         # ── 3. Competitor moves → customer response ──────────────────────────

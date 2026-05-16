@@ -40,8 +40,8 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
     """Simple rule-based simulation: compute delta from action plan.
 
     Rules:
-    - product action: each 10,000 budget → +1 product_score, cost deducted
-    - marketing action: each 10,000 budget → +50 users, +5,000 mrr, cost deducted
+    - product action: each 100,000 budget → +1 product_score + team/5 + morale/20, cost deducted
+    - marketing action: each 10,000 budget → reputation + burn; users/MRR via CustomerAgent CAC
     - team action: each 10,000 budget → +2 team_morale, burn +2,000, cost deducted
     - fundraising action: if fundraise_amount>0 & equity_offered>0:
         cash += fundraise_amount, equity -= equity_offered,
@@ -66,13 +66,13 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             delta.cash -= budget
 
         if action.type == "product":
-            delta.product_score += max(1, budget // 10_000)
+            product_gain = budget // 100_000 + state.employee_count // 5 + state.team_morale // 20
+            delta.product_score += max(1, product_gain)
             delta.monthly_burn += budget // 20  # dev costs increase burn
         elif action.type == "marketing":
-            delta.users += budget // 200
-            delta.mrr += budget // 2
             delta.monthly_burn += budget // 5
             delta.reputation += max(0, budget // 50_000)
+            # User growth and MRR handled by CustomerAgent (CAC-based retention)
         elif action.type == "team":
             delta.team_morale += max(1, budget // 5_000)
             delta.monthly_burn += budget // 3

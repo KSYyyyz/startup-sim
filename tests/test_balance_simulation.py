@@ -1,4 +1,4 @@
-"""Balance simulation: 5 strategies × 12 months using _simulate + apply_delta.
+"""Balance simulation: 5 strategies × 12 months using _simulate + apply_delta + CustomerAgent.
 
 Asserts ending diversity ≥ 3 distinct ending types across the 5 strategies.
 """
@@ -10,10 +10,14 @@ from src.core.models import (
 from src.core.turn_engine import _simulate
 from src.core.state_guard import apply_delta
 from src.core.ending_evaluator import evaluate as eval_ending
+from src.agents.customers import CustomerAgent
+
+
+_customer_agent = CustomerAgent()
 
 
 def run_strategy(monthly_actions, initial_state=None):
-    """Run a strategy for up to 12 months.
+    """Run a strategy for up to 12 months, including CustomerAgent evaluation.
 
     Args:
         monthly_actions: callable(month: int, state: CompanyState) → PlayerAction
@@ -30,6 +34,14 @@ def run_strategy(monthly_actions, initial_state=None):
             actions=[action],
         )
         delta = _simulate(plan, state)
+
+        # CustomerAgent evaluates marketing/user growth (unified CAC-based)
+        customer_response = _customer_agent.evaluate(state, plan, [])
+        growth = customer_response.get("growth_change", 0)
+        revenue = customer_response.get("revenue_change", 0)
+        delta.users += growth
+        delta.mrr += revenue
+
         state = apply_delta(state, delta)
         state.month = month + 1
 
@@ -41,19 +53,27 @@ def run_strategy(monthly_actions, initial_state=None):
     return eval_ending(state) or EndingType.NONE, state
 
 
-# ── Strategy definitions ──────────────────────────────────────────────────────
+# -- Strategy definitions ------------------------------------------------------
 
-def strategy_no_action(month, state):
-    """Strategy 1: Do nothing, just watch burn. → early bankruptcy."""
+def strategy_all_rnd(month, state):
+    """Strategy 1: All-in R&D, no fundraising → fast bankruptcy."""
     return PlayerAction(
         type=ActionType.PRODUCT,
-        budget=0,  # no spend, just passive burn
+        budget=100_000,
     )
 
 
-def strategy_fundraise_marketing(month, state):
-    """Strategy 2: Fundraise 500万 at 10% in month 1, then heavy marketing.
-    → should reach SURVIVED_BUT_AVERAGE (MRR ≥ 200k)."""
+def strategy_all_marketing(month, state):
+    """Strategy 2: All-in marketing, no product → slow growth, likely SLOW_DEATH."""
+    return PlayerAction(
+        type=ActionType.MARKETING,
+        budget=50_000,
+    )
+
+
+def strategy_fundraise_then_growth(month, state):
+    """Strategy 3: Fundraise 500万 at 10% in month 1, heavy product then heavy marketing.
+    → should reach SURVIVED_BUT_AVERAGE."""
     if month == 1:
         return PlayerAction(
             type=ActionType.FUNDRAISING,
@@ -61,21 +81,29 @@ def strategy_fundraise_marketing(month, state):
             equity_offered=10,
             budget=0,
         )
+    elif month <= 4:
+        # First build product aggressively
+        return PlayerAction(type=ActionType.PRODUCT, budget=100_000)
     else:
-        return PlayerAction(
-            type=ActionType.MARKETING,
-            budget=50_000,
-        )
+        # Then market heavily with improved product
+        return PlayerAction(type=ActionType.MARKETING, budget=150_000)
 
 
-def strategy_fundraise_product_marketing(month, state):
-    """Strategy 3: Fundraise 500万 in month 1, then balanced product+marketing.
-    → may reach SURVIVED_BUT_AVERAGE or SLOW_DEATH."""
+def strategy_conservative(month, state):
+    """Strategy 4: Minimal spend, preserve cash → slow death or bankruptcy."""
+    return PlayerAction(
+        type=ActionType.PRODUCT,
+        budget=5_000,
+    )
+
+
+def strategy_balanced(month, state):
+    """Strategy 5: Balanced product + marketing, with small early fundraising to survive."""
     if month == 1:
         return PlayerAction(
             type=ActionType.FUNDRAISING,
-            fundraise_amount=5_000_000,
-            equity_offered=10,
+            fundraise_amount=2_000_000,
+            equity_offered=8,
             budget=0,
         )
     elif month % 2 == 0:
@@ -84,33 +112,17 @@ def strategy_fundraise_product_marketing(month, state):
         return PlayerAction(type=ActionType.MARKETING, budget=30_000)
 
 
-def strategy_aggressive_product(month, state):
-    """Strategy 4: Heavy product spend, no fundraising. → fast bankruptcy."""
-    return PlayerAction(
-        type=ActionType.PRODUCT,
-        budget=100_000,
-    )
-
-
-def strategy_conservative_product(month, state):
-    """Strategy 5: Minimal product spend, no fundraising. → slow bankruptcy or slow_death."""
-    return PlayerAction(
-        type=ActionType.PRODUCT,
-        budget=10_000,
-    )
-
-
-# ── Tests ─────────────────────────────────────────────────────────────────────
+# -- Tests ---------------------------------------------------------------------
 
 class TestBalanceSimulation:
     """5-strategy balance test: assert ≥ 3 distinct endings."""
 
     STRATEGIES = [
-        ("no_action", strategy_no_action),
-        ("fundraise_marketing", strategy_fundraise_marketing),
-        ("fundraise_product_marketing", strategy_fundraise_product_marketing),
-        ("aggressive_product", strategy_aggressive_product),
-        ("conservative_product", strategy_conservative_product),
+        ("all_rnd", strategy_all_rnd),
+        ("all_marketing", strategy_all_marketing),
+        ("fundraise_then_growth", strategy_fundraise_then_growth),
+        ("conservative", strategy_conservative),
+        ("balanced", strategy_balanced),
     ]
 
     def test_all_strategies_run_12_months(self):
@@ -126,8 +138,6 @@ class TestBalanceSimulation:
         for name, strat_fn in self.STRATEGIES:
             ending, _ = run_strategy(strat_fn)
             endings.add(ending)
-            # Skip NONE (no ending should trigger by month 12 in our simulation)
-            # Every strategy should hit some ending by month 12
 
         distinct = {e for e in endings if e != EndingType.NONE}
         assert len(distinct) >= 3, (
@@ -149,21 +159,33 @@ class TestBalanceSimulation:
             ending, state = run_strategy(strat_fn)
             final_states[name] = (ending, state)
 
-        # fundraise strategies should have more cash than non-fundraise ones
-        fm_cash = final_states["fundraise_marketing"][1].cash
-        fpm_cash = final_states["fundraise_product_marketing"][1].cash
-        no_cash = final_states["no_action"][1].cash
+        # fundraise strategy should have more cash than non-fundraise ones
+        fg_cash = final_states["fundraise_then_growth"][1].cash
+        rnd_cash = final_states["all_rnd"][1].cash
 
-        assert fm_cash > no_cash, "fundraise_marketing should have more cash than no_action"
-        assert fpm_cash > no_cash, "fundraise_product_marketing should have more cash than no_action"
+        assert fg_cash > rnd_cash, (
+            f"fundraise_then_growth({fg_cash}) should have more cash than all_rnd({rnd_cash})"
+        )
 
     def test_product_score_differs_by_strategy(self):
-        """Heavy product strategy should have higher product_score than marketing-only."""
-        _, prod_state = run_strategy(strategy_aggressive_product)
-        _, mktg_state = run_strategy(strategy_fundraise_marketing)
-        _, cons_state = run_strategy(strategy_conservative_product)
+        """Heavy R&D strategy gets more product_score per turn than conservative."""
+        # Run both for 3 turns (both survive this long)
+        state_rnd = CompanyState()
+        state_cons = CompanyState()
 
-        # Aggressive product should beat conservative product on product_score
-        assert prod_state.product_score > cons_state.product_score, (
-            f"aggressive({prod_state.product_score}) > conservative({cons_state.product_score})"
+        for i in range(3):
+            for s, fn in [(state_rnd, strategy_all_rnd), (state_cons, strategy_conservative)]:
+                action = fn(s.month, s)
+                plan = ActionPlan(raw_input=f"t{i}", actions=[action])
+                delta = _simulate(plan, s)
+                cr = _customer_agent.evaluate(s, plan, [])
+                delta.users += cr.get("growth_change", 0)
+                delta.mrr += cr.get("revenue_change", 0)
+                new_s = apply_delta(s, delta)
+                for f in type(s).model_fields:
+                    setattr(s, f, getattr(new_s, f))
+                s.month += 1
+
+        assert state_rnd.product_score > state_cons.product_score, (
+            f"all_rnd({state_rnd.product_score}) > conservative({state_cons.product_score})"
         )
