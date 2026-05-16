@@ -51,14 +51,23 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
 
 def sanitize_delta(delta: StateDelta, state_before: CompanyState) -> StateDelta:
     """Sanitize a StateDelta to ensure no single-turn change exceeds limits.
+
     Returns a new (possibly modified) StateDelta.
+
+    P0-3: Cash outflow capped at -65% of previous cash, but cash inflow
+    (from fundraising) is never capped.
     """
-    # Cash change: max ±65% of previous cash
+    # Cash change: max -65% of previous cash (outflow cap only)
     prev_cash = max(state_before.cash, 1)  # avoid div-by-zero
     max_cash_delta = int(prev_cash * 0.65)
 
+    cash = delta.cash
+    if cash < 0:
+        cash = max(cash, -max_cash_delta)  # clamp negative only
+    # Positive cash (fundraising) passes through uncapped
+
     return StateDelta(
-        cash=max(-max_cash_delta, min(max_cash_delta, delta.cash)),
+        cash=cash,
         monthly_burn=delta.monthly_burn,
         mrr=delta.mrr,
         users=delta.users,

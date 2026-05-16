@@ -94,15 +94,18 @@ class TestSanitizeDelta:
         assert result2.team_morale == -15
 
     def test_cash_delta_capped_at_65_percent(self):
-        """Cash delta capped at ±65% of previous cash."""
+        """Cash outflow capped at -65% of previous cash; inflow is NOT capped."""
         state = CompanyState(cash=100_000)
-        delta = StateDelta(cash=80_000)  # 80%
-        result = sanitize_delta(delta, state)
-        assert result.cash == 65_000  # capped at 65%
 
-        delta2 = StateDelta(cash=-80_000)
-        result2 = sanitize_delta(delta2, state)
-        assert result2.cash == -65_000
+        # Negative cash (spending): capped at -65%
+        delta_out = StateDelta(cash=-80_000)
+        result_out = sanitize_delta(delta_out, state)
+        assert result_out.cash == -65_000  # capped at -65%
+
+        # Positive cash (fundraising): NOT capped
+        delta_in = StateDelta(cash=80_000)
+        result_in = sanitize_delta(delta_in, state)
+        assert result_in.cash == 80_000  # fundraising inflow passes through
 
     def test_no_cap_small_delta(self):
         """Small deltas should pass through unchanged."""

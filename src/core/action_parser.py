@@ -179,13 +179,15 @@ def parse_multi(raw_input: str) -> ActionPlan:
 
     # ── Step 4: Add fundraising action if detected ────────────────────────
     if fundraise_amount > 0 and ActionType.FUNDRAISING not in seen_types and len(actions) < 5:
+        post_money = int(fundraise_amount / (equity_offered / 100)) if equity_offered > 0 else 0
         actions.append(PlayerAction(
             type=ActionType.FUNDRAISING,
             intent=f"融资{fundraise_amount // 10_000}万出让{equity_offered}%",
             budget=0,  # fundraising doesn't consume budget
             risk_level=RiskLevel.LOW,
             fundraise_amount=fundraise_amount,
-            equity_offered=equity_offered,
+            equity_offered=float(equity_offered),
+            post_money_valuation=post_money,
         ))
 
     return ActionPlan(raw_input=raw_input, actions=actions)

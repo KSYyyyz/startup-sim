@@ -79,8 +79,8 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
         elif action.type == "fundraising":
             if action.fundraise_amount > 0 and action.equity_offered > 0:
                 delta.cash += action.fundraise_amount
-                delta.founder_equity -= action.equity_offered
-                delta.board_control -= action.equity_offered
+                delta.founder_equity -= int(action.equity_offered)
+                delta.board_control -= int(action.equity_offered)
                 post_money = int(action.fundraise_amount / (action.equity_offered / 100))
                 delta.valuation = post_money
                 delta.reasons.append(
