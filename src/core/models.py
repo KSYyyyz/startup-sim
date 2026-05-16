@@ -29,6 +29,8 @@ class PlayerAction(BaseModel):
     intent: str = ""  # natural-language description
     budget: int = Field(default=0, ge=0, description="Budget allocated in 元")
     risk_level: RiskLevel = RiskLevel.MEDIUM
+    fundraise_amount: int = Field(default=0, ge=0, description="Amount raised in 元 (fundraising only)")
+    equity_offered: int = Field(default=0, ge=0, le=100, description="Equity percentage offered (fundraising only)")
 
 
 class ActionPlan(BaseModel):

@@ -24,7 +24,7 @@ from src.core.difficulty import Difficulty, get_difficulty
 from src.core.models import (
     ActionPlan, CompanyState, EndingType, GameEvent, StateDelta, TurnResult,
 )
-from src.core.action_parser import parse
+from src.core.action_parser import parse, parse_multi
 from src.core.state_guard import (
     validate_action_plan, sanitize_delta, apply_delta,
 )
@@ -68,10 +68,21 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             delta.team_morale += max(1, budget // 5_000)
             delta.monthly_burn += budget // 3
         elif action.type == "fundraising":
-            delta.cash += budget * 2  # net gain after cost
-            delta.founder_equity -= 5
-            delta.board_control -= 3
-            delta.reputation += max(0, budget // 100_000)
+            if action.fundraise_amount > 0 and action.equity_offered > 0:
+                delta.cash += action.fundraise_amount
+                delta.founder_equity -= action.equity_offered
+                delta.board_control -= action.equity_offered
+                post_money = int(action.fundraise_amount / (action.equity_offered / 100))
+                delta.valuation = post_money
+                delta.reasons.append(
+                    f"融资{action.fundraise_amount}出让{action.equity_offered}%股权"
+                )
+            else:
+                # Legacy: no specific fundraising params, use budget * 2
+                delta.cash += budget * 2
+                delta.founder_equity -= 5
+                delta.board_control -= 3
+                delta.reputation += max(0, budget // 100_000)
         elif action.type == "strategy":
             delta.market_share += max(0, budget // 100_000)
             delta.reputation += max(1, budget // 20_000)
@@ -239,4 +250,57 @@ class TurnEngine:
             ending=ending or EndingType.NONE,
             ending_description=ending_desc,
             snapshots_saved=snapshots_saved,
+        )
+
+    @classmethod
+    def process_turn_raw(cls, state: CompanyState, raw_input: str, difficulty=None) -> TurnResult:
+        """Stateless turn: no DB, no session. For testing and batch simulation."""
+        diff = difficulty or get_difficulty("normal")
+        engine = cls(session_id=0, difficulty=diff)  # dummy session_id
+        state_before = state
+        month = state_before.month
+
+        action_plan = parse_multi(raw_input)
+
+        board_feedback: dict[str, str] = {}
+        for member in engine.board_members:
+            board_feedback[member.name] = member.speak(state_before, action_plan)
+
+        validate_action_plan(action_plan, state_before)
+
+        delta = _simulate(action_plan, state_before)
+
+        competitor_moves = []
+        for c in engine.competitors:
+            competitor_moves.append(c.respond(state_before, action_plan))
+
+        customer_response = engine.customer_agent.evaluate(
+            state_before, action_plan, competitor_moves
+        )
+
+        delta = _merge_competitor_customer_delta(delta, competitor_moves, customer_response)
+        delta = sanitize_delta(delta, state_before)
+        state_after_delta = apply_delta(state_before, delta)
+
+        engine.event_engine.set_previous_state(state_before)
+        events = engine.event_engine.evaluate(state_after_delta)
+        state_after = engine.event_engine.apply_event_deltas(state_after_delta, events)
+        state_after.month = month + 1
+
+        ending = eval_ending(state_after)
+        ending_desc = describe_ending(ending, state_after) if ending and ending != EndingType.NONE else ""
+
+        return TurnResult(
+            month=month,
+            action_plan=action_plan,
+            state_before=state_before,
+            state_after=state_after,
+            delta=delta,
+            events=events,
+            board_feedback=board_feedback,
+            competitor_moves=competitor_moves,
+            customer_response=customer_response,
+            ending=ending or EndingType.NONE,
+            ending_description=ending_desc,
+            snapshots_saved=0,
         )

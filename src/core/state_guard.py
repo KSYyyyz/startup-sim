@@ -12,7 +12,7 @@ Rules:
 
 from __future__ import annotations
 
-from src.core.models import ActionPlan, CompanyState, StateDelta
+from src.core.models import ActionPlan, ActionType, CompanyState, StateDelta
 from config import MAX_ACTIONS_PER_TURN
 
 
@@ -32,8 +32,8 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
             f"Too many actions: {len(plan.actions)} (max {MAX_ACTIONS_PER_TURN})"
         )
 
-    # Rule 2: total budget <= cash
-    total_budget = sum(a.budget for a in plan.actions)
+    # Rule 2: total budget of non-fundraising actions <= cash
+    total_budget = sum(a.budget for a in plan.actions if a.type != ActionType.FUNDRAISING)
     if total_budget > state.cash:
         raise StateGuardError(
             f"Total budget {total_budget} exceeds available cash {state.cash}"
