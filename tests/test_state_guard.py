@@ -14,14 +14,17 @@ class TestValidateActionPlan:
     """Test validation rules."""
 
     def test_too_many_actions(self):
-        """Max 2 actions per turn."""
+        """Max 5 actions per turn (config.MAX_ACTIONS_PER_TURN=5)."""
         state = CompanyState(cash=1_000_000)
-        plan = ActionPlan(
+        plan = ActionPlan.model_construct(
             raw_input="test",
             actions=[
                 PlayerAction(type=ActionType.PRODUCT, budget=10000),
                 PlayerAction(type=ActionType.MARKETING, budget=20000),
                 PlayerAction(type=ActionType.TEAM, budget=5000),
+                PlayerAction(type=ActionType.STRATEGY, budget=30000),
+                PlayerAction(type=ActionType.PRODUCT, budget=15000),
+                PlayerAction(type=ActionType.MARKETING, budget=25000),
             ],
         )
         with pytest.raises(StateGuardError, match="Too many actions"):

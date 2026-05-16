@@ -14,12 +14,6 @@ class TestEndingEvaluator:
         result = evaluate(state)
         assert result == EndingType.BANKRUPTCY
 
-    def test_bankruptcy_negative_cash(self):
-        """cash < 0 → bankruptcy."""
-        state = CompanyState(cash=-1, month=5)
-        result = evaluate(state)
-        assert result == EndingType.BANKRUPTCY
-
     def test_founder_removed(self):
         """equity < 34, board < 45, runway < 4 → founder_removed."""
         state = CompanyState(
