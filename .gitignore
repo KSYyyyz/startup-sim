@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Database
+*.db
+*.sqlite3
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Game state (runtime)
+feishu_state.json
+
+# OS
+.DS_Store
+Thumbs.db

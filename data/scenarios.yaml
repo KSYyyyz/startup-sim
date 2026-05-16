@@ -1,0 +1,32 @@
+# Startup Sim Scenarios
+# Each scenario defines the initial state for a new game.
+
+scenarios:
+  ai_customer_service_saas:
+    name: "AI客服SaaS创业"
+    description: >
+      你是一家AI客服SaaS公司的创始人。公司刚完成产品MVP，
+      获得了100万元种子轮投资。你需要在12个月内找到
+      product-market fit并实现增长。
+    initial_state:
+      cash: 1000000
+      monthly_burn: 180000
+      mrr: 0
+      users: 0
+      product_score: 20
+      team_morale: 70
+      founder_equity: 100
+      board_control: 100
+      market_share: 1    # Represented as integer 0-100
+      reputation: 50
+    competitors:
+      - name: "讯飞智服"
+        strategy: "大客户直销"
+        cash: 5000000
+        product_score: 60
+        market_share: 15
+      - name: "阿里小蜜"
+        strategy: "平台生态"
+        cash: 50000000
+        product_score: 85
+        market_share: 40

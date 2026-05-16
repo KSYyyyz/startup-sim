@@ -1,0 +1,100 @@
+"""Mock ActionParser: keyword-matching parser for natural-language player input.
+
+Phase 1A: no real LLM calls. Uses keyword matching and simple regex to extract
+actions and budgets from player text.
+"""
+
+from __future__ import annotations
+
+import re
+from typing import Tuple
+
+from src.core.models import ActionPlan, ActionType, PlayerAction, RiskLevel
+
+
+# ── Keyword → action type mapping ─────────────────────────────────────────────
+
+KEYWORD_MAP: list[Tuple[list[str], ActionType, RiskLevel]] = [
+    (["融资", "见投资人", "见投资", "投资人", "路演", "募资", "fundraise", "funding", "vc"], ActionType.FUNDRAISING, RiskLevel.LOW),
+    (["招", "hire", "招聘", "雇", "挖人", "团队建设", "扩团队", "招人"], ActionType.TEAM, RiskLevel.MEDIUM),
+    (["降价", "投放", "广告", "营销", "推广", "获客", "市场", "增长", "seo", "sem",
+      "marketing", "ads", "广告投放", "种子客户", "种子用户"], ActionType.MARKETING, RiskLevel.MEDIUM),
+    (["研发", "功能", "产品", "开发", "迭代", "feature", "特性", "技术", "代码",
+      "product", "dev", "r&d", "工单", "ai"], ActionType.PRODUCT, RiskLevel.MEDIUM),
+    (["转型", "并购", "新市场", "战略", "pivot", "strategy", "收购", "出海",
+      "扩张", "新业务"], ActionType.STRATEGY, RiskLevel.HIGH),
+]
+
+
+def _extract_budget(text: str) -> int:
+    """Extract a budget number from text. Looks for patterns like '花20万', '50万',
+    '预算30', 'budget 100000', '100万元' etc. Returns 0 if none found.
+    """
+    # Pattern: digits followed by optional 万 (multiply by 10000)
+    match = re.findall(r"(\d+)\s*万", text)
+    if match:
+        return int(match[0]) * 10_000
+
+    # Pattern: bare digits that look like budget amounts (>= 1000)
+    bare = re.findall(r"(?:花|预算|花掉|花费|投入|allocate|spend|budget)\s*(\d+)", text)
+    if bare:
+        return int(bare[0])
+
+    return 0
+
+
+def _determine_risk(text: str, action_type: ActionType) -> RiskLevel:
+    """Determine risk level from text cues."""
+    high_keywords = ["激进", "烧钱", "高风险", "all in", "all-in", "豪赌", "猛砸"]
+    low_keywords = ["保守", "稳健", "试探", "小规模", "谨慎", "低成本"]
+
+    for kw in high_keywords:
+        if kw in text:
+            return RiskLevel.HIGH
+    for kw in low_keywords:
+        if kw in text:
+            return RiskLevel.LOW
+
+    # Default risk by action type
+    defaults = {
+        ActionType.FUNDRAISING: RiskLevel.LOW,
+        ActionType.TEAM: RiskLevel.MEDIUM,
+        ActionType.MARKETING: RiskLevel.MEDIUM,
+        ActionType.PRODUCT: RiskLevel.MEDIUM,
+        ActionType.STRATEGY: RiskLevel.HIGH,
+    }
+    return defaults.get(action_type, RiskLevel.MEDIUM)
+
+
+def parse(raw_input: str) -> ActionPlan:
+    """Parse natural-language player input into an ActionPlan using keyword matching.
+
+    Detects up to 2 distinct action types from the input, extracts budgets,
+    and returns a structured ActionPlan.
+    """
+    actions = []
+    seen_types = set()
+
+    for keywords, action_type, default_risk in KEYWORD_MAP:
+        if action_type in seen_types:
+            continue
+        if any(kw in raw_input for kw in keywords):
+            budget = _extract_budget(raw_input)
+            # If multiple actions would share the same budget, split it
+            # For simplicity, first action gets the full extracted budget, others get 0
+            if len(actions) > 0 and budget > 0:
+                budget = max(0, budget - sum(a.budget for a in actions))
+
+            risk = _determine_risk(raw_input, action_type)
+            actions.append(PlayerAction(
+                type=action_type,
+                intent=raw_input.strip(),
+                budget=budget,
+                risk_level=risk,
+            ))
+            seen_types.add(action_type)
+
+        if len(actions) >= 2:
+            break
+
+    return ActionPlan(raw_input=raw_input, actions=actions)
