@@ -26,20 +26,27 @@ from src.db.connection import init_db
 
 
 def _get_or_create_session(user_id: str, player_name: str = "") -> int:
-    """Map a user_id to a session_id. Creates a new session if none exists."""
-    # Simple 1:1 mapping via session with player_name=user_id
-    # In production this would be a proper user_sessions table
+    """Map a user_id to a session_id. DB-first: queries for active session by player_name.
+    Falls back to in-memory map, then creates a new session."""
+    # 1) Check in-memory cache first (fast path)
     sid = _session_map.get(user_id)
     if sid is not None:
-        # Verify session still exists
         status = repository.get_session_status(sid)
         if status:
             return sid
         else:
             del _session_map[user_id]
 
-    # Create new session
-    sid = repository.create_session(user_id)
+    # 2) Query DB for active session (handles process restarts)
+    init_db()
+    name = player_name or user_id
+    sid = repository.find_active_session_by_player_name(name)
+    if sid is not None:
+        _session_map[user_id] = sid
+        return sid
+
+    # 3) Create new session
+    sid = repository.create_session(name)
     _session_map[user_id] = sid
     return sid
 
@@ -123,6 +130,25 @@ def turn(user_id: str, raw_input: str) -> str:
             conn=conn,
         )
         repository.save_snapshot(sid, result.state_after.month, result.state_after, conn=conn)
+
+        # Persist action log (consistent with TurnEngine.process_turn)
+        repository.save_action(
+            sid, result.month,
+            raw_input,
+            result.action_plan.model_dump_json(),
+            result.delta.model_dump_json(),
+            conn=conn,
+        )
+
+        # Persist event logs
+        for event in result.events:
+            repository.save_event(
+                sid, result.month,
+                event.event_type, event.description,
+                "high" if event.event_type == "board_coup_risk" else "medium",
+                event.delta.model_dump_json(),
+                conn=conn,
+            )
 
     return _format_result(result)
 
