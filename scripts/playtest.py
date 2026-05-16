@@ -39,10 +39,10 @@ def strategy_all_marketing(month: int, state: CompanyState) -> str:
 
 
 def strategy_fundraise_then_growth(month: int, state: CompanyState) -> str:
-    """策略3: 先融资再增长 — 首回合融资500万/10%，然后产品→营销。"""
+    """策略3: 先融资再增长 — 首回合融资500万/10%，5个月研发产品，然后营销。"""
     if month == 1:
         return "融资500万出让10%"
-    elif month <= 4:
+    elif month <= 6:
         budget_wan = min(10, state.cash // 10000)
         if budget_wan <= 0:
             return ""

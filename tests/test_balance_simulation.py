@@ -72,8 +72,8 @@ def strategy_all_marketing(month, state):
 
 
 def strategy_fundraise_then_growth(month, state):
-    """Strategy 3: Fundraise 500万 at 10% in month 1, heavy product then heavy marketing.
-    → should reach SURVIVED_BUT_AVERAGE."""
+    """Strategy 3: Fundraise 500万 at 10% in month 1, 5 months product then marketing.
+    → should reach SERIES_A_SUCCESS."""
     if month == 1:
         return PlayerAction(
             type=ActionType.FUNDRAISING,
@@ -81,11 +81,11 @@ def strategy_fundraise_then_growth(month, state):
             equity_offered=10,
             budget=0,
         )
-    elif month <= 4:
-        # First build product aggressively
+    elif month <= 6:
+        # Build product for 5 months (months 2-6)
         return PlayerAction(type=ActionType.PRODUCT, budget=100_000)
     else:
-        # Then market heavily with improved product
+        # Market heavily for 6 months (months 7-12)
         return PlayerAction(type=ActionType.MARKETING, budget=150_000)
 
 
