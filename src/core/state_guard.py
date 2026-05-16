@@ -26,7 +26,7 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
 
     Raises StateGuardError on violation.
     """
-    # Rule 1: max 2 actions
+    # Rule 1: Max MAX_ACTIONS_PER_TURN actions
     if len(plan.actions) > MAX_ACTIONS_PER_TURN:
         raise StateGuardError(
             f"Too many actions: {len(plan.actions)} (max {MAX_ACTIONS_PER_TURN})"
@@ -43,9 +43,8 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
     if total_budget > available_cash:
         non_fundraise_spend = total_budget
         raise StateGuardError(
-            f"你当前现金{state.cash // 10000}万，本回合非融资支出{non_fundraise_spend // 10000}万，"
-            f"超过可用现金{available_cash // 10000}万。"
-            f"可以降低预算，或先融资一回合后再投入。"
+            f"本回合非融资支出{non_fundraise_spend // 10000}万，超过当前现金{state.cash // 10000}万。"
+            f"请降低预算，或先融资后下回合再投入。"
         )
 
     # Rule 3: runway < 2 months → no high-risk marketing
