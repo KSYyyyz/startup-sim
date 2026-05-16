@@ -220,15 +220,19 @@ class TurnEngine:
 
         # Step 13: Persist everything in a transaction
         snapshots_saved = 0
-        with repository.transaction():
-            repository.save_state(self.session_id, state_after)
+        with repository.transaction() as conn:
+            repository.save_state(self.session_id, state_after, conn=conn)
 
             status = "active"
             if ending and ending != EndingType.NONE:
                 status = ending.value
-            repository.update_session_month(self.session_id, state_after.month, status)
+            repository.update_session_month(
+                self.session_id, state_after.month, status, conn=conn,
+            )
 
-            repository.save_snapshot(self.session_id, state_after.month, state_after)
+            repository.save_snapshot(
+                self.session_id, state_after.month, state_after, conn=conn,
+            )
             snapshots_saved = 1
 
             repository.save_action(
@@ -236,6 +240,7 @@ class TurnEngine:
                 raw_input,
                 action_plan.model_dump_json(),
                 delta.model_dump_json(),
+                conn=conn,
             )
 
             for event in events:
@@ -244,6 +249,7 @@ class TurnEngine:
                     event.event_type, event.description,
                     "high" if event.event_type == "board_coup_risk" else "medium",
                     event.delta.model_dump_json(),
+                    conn=conn,
                 )
 
         return TurnResult(
