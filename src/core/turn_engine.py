@@ -70,7 +70,7 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             delta.product_score += max(1, product_gain)
             delta.monthly_burn += budget // 20  # dev costs increase burn
         elif action.type == "marketing":
-            delta.monthly_burn += budget // 5
+            delta.monthly_burn += budget // 8
             delta.reputation += max(0, budget // 50_000)
             # User growth and MRR handled by CustomerAgent (CAC-based retention)
         elif action.type == "team":
