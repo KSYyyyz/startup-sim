@@ -41,7 +41,7 @@ class TestTurnEngineUsesParseMulti:
         from src.core.models import ActionType, CompanyState
         from src.core.turn_engine import TurnEngine
 
-        state = CompanyState(cash=5_000_000)  # enough cash for 3.5M budget
+        state = CompanyState()  # default 100万 cash, fundraising 500万 makes 600万 available
         result = TurnEngine.process_turn_raw(
             state,
             "融资500万出让10%，花200万研发产品，100万招聘，50万做营销",
@@ -77,7 +77,7 @@ class TestTurnEngineUsesParseMulti:
         from src.core.models import CompanyState, ActionType
 
         sid = repository.create_session("test")
-        state = CompanyState(cash=5_000_000)  # enough for 3.5M budget
+        state = CompanyState()  # default 100万, fundraising 500万 available same turn
         repository.init_session_state(sid, state)
 
         engine = TurnEngine(sid)
@@ -104,7 +104,7 @@ class TestUnifiedKernel:
         raw_input = "融资500万出让10%，花200万研发产品，100万招聘，50万做营销"
 
         # CLI path: TurnEngine.process_turn_raw
-        state = CompanyState(cash=5_000_000)  # enough for 3.5M budget
+        state = CompanyState()  # default 100万, fundraising available same turn
         cli_result = TurnEngine.process_turn_raw(state, raw_input)
         cli_types = sorted(a.type.value for a in cli_result.action_plan.actions)
 
@@ -125,7 +125,7 @@ class TestUnifiedKernel:
         raw_input = "融资500万出让10%，花200万研发产品，100万招聘，50万做营销"
 
         # CLI path: TurnEngine.process_turn_raw
-        state = CompanyState(cash=5_000_000)
+        state = CompanyState()  # default 100万, fundraising available same turn
         cli_result = TurnEngine.process_turn_raw(state, raw_input)
         cli_types = {a.type.value for a in cli_result.action_plan.actions}
 
@@ -136,7 +136,7 @@ class TestUnifiedKernel:
         # We need enough cash for the 350万 spending. Reset state with more cash.
         sid = feishu_play._session_map.get(user_id)
         from src.db import repository
-        rich_state = CompanyState(cash=5_000_000)
+        rich_state = CompanyState()  # default 100万, fundraising available same turn
         with repository.transaction() as conn:
             repository.save_state(sid, rich_state, conn=conn)
 
@@ -147,7 +147,7 @@ class TestUnifiedKernel:
 
         # Re-parse to verify action types — use the same input through TurnEngine
         feishu_real_result = TurnEngine.process_turn_raw(
-            CompanyState(cash=5_000_000), raw_input
+            CompanyState(), raw_input  # default cash, fundraising available same turn
         )
         feishu_types = {a.type.value for a in feishu_real_result.action_plan.actions}
 

@@ -40,7 +40,7 @@ class TestValidateActionPlan:
                 PlayerAction(type=ActionType.TEAM, budget=50_000),
             ],
         )
-        with pytest.raises(StateGuardError, match="exceeds available cash"):
+        with pytest.raises(StateGuardError, match="超过可用现金"):
             validate_action_plan(plan, state)
 
     def test_high_risk_marketing_low_runway(self):

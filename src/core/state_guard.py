@@ -32,11 +32,20 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
             f"Too many actions: {len(plan.actions)} (max {MAX_ACTIONS_PER_TURN})"
         )
 
-    # Rule 2: total budget of non-fundraising actions <= cash
+    # Rule 2: total budget of non-fundraising actions <= cash + fundraising inflow
+    # Fundraising cash arrives in the same turn, so it's available for spending.
     total_budget = sum(a.budget for a in plan.actions if a.type != ActionType.FUNDRAISING)
-    if total_budget > state.cash:
+    fundraising_inflow = sum(
+        a.fundraise_amount for a in plan.actions
+        if a.type == ActionType.FUNDRAISING and a.fundraise_amount > 0 and a.equity_offered > 0
+    )
+    available_cash = state.cash + fundraising_inflow
+    if total_budget > available_cash:
+        non_fundraise_spend = total_budget
         raise StateGuardError(
-            f"Total budget {total_budget} exceeds available cash {state.cash}"
+            f"你当前现金{state.cash // 10000}万，本回合非融资支出{non_fundraise_spend // 10000}万，"
+            f"超过可用现金{available_cash // 10000}万。"
+            f"可以降低预算，或先融资一回合后再投入。"
         )
 
     # Rule 3: runway < 2 months → no high-risk marketing
