@@ -1,4 +1,4 @@
-# Startup Sim 🚀
+# Startup Sim 🚀  `Alpha 1.0`
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
