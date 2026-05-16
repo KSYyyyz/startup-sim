@@ -1,7 +1,7 @@
 """StateGuard: validates and sanitizes state changes before they are applied.
 
 Rules:
-- Max 2 actions per turn
+- MAX_ACTIONS_PER_TURN (default 5) actions per turn
 - Total action budget cannot exceed available cash
 - When runway < 2 months, forbid high-risk marketing spend
 - Single-month cash change <= 65% of previous cash

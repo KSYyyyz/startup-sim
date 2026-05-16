@@ -89,7 +89,7 @@ MRR = 付费用户 × 单价
 ### ⚖️ StateGuard 校验层
 
 Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
-- 单回合现金变动 ≤ ±65%
+- 普通现金流出单回合最多限制为当前现金的65%；融资现金流入不受该限制。
 - 产品分/士气单回合变动有上限
 - 所有值自动 clamp 到合法范围
 
@@ -148,7 +148,7 @@ pytest tests/ -v    # 77 passed
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Mock LLM — 零API消耗，全规则引擎驱动
+- Alpha 1.1 仍是规则解析器 + Mock Agent，不是真LLM推理 — 零API消耗，全规则引擎驱动
 
 ---
 
