@@ -3,8 +3,8 @@
 Five possible endings:
 - bankruptcy: cash <= 0
 - founder_removed: equity < 34 AND board < 45 AND runway < 4
-- series_a_success: month >= 12 AND mrr >= 500,000 AND product >= 70 AND equity >= 50
-- survived_but_average: month >= 12 AND mrr >= 200,000 AND cash > 0
+- series_a_success: month >= 12 AND mrr >= 300,000 AND product >= 70 AND equity >= 50
+- survived_but_average: month >= 12 AND mrr >= 100,000 AND cash > 0
 - slow_death: month >= 12 (catch-all)
 - None: game continues
 """
@@ -32,12 +32,12 @@ def evaluate(state: CompanyState) -> Optional[EndingType]:
 
     # Terminal month endings (only evaluated at month 12)
     if state.month >= 12:
-        if (state.mrr >= 500_000
+        if (state.mrr >= 300_000
                 and state.product_score >= 70
                 and state.founder_equity >= 50):
             return EndingType.SERIES_A_SUCCESS
 
-        if state.mrr >= 200_000 and state.cash > 0:
+        if state.mrr >= 100_000 and state.cash > 0:
             return EndingType.SURVIVED_BUT_AVERAGE
 
         return EndingType.SLOW_DEATH

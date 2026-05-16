@@ -40,9 +40,10 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
     """Simple rule-based simulation: compute delta from action plan.
 
     Rules:
-    - product action: each 100,000 budget → +1 product_score + team/5 + morale/20, cost deducted
-    - marketing action: each 10,000 budget → reputation + burn; users/MRR via CustomerAgent CAC
+    - product action: budget//80k + employee_count//3 + team_morale//10 → +product_score, cost deducted
+    - marketing action: each 10,000 budget → reputation + burn; users/MRR via CustomerAgent CAC (CAC=800)
     - team action: each 10,000 budget → +2 team_morale, burn +2,000, cost deducted
+    - organic: +1 product_score/turn from team learning (min 5 employees)
     - fundraising action: if fundraise_amount>0 & equity_offered>0:
         cash += fundraise_amount, equity -= equity_offered,
         board_control -= equity_offered, valuation = post_money
@@ -66,16 +67,16 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             delta.cash -= budget
 
         if action.type == "product":
-            product_gain = budget // 100_000 + state.employee_count // 5 + state.team_morale // 20
+            product_gain = budget // 80_000 + state.employee_count // 3 + state.team_morale // 10
             delta.product_score += max(1, product_gain)
-            delta.monthly_burn += budget // 20  # dev costs increase burn
+            delta.monthly_burn += budget // 30  # dev costs increase burn
         elif action.type == "marketing":
-            delta.monthly_burn += budget // 8
+            delta.monthly_burn += budget // 12
             delta.reputation += max(0, budget // 50_000)
             # User growth and MRR handled by CustomerAgent (CAC-based retention)
         elif action.type == "team":
             delta.team_morale += max(1, budget // 5_000)
-            delta.monthly_burn += budget // 3
+            delta.monthly_burn += budget // 5  # team costs increase burn (lowered for Alpha 1.2)
         elif action.type == "fundraising":
             if action.fundraise_amount > 0 and action.equity_offered > 0:
                 delta.cash += action.fundraise_amount
@@ -110,6 +111,11 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
         churn = max(1, state.mrr // 20)
         delta.mrr -= churn
         delta.reasons.append(f"MRR自然流失: -{churn}")
+
+    # Organic product improvement from team learning (Alpha 1.2)
+    if state.employee_count >= 5:
+        delta.product_score += 1
+        delta.reasons.append("团队自然学习: 产品分+1")
 
     return delta
 

@@ -47,7 +47,7 @@ class CompanyState(BaseModel):
     defines validation and computed properties."""
     month: int = Field(default=1, ge=1, le=12)
     cash: int = Field(default=1_000_000, ge=0)
-    monthly_burn: int = Field(default=180_000, ge=0)
+    monthly_burn: int = Field(default=120_000, ge=0)
     mrr: int = Field(default=0, ge=0)
     users: int = Field(default=0, ge=0)
     product_score: int = Field(default=20, ge=0, le=100)

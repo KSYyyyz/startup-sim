@@ -31,9 +31,9 @@ class TestFundraising:
         plan = ActionPlan(raw_input="融资500万出让10%", actions=[action])
         delta = _simulate(plan, state)
 
-        # Cash delta = fundraise_amount - budget(=0) - monthly_burn(=180000)
+        # Cash delta = fundraise_amount - budget(=0) - monthly_burn(=120000)
         assert delta.cash > 0
-        assert delta.cash == 5_000_000 - 180_000  # 4,820,000
+        assert delta.cash == 5_000_000 - 120_000  # 4,880,000
 
     def test_fundraising_delta_equity_decreases(self):
         """Fundraising at 10% equity → delta.founder_equity = -10."""
@@ -110,7 +110,7 @@ class TestFundraising:
         assert new_state.valuation == 50_000_000  # 5000万
 
     def test_fundraising_cash_increases_after_apply(self):
-        """After apply_delta: cash = 1M + 5M - 180k(burn) = 5.82M."""
+        """After apply_delta: cash = 1M + 5M - 120k(burn) = 5.88M."""
         state = CompanyState(cash=1_000_000)
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
@@ -122,7 +122,7 @@ class TestFundraising:
         delta = _simulate(plan, state)
         new_state = apply_delta(state, delta)
 
-        assert new_state.cash == 1_000_000 + 5_000_000 - 180_000
+        assert new_state.cash == 1_000_000 + 5_000_000 - 120_000
 
     def test_fundraising_zero_params_falls_back_to_legacy(self):
         """When fundraise_amount=0 or equity_offered=0, uses legacy budget*2 logic."""
@@ -139,8 +139,8 @@ class TestFundraising:
         # Legacy: cash += budget * 2, equity -= 5, board -= 3
         assert delta.founder_equity == -5
         assert delta.board_control == -3
-        # Cash: budget*2 - budget - burn = 400k - 200k - 180k = 20k
-        assert delta.cash == 200_000 * 2 - 200_000 - 180_000
+        # Cash: budget*2 - budget - burn = 400k - 200k - 120k = 80k
+        assert delta.cash == 200_000 * 2 - 200_000 - 120_000
 
 
 class TestFundraisingSanitizeExemption:
@@ -165,8 +165,8 @@ class TestFundraisingSanitizeExemption:
 
         # sanitize_delta should NOT cap the fundraising portion
         sanitized = sanitize_delta(delta, state)
-        # Cash should be near 5M - 180k(burn) = 4.82M, NOT capped at 650k
-        expected_cash = 5_000_000 - state.monthly_burn  # 4,820,000
+        # Cash should be near 5M - 120k(burn) = 4.88M, NOT capped at 650k
+        expected_cash = 5_000_000 - state.monthly_burn  # 4,880,000
         assert sanitized.cash == expected_cash
         assert sanitized.cash > 650_000  # well above 65% cap
 
@@ -185,10 +185,10 @@ class TestFundraisingSanitizeExemption:
         plan = ActionPlan(raw_input="融资500万出让10%，花500万做营销", actions=actions)
         delta = _simulate(plan, state)
 
-        # Net delta.cash = 500万(fundraising) - 500万(marketing budget) - 180k(burn)
-        # = -180,000
+        # Net delta.cash = 500万(fundraising) - 500万(marketing budget) - 120k(burn)
+        # = -120,000
         # fundraising_cash = 5,000,000
-        # spending_cash = -5,180,000 → capped at -650,000 (65% of 1M)
+        # spending_cash = -5,120,000 → capped at -650,000 (65% of 1M)
         # final cash = 5,000,000 + (-650,000) = 4,350,000
         assert delta.fundraising_cash == 5_000_000
 

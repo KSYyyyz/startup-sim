@@ -23,16 +23,16 @@ from src.core.difficulty import get_difficulty
 
 
 def strategy_all_rnd(month: int, state: CompanyState) -> str:
-    """策略1: 全研发 — 每回合10万研发产品，不融资不营销。"""
-    budget_wan = min(10, state.cash // 10000)
+    """策略1: 全研发 — 每回合15万研发产品，不融资不营销。"""
+    budget_wan = min(15, state.cash // 10000)
     if budget_wan <= 0:
         return ""
     return f"花{budget_wan}万研发产品"
 
 
 def strategy_all_marketing(month: int, state: CompanyState) -> str:
-    """策略2: 全营销 — 每回合5万营销，不研发不融资。"""
-    budget_wan = min(5, state.cash // 10000)
+    """策略2: 全营销 — 每回合10万营销，不研发不融资。"""
+    budget_wan = min(10, state.cash // 10000)
     if budget_wan <= 0:
         return ""
     return f"花{budget_wan}万做营销"
@@ -55,17 +55,17 @@ def strategy_fundraise_then_growth(month: int, state: CompanyState) -> str:
 
 
 def strategy_conservative(month: int, state: CompanyState) -> str:
-    """策略4: 保守现金流 — 每回合仅5千研发，尽量延长跑道。"""
-    if state.cash < 5000:
+    """策略4: 保守现金流 — 每回合2万研发，尽量延长跑道。"""
+    if state.cash < 20000:
         return ""
-    return "花5千研发产品"
+    return "花2万研发产品"
 
 
 def strategy_balanced(month: int, state: CompanyState) -> str:
-    """策略5: 均衡 — 首回合小融资200万/8%，交替研发+营销。"""
+    """策略5: 均衡 — 首回合小融资200万/8%，交替研发+营销(预算各5万)。"""
     if month == 1:
         return "融资200万出让8%"
-    budget_wan = min(3, state.cash // 10000)
+    budget_wan = min(5, state.cash // 10000)
     if budget_wan <= 0:
         return ""
     if month % 2 == 0:

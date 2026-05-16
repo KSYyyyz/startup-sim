@@ -72,8 +72,8 @@ class CustomerAgent:
             marketing_budget = sum(
                 a.budget for a in plan.actions if a.type == "marketing"
             )
-            # CAC = 1000元/用户 (base acquisition cost)
-            new_users = max(1, marketing_budget // 1000)
+            # CAC = 800元/用户 (base acquisition cost, lowered for Alpha 1.2)
+            new_users = max(1, marketing_budget // 800)
             # Product-score-based retention modifier
             if state.product_score < 30:
                 retention = 0.4   # 产品太差，获客留存打4折
