@@ -94,9 +94,10 @@ class StateDelta(BaseModel):
     price: int = 0
     valuation: int = 0
     reasons: List[str] = Field(default_factory=list)
+    fundraising_cash: int = Field(default=0, description="Fundraising cash inflow (exempt from sanitize cap)")
 
     def is_empty(self) -> bool:
-        return all(v == 0 for k, v in self.model_dump().items() if k != "reasons")
+        return all(v == 0 for k, v in self.model_dump().items() if k not in ("reasons", "fundraising_cash"))
 
 
 # ── Event ─────────────────────────────────────────────────────────────────────

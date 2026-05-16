@@ -54,17 +54,21 @@ def sanitize_delta(delta: StateDelta, state_before: CompanyState) -> StateDelta:
 
     Returns a new (possibly modified) StateDelta.
 
-    P0-3: Cash outflow capped at -65% of previous cash, but cash inflow
-    (from fundraising) is never capped.
+    P0-2: Cash outflow capped at -65% of previous cash, but cash inflow
+    from fundraising is never capped. Fundraising cash is tracked via
+    delta.fundraising_cash and excluded from the cap.
     """
     # Cash change: max -65% of previous cash (outflow cap only)
     prev_cash = max(state_before.cash, 1)  # avoid div-by-zero
     max_cash_delta = int(prev_cash * 0.65)
 
     cash = delta.cash
-    if cash < 0:
-        cash = max(cash, -max_cash_delta)  # clamp negative only
-    # Positive cash (fundraising) passes through uncapped
+    # Separate fundraising inflow from spending outflow
+    fundraising_inflow = delta.fundraising_cash
+    spending_cash = cash - fundraising_inflow  # non-fundraising portion
+    if spending_cash < 0:
+        spending_cash = max(spending_cash, -max_cash_delta)  # cap negative spending
+    cash = fundraising_inflow + spending_cash  # fundraising inflow passes through uncapped
 
     return StateDelta(
         cash=cash,
@@ -81,6 +85,7 @@ def sanitize_delta(delta: StateDelta, state_before: CompanyState) -> StateDelta:
         price=delta.price,
         valuation=delta.valuation,
         reasons=delta.reasons,
+        fundraising_cash=delta.fundraising_cash,
     )
 
 

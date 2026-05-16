@@ -79,6 +79,7 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
         elif action.type == "fundraising":
             if action.fundraise_amount > 0 and action.equity_offered > 0:
                 delta.cash += action.fundraise_amount
+                delta.fundraising_cash += action.fundraise_amount  # track for sanitize cap exemption
                 delta.founder_equity -= int(action.equity_offered)
                 delta.board_control -= int(action.equity_offered)
                 post_money = int(action.fundraise_amount / (action.equity_offered / 100))
