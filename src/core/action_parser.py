@@ -17,12 +17,12 @@ from src.core.models import ActionPlan, ActionType, PlayerAction, RiskLevel
 KEYWORD_MAP: list[Tuple[list[str], ActionType, RiskLevel]] = [
     (["融资", "见投资人", "见投资", "投资人", "路演", "募资", "fundraise", "funding", "vc"], ActionType.FUNDRAISING, RiskLevel.LOW),
     (["招", "hire", "招聘", "雇", "挖人", "团队建设", "扩团队", "招人"], ActionType.TEAM, RiskLevel.MEDIUM),
+    (["转型", "并购", "新市场", "战略", "策略", "pivot", "strategy", "收购", "出海",
+      "扩张", "新业务"], ActionType.STRATEGY, RiskLevel.HIGH),
     (["降价", "投放", "广告", "营销", "推广", "获客", "市场", "增长", "seo", "sem",
       "marketing", "ads", "广告投放", "种子客户", "种子用户"], ActionType.MARKETING, RiskLevel.MEDIUM),
     (["研发", "功能", "产品", "开发", "迭代", "feature", "特性", "技术", "代码",
       "product", "dev", "r&d", "工单", "ai"], ActionType.PRODUCT, RiskLevel.MEDIUM),
-    (["转型", "并购", "新市场", "战略", "pivot", "strategy", "收购", "出海",
-      "扩张", "新业务"], ActionType.STRATEGY, RiskLevel.HIGH),
 ]
 
 
@@ -130,12 +130,19 @@ def parse_multi(raw_input: str) -> ActionPlan:
     seen_types = set()
 
     # ── Step 1: Extract fundraising from full text ────────────────────────
+    # Support both "融资500万出让10%" and "出让10%融资500万"
     fundraise_match = re.search(r'融资(\d+)万.*?出让(\d+)%', raw_input)
+    if not fundraise_match:
+        fundraise_match = re.search(r'出让(\d+)%.*?融资(\d+)万', raw_input)
     fundraise_amount = 0
     equity_offered = 0
     if fundraise_match:
-        fundraise_amount = int(fundraise_match.group(1)) * 10_000
-        equity_offered = int(fundraise_match.group(2))
+        if fundraise_match.re.pattern.startswith(r'融资'):
+            fundraise_amount = int(fundraise_match.group(1)) * 10_000
+            equity_offered = int(fundraise_match.group(2))
+        else:
+            equity_offered = int(fundraise_match.group(1))
+            fundraise_amount = int(fundraise_match.group(2)) * 10_000
 
     # ── Step 2: Split into clauses ────────────────────────────────────────
     clauses = re.split(r'[，,；;、]', raw_input)

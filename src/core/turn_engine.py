@@ -24,7 +24,7 @@ from src.core.difficulty import Difficulty, get_difficulty
 from src.core.models import (
     ActionPlan, CompanyState, EndingType, GameEvent, StateDelta, TurnResult,
 )
-from src.core.action_parser import parse, parse_multi
+from src.core.action_parser import parse_multi
 from src.core.state_guard import (
     validate_action_plan, sanitize_delta, apply_delta,
 )
@@ -172,8 +172,8 @@ class TurnEngine:
         state_before = repository.load_state(self.session_id)
         month = state_before.month
 
-        # Step 1: Parse input
-        action_plan = parse(raw_input)
+        # Step 1: Parse input (multi-segment parser)
+        action_plan = parse_multi(raw_input)
 
         # Step 2: Collect board feedback (董事会会议发言)
         board_feedback: dict[str, str] = {}
