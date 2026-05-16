@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """12回合自动试玩脚本 — 5种策略跑满12回合，输出结局/现金/MRR/产品分/股权。
 
-用于 Alpha 1.1 平衡验证：不应有某种策略稳定无脑获胜。
+Alpha 1.1 平衡验证：走完整 TurnEngine.process_turn_raw 流程，
+覆盖 parse_multi / StateGuard / 竞品 / 客户 / 事件 / 结局。
 """
 
 from __future__ import annotations
@@ -12,62 +13,65 @@ from pathlib import Path
 # Ensure src is importable
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.core.models import (
-    ActionPlan, CompanyState, PlayerAction, ActionType, EndingType,
-)
-from src.core.turn_engine import _simulate
-from src.core.state_guard import apply_delta
-from src.core.ending_evaluator import evaluate as eval_ending, describe_ending
-from src.agents.customers import CustomerAgent
-
-_customer_agent = CustomerAgent()
-
-# ── Strategy definitions ──────────────────────────────────────────────────────
+from src.core.models import CompanyState, EndingType
+from src.core.turn_engine import TurnEngine
+from src.core.state_guard import StateGuardError
+from src.core.difficulty import get_difficulty
 
 
-def strategy_all_rnd(month: int, state: CompanyState) -> PlayerAction:
+# ── Strategy definitions (generate raw_input strings) ──────────────────────────
+
+
+def strategy_all_rnd(month: int, state: CompanyState) -> str:
     """策略1: 全研发 — 每回合10万研发产品，不融资不营销。"""
-    return PlayerAction(type=ActionType.PRODUCT, budget=100_000)
+    budget_wan = min(10, state.cash // 10000)
+    if budget_wan <= 0:
+        return ""
+    return f"花{budget_wan}万研发产品"
 
 
-def strategy_all_marketing(month: int, state: CompanyState) -> PlayerAction:
+def strategy_all_marketing(month: int, state: CompanyState) -> str:
     """策略2: 全营销 — 每回合5万营销，不研发不融资。"""
-    return PlayerAction(type=ActionType.MARKETING, budget=50_000)
+    budget_wan = min(5, state.cash // 10000)
+    if budget_wan <= 0:
+        return ""
+    return f"花{budget_wan}万做营销"
 
 
-def strategy_fundraise_then_growth(month: int, state: CompanyState) -> PlayerAction:
+def strategy_fundraise_then_growth(month: int, state: CompanyState) -> str:
     """策略3: 先融资再增长 — 首回合融资500万/10%，然后产品→营销。"""
     if month == 1:
-        return PlayerAction(
-            type=ActionType.FUNDRAISING,
-            fundraise_amount=5_000_000,
-            equity_offered=10,
-            budget=0,
-        )
+        return "融资500万出让10%"
     elif month <= 4:
-        return PlayerAction(type=ActionType.PRODUCT, budget=100_000)
+        budget_wan = min(10, state.cash // 10000)
+        if budget_wan <= 0:
+            return ""
+        return f"花{budget_wan}万研发产品"
     else:
-        return PlayerAction(type=ActionType.MARKETING, budget=150_000)
+        budget_wan = min(15, state.cash // 10000)
+        if budget_wan <= 0:
+            return ""
+        return f"花{budget_wan}万做营销"
 
 
-def strategy_conservative(month: int, state: CompanyState) -> PlayerAction:
+def strategy_conservative(month: int, state: CompanyState) -> str:
     """策略4: 保守现金流 — 每回合仅5千研发，尽量延长跑道。"""
-    return PlayerAction(type=ActionType.PRODUCT, budget=5_000)
+    if state.cash < 5000:
+        return ""
+    return "花5千研发产品"
 
 
-def strategy_balanced(month: int, state: CompanyState) -> PlayerAction:
+def strategy_balanced(month: int, state: CompanyState) -> str:
     """策略5: 均衡 — 首回合小融资200万/8%，交替研发+营销。"""
     if month == 1:
-        return PlayerAction(
-            type=ActionType.FUNDRAISING,
-            fundraise_amount=2_000_000,
-            equity_offered=8,
-            budget=0,
-        )
-    elif month % 2 == 0:
-        return PlayerAction(type=ActionType.PRODUCT, budget=30_000)
+        return "融资200万出让8%"
+    budget_wan = min(3, state.cash // 10000)
+    if budget_wan <= 0:
+        return ""
+    if month % 2 == 0:
+        return f"花{budget_wan}万研发产品"
     else:
-        return PlayerAction(type=ActionType.MARKETING, budget=30_000)
+        return f"花{budget_wan}万做营销"
 
 
 STRATEGIES = [
@@ -79,28 +83,30 @@ STRATEGIES = [
 ]
 
 
-def run_one_strategy(name: str, strat_fn) -> dict:
-    """Run a single strategy for up to 12 months. Return result dict."""
+def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
+    """Run a single strategy for up to 12 months via TurnEngine.process_turn_raw.
+
+    Each turn: generate raw_input → process_turn_raw → use result.state_after.
+    Covers parse_multi, StateGuard, competitors, CustomerAgent, events, endings.
+    """
     state = CompanyState()
+    difficulty = difficulty or get_difficulty("normal")
+
     for month in range(1, 13):
-        action = strat_fn(month, state)
-        plan = ActionPlan(raw_input=f"{name} 第{month}月", actions=[action])
-        delta = _simulate(plan, state)
+        raw_input = strat_fn(month, state)
+        if not raw_input or not raw_input.strip():
+            # Strategy has nothing to do this turn (empty = pass)
+            raw_input = ""
 
-        # CustomerAgent evaluates marketing/user growth
-        cr = _customer_agent.evaluate(state, plan, [])
-        delta.users += cr.get("growth_change", 0)
-        delta.mrr += cr.get("revenue_change", 0)
-
-        state = apply_delta(state, delta)
-        state.month = month + 1
-
-        ending = eval_ending(state)
-        if ending and ending != EndingType.NONE:
+        try:
+            result = TurnEngine.process_turn_raw(state, raw_input, difficulty)
+        except StateGuardError:
+            # Overspending caught by StateGuard — treat as forced end
+            state.month = month
             return {
                 "strategy": name,
-                "ending": ending.value,
-                "ending_desc": describe_ending(ending, state),
+                "ending": "bankruptcy",
+                "ending_desc": f"第{month}月现金流断裂，无法继续运营。",
                 "month": state.month,
                 "cash": state.cash,
                 "mrr": state.mrr,
@@ -108,13 +114,30 @@ def run_one_strategy(name: str, strat_fn) -> dict:
                 "users": state.users,
                 "founder_equity": state.founder_equity,
                 "valuation": state.valuation,
+                "events": [],
             }
 
-    ending = eval_ending(state) or EndingType.NONE
+        state = result.state_after
+
+        if result.ending and result.ending != EndingType.NONE:
+            return {
+                "strategy": name,
+                "ending": result.ending.value,
+                "ending_desc": result.ending_description,
+                "month": state.month,
+                "cash": state.cash,
+                "mrr": state.mrr,
+                "product_score": state.product_score,
+                "users": state.users,
+                "founder_equity": state.founder_equity,
+                "valuation": state.valuation,
+                "events": [e.event_type for e in result.events],
+            }
+
     return {
         "strategy": name,
-        "ending": ending.value,
-        "ending_desc": describe_ending(ending, state) if ending != EndingType.NONE else "游戏继续",
+        "ending": "none",
+        "ending_desc": "游戏继续",
         "month": state.month,
         "cash": state.cash,
         "mrr": state.mrr,
@@ -122,6 +145,7 @@ def run_one_strategy(name: str, strat_fn) -> dict:
         "users": state.users,
         "founder_equity": state.founder_equity,
         "valuation": state.valuation,
+        "events": [],
     }
 
 
@@ -141,17 +165,19 @@ def format_result(r: dict) -> str:
 def main():
     print("=" * 90)
     print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.1)")
+    print("  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局")
     print("=" * 90)
     print()
     print(f"{'策略':<10} | {'结局':<22} | {'回合':>4} | {'现金':>6} | {'MRR':>6} | "
           f"{'产品':>4} | {'用户':>6} | {'股权':>4} | {'估值':>7}")
     print("-" * 90)
 
+    difficulty = get_difficulty("normal")
     results = []
     endings = set()
 
     for name, strat_fn in STRATEGIES:
-        r = run_one_strategy(name, strat_fn)
+        r = run_one_strategy(name, strat_fn, difficulty)
         results.append(r)
         endings.add(r["ending"])
         print(format_result(r))
@@ -184,6 +210,8 @@ def main():
         print(f"   现金={r['cash']//10000}万  MRR={r['mrr']//10000}万  "
               f"产品分={r['product_score']}  用户={r['users']}  "
               f"创始人股权={r['founder_equity']}%")
+        if r.get("events"):
+            print(f"   事件: {', '.join(r['events'])}")
         print()
 
 
