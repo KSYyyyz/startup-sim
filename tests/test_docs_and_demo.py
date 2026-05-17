@@ -80,6 +80,30 @@ class TestReadme:
         assert "Alpha 1.7" in readme, "README title should contain Alpha 1.7"
 
 
+class TestQuickstart:
+    @pytest.fixture(autouse=True)
+    def _read_quickstart(self):
+        self.content = (PROJECT_DIR / "QUICKSTART.md").read_text(encoding="utf-8")
+
+    def test_contains_correct_path(self):
+        assert (
+            "D:\\Startup-sim" in self.content or "D:/Startup-sim" in self.content
+        ), "QUICKSTART.md must contain the correct project path"
+
+    def test_no_space_in_startup(self):
+        assert "D:\\S tartup" not in self.content, "Path must not have space in 'Startup'"
+        assert "D:/S tartup" not in self.content, "Path must not have space in 'Startup'"
+
+    def test_no_space_before_sim(self):
+        assert "D:\\Startup sim" not in self.content, "Path must not have space before 'sim'"
+        assert "D:/Startup sim" not in self.content, "Path must not have space before 'sim'"
+
+    def test_contains_three_routes(self):
+        assert "融资300万出让8%" in self.content, "QUICKSTART must have 稳健 route"
+        assert "融资500万出让10%" in self.content, "QUICKSTART must have 均衡 route"
+        assert "控制支出" in self.content, "QUICKSTART must have 保守 route"
+
+
 class TestVersion:
     def test_version_is_1_7(self):
         version = (PROJECT_DIR / "VERSION").read_text(encoding="utf-8").strip()
