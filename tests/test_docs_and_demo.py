@@ -1,7 +1,7 @@
 """Documentation and demo script verification tests for Alpha 1.7.
 
-Validates that all new Alpha 1.7 documentation files exist and
-the start_demo.py script is runnable.
+Validates that all new Alpha 1.7 documentation files exist,
+start_demo.py is runnable, and QUICKSTART.md contains correct content.
 """
 
 import io
