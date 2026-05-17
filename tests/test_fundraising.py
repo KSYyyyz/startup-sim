@@ -1,6 +1,7 @@
-"""Tests for fundraising logic in _simulate().
+"""Tests for fundraising logic in _simulate() with fundraising_engine.
 
-Fundraising: 500万出让10% → cash+500万, equity-10%, board_control-10%, valuation=5000万.
+After Alpha 1.8, the fundraising engine evaluates offers against company metrics.
+Tests use states with sufficient MRR/product_score for 500万/10% to be accepted.
 """
 
 from src.core.models import (
@@ -13,17 +14,30 @@ from src.core.state_guard import apply_delta
 from src.core.turn_engine import _simulate
 
 
+# Base state with metrics high enough for realistic fundraising valuation
+# 500万/10% → implied valuation 50M, needs fair_valuation_max*1.5 > 50M
+# With mrr=700K, product_score=70: base=42M, modifiers=1.265, fair_max≈69M → accepted
+def _rich_state(**overrides) -> CompanyState:
+    """Create a CompanyState with metrics that allow fundraising to succeed."""
+    defaults = dict(
+        cash=1_000_000,
+        founder_equity=100,
+        board_control=100,
+        valuation=5_000_000,
+        mrr=700_000,
+        product_score=70,
+        reputation=60,
+    )
+    defaults.update(overrides)
+    return CompanyState(**defaults)
+
+
 class TestFundraising:
     """Test fundraising logic via _simulate + apply_delta."""
 
     def test_fundraising_delta_cash_increases(self):
         """Fundraising 500万 at 10% → delta.cash is positive (includes fundraise minus burn)."""
-        state = CompanyState(
-            cash=1_000_000,
-            founder_equity=100,
-            board_control=100,
-            valuation=5_000_000,
-        )
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -39,7 +53,7 @@ class TestFundraising:
 
     def test_fundraising_delta_equity_decreases(self):
         """Fundraising at 10% equity → delta.founder_equity = -10."""
-        state = CompanyState()
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -52,7 +66,7 @@ class TestFundraising:
 
     def test_fundraising_delta_board_control_decreases(self):
         """Fundraising at 10% equity → delta.board_control = -10."""
-        state = CompanyState()
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -65,7 +79,7 @@ class TestFundraising:
 
     def test_fundraising_delta_valuation_post_money(self):
         """Fundraising 500万/10% → post-money valuation = 5000万 (50,000,000)."""
-        state = CompanyState()
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -78,11 +92,7 @@ class TestFundraising:
 
     def test_fundraising_apply_delta_state_equity(self):
         """After apply_delta: founder_equity = 100 - 10 = 90."""
-        state = CompanyState(
-            founder_equity=100,
-            board_control=100,
-            valuation=0,
-        )
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -98,7 +108,7 @@ class TestFundraising:
 
     def test_fundraising_apply_delta_state_valuation(self):
         """After apply_delta with initial valuation=0: valuation = 5000万."""
-        state = CompanyState(valuation=0)
+        state = _rich_state(valuation=0)
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -113,7 +123,7 @@ class TestFundraising:
 
     def test_fundraising_cash_increases_after_apply(self):
         """After apply_delta: cash = 1M + 5M - 120k(burn) = 5.88M."""
-        state = CompanyState(cash=1_000_000)
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -128,7 +138,7 @@ class TestFundraising:
 
     def test_fundraising_zero_params_falls_back_to_legacy(self):
         """When fundraise_amount=0 or equity_offered=0, uses legacy budget*2 logic."""
-        state = CompanyState(cash=1_000_000, founder_equity=100, board_control=100)
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=0,  # no specific params
@@ -144,6 +154,32 @@ class TestFundraising:
         # Cash: budget*2 - budget - burn = 400k - 200k - 120k = 80k
         assert delta.cash == 200_000 * 2 - 200_000 - 120_000
 
+    def test_fundraising_rejected_when_overvalued(self):
+        """Fundraising 500万/10% with poor metrics should be rejected."""
+        state = CompanyState(
+            cash=1_000_000,
+            founder_equity=100,
+            board_control=100,
+            mrr=0,
+            users=0,
+            product_score=20,
+        )
+        action = PlayerAction(
+            type=ActionType.FUNDRAISING,
+            fundraise_amount=5_000_000,
+            equity_offered=10,
+            budget=0,
+        )
+        plan = ActionPlan(raw_input="融资500万出让10%", actions=[action])
+        delta = _simulate(plan, state)
+
+        # Rejected: no cash added, no equity change
+        assert delta.fundraising_cash == 0
+        assert delta.founder_equity == 0
+        assert delta.board_control == 0
+        # Reason should mention rejection
+        assert any("被拒" in r for r in delta.reasons)
+
 
 class TestFundraisingSanitizeExemption:
     """Test that fundraising cash is exempt from sanitize_delta 65% cap."""
@@ -152,7 +188,7 @@ class TestFundraisingSanitizeExemption:
         """现金100万，融资500万出让10%，结算后现金≈600万-月烧钱."""
         from src.core.state_guard import sanitize_delta
 
-        state = CompanyState(cash=1_000_000)
+        state = _rich_state()
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -176,29 +212,30 @@ class TestFundraisingSanitizeExemption:
         """融资500万同时大额支出500万：融资流入不受截断，支出受限."""
         from src.core.state_guard import sanitize_delta
 
-        state = CompanyState(cash=1_000_000)
+        state = _rich_state()
         # Fundraising 500万 + marketing spend 500万
         actions = [
             PlayerAction(
-                type=ActionType.FUNDRAISING, fundraise_amount=5_000_000, equity_offered=10, budget=0
+                type=ActionType.FUNDRAISING,
+                fundraise_amount=5_000_000,
+                equity_offered=10,
+                budget=0,
             ),
             PlayerAction(
-                type=ActionType.MARKETING, budget=5_000_000, intent="500万投放", risk_level="high"
+                type=ActionType.MARKETING,
+                budget=5_000_000,
+                intent="500万投放",
+                risk_level="high",
             ),
         ]
         plan = ActionPlan(raw_input="融资500万出让10%，花500万做营销", actions=actions)
         delta = _simulate(plan, state)
 
-        # Net delta.cash = 500万(fundraising) - 500万(marketing budget) - 120k(burn)
-        # = -120,000
-        # fundraising_cash = 5,000,000
-        # spending_cash = -5,120,000 → capped at -650,000 (65% of 1M)
-        # final cash = 5,000,000 + (-650,000) = 4,350,000
+        # fundraising_cash = 5,000,000 (accepted)
         assert delta.fundraising_cash == 5_000_000
 
         sanitized = sanitize_delta(delta, state)
-        # Without exemption: delta.cash = -180k, capped at -650k → result cash = 350k
-        # With exemption: spending = -5.18M capped at -650k, fundraising +5M uncapped
+        # spending = -5.12M capped at -650k, fundraising +5M uncapped
         # result cash = 5M - 650k = 4.35M
         assert sanitized.cash == 4_350_000
         assert sanitized.cash > 1_000_000  # cash should increase, not decrease

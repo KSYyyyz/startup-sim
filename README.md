@@ -1,10 +1,10 @@
-# Startup Sim 🚀  Alpha 1.7
+# Startup Sim 🚀  Alpha 1.8
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
 你是AI客服SaaS创始人，种子轮100万。12个月内做产品/营销/招聘/融资决策，在董事会、竞品、客户三方博弈中活下来。
 
-> ⚠️ Alpha 1.7 是首次玩家试玩验证版，适合小范围内部试玩。
+> ⚠️ Alpha 1.8 是试玩反馈修复版，基于 test1/test2 试玩体验进行改进。
 
 ### 🔗 快速导航
 
@@ -54,7 +54,7 @@ python app.py new --name "你的名字"                    # CLI版
 
 员工越多 → 同样投入产出更高，但每人月薪1.5万会推高烧钱。
 
-## 📊 状态面板
+## 📊 状态面板（14项核心指标固定显示）
 
 | 分类 | 指标 |
 |------|------|
@@ -63,6 +63,7 @@ python app.py new --name "你的名字"                    # CLI版
 | 📦 产品 | 产品评分 · 团队士气 · 声誉 |
 | 📊 股权 | 创始人% · 投资人% · 董事会控制% |
 | ⏳ 生存 | 剩余跑道(月) |
+| 🏪 市场 | 市场份额 |
 
 ### MRR 自动计算
 
@@ -132,7 +133,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 289 passed (Alpha 1.7)
+pytest tests/ -v    # 337 passed (Alpha 1.8)
 ```
 
 测试覆盖：
@@ -141,7 +142,34 @@ pytest tests/ -v    # 289 passed (Alpha 1.7)
 - **Alpha 1.4 测试**：结局叙事变体、玩家路径分类、董事会冲突检测、复盘系统、创始人画像、策略评分
 - **Alpha 1.5 测试**：回放系统、成就徽章、策略对比
 - **Alpha 1.6 测试**：建议引擎(17)、新手引导(18)、状态解读(21)
+- **Alpha 1.8 测试**：融资估值引擎(10)、声誉效果(6)、状态面板(6)、反馈可见性(4)、StateGuard建议(5)
 - 规则解析器、StateGuard、竞品、客户、董事会、结局判定全覆盖
+
+## 📋 Alpha 1.8 更新内容
+
+1. **融资估值约束系统** — `src/core/fundraising_engine.py`
+   - 投资人根据 MRR、用户数、产品分、声誉、跑道计算合理估值区间
+   - 报价过高（>上限×1.5）被拒绝并给出反报价，报价过低（<下限×0.5）警告但接受
+   - 估值公式：base = max(MRR×60, users×3000, 300万)，乘以产品分/声誉/跑道修正因子
+
+2. **声誉影响系统** — 接入4个系统
+   - 融资估值修正：高声望(+15%)/低声望(-25%) 影响估值区间
+   - CAC 修正：rep≥80 → CAC=720（-10%），rep<40 → CAC=960（+20%）
+   - 团队士气加成：rep≥80 时招聘额外+2士气
+   - 营销声誉衰减：高声望时营销声誉增益递减
+
+3. **固定状态面板** — `src/core/status_formatter.py`
+   - 14项核心指标始终显示（含市场份额），不因状态变化隐藏字段
+   - `format_status_panel()` 完整面板（CLI），`format_status_panel_short()` 紧凑面板（飞书）
+
+4. **每回合强制董事会+市场反馈** — `_format_result()` 改为强制输出
+   - board_feedback、competitor_moves、customer_response 每回合必定有值
+   - 空值情况下填充默认文案，不再随机缺失
+
+5. **StateGuard 拦截后给出可复制替代输入** — `src/core/state_guard.py`
+   - 预算超限错误含2-3条可复制示例输入（「花X万研发产品」格式）
+   - 高股权时自动包含融资选项，低股权时仅建议降预算
+   - 示例包含「」中文书名号，可直接复制粘贴
 
 ## 📋 Alpha 1.6 更新内容
 
@@ -305,6 +333,8 @@ startup-sim/
 │   │   ├── suggestion_engine.py # 行动建议引擎(Alpha 1.6)
 │   │   ├── state_explainer.py  # 状态人话解读(Alpha 1.6)
 │   │   ├── turn_engine.py      # 回合主流程+月度战报(Alpha 1.3)
+│   │   ├── fundraising_engine.py # 融资估值引擎(Alpha 1.8)
+│   │   ├── status_formatter.py   # 状态面板格式化(Alpha 1.8)
 │   │   ├── difficulty.py       # 难度系统
 │   │   └── balancer.py         # 数值平衡器
 │   ├── agents/
@@ -337,9 +367,9 @@ startup-sim/
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Alpha 1.7：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help + 试玩文档体系
+- Alpha 1.8：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help + 融资估值引擎/声誉系统/状态面板/反馈强制 + 试玩文档体系
 - 零API消耗，全规则引擎驱动
 
 ---
 
-*首次玩家试玩验证版 Alpha 1.7 — 305 tests passed，新增快速启动指南/样例局/反馈模板/问题排查，适合小范围内部试玩。*
+*试玩反馈修复版 Alpha 1.8 — 337 tests passed，新增融资估值引擎/声誉系统/状态面板/反馈可见性/StateGuard建议增强，基于真实试玩反馈。*

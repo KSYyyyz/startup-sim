@@ -1,6 +1,6 @@
-"""Documentation and demo script verification tests for Alpha 1.7.
+"""Documentation and demo script verification tests for Alpha 1.8.
 
-Validates that all new Alpha 1.7 documentation files exist,
+Validates that all new Alpha 1.8 documentation files exist,
 start_demo.py is runnable, and QUICKSTART.md contains correct content.
 """
 
@@ -54,7 +54,7 @@ class TestStartDemo:
             sys.stdout = old_stdout
             sys.path.remove(str(PROJECT_DIR))
 
-        assert "Alpha 1.7" in out, f"Expected version in output, got: {out[:200]}"
+        assert "Alpha 1.8" in out, f"Expected version in output, got: {out[:200]}"
         assert "cd " in out or str(PROJECT_DIR) in out, "Expected project dir in output"
         assert "python app.py new" in out, "Expected launch command in output"
 
@@ -75,9 +75,9 @@ class TestReadme:
         for kw in README_NAV_KEYWORDS:
             assert kw in readme, f"README missing quick nav reference: {kw}"
 
-    def test_readme_title_contains_alpha_1_7(self):
+    def test_readme_title_contains_alpha_1_8(self):
         readme = (PROJECT_DIR / "README.md").read_text(encoding="utf-8")
-        assert "Alpha 1.7" in readme, "README title should contain Alpha 1.7"
+        assert "Alpha 1.8" in readme, "README title should contain Alpha 1.8"
 
 
 class TestQuickstart:
@@ -110,6 +110,6 @@ class TestQuickstart:
 
 
 class TestVersion:
-    def test_version_is_1_7(self):
+    def test_version_is_1_8(self):
         version = (PROJECT_DIR / "VERSION").read_text(encoding="utf-8").strip()
-        assert version == "1.7", f"VERSION should be '1.7', got '{version}'"
+        assert version == "1.8", f"VERSION should be '1.8', got '{version}'"

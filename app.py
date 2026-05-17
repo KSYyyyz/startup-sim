@@ -38,23 +38,11 @@ def _money(v: int) -> str:
 
 def display_state(state: CompanyState, title: str = "📊 公司状态") -> None:
     """Pretty-print the company state with human-readable insights."""
-    runway = state.runway_months
-    runway_str = f"{runway:.1f}个月" if runway != float("inf") else "∞"
+    from src.core.status_formatter import format_status_panel
 
-    print(f"\n{'='*60}")
-    print(f"  {title}  —  第 {state.month} 个月")
-    print(f"{'='*60}")
-    print(
-        f"  💰 现金:      {_money(state.cash):>10}     🔥 月消耗:   {_money(state.monthly_burn):>10}"
-    )
-    print(f"  📈 MRR:       {_money(state.mrr):>10}     👥 用户:     {state.users:>10}")
-    print(f"  🛠️  产品评分:  {state.product_score:>10}     💪 团队士气: {state.team_morale:>10}")
-    print(
-        f"  📊 创始人股权:{state.founder_equity:>10}%    🏛️  董事会:   {state.board_control:>10}%"
-    )
-    print(f"  📈 市场份额:  {state.market_share:>10}%    ⭐ 声誉:     {state.reputation:>10}")
-    print(f"  ⏳ 剩余跑道:  {runway_str:>10}")
-    print(f"{'='*60}")
+    print()
+    print(format_status_panel(state))
+    print()
 
     # Alpha 1.6: Human-readable state insights
     explanations = StateExplainer.explain_full(state)

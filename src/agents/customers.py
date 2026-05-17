@@ -67,8 +67,14 @@ class CustomerAgent:
         has_marketing = any(a.type == "marketing" for a in plan.actions)
         if has_marketing:
             marketing_budget = sum(a.budget for a in plan.actions if a.type == "marketing")
-            # CAC = 800元/用户 (base acquisition cost, lowered for Alpha 1.2)
-            new_users = max(1, marketing_budget // 800)
+            # CAC base 800, modified by reputation
+            if state.reputation >= 80:
+                cac = 720  # -10%
+            elif state.reputation < 40:
+                cac = 960  # +20%
+            else:
+                cac = 800
+            new_users = max(1, marketing_budget // cac)
             # Product-score-based retention modifier
             if state.product_score < 30:
                 retention = 0.4  # 产品太差，获客留存打4折
@@ -89,9 +95,14 @@ class CustomerAgent:
                 conv = 0.18
             new_mrr = int(retained_users * conv * state.price)
             revenue_change += new_mrr
+            cac_note = ""
+            if state.reputation >= 80:
+                cac_note = "（高声誉降低获客成本）"
+            elif state.reputation < 40:
+                cac_note = "（低声誉推高获客成本）"
             narratives.append(
                 f"市场投放带来{retained_users}个留存用户"
-                f"（CAC={marketing_budget // retained_users}元/人，留存率{retention*100:.0f}%），"
+                f"（CAC={marketing_budget // retained_users}元/人，留存率{retention*100:.0f}%{cac_note}），"
                 f"新增MRR≈{new_mrr//10000}万"
             )
 

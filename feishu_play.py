@@ -419,25 +419,35 @@ def _format_result(result: TurnResult) -> str:
     """Format a TurnResult into a Feishu Markdown message."""
     lines = [f"📅 第{result.month}月结果", ""]
 
-    # Board feedback
+    # Board feedback — always shown
+    lines.append("**👔 董事会：**")
     if result.board_feedback:
-        lines.append("**👔 董事会：**")
         for name, msg in result.board_feedback.items():
             lines.append(f"  [{name}] {msg}")
-        lines.append("")
+    else:
+        lines.append("  本月无重大分歧，董事会意见基本一致。")
+    lines.append("")
 
-    # Competitor moves
+    # Competitor moves — always shown
+    lines.append("**🏪 竞品：**")
     if result.competitor_moves:
-        lines.append("**🏪 竞品：**")
         for m in result.competitor_moves:
             lines.append(f"  [{m['name']}] {m['action']} — {m['narrative']}")
-        lines.append("")
+    else:
+        lines.append("  本月竞品无明显动作，但市场竞争仍在持续。")
+    lines.append("")
 
-    # Customer response
+    # Customer response — always shown
+    lines.append("**👥 客户：**")
     if result.customer_response:
         narrative = result.customer_response.get("narrative", "")
-        lines.append(f"**👥 客户：** {narrative[:150]}")
-        lines.append("")
+        if narrative:
+            lines.append(f"  {narrative[:150]}")
+        else:
+            lines.append("  客户群体表现平稳。")
+    else:
+        lines.append("  客户群体表现平稳。")
+    lines.append("")
 
     # Delta reasons
     for reason in result.delta.reasons:
@@ -448,11 +458,14 @@ def _format_result(result: TurnResult) -> str:
     # Current state
     lines.append(_render_state(result.state_after, ""))
 
-    # Events
+    # Events — always shown
+    lines.append("")
+    lines.append("**📢 本月事件：**")
     if result.events:
-        lines.append("")
         for e in result.events:
             lines.append(f"⚡ [{e.event_type}] {e.description}")
+    else:
+        lines.append("  本月无重大外部事件，但市场竞争仍在持续。")
 
     # Ending
     if result.ending != EndingType.NONE:
@@ -464,32 +477,12 @@ def _format_result(result: TurnResult) -> str:
 
 def _render_state(state: CompanyState, difficulty: str = "") -> str:
     """Render current game state as Feishu Markdown."""
-    diff_str = f" | {difficulty}模式" if difficulty else ""
+    from src.core.status_formatter import format_status_panel_short
 
-    line1 = f"🏢 AI客服SaaS | 第{state.month}月{diff_str}"
-    line2 = (
-        f"💰 现金:{state.cash//10000}万 | "
-        f"🔥 烧钱:{state.monthly_burn//10000}万/月 | "
-        f"MRR:{state.mrr//10000}万"
-    )
-    line3 = (
-        f"👥 用户:{state.users} | "
-        f"👨‍💻 员工:{state.employee_count}人 | "
-        f"💰 单价:{state.price}元/月"
-    )
-    line4 = (
-        f"📦 产品:{state.product_score} | "
-        f"💪 士气:{state.team_morale} | "
-        f"⭐ 声誉:{state.reputation}"
-    )
-    line5 = (
-        f"📊 股权:创始人{state.founder_equity}% | "
-        f"投资人{100 - state.founder_equity}% | "
-        f"董事会控制:{state.board_control}%"
-    )
-    line6 = f"🏦 估值:{state.valuation//10000}万 | " f"⏳ 跑道:{state.runway_months:.1f}月"
-
-    return "\n".join([line1, line2, line3, line4, line5, line6])
+    header = f"🏢 AI客服SaaS | 第{state.month}月"
+    if difficulty:
+        header += f" | {difficulty}模式"
+    return header + "\n" + format_status_panel_short(state)
 
 
 def _format_review_short(session_id: int, result: TurnResult) -> str:

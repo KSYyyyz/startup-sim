@@ -64,12 +64,31 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
             msg += "  2) 增加融资额度，出让更多股权换取现金\n"
         msg += "  3) 减少本回合投入，分多回合执行\n"
 
-        # Example inputs
-        safe_budget = (available_cash // 2) // 10000
-        msg += "\n📝 可输入示例：\n"
-        msg += f"  「花{safe_budget}万研发产品」\n"
+        # Example inputs — dynamic based on state
+        examples = []
+
+        # Always: scaled-down version
+        safe_budget = max(1, available_cash // 3) // 10000
+        examples.append(f"「花{safe_budget}万研发产品」")
+
+        # If enough equity, fundraising option
         if state.founder_equity >= 75:
-            msg += f"  「融资{deficit_w * 100}万出让5%股权，花{spend_w}万研发产品」\n"
+            fund_amount = (deficit_w + 5) * 100 if deficit_w > 0 else 300
+            examples.append(f"「融资{fund_amount}万出让8%股权，花{safe_budget}万研发产品」")
+
+        # Marketing option if product is decent
+        if state.product_score >= 40:
+            examples.append(f"「花{safe_budget}万做营销推广」")
+
+        # Cut spending option
+        if deficit_w > 5:
+            cut_budget = max(1, available_cash // 4) // 10000
+            examples.append(f"「花{cut_budget}万研发产品，暂停营销控制支出」")
+
+        if examples:
+            msg += "\\n📝 可复制输入（选一条试试）：\\n"
+            for i, ex in enumerate(examples[:3], 1):
+                msg += f"  {i}) {ex}\\n"
 
         raise StateGuardError(msg)
 

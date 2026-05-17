@@ -80,24 +80,40 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             delta.monthly_burn += budget // 30  # dev costs increase burn
         elif action.type == "marketing":
             delta.monthly_burn += budget // 12
-            delta.reputation += max(0, budget // 50_000)
+            rep_gain = max(0, budget // 50_000)
+            if state.reputation >= 80:
+                rep_gain = max(0, rep_gain - 1)  # diminishing returns at high rep
+            delta.reputation += rep_gain
             # User growth and MRR handled by CustomerAgent (CAC-based retention)
         elif action.type == "team":
-            delta.team_morale += max(1, budget // 5_000)
+            morale_gain = max(1, budget // 5_000)
+            if state.reputation >= 80:
+                morale_gain += 2  # high reputation attracts talent
+            delta.team_morale += morale_gain
+            if state.reputation >= 80 and morale_gain > max(1, budget // 5_000):
+                delta.reasons.append("高声誉吸引优秀人才，团队士气额外+2")
             delta.monthly_burn += budget // 5  # team costs increase burn (lowered for Alpha 1.2)
         elif action.type == "fundraising":
             if action.fundraise_amount > 0 and action.equity_offered > 0:
-                delta.cash += action.fundraise_amount
-                delta.fundraising_cash += (
-                    action.fundraise_amount
-                )  # track for sanitize cap exemption
-                delta.founder_equity -= int(action.equity_offered)
-                delta.board_control -= int(action.equity_offered)
-                post_money = int(action.fundraise_amount / (action.equity_offered / 100))
-                delta.valuation = post_money
-                delta.reasons.append(
-                    f"融资{action.fundraise_amount}出让{action.equity_offered}%股权"
-                )
+                from src.core.fundraising_engine import evaluate_fundraising
+
+                offer = evaluate_fundraising(state, action.fundraise_amount, action.equity_offered)
+                if offer.accepted:
+                    delta.cash += offer.accepted_amount
+                    delta.fundraising_cash += offer.accepted_amount
+                    delta.founder_equity -= int(offer.accepted_equity)
+                    delta.board_control -= int(offer.accepted_equity)
+                    delta.valuation = offer.implied_valuation
+                    delta.reasons.append(
+                        f"融资{offer.accepted_amount//10000}万出让{offer.accepted_equity}%股权"
+                        f"（估值{offer.implied_valuation//10000}万）"
+                    )
+                    if offer.warnings:
+                        delta.reasons.extend(offer.warnings)
+                else:
+                    delta.reasons.append(f"融资被拒：{offer.reason}")
+                    delta.reasons.append(f"投资人建议：{offer.investor_response}")
+                    # Do NOT add cash or change equity when rejected
             else:
                 # Legacy: no specific fundraising params, use budget * 2
                 delta.cash += budget * 2

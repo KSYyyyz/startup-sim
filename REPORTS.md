@@ -1,6 +1,24 @@
 # Startup Sim — 版本开发报告
 
-> 注意：历史阶段（Alpha 1.2/1.3/1.4/1.5）的下一步建议仅作版本记录，当前路线以最新 Alpha 1.7 规划为准。
+> 注意：历史阶段（Alpha 1.2/1.3/1.4/1.5）的下一步建议仅作版本记录，当前路线以最新 Alpha 1.8 规划为准。
+
+## Alpha 1.8 — 试玩反馈修复 (2026-05-17)
+
+**来源**: test1（天天）和 test2（CLI自动化）试玩反馈
+
+**修复问题**:
+1. 融资估值缺少逻辑 → 新增 fundraising_engine.py，按MRR/用户/产品/声誉/跑道计算合理估值区间
+2. 声誉作用不明显 → 接入4系统：融资估值修正/CAC修正/团队士气加成/营销声誉衰减
+3. 状态面板指标不固定 → 新增 status_formatter.py，14项核心指标始终显示
+4. 董事会/市场反馈随机缺失 → _format_result() 改为强制每回合输出，空值时填默认文案
+5. StateGuard拦截后无方向 → 拦截错误增强为2-3条可复制替代输入
+
+**新增文件**: fundraising_engine.py, status_formatter.py
+**新增测试**: test_fundraising_engine.py, test_reputation_effects.py, test_status_formatter.py, test_feedback_visibility.py, test_stateguard_suggestions.py
+**测试总数**: 337
+**make check**: ✅ 全部通过
+
+---
 
 Alpha 1.2 主流程已完成，剩余仅为文案和格式收尾。
 

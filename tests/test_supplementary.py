@@ -53,7 +53,7 @@ class TestProcessTurnRawE2E:
 
     def test_process_turn_raw_with_fundraising(self):
         """Fundraising via process_turn_raw: cash increases, equity decreases."""
-        state = CompanyState()
+        state = CompanyState(mrr=700_000, product_score=70, reputation=60)
         result = TurnEngine.process_turn_raw(state, "融资500万出让10%")
 
         assert result.state_after.cash > state.cash
@@ -197,7 +197,7 @@ class TestFundraisingCashExemption:
 
     def test_fundraising_delta_has_fundraising_cash_field(self):
         """_simulate with fundraising sets delta.fundraising_cash."""
-        state = CompanyState()
+        state = CompanyState(cash=1_000_000, mrr=700_000, product_score=70, reputation=60)
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -213,7 +213,9 @@ class TestFundraisingCashExemption:
 
     def test_small_cash_state_fundraising_not_capped(self):
         """小现金(10万)融资500万: 融资流入不应被65%限制截断."""
-        state = CompanyState(cash=100_000)  # only 10万 cash
+        state = CompanyState(
+            cash=100_000, mrr=700_000, product_score=70, reputation=60
+        )  # only 10万 cash but good metrics
         action = PlayerAction(
             type=ActionType.FUNDRAISING,
             fundraise_amount=5_000_000,
@@ -235,7 +237,9 @@ class TestFundraisingCashExemption:
 
     def test_fundraising_via_process_turn_raw_not_capped(self):
         """process_turn_raw with fundraising: full amount arrives despite low cash."""
-        state = CompanyState(cash=50_000)  # very low cash
+        state = CompanyState(
+            cash=50_000, mrr=700_000, product_score=70, reputation=60
+        )  # very low cash but good metrics
         result = TurnEngine.process_turn_raw(state, "融资500万出让10%")
 
         # Cash should be ~50k + 5M - burn = ~4.93M, well above 65% cap
@@ -247,7 +251,7 @@ class TestFundraisingCashExemption:
 
     def test_spending_is_capped_but_fundraising_is_not(self):
         """Verify that in the same turn: spending is capped, fundraising passes through."""
-        state = CompanyState(cash=100_000)
+        state = CompanyState(cash=100_000, mrr=700_000, product_score=70, reputation=60)
         actions = [
             PlayerAction(
                 type=ActionType.FUNDRAISING, fundraise_amount=5_000_000, equity_offered=10, budget=0
