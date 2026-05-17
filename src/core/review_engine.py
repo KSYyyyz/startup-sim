@@ -52,13 +52,19 @@ class ReviewEngine:
             state_dict = snap.get("state_json", snap)
             if isinstance(state_dict, str):
                 import json
+
                 state_dict = json.loads(state_dict)
             cash_delta = prev_state.cash - state_dict.get("cash", prev_state.cash)
             if cash_delta > 0:
                 total_spend += cash_delta
             # Roughly attribute spending: snapshots alternate or we estimate
-            prev_state = CompanyState(**{k: v for k, v in state_dict.items()
-                                          if k in CompanyState.model_fields})
+            prev_state = CompanyState(
+                **{
+                    k: v
+                    for k, v in state_dict.items()
+                    if k in CompanyState.model_fields
+                }
+            )
 
         # Classify based on final state indicators
         product = final_state.product_score
@@ -70,10 +76,14 @@ class ReviewEngine:
 
         # Use ending_evaluator's PlayerPath as first-pass, then refine
         from src.core.ending_evaluator import classify_player_path, PlayerPath
+
         path = classify_player_path(final_state)
 
         # tech_visionary: high product, Series A or survived
-        if product >= 70 and ending_status in ("series_a_success", "survived_but_average"):
+        if product >= 70 and ending_status in (
+            "series_a_success",
+            "survived_but_average",
+        ):
             return FounderProfile(
                 profile_type="tech_visionary",
                 profile_title="技术极客",
@@ -105,7 +115,9 @@ class ReviewEngine:
             )
 
         # balanced_leader: A轮成功 or moderate everything
-        if ending_status == "series_a_success" or (50 <= product <= 85 and 200 <= users <= 800):
+        if ending_status == "series_a_success" or (
+            50 <= product <= 85 and 200 <= users <= 800
+        ):
             return FounderProfile(
                 profile_type="balanced_leader",
                 profile_title="均衡型CEO",
@@ -166,7 +178,13 @@ class ReviewEngine:
             risk_score = 10
 
         # Overall: weighted average, bonus for Series A
-        weights = {"product": 0.25, "growth": 0.25, "finance": 0.2, "control": 0.15, "risk": 0.15}
+        weights = {
+            "product": 0.25,
+            "growth": 0.25,
+            "finance": 0.2,
+            "control": 0.15,
+            "risk": 0.15,
+        }
         overall = int(
             product_score * weights["product"]
             + growth_score * weights["growth"]
@@ -209,6 +227,7 @@ class ReviewEngine:
             state_dict = snap.get("state_json", snap)
             if isinstance(state_dict, str):
                 import json
+
                 state_dict = json.loads(state_dict)
             month = snap.get("month", 0)
             cash = state_dict.get("cash", 0)
@@ -224,64 +243,89 @@ class ReviewEngine:
 
             # Cash danger
             if cash <= 100_000 and prev_cash > 100_000:
-                moments.append(KeyMoment(
-                    month=month, title="现金告急",
-                    description=f"现金跌破10万，跑道仅剩{int(rw)}个月。生存成为第一优先级。",
-                    impact_type="negative",
-                    related_metrics={"cash": cash, "runway_months": int(rw)},
-                ))
+                moments.append(
+                    KeyMoment(
+                        month=month,
+                        title="现金告急",
+                        description=f"现金跌破10万，跑道仅剩{int(rw)}个月。生存成为第一优先级。",
+                        impact_type="negative",
+                        related_metrics={"cash": cash, "runway_months": int(rw)},
+                    )
+                )
             elif cash <= 10_000 and prev_cash > 10_000:
-                moments.append(KeyMoment(
-                    month=month, title="现金濒危",
-                    description=f"现金不足1万，公司命悬一线。",
-                    impact_type="negative",
-                    related_metrics={"cash": cash},
-                ))
+                moments.append(
+                    KeyMoment(
+                        month=month,
+                        title="现金濒危",
+                        description=f"现金不足1万，公司命悬一线。",
+                        impact_type="negative",
+                        related_metrics={"cash": cash},
+                    )
+                )
 
             # Product breakthrough
             if product >= 70 and prev_product < 70:
-                moments.append(KeyMoment(
-                    month=month, title="产品突破",
-                    description=f"产品分突破70分，跻身市场领先水平。用户留存和转化率显著提升。",
-                    impact_type="positive",
-                    related_metrics={"product_score": product},
-                ))
+                moments.append(
+                    KeyMoment(
+                        month=month,
+                        title="产品突破",
+                        description=f"产品分突破70分，跻身市场领先水平。用户留存和转化率显著提升。",
+                        impact_type="positive",
+                        related_metrics={"product_score": product},
+                    )
+                )
 
             # MRR milestones
-            for threshold, label in [(300_000, "30万"), (500_000, "50万"), (1_000_000, "100万")]:
+            for threshold, label in [
+                (300_000, "30万"),
+                (500_000, "50万"),
+                (1_000_000, "100万"),
+            ]:
                 if mrr >= threshold and prev_mrr < threshold:
-                    moments.append(KeyMoment(
-                        month=month, title=f"MRR突破{label}",
-                        description=f"月度经常性收入突破{label}元，公司进入新的增长阶段。",
-                        impact_type="positive",
-                        related_metrics={"mrr": mrr},
-                    ))
+                    moments.append(
+                        KeyMoment(
+                            month=month,
+                            title=f"MRR突破{label}",
+                            description=f"月度经常性收入突破{label}元，公司进入新的增长阶段。",
+                            impact_type="positive",
+                            related_metrics={"mrr": mrr},
+                        )
+                    )
                     break  # only the first breakthrough counts
 
             # Equity dilution
             if equity < 80 and prev_equity >= 80:
-                moments.append(KeyMoment(
-                    month=month, title="股权稀释",
-                    description=f"创始人股权跌破80%，控制权开始松动。每次融资都是一把双刃剑。",
-                    impact_type="neutral",
-                    related_metrics={"founder_equity": equity},
-                ))
+                moments.append(
+                    KeyMoment(
+                        month=month,
+                        title="股权稀释",
+                        description=f"创始人股权跌破80%，控制权开始松动。每次融资都是一把双刃剑。",
+                        impact_type="neutral",
+                        related_metrics={"founder_equity": equity},
+                    )
+                )
             elif equity < 50 and prev_equity >= 50:
-                moments.append(KeyMoment(
-                    month=month, title="控制权危机",
-                    description=f"股权跌破50%，已经失去了对公司的绝对控制。",
-                    impact_type="negative",
-                    related_metrics={"founder_equity": equity},
-                ))
+                moments.append(
+                    KeyMoment(
+                        month=month,
+                        title="控制权危机",
+                        description=f"股权跌破50%，已经失去了对公司的绝对控制。",
+                        impact_type="negative",
+                        related_metrics={"founder_equity": equity},
+                    )
+                )
 
             # Runway warning
             if rw < 3 and rw >= 0:
-                moments.append(KeyMoment(
-                    month=month, title="跑道不足3个月",
-                    description=f"按当前烧钱速度，现金只够撑{int(rw)}个月。必须立刻融资或大幅削减开支。",
-                    impact_type="negative",
-                    related_metrics={"runway_months": int(rw)},
-                ))
+                moments.append(
+                    KeyMoment(
+                        month=month,
+                        title="跑道不足3个月",
+                        description=f"按当前烧钱速度，现金只够撑{int(rw)}个月。必须立刻融资或大幅削减开支。",
+                        impact_type="negative",
+                        related_metrics={"runway_months": int(rw)},
+                    )
+                )
 
             prev_cash = cash
             prev_product = product
@@ -291,24 +335,35 @@ class ReviewEngine:
         # Events as moments
         for evt in event_logs:
             severity = evt.get("severity", "medium")
-            impact = "positive" if severity == "low" else ("negative" if severity == "high" else "neutral")
-            moments.append(KeyMoment(
-                month=evt.get("month", 0),
-                title=evt.get("title", evt.get("event_type", "事件")),
-                description=evt.get("payload_json", "{}"),
-                impact_type=impact,
-                related_metrics={},
-            ))
+            impact = (
+                "positive"
+                if severity == "low"
+                else ("negative" if severity == "high" else "neutral")
+            )
+            moments.append(
+                KeyMoment(
+                    month=evt.get("month", 0),
+                    title=evt.get("title", evt.get("event_type", "事件")),
+                    description=evt.get("payload_json", "{}"),
+                    impact_type=impact,
+                    related_metrics={},
+                )
+            )
 
         # Ending as a moment
         if ending_status == "series_a_success":
-            moments.append(KeyMoment(
-                month=final_state.month,
-                title="A轮融资成功",
-                description="公司完成了A轮融资，估值和收入都达到了投资人预期。这是创业路上的第一个里程碑。",
-                impact_type="positive",
-                related_metrics={"mrr": final_state.mrr, "valuation": final_state.valuation},
-            ))
+            moments.append(
+                KeyMoment(
+                    month=final_state.month,
+                    title="A轮融资成功",
+                    description="公司完成了A轮融资，估值和收入都达到了投资人预期。这是创业路上的第一个里程碑。",
+                    impact_type="positive",
+                    related_metrics={
+                        "mrr": final_state.mrr,
+                        "valuation": final_state.valuation,
+                    },
+                )
+            )
 
         # Sort by month, deduplicate, cap at 8
         moments.sort(key=lambda m: m.month)
@@ -440,10 +495,18 @@ class ReviewEngine:
         Returns:
             GameReview with full analysis.
         """
-        founder_profile = cls._classify_founder(initial_state, snapshots, final_state, ending_status)
-        strategy_scores = cls._score_strategy(initial_state, snapshots, final_state, ending_status)
-        key_moments = cls._identify_key_moments(initial_state, snapshots, event_logs, final_state, ending_status)
-        ending_title, ending_summary, advice = cls._explain_ending(ending_status, final_state, founder_profile)
+        founder_profile = cls._classify_founder(
+            initial_state, snapshots, final_state, ending_status
+        )
+        strategy_scores = cls._score_strategy(
+            initial_state, snapshots, final_state, ending_status
+        )
+        key_moments = cls._identify_key_moments(
+            initial_state, snapshots, event_logs, final_state, ending_status
+        )
+        ending_title, ending_summary, advice = cls._explain_ending(
+            ending_status, final_state, founder_profile
+        )
 
         final_metrics = {
             "month": final_state.month,

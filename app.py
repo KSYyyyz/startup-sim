@@ -24,8 +24,8 @@ from src.core.turn_engine import TurnEngine
 from src.core.difficulty import get_difficulty
 from src.core.review_engine import ReviewEngine
 
-
 # ── Display helpers ────────────────────────────────────────────────────────────
+
 
 def _money(v: int) -> str:
     """Format integer money to readable string."""
@@ -42,11 +42,19 @@ def display_state(state: CompanyState, title: str = "📊 公司状态") -> None
     print(f"\n{'='*60}")
     print(f"  {title}  —  第 {state.month} 个月")
     print(f"{'='*60}")
-    print(f"  💰 现金:      {_money(state.cash):>10}     🔥 月消耗:   {_money(state.monthly_burn):>10}")
+    print(
+        f"  💰 现金:      {_money(state.cash):>10}     🔥 月消耗:   {_money(state.monthly_burn):>10}"
+    )
     print(f"  📈 MRR:       {_money(state.mrr):>10}     👥 用户:     {state.users:>10}")
-    print(f"  🛠️  产品评分:  {state.product_score:>10}     💪 团队士气: {state.team_morale:>10}")
-    print(f"  📊 创始人股权:{state.founder_equity:>10}%    🏛️  董事会:   {state.board_control:>10}%")
-    print(f"  📈 市场份额:  {state.market_share:>10}%    ⭐ 声誉:     {state.reputation:>10}")
+    print(
+        f"  🛠️  产品评分:  {state.product_score:>10}     💪 团队士气: {state.team_morale:>10}"
+    )
+    print(
+        f"  📊 创始人股权:{state.founder_equity:>10}%    🏛️  董事会:   {state.board_control:>10}%"
+    )
+    print(
+        f"  📈 市场份额:  {state.market_share:>10}%    ⭐ 声誉:     {state.reputation:>10}"
+    )
     print(f"  ⏳ 剩余跑道:  {runway_str:>10}")
     print(f"{'='*60}")
 
@@ -60,8 +68,12 @@ def display_events(events) -> None:
         print(f"  [{e.event_type}] {e.description}")
 
 
-def print_review(session_id: int, initial_state: CompanyState, final_state: CompanyState,
-                 ending_status: str) -> None:
+def print_review(
+    session_id: int,
+    initial_state: CompanyState,
+    final_state: CompanyState,
+    ending_status: str,
+) -> None:
     """Generate and print the post-game review report."""
     snapshots = repository.list_snapshots(session_id)
     actions = repository.list_actions(session_id)
@@ -89,15 +101,21 @@ def print_review(session_id: int, initial_state: CompanyState, final_state: Comp
     print(f"  💬 {review.ending_summary}")
     print()
     print(f"  📊 最终指标")
-    print(f"    现金:{_money(fm.get('cash',0))} | MRR:{_money(fm.get('mrr',0))} | "
-          f"产品:{fm.get('product_score',0)} | 用户:{fm.get('users',0)} | "
-          f"股权:{fm.get('founder_equity',0)}%")
+    print(
+        f"    现金:{_money(fm.get('cash',0))} | MRR:{_money(fm.get('mrr',0))} | "
+        f"产品:{fm.get('product_score',0)} | 用户:{fm.get('users',0)} | "
+        f"股权:{fm.get('founder_equity',0)}%"
+    )
     print()
     print(f"  🎯 策略评分")
-    print(f"    产品力:{scores.product_score:>3} | 增长力:{scores.growth_score:>3} | "
-          f"财务力:{scores.finance_score:>3}")
-    print(f"    控制力:{scores.control_score:>3} | 风控力:{scores.risk_score:>3} | "
-          f"综合:{scores.overall_score:>3}")
+    print(
+        f"    产品力:{scores.product_score:>3} | 增长力:{scores.growth_score:>3} | "
+        f"财务力:{scores.finance_score:>3}"
+    )
+    print(
+        f"    控制力:{scores.control_score:>3} | 风控力:{scores.risk_score:>3} | "
+        f"综合:{scores.overall_score:>3}"
+    )
     print()
     print(f"  🔑 关键转折点")
     for m in review.key_moments:
@@ -119,9 +137,13 @@ def display_result(result) -> None:
     d = result.delta
     changes = []
     for field, label in [
-        ("cash", "💰现金"), ("mrr", "📈MRR"), ("users", "👥用户"),
-        ("product_score", "🛠️产品"), ("team_morale", "💪士气"),
-        ("founder_equity", "📊股权"), ("reputation", "⭐声誉"),
+        ("cash", "💰现金"),
+        ("mrr", "📈MRR"),
+        ("users", "👥用户"),
+        ("product_score", "🛠️产品"),
+        ("team_morale", "💪士气"),
+        ("founder_equity", "📊股权"),
+        ("reputation", "⭐声誉"),
     ]:
         v = getattr(d, field, 0)
         if v != 0:
@@ -156,9 +178,7 @@ def load_scenario(scenario_id: str) -> CompanyState:
     scenarios = data.get("scenarios", {})
     if scenario_id not in scenarios:
         available = ", ".join(scenarios.keys())
-        raise ValueError(
-            f"Unknown scenario '{scenario_id}'. Available: {available}"
-        )
+        raise ValueError(f"Unknown scenario '{scenario_id}'. Available: {available}")
 
     s = scenarios[scenario_id]
     init = s["initial_state"]
@@ -211,9 +231,9 @@ def cmd_new(args) -> None:
 
     while True:
         try:
-            raw = input("👉 第{}月决策: ".format(
-                repository.load_state(session_id).month
-            )).strip()
+            raw = input(
+                "👉 第{}月决策: ".format(repository.load_state(session_id).month)
+            ).strip()
         except (EOFError, KeyboardInterrupt):
             print("\n👋 再见！")
             break
@@ -237,8 +257,9 @@ def cmd_new(args) -> None:
 
             if result.ending != EndingType.NONE:
                 display_state(result.state_after, "📊 最终状态")
-                print_review(session_id, scenario_state, result.state_after,
-                           result.ending.value)
+                print_review(
+                    session_id, scenario_state, result.state_after, result.ending.value
+                )
                 break
 
             # Show updated state
@@ -257,11 +278,16 @@ def main():
     # new command
     new_parser = sub.add_parser("new", help="开始新游戏")
     new_parser.add_argument("--name", type=str, default="创始人", help="玩家名称")
-    new_parser.add_argument("--scenario", type=str, default="ai_customer_service_saas",
-                            help="剧本名称")
-    new_parser.add_argument("--difficulty", type=str, default="normal",
-                            choices=["easy", "normal", "hard"],
-                            help="游戏难度")
+    new_parser.add_argument(
+        "--scenario", type=str, default="ai_customer_service_saas", help="剧本名称"
+    )
+    new_parser.add_argument(
+        "--difficulty",
+        type=str,
+        default="normal",
+        choices=["easy", "normal", "hard"],
+        help="游戏难度",
+    )
 
     args = parser.parse_args()
 

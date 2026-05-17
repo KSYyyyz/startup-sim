@@ -58,6 +58,7 @@ _session_map: dict[str, int] = {}
 
 # ── Command: 开始 ─────────────────────────────────────────────────────────────
 
+
 def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal") -> str:
     """Start a new game with the given track and difficulty."""
     diff_map = {"easy": Difficulty.easy(), "hard": Difficulty.hard()}
@@ -94,6 +95,7 @@ def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal")
 
 # ── Command: 决策 ─────────────────────────────────────────────────────────────
 
+
 def turn(user_id: str, raw_input: str) -> str:
     """Process one turn. All game logic delegated to TurnEngine.process_turn_raw()."""
     init_db()
@@ -113,7 +115,9 @@ def turn(user_id: str, raw_input: str) -> str:
         )
 
     session_status = repository.get_session_status(sid)
-    diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
+    diff_name = (
+        session_status.get("difficulty", "normal") if session_status else "normal"
+    )
     difficulty = get_difficulty(diff_name)
 
     result: TurnResult = TurnEngine.process_turn_raw(state, raw_input, difficulty)
@@ -121,16 +125,22 @@ def turn(user_id: str, raw_input: str) -> str:
     with repository.transaction() as conn:
         repository.save_state(sid, result.state_after, conn=conn)
         repository.update_session_month(
-            sid, result.state_after.month,
+            sid,
+            result.state_after.month,
             "active" if result.ending == EndingType.NONE else result.ending.value,
             conn=conn,
         )
         repository.save_snapshot(
-            sid, result.state_after.month, result.state_after, conn=conn,
+            sid,
+            result.state_after.month,
+            result.state_after,
+            conn=conn,
         )
 
         repository.save_action(
-            sid, result.month, raw_input,
+            sid,
+            result.month,
+            raw_input,
             result.action_plan.model_dump_json(),
             result.delta.model_dump_json(),
             conn=conn,
@@ -139,8 +149,11 @@ def turn(user_id: str, raw_input: str) -> str:
         for event in result.events:
             severity = "high" if event.event_type == "board_coup_risk" else "medium"
             repository.save_event(
-                sid, result.month,
-                event.event_type, event.description, severity,
+                sid,
+                result.month,
+                event.event_type,
+                event.description,
+                severity,
                 event.delta.model_dump_json(),
                 conn=conn,
             )
@@ -164,6 +177,7 @@ def turn_safe(user_id: str, raw_input: str) -> str:
 
 # ── Command: 状态 ─────────────────────────────────────────────────────────────
 
+
 def status(user_id: str) -> str:
     """Return the current game state."""
     sid = _session_map.get(user_id)
@@ -180,6 +194,7 @@ def status(user_id: str) -> str:
 
 
 # ── Formatting ────────────────────────────────────────────────────────────────
+
 
 def _format_result(result: TurnResult) -> str:
     """Format a TurnResult into a Feishu Markdown message."""
@@ -254,8 +269,7 @@ def _render_state(state: CompanyState, difficulty: str = "") -> str:
         f"董事会控制:{state.board_control}%"
     )
     line6 = (
-        f"🏦 估值:{state.valuation//10000}万 | "
-        f"⏳ 跑道:{state.runway_months:.1f}月"
+        f"🏦 估值:{state.valuation//10000}万 | " f"⏳ 跑道:{state.runway_months:.1f}月"
     )
 
     return "\n".join([line1, line2, line3, line4, line5, line6])
@@ -269,7 +283,9 @@ def _format_review_short(session_id: int, result: TurnResult) -> str:
 
     # Reconstruct initial state from session difficulty
     session_status = repository.get_session_status(session_id)
-    diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
+    diff_name = (
+        session_status.get("difficulty", "normal") if session_status else "normal"
+    )
     diff = get_difficulty(diff_name)
     initial_state = CompanyState(
         cash=int(1_000_000 * diff.cash_multiplier),

@@ -52,6 +52,7 @@ def _default_snapshots(final: CompanyState) -> list[dict]:
 
 # ── Task 7.1: 4 endings generate non-empty GameReview ─────────────────────
 
+
 class TestReviewAllEndings:
     def test_review_bankruptcy(self):
         final = CompanyState(month=8, cash=0, mrr=50000, product_score=30, users=100)
@@ -69,8 +70,13 @@ class TestReviewAllEndings:
         assert review.founder_profile.profile_type != ""
 
     def test_review_founder_removed(self):
-        final = CompanyState(month=7, cash=100000, founder_equity=30,
-                           board_control=40, monthly_burn=50000)
+        final = CompanyState(
+            month=7,
+            cash=100000,
+            founder_equity=30,
+            board_control=40,
+            monthly_burn=50000,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -80,12 +86,20 @@ class TestReviewAllEndings:
             ending_status="founder_removed",
         )
         assert review.ending_title != ""
-        assert "控制" in review.advice_for_next_run or "股权" in review.advice_for_next_run
+        assert (
+            "控制" in review.advice_for_next_run or "股权" in review.advice_for_next_run
+        )
 
     def test_review_series_a_success(self):
-        final = CompanyState(month=12, cash=3_000_000, mrr=350_000,
-                           product_score=75, users=800, founder_equity=80,
-                           valuation=30_000_000)
+        final = CompanyState(
+            month=12,
+            cash=3_000_000,
+            mrr=350_000,
+            product_score=75,
+            users=800,
+            founder_equity=80,
+            valuation=30_000_000,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -98,8 +112,9 @@ class TestReviewAllEndings:
         assert review.strategy_scores.overall_score >= 50
 
     def test_review_survived_but_average(self):
-        final = CompanyState(month=12, cash=200000, mrr=120000,
-                           product_score=45, users=300)
+        final = CompanyState(
+            month=12, cash=200000, mrr=120000, product_score=45, users=300
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -112,7 +127,9 @@ class TestReviewAllEndings:
         assert review.advice_for_next_run != ""
 
     def test_review_slow_death(self):
-        final = CompanyState(month=12, cash=50000, mrr=40000, product_score=35, users=150)
+        final = CompanyState(
+            month=12, cash=50000, mrr=40000, product_score=35, users=150
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -127,11 +144,18 @@ class TestReviewAllEndings:
 
 # ── Task 7.2: Strategy scores in 0-100 range ──────────────────────────────
 
+
 class TestStrategyScores:
     def test_scores_in_range(self):
-        final = CompanyState(month=12, cash=500000, mrr=300000,
-                           product_score=80, users=600, founder_equity=85,
-                           valuation=25_000_000)
+        final = CompanyState(
+            month=12,
+            cash=500000,
+            mrr=300000,
+            product_score=80,
+            users=600,
+            founder_equity=85,
+            valuation=25_000_000,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -141,14 +165,27 @@ class TestStrategyScores:
             ending_status="series_a_success",
         )
         s = review.strategy_scores
-        for name in ["product_score", "growth_score", "finance_score", "control_score", "risk_score", "overall_score"]:
+        for name in [
+            "product_score",
+            "growth_score",
+            "finance_score",
+            "control_score",
+            "risk_score",
+            "overall_score",
+        ]:
             v = getattr(s, name)
             assert 0 <= v <= 100, f"{name} = {v} out of range"
 
     def test_bankruptcy_scores_lower(self):
         """Bankruptcy should produce lower overall score than series A."""
-        final_a = CompanyState(month=12, cash=3_000_000, mrr=350_000,
-                             product_score=75, users=800, founder_equity=80)
+        final_a = CompanyState(
+            month=12,
+            cash=3_000_000,
+            mrr=350_000,
+            product_score=75,
+            users=800,
+            founder_equity=80,
+        )
         review_a = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final_a),
@@ -166,20 +203,37 @@ class TestStrategyScores:
             final_state=final_b,
             ending_status="bankruptcy",
         )
-        assert review_b.strategy_scores.overall_score < review_a.strategy_scores.overall_score
+        assert (
+            review_b.strategy_scores.overall_score
+            < review_a.strategy_scores.overall_score
+        )
 
 
 # ── Task 7.3: Key moments not empty ───────────────────────────────────────
 
+
 class TestKeyMoments:
     def test_key_moments_not_empty(self):
         """Even a short game should produce at least 1 key moment."""
-        final = CompanyState(month=4, cash=5000, mrr=0, product_score=25, users=10,
-                           monthly_burn=80000)
+        final = CompanyState(
+            month=4, cash=5000, mrr=0, product_score=25, users=10, monthly_burn=80000
+        )
         snapshots = [
-            _snapshot(1, CompanyState(month=1, cash=1000000, mrr=0, product_score=20, users=0)),
-            _snapshot(2, CompanyState(month=2, cash=500000, mrr=10000, product_score=22, users=20)),
-            _snapshot(3, CompanyState(month=3, cash=80000, mrr=15000, product_score=24, users=30)),
+            _snapshot(
+                1, CompanyState(month=1, cash=1000000, mrr=0, product_score=20, users=0)
+            ),
+            _snapshot(
+                2,
+                CompanyState(
+                    month=2, cash=500000, mrr=10000, product_score=22, users=20
+                ),
+            ),
+            _snapshot(
+                3,
+                CompanyState(
+                    month=3, cash=80000, mrr=15000, product_score=24, users=30
+                ),
+            ),
             _snapshot(4, final),
         ]
         review = ReviewEngine.generate_review(
@@ -190,7 +244,9 @@ class TestKeyMoments:
             final_state=final,
             ending_status="bankruptcy",
         )
-        assert len(review.key_moments) >= 1, f"Expected >=1 moments, got {len(review.key_moments)}"
+        assert (
+            len(review.key_moments) >= 1
+        ), f"Expected >=1 moments, got {len(review.key_moments)}"
 
     def test_moments_include_cash_crisis(self):
         """Verify cash drops below danger thresholds are captured."""
@@ -209,15 +265,24 @@ class TestKeyMoments:
             ending_status="bankruptcy",
         )
         titles = [m.title for m in review.key_moments]
-        assert any("现金" in t for t in titles), f"No cash crisis moments found in {titles}"
+        assert any(
+            "现金" in t for t in titles
+        ), f"No cash crisis moments found in {titles}"
 
 
 # ── Task 7.4: Founder profile varies with metrics ─────────────────────────
 
+
 class TestFounderProfile:
     def test_high_product_yields_tech_visionary(self):
-        final = CompanyState(month=12, cash=500000, mrr=200000,
-                           product_score=85, users=400, founder_equity=90)
+        final = CompanyState(
+            month=12,
+            cash=500000,
+            mrr=200000,
+            product_score=85,
+            users=400,
+            founder_equity=90,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -229,9 +294,15 @@ class TestFounderProfile:
         assert review.founder_profile.profile_type == "tech_visionary"
 
     def test_low_equity_yields_capital_player(self):
-        final = CompanyState(month=12, cash=5_000_000, mrr=300000,
-                           product_score=55, users=600, founder_equity=70,
-                           valuation=35_000_000)
+        final = CompanyState(
+            month=12,
+            cash=5_000_000,
+            mrr=300000,
+            product_score=55,
+            users=600,
+            founder_equity=70,
+            valuation=35_000_000,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -243,8 +314,14 @@ class TestFounderProfile:
         assert review.founder_profile.profile_type == "capital_player"
 
     def test_long_runway_low_growth_conservative(self):
-        final = CompanyState(month=12, cash=800000, mrr=50000,
-                           product_score=40, users=100, monthly_burn=30000)
+        final = CompanyState(
+            month=12,
+            cash=800000,
+            mrr=50000,
+            product_score=40,
+            users=100,
+            monthly_burn=30000,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -256,8 +333,14 @@ class TestFounderProfile:
         assert review.founder_profile.profile_type == "conservative_operator"
 
     def test_growth_hacker_from_high_users(self):
-        final = CompanyState(month=12, cash=200000, mrr=250000,
-                           product_score=55, users=700, founder_equity=85)
+        final = CompanyState(
+            month=12,
+            cash=200000,
+            mrr=250000,
+            product_score=55,
+            users=700,
+            founder_equity=85,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -270,6 +353,7 @@ class TestFounderProfile:
 
 
 # ── Task 7.5: GameReview model integrity ──────────────────────────────────
+
 
 class TestGameReviewModel:
     def test_game_review_all_fields_present(self):
@@ -305,21 +389,26 @@ class TestGameReviewModel:
 
 # ── Task 7.6: DB list functions ───────────────────────────────────────────
 
+
 class TestDBListFunctions:
     def test_list_snapshots_importable(self):
         from src.db.repository import list_snapshots
+
         assert callable(list_snapshots)
 
     def test_list_actions_importable(self):
         from src.db.repository import list_actions
+
         assert callable(list_actions)
 
     def test_list_events_importable(self):
         from src.db.repository import list_events
+
         assert callable(list_events)
 
 
 # ── Task 7.7: Event-based key moments ─────────────────────────────────────
+
 
 class TestEventKeyMoments:
     def test_events_produce_key_moments(self):
@@ -329,20 +418,32 @@ class TestEventKeyMoments:
             snapshots=[_snapshot(m, CompanyState(month=m)) for m in range(1, 7)],
             action_logs=[_action(m) for m in range(1, 7)],
             event_logs=[
-                {"month": 3, "event_type": "evt_server_crash", "title": "服务器宕机",
-                 "severity": "high", "payload_json": "{}"},
-                {"month": 5, "event_type": "evt_key_hire", "title": "关键人才入职",
-                 "severity": "low", "payload_json": "{}"},
+                {
+                    "month": 3,
+                    "event_type": "evt_server_crash",
+                    "title": "服务器宕机",
+                    "severity": "high",
+                    "payload_json": "{}",
+                },
+                {
+                    "month": 5,
+                    "event_type": "evt_key_hire",
+                    "title": "关键人才入职",
+                    "severity": "low",
+                    "payload_json": "{}",
+                },
             ],
             final_state=final,
             ending_status="survived_but_average",
         )
         evt_titles = [m.title for m in review.key_moments]
-        assert any("服务器宕机" in t or "关键人才" in t for t in evt_titles), \
-            f"Event moments not found in {evt_titles}"
+        assert any(
+            "服务器宕机" in t or "关键人才" in t for t in evt_titles
+        ), f"Event moments not found in {evt_titles}"
 
 
 # ── Task 7.8: Snapshot JSON parsing robustness ────────────────────────────
+
 
 class TestSnapshotParsing:
     def test_snapshot_with_string_state_json(self):
@@ -374,23 +475,34 @@ class TestSnapshotParsing:
 
 # ── Task 7.9: Advice varies by ending ─────────────────────────────────────
 
+
 class TestAdvice:
     def test_bankruptcy_advice_mentions_cash(self):
         final = CompanyState(month=5, cash=0)
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
-            snapshots=[_snapshot(m, CompanyState(month=m, cash=max(0, 1000000 - m*200000)))
-                      for m in range(1, 6)],
+            snapshots=[
+                _snapshot(m, CompanyState(month=m, cash=max(0, 1000000 - m * 200000)))
+                for m in range(1, 6)
+            ],
             action_logs=[_action(m) for m in range(1, 6)],
             event_logs=[],
             final_state=final,
             ending_status="bankruptcy",
         )
-        assert "现金" in review.advice_for_next_run or "跑道" in review.advice_for_next_run
+        assert (
+            "现金" in review.advice_for_next_run or "跑道" in review.advice_for_next_run
+        )
 
     def test_series_a_advice_mentions_growth(self):
-        final = CompanyState(month=12, cash=2_000_000, mrr=400000,
-                           product_score=80, users=900, founder_equity=80)
+        final = CompanyState(
+            month=12,
+            cash=2_000_000,
+            mrr=400000,
+            product_score=80,
+            users=900,
+            founder_equity=80,
+        )
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -403,6 +515,7 @@ class TestAdvice:
 
 
 # ── Task 7.10: Empty data edge case ───────────────────────────────────────
+
 
 class TestEdgeCases:
     def test_empty_snapshots_and_logs(self):
