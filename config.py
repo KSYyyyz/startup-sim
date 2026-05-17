@@ -1,4 +1,5 @@
 """Startup Sim configuration. No API keys needed for Phase 1A (mock LLM)."""
+
 import os
 from pathlib import Path
 

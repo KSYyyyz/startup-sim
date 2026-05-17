@@ -9,7 +9,7 @@ Evaluates how the customer base responds to:
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from src.core.models import ActionPlan, CompanyState
 
@@ -24,8 +24,8 @@ class CustomerAgent:
         self,
         state: CompanyState,
         plan: ActionPlan,
-        competitor_moves: List[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        competitor_moves: list[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Evaluate customer response based on state, player actions, and competitor moves.
 
         Returns:
@@ -34,7 +34,7 @@ class CustomerAgent:
         """
         growth_change = 0
         revenue_change = 0
-        narratives: List[str] = []
+        narratives: list[str] = []
         cm = self.churn_multiplier
 
         # ── 1. Product quality → growth ──────────────────────────────────────
@@ -46,15 +46,13 @@ class CustomerAgent:
             churn = int(churn * cm)
             growth_change -= churn
             narratives.append(
-                f"产品体验不佳（产品分{state.product_score}），"
-                f"部分客户流失（{-churn}人）"
+                f"产品体验不佳（产品分{state.product_score}），" f"部分客户流失（{-churn}人）"
             )
         elif state.product_score > 70:
             bonus = (state.product_score - 70) // 5 + 1
             growth_change += bonus * 10
             narratives.append(
-                f"产品口碑优秀（产品分{state.product_score}），"
-                f"自然增长加速（+{bonus * 10}人）"
+                f"产品口碑优秀（产品分{state.product_score}），" f"自然增长加速（+{bonus * 10}人）"
             )
         else:
             # 30-70: baseline organic growth
@@ -62,23 +60,20 @@ class CustomerAgent:
             growth_change += baseline * 5
             if baseline > 0:
                 narratives.append(
-                    f"产品稳定（产品分{state.product_score}），"
-                    f"自然增长{baseline * 5}人"
+                    f"产品稳定（产品分{state.product_score}），" f"自然增长{baseline * 5}人"
                 )
 
         # -- 2. Player marketing → user growth via CAC + retention modifier --
         has_marketing = any(a.type == "marketing" for a in plan.actions)
         if has_marketing:
-            marketing_budget = sum(
-                a.budget for a in plan.actions if a.type == "marketing"
-            )
+            marketing_budget = sum(a.budget for a in plan.actions if a.type == "marketing")
             # CAC = 800元/用户 (base acquisition cost, lowered for Alpha 1.2)
             new_users = max(1, marketing_budget // 800)
             # Product-score-based retention modifier
             if state.product_score < 30:
-                retention = 0.4   # 产品太差，获客留存打4折
+                retention = 0.4  # 产品太差，获客留存打4折
             elif state.product_score < 60:
-                retention = 0.8   # 产品一般，留存打8折
+                retention = 0.8  # 产品一般，留存打8折
             else:
                 retention = 1.0 + (state.product_score - 60) / 200  # 1.0→1.2
             retained_users = max(1, int(new_users * retention))
@@ -110,18 +105,14 @@ class CustomerAgent:
                 churn = int(5 * cm) if action == "price_cut" else int(3 * cm)
                 churn = max(1, churn)
                 growth_change -= churn
-                narratives.append(
-                    f"{competitor_name}降价吸引走{churn}个价格敏感客户"
-                )
+                narratives.append(f"{competitor_name}降价吸引走{churn}个价格敏感客户")
             elif action == "enterprise_upgrade":
                 # Competitor improving enterprise features
                 churn = max(1, int(5 * cm))
                 revenue_loss = int(5000 * cm)
                 growth_change -= churn
                 revenue_change -= revenue_loss
-                narratives.append(
-                    f"{competitor_name}企业版功能升级，{churn}个高端客户转向竞品"
-                )
+                narratives.append(f"{competitor_name}企业版功能升级，{churn}个高端客户转向竞品")
 
         # ── 4. Team morale → delivery quality → retention ────────────────────
         if state.team_morale >= 80:
@@ -152,12 +143,12 @@ class CustomerAgent:
                 conv_rate = 0.10  # 10% pay
             else:
                 conv_rate = 0.18  # 18% pay
-            
+
             paying_users = int(state.users * conv_rate)
             new_mrr = paying_users * state.price
             # Only report if MRR actually changes significantly
             if new_mrr > state.mrr:
-                revenue_change += (new_mrr - state.mrr)
+                revenue_change += new_mrr - state.mrr
                 narratives.append(
                     f"付费转化率{conv_rate*100:.0f}%，{paying_users}个付费用户，"
                     f"MRR={new_mrr//10000}万"

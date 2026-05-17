@@ -95,17 +95,21 @@ def simulate_investors(state_dict: dict, user_request: str) -> dict:
             r["investor_type"] = inv["type"]
             results.append(r)
         except json.JSONDecodeError:
-            results.append({
-                "investor_name": inv["name"],
-                "decision": "error",
-                "reasoning": "LLM returned invalid JSON",
-            })
+            results.append(
+                {
+                    "investor_name": inv["name"],
+                    "decision": "error",
+                    "reasoning": "LLM returned invalid JSON",
+                }
+            )
         except Exception:
-            results.append({
-                "investor_name": inv["name"],
-                "decision": "error",
-                "reasoning": traceback.format_exc(),
-            })
+            results.append(
+                {
+                    "investor_name": inv["name"],
+                    "decision": "error",
+                    "reasoning": traceback.format_exc(),
+                }
+            )
 
     # Build summary
     decisions = [r for r in results if r.get("decision") == "invest"]
@@ -122,8 +126,7 @@ def simulate_investors(state_dict: dict, user_request: str) -> dict:
     for r in results:
         if r.get("decision") not in ("invest", "error"):
             summary += (
-                f"- {r['investor_name']}: {r.get('decision', '?')} — "
-                f"{r.get('reasoning', '')}\n"
+                f"- {r['investor_name']}: {r.get('decision', '?')} — " f"{r.get('reasoning', '')}\n"
             )
 
     return {

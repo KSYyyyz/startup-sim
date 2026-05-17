@@ -1,10 +1,13 @@
 """Tests for ending_evaluator module."""
 
-import pytest
-from src.core.models import CompanyState, EndingType
 from src.core.ending_evaluator import (
-    evaluate, describe_ending, describe_ending_with_seed, classify_player_path, PlayerPath,
+    PlayerPath,
+    classify_player_path,
+    describe_ending,
+    describe_ending_with_seed,
+    evaluate,
 )
+from src.core.models import CompanyState, EndingType
 
 
 class TestEndingEvaluator:
@@ -19,8 +22,10 @@ class TestEndingEvaluator:
     def test_founder_removed(self):
         """equity < 34, board < 45, runway < 4 → founder_removed."""
         state = CompanyState(
-            founder_equity=30, board_control=40,
-            cash=500_000, monthly_burn=200_000,  # runway = 2.5
+            founder_equity=30,
+            board_control=40,
+            cash=500_000,
+            monthly_burn=200_000,  # runway = 2.5
             month=7,
         )
         result = evaluate(state)
@@ -29,8 +34,10 @@ class TestEndingEvaluator:
     def test_founder_not_removed_adequate_runway(self):
         """equity < 34, board < 45 but runway >= 4 → no ending."""
         state = CompanyState(
-            founder_equity=30, board_control=40,
-            cash=1_000_000, monthly_burn=200_000,  # runway = 5
+            founder_equity=30,
+            board_control=40,
+            cash=1_000_000,
+            monthly_burn=200_000,  # runway = 5
             month=7,
         )
         result = evaluate(state)
@@ -39,8 +46,11 @@ class TestEndingEvaluator:
     def test_series_a_success(self):
         """month >= 12, mrr >= 500k, product >= 70, equity >= 50 → series_a."""
         state = CompanyState(
-            month=12, cash=1_000_000,
-            mrr=600_000, product_score=75, founder_equity=55,
+            month=12,
+            cash=1_000_000,
+            mrr=600_000,
+            product_score=75,
+            founder_equity=55,
         )
         result = evaluate(state)
         assert result == EndingType.SERIES_A_SUCCESS
@@ -48,8 +58,11 @@ class TestEndingEvaluator:
     def test_survived_but_average(self):
         """month >= 12, mrr >= 200k, cash > 0 → survived_but_average."""
         state = CompanyState(
-            month=12, cash=100_000,
-            mrr=250_000, product_score=60, founder_equity=40,
+            month=12,
+            cash=100_000,
+            mrr=250_000,
+            product_score=60,
+            founder_equity=40,
         )
         result = evaluate(state)
         assert result == EndingType.SURVIVED_BUT_AVERAGE
@@ -57,8 +70,11 @@ class TestEndingEvaluator:
     def test_slow_death(self):
         """month >= 12, doesn't meet other thresholds → slow_death."""
         state = CompanyState(
-            month=12, cash=50_000,
-            mrr=50_000, product_score=30, founder_equity=30,
+            month=12,
+            cash=50_000,
+            mrr=50_000,
+            product_score=30,
+            founder_equity=30,
         )
         result = evaluate(state)
         assert result == EndingType.SLOW_DEATH
@@ -66,8 +82,10 @@ class TestEndingEvaluator:
     def test_continue_game(self):
         """Early month, healthy state → None (continue)."""
         state = CompanyState(
-            month=5, cash=1_000_000,
-            monthly_burn=100_000, mrr=100_000,
+            month=5,
+            cash=1_000_000,
+            monthly_burn=100_000,
+            mrr=100_000,
         )
         result = evaluate(state)
         assert result is None
@@ -75,8 +93,11 @@ class TestEndingEvaluator:
     def test_immediate_endings_priority(self):
         """Bankruptcy takes priority over founder_removed."""
         state = CompanyState(
-            cash=0, founder_equity=30, board_control=40,
-            monthly_burn=200_000, month=5,
+            cash=0,
+            founder_equity=30,
+            board_control=40,
+            monthly_burn=200_000,
+            month=5,
         )
         result = evaluate(state)
         assert result == EndingType.BANKRUPTCY
@@ -90,7 +111,9 @@ class TestDescribeEnding:
         assert len(desc) > 10
 
     def test_series_a_description_nonempty(self):
-        desc = describe_ending(EndingType.SERIES_A_SUCCESS, CompanyState(mrr=500_000, product_score=80))
+        desc = describe_ending(
+            EndingType.SERIES_A_SUCCESS, CompanyState(mrr=500_000, product_score=80)
+        )
         assert len(desc) > 10
 
     def test_describe_ending_with_seed_deterministic(self):
@@ -105,8 +128,9 @@ class TestDescribeEnding:
         state = CompanyState(month=4, cash=0, product_score=75, founder_equity=30)
         path = classify_player_path(state)
         variants_for_path = len(
-            __import__("src.core.ending_evaluator", fromlist=["BANKRUPTCY_NARRATIVES"])
-            .BANKRUPTCY_NARRATIVES.get(path, [])
+            __import__(
+                "src.core.ending_evaluator", fromlist=["BANKRUPTCY_NARRATIVES"]
+            ).BANKRUPTCY_NARRATIVES.get(path, [])
         )
         if variants_for_path > 1:
             d1 = describe_ending_with_seed(EndingType.BANKRUPTCY, state, seed=0)
@@ -132,15 +156,20 @@ class TestDescribeEnding:
 
     def test_path_classification_conservative(self):
         state = CompanyState(
-            cash=2_000_000, monthly_burn=100_000,  # runway 20
-            product_score=30, users=50,
+            cash=2_000_000,
+            monthly_burn=100_000,  # runway 20
+            product_score=30,
+            users=50,
             founder_equity=80,
         )
         assert classify_player_path(state) == PlayerPath.CONSERVATIVE
 
     def test_path_classification_balanced(self):
         state = CompanyState(
-            product_score=50, users=300, founder_equity=60,
-            cash=800_000, monthly_burn=150_000,  # runway ~5.3
+            product_score=50,
+            users=300,
+            founder_equity=60,
+            cash=800_000,
+            monthly_burn=150_000,  # runway ~5.3
         )
         assert classify_player_path(state) == PlayerPath.BALANCED

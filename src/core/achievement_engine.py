@@ -8,7 +8,7 @@ Pure functions — no DB, no LLM, no side effects.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from src.core.models import Achievement, AchievementResult, CompanyState, GameReview
 
@@ -82,7 +82,8 @@ class AchievementEngine:
             "title": "研发陷阱",
             "description": "产品分达到70+却仍以失败告终——好产品也需要好时机。",
             "rarity": "rare",
-            "check": lambda s, e, r, snaps: s.product_score >= 70 and e in ("bankruptcy", "slow_death"),
+            "check": lambda s, e, r, snaps: s.product_score >= 70
+            and e in ("bankruptcy", "slow_death"),
         },
         {
             "code": "marketing_bubble",
@@ -111,14 +112,16 @@ class AchievementEngine:
             "title": "危机处理者",
             "description": "经历3个以上危险月份仍完成A轮——在风暴中抵达彼岸。",
             "rarity": "epic",
-            "check": lambda s, e, r, snaps: _count_risky_months(snaps) >= 3 and e == "series_a_success",
+            "check": lambda s, e, r, snaps: _count_risky_months(snaps) >= 3
+            and e == "series_a_success",
         },
         {
             "code": "steady_operator",
             "title": "稳健经营者",
             "description": "零高风险月份并成功A轮——稳扎稳打的教科书。",
             "rarity": "epic",
-            "check": lambda s, e, r, snaps: _count_risky_months(snaps) == 0 and e == "series_a_success",
+            "check": lambda s, e, r, snaps: _count_risky_months(snaps) == 0
+            and e == "series_a_success",
         },
         # ── Legendary (1) ──
         {
@@ -143,7 +146,7 @@ class AchievementEngine:
         final_state: CompanyState,
         ending_status: str,
         review: GameReview,
-        snapshots: List[Dict[str, Any]],
+        snapshots: list[dict[str, Any]],
     ) -> AchievementResult:
         """Evaluate all 15 achievements against a completed game."""
         earned = []
@@ -174,8 +177,9 @@ class AchievementEngine:
         )
 
     @classmethod
-    def _build_summary(cls, earned: List[Achievement], total: int, rare_count: int,
-                       ending_status: str) -> str:
+    def _build_summary(
+        cls, earned: list[Achievement], total: int, rare_count: int, ending_status: str
+    ) -> str:
         legendary = [a for a in earned if a.rarity == "legendary"]
         epic = [a for a in earned if a.rarity == "epic"]
         rare = [a for a in earned if a.rarity == "rare"]
@@ -195,7 +199,7 @@ class AchievementEngine:
 # ── Helper functions ─────────────────────────────────────────────────────────
 
 
-def _had_cash_below(snapshots: List[Dict[str, Any]], threshold: int) -> bool:
+def _had_cash_below(snapshots: list[dict[str, Any]], threshold: int) -> bool:
     """Check if cash ever dropped below threshold across snapshots."""
     for snap in snapshots:
         state_dict = snap.get("state_json", snap)
@@ -208,7 +212,7 @@ def _had_cash_below(snapshots: List[Dict[str, Any]], threshold: int) -> bool:
     return False
 
 
-def _count_risky_months(snapshots: List[Dict[str, Any]]) -> int:
+def _count_risky_months(snapshots: list[dict[str, Any]]) -> int:
     """Count months where cash < 100k or runway < 6."""
     count = 0
     for snap in snapshots:

@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import pytest
-
-from src.core.models import CompanyState, GameReplay, ReplayMonth
+from src.core.models import CompanyState, GameReplay
 from src.core.replay_engine import ReplayEngine
 
 
@@ -61,7 +59,13 @@ class TestReplayGeneration:
 
     def test_replay_months_not_empty(self):
         """Every ending should produce 12 months."""
-        for ending in ["series_a_success", "survived_but_average", "bankruptcy", "slow_death", "founder_removed"]:
+        for ending in [
+            "series_a_success",
+            "survived_but_average",
+            "bankruptcy",
+            "slow_death",
+            "founder_removed",
+        ]:
             final = CompanyState(month=12, cash=500000, mrr=100000, product_score=50, users=200)
             replay = ReplayEngine.generate_replay(
                 snapshots=_default_snapshots(final),
@@ -74,7 +78,9 @@ class TestReplayGeneration:
 
     def test_climax_is_reasonable(self):
         """Climax month should be between 1 and 12."""
-        final = CompanyState(month=12, cash=100000, mrr=50000, product_score=30, users=100, monthly_burn=100000)
+        final = CompanyState(
+            month=12, cash=100000, mrr=50000, product_score=30, users=100, monthly_burn=100000
+        )
         replay = ReplayEngine.generate_replay(
             snapshots=_default_snapshots(final),
             actions=[_action(m) for m in range(1, 13)],
@@ -100,8 +106,13 @@ class TestReplayGeneration:
         """replay_tags should be capped at 4."""
         # High ambition game that could earn many tags
         final = CompanyState(
-            month=12, cash=3_000_000, mrr=500000, product_score=90,
-            users=1500, founder_equity=96, valuation=40_000_000,
+            month=12,
+            cash=3_000_000,
+            mrr=500000,
+            product_score=90,
+            users=1500,
+            founder_equity=96,
+            valuation=40_000_000,
         )
         replay = ReplayEngine.generate_replay(
             snapshots=_default_snapshots(final),
@@ -131,9 +142,7 @@ class TestReplayGeneration:
 
     def test_series_a_gets_winner_tag(self):
         """Series A success should get 'A轮赢家' tag."""
-        final = CompanyState(
-            month=12, cash=2_000_000, mrr=400000, product_score=80, users=900
-        )
+        final = CompanyState(month=12, cash=2_000_000, mrr=400000, product_score=80, users=900)
         replay = ReplayEngine.generate_replay(
             snapshots=_default_snapshots(final),
             actions=[_action(m) for m in range(1, 13)],
@@ -163,7 +172,17 @@ class TestRiskLevels:
         """High cash with good runway should be low risk."""
         replay = ReplayEngine.generate_replay(
             snapshots=[
-                _snapshot(1, CompanyState(month=1, cash=1_000_000, monthly_burn=50000, mrr=100000, team_morale=80, founder_equity=100))
+                _snapshot(
+                    1,
+                    CompanyState(
+                        month=1,
+                        cash=1_000_000,
+                        monthly_burn=50000,
+                        mrr=100000,
+                        team_morale=80,
+                        founder_equity=100,
+                    ),
+                )
             ],
             actions=[_action(1)],
             events=[],
@@ -279,7 +298,13 @@ class TestSnapshotParsing:
 class TestEndingNarratives:
     def test_all_endings_have_narrative(self):
         """Each ending type should produce a non-empty ending narrative."""
-        for ending in ["series_a_success", "survived_but_average", "bankruptcy", "slow_death", "founder_removed"]:
+        for ending in [
+            "series_a_success",
+            "survived_but_average",
+            "bankruptcy",
+            "slow_death",
+            "founder_removed",
+        ]:
             replay = ReplayEngine.generate_replay(
                 snapshots=[_snapshot(1, CompanyState(month=1))],
                 actions=[_action(1)],

@@ -15,7 +15,7 @@ Design:
 from __future__ import annotations
 
 import random
-from typing import Callable, List, Optional
+from collections.abc import Callable
 
 from src.core.models import CompanyState, GameEvent, StateDelta
 
@@ -24,8 +24,13 @@ class EventDef:
     """Definition of a pool event with condition and delta."""
 
     __slots__ = (
-        "event_type", "category", "title", "description",
-        "condition_fn", "delta", "probability",
+        "event_type",
+        "category",
+        "title",
+        "description",
+        "condition_fn",
+        "delta",
+        "probability",
     )
 
     def __init__(
@@ -56,7 +61,7 @@ class EventDef:
 
 # ── Event pool ──────────────────────────────────────────────────────────────────
 
-EVENT_POOL: List[EventDef] = [
+EVENT_POOL: list[EventDef] = [
     # ═══ 机会类 (opportunity) ═══════════════════════════════════════════════════
     EventDef(
         event_type="evt_big_client",
@@ -64,7 +69,9 @@ EVENT_POOL: List[EventDef] = [
         title="🎯 大客户签约",
         description="一家中型企业决定采购你的产品，带来稳定的MRR增长。团队士气大振。",
         condition_fn=lambda s: s.product_score >= 40 and s.reputation >= 40,
-        delta=StateDelta(mrr=30_000, reputation=2, users=20, reasons=["大客户签约: MRR+3万, 声誉+2, 用户+20"]),
+        delta=StateDelta(
+            mrr=30_000, reputation=2, users=20, reasons=["大客户签约: MRR+3万, 声誉+2, 用户+20"]
+        ),
     ),
     EventDef(
         event_type="evt_media_coverage",
@@ -112,7 +119,9 @@ EVENT_POOL: List[EventDef] = [
         title="⭐ 关键人才入职",
         description="一位资深工程师被你的愿景打动，降薪加入团队。技术实力明显增强。",
         condition_fn=lambda s: s.reputation >= 50 and s.team_morale >= 60,
-        delta=StateDelta(product_score=1, team_morale=4, reasons=["关键人才入职: 产品分+1, 士气+4"]),
+        delta=StateDelta(
+            product_score=1, team_morale=4, reasons=["关键人才入职: 产品分+1, 士气+4"]
+        ),
     ),
     EventDef(
         event_type="evt_channel_partner",
@@ -138,7 +147,6 @@ EVENT_POOL: List[EventDef] = [
         condition_fn=lambda s: s.users >= 200 and s.product_score >= 50,
         delta=StateDelta(users=20, mrr=15_000, reasons=["口碑推荐潮: 用户+20, MRR+1.5万"]),
     ),
-
     # ═══ 危机类 (crisis) ═════════════════════════════════════════════════════════
     EventDef(
         event_type="evt_server_crash",
@@ -154,7 +162,9 @@ EVENT_POOL: List[EventDef] = [
         title="👋 核心员工离职",
         description="一位早期核心工程师接受了竞品的高薪挖角，临走前带走了大量隐性知识。",
         condition_fn=lambda s: s.team_morale < 60,
-        delta=StateDelta(team_morale=-5, product_score=-1, reasons=["核心员工离职: 士气-5, 产品分-1"]),
+        delta=StateDelta(
+            team_morale=-5, product_score=-1, reasons=["核心员工离职: 士气-5, 产品分-1"]
+        ),
     ),
     EventDef(
         event_type="evt_complaint_wave",
@@ -210,7 +220,9 @@ EVENT_POOL: List[EventDef] = [
         title="📉 投资人信心动摇",
         description="一位早期天使投资人私下表达了对增长速度的担忧，可能影响后续融资。",
         condition_fn=lambda s: s.valuation > 5_000_000 and s.runway_months < 6,
-        delta=StateDelta(valuation=-500_000, team_morale=-2, reasons=["投资人信心动摇: 估值-50万, 士气-2"]),
+        delta=StateDelta(
+            valuation=-500_000, team_morale=-2, reasons=["投资人信心动摇: 估值-50万, 士气-2"]
+        ),
     ),
     EventDef(
         event_type="evt_customer_churn_spike",
@@ -220,7 +232,6 @@ EVENT_POOL: List[EventDef] = [
         condition_fn=lambda s: s.users >= 100 and s.mrr >= 100_000,
         delta=StateDelta(users=-25, mrr=-20_000, reasons=["客户集中流失: 用户-25, MRR-2万"]),
     ),
-
     # ═══ 中性类 (neutral) ════════════════════════════════════════════════════════
     EventDef(
         event_type="evt_industry_conference",
@@ -285,7 +296,7 @@ def sample_random_events(
     current: CompanyState,
     triggered: set,
     base_chance: float = 0.20,
-) -> List[GameEvent]:
+) -> list[GameEvent]:
     """Sample one random event from the eligible pool.
 
     Args:
@@ -299,10 +310,7 @@ def sample_random_events(
     if random.random() > base_chance:
         return []
 
-    eligible = [
-        e for e in EVENT_POOL
-        if e.condition_fn(current) and e.event_type not in triggered
-    ]
+    eligible = [e for e in EVENT_POOL if e.condition_fn(current) and e.event_type not in triggered]
     if not eligible:
         return []
 

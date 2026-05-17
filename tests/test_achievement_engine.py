@@ -2,17 +2,14 @@
 
 from __future__ import annotations
 
-import pytest
-
+from src.core.achievement_engine import AchievementEngine
 from src.core.models import (
-    Achievement,
     AchievementResult,
     CompanyState,
     FounderProfile,
     GameReview,
     StrategyScore,
 )
-from src.core.achievement_engine import AchievementEngine
 
 
 def _snapshot(month: int, state: CompanyState) -> dict:
@@ -283,8 +280,12 @@ class TestLegendaryAchievements:
     def test_legendary_founder(self):
         """series_a_success + product >= 85 + users >= 1000 + equity >= 80."""
         final = CompanyState(
-            month=12, cash=5_000_000, mrr=600_000, product_score=90,
-            users=1500, founder_equity=85,
+            month=12,
+            cash=5_000_000,
+            mrr=600_000,
+            product_score=90,
+            users=1500,
+            founder_equity=85,
         )
         snapshots = [_snapshot(m, CompanyState(month=m, cash=1_000_000)) for m in range(1, 13)]
         result = AchievementEngine.evaluate(
@@ -298,9 +299,7 @@ class TestLegendaryAchievements:
 
     def test_legendary_not_unlocked_without_a_round(self):
         """Should not unlock legendary without series_a_success."""
-        final = CompanyState(
-            month=12, cash=500000, product_score=90, users=1500, founder_equity=85
-        )
+        final = CompanyState(month=12, cash=500000, product_score=90, users=1500, founder_equity=85)
         snapshots = [_snapshot(m, CompanyState(month=m, cash=500000)) for m in range(1, 13)]
         result = AchievementEngine.evaluate(
             final_state=final,
@@ -318,7 +317,13 @@ class TestLegendaryAchievements:
 class TestRarityValidation:
     def test_all_rarities_are_legal(self):
         """Every achievement should have a valid rarity."""
-        for ending in ["series_a_success", "survived_but_average", "bankruptcy", "slow_death", "founder_removed"]:
+        for ending in [
+            "series_a_success",
+            "survived_but_average",
+            "bankruptcy",
+            "slow_death",
+            "founder_removed",
+        ]:
             final = CompanyState(month=12, cash=500000)
             snapshots = [_snapshot(m, CompanyState(month=m, cash=500000)) for m in range(1, 13)]
             result = AchievementEngine.evaluate(
@@ -328,17 +333,27 @@ class TestRarityValidation:
                 snapshots=snapshots,
             )
             for a in result.achievements:
-                assert a.rarity in ("common", "rare", "epic", "legendary"), \
-                    f"Bad rarity '{a.rarity}' for {a.code}"
+                assert a.rarity in (
+                    "common",
+                    "rare",
+                    "epic",
+                    "legendary",
+                ), f"Bad rarity '{a.rarity}' for {a.code}"
 
     def test_rarity_counts(self):
         """total_count and rare_count should be consistent."""
         final = CompanyState(
-            month=12, cash=5_000_000, mrr=600_000, product_score=90,
-            users=1500, founder_equity=96,
+            month=12,
+            cash=5_000_000,
+            mrr=600_000,
+            product_score=90,
+            users=1500,
+            founder_equity=96,
         )
-        snapshots = [_snapshot(m, CompanyState(month=m, cash=1_000_000, monthly_burn=30000))
-                     for m in range(1, 13)]
+        snapshots = [
+            _snapshot(m, CompanyState(month=m, cash=1_000_000, monthly_burn=30000))
+            for m in range(1, 13)
+        ]
         result = AchievementEngine.evaluate(
             final_state=final,
             ending_status="series_a_success",

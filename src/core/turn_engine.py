@@ -20,27 +20,27 @@ All DB writes are wrapped in repository.transaction().
 
 from __future__ import annotations
 
+from src.agents import CFO, COO, CTO, InvestorDirector
+from src.agents.board import generate_board_minutes
+from src.agents.competitors import KuaiDaTech, LingxiCSCloud, get_competitor_summary
+from src.agents.customers import CustomerAgent
+from src.core.action_parser import parse_multi
 from src.core.difficulty import Difficulty, get_difficulty
+from src.core.ending_evaluator import describe_ending
+from src.core.ending_evaluator import evaluate as eval_ending
+from src.core.event_engine import EventEngine
 from src.core.models import (
     ActionPlan,
     CompanyState,
     EndingType,
-    GameEvent,
     StateDelta,
     TurnResult,
 )
-from src.core.action_parser import parse_multi
 from src.core.state_guard import (
-    validate_action_plan,
-    sanitize_delta,
     apply_delta,
+    sanitize_delta,
+    validate_action_plan,
 )
-from src.core.event_engine import EventEngine
-from src.core.ending_evaluator import evaluate as eval_ending, describe_ending
-from src.agents import CFO, CTO, COO, InvestorDirector
-from src.agents.board import generate_board_minutes
-from src.agents.competitors import KuaiDaTech, LingxiCSCloud, get_competitor_summary
-from src.agents.customers import CustomerAgent
 from src.db import repository
 
 
@@ -75,9 +75,7 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             delta.cash -= budget
 
         if action.type == "product":
-            product_gain = (
-                budget // 80_000 + state.employee_count // 3 + state.team_morale // 10
-            )
+            product_gain = budget // 80_000 + state.employee_count // 3 + state.team_morale // 10
             delta.product_score += max(1, product_gain)
             delta.monthly_burn += budget // 30  # dev costs increase burn
         elif action.type == "marketing":
@@ -86,9 +84,7 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             # User growth and MRR handled by CustomerAgent (CAC-based retention)
         elif action.type == "team":
             delta.team_morale += max(1, budget // 5_000)
-            delta.monthly_burn += (
-                budget // 5
-            )  # team costs increase burn (lowered for Alpha 1.2)
+            delta.monthly_burn += budget // 5  # team costs increase burn (lowered for Alpha 1.2)
         elif action.type == "fundraising":
             if action.fundraise_amount > 0 and action.equity_offered > 0:
                 delta.cash += action.fundraise_amount
@@ -97,9 +93,7 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
                 )  # track for sanitize cap exemption
                 delta.founder_equity -= int(action.equity_offered)
                 delta.board_control -= int(action.equity_offered)
-                post_money = int(
-                    action.fundraise_amount / (action.equity_offered / 100)
-                )
+                post_money = int(action.fundraise_amount / (action.equity_offered / 100))
                 delta.valuation = post_money
                 delta.reasons.append(
                     f"融资{action.fundraise_amount}出让{action.equity_offered}%股权"
@@ -114,9 +108,7 @@ def _simulate(plan: ActionPlan, state: CompanyState) -> StateDelta:
             delta.market_share += max(0, budget // 100_000)
             delta.reputation += max(1, budget // 20_000)
 
-        delta.reasons.append(
-            f"{action.type.value}: 预算={budget}, 风险={action.risk_level.value}"
-        )
+        delta.reasons.append(f"{action.type.value}: 预算={budget}, 风险={action.risk_level.value}")
 
     # Monthly burn is always applied
     delta.cash -= state.monthly_burn
@@ -150,9 +142,7 @@ def _merge_competitor_customer_delta(
         delta.mrr += comp_delta.get("mrr", 0)
         delta.reputation += comp_delta.get("reputation", 0)
         if comp_delta:
-            delta.reasons.append(
-                f"竞品{move.get('name', '未知')}: {move.get('action', '')}"
-            )
+            delta.reasons.append(f"竞品{move.get('name', '未知')}: {move.get('action', '')}")
 
     # Apply customer response
     growth = customer_response.get("growth_change", 0)
@@ -161,8 +151,7 @@ def _merge_competitor_customer_delta(
     delta.mrr += revenue
     if growth or revenue:
         delta.reasons.append(
-            f"客户响应: 用户{'增长' if growth >= 0 else '减少'}{growth}, "
-            f"收入变化{revenue}"
+            f"客户响应: 用户{'增长' if growth >= 0 else '减少'}{growth}, " f"收入变化{revenue}"
         )
 
     return delta
@@ -227,9 +216,7 @@ class TurnEngine:
         )
 
         # Step 7: Merge competitor & customer effects into delta
-        delta = _merge_competitor_customer_delta(
-            delta, competitor_moves, customer_response
-        )
+        delta = _merge_competitor_customer_delta(delta, competitor_moves, customer_response)
 
         # Step 8: Sanitize delta
         delta = sanitize_delta(delta, state_before)
@@ -248,9 +235,7 @@ class TurnEngine:
         # Step 12: Evaluate ending
         ending = eval_ending(state_after)
         ending_desc = (
-            describe_ending(ending, state_after)
-            if ending and ending != EndingType.NONE
-            else ""
+            describe_ending(ending, state_after) if ending and ending != EndingType.NONE else ""
         )
 
         # Step 13: Persist everything in a transaction
@@ -312,9 +297,7 @@ class TurnEngine:
         )
 
     @classmethod
-    def process_turn_raw(
-        cls, state: CompanyState, raw_input: str, difficulty=None
-    ) -> TurnResult:
+    def process_turn_raw(cls, state: CompanyState, raw_input: str, difficulty=None) -> TurnResult:
         """Stateless turn: no DB, no session. For testing and batch simulation."""
         diff = difficulty or get_difficulty("normal")
         engine = cls(session_id=0, difficulty=diff)  # dummy session_id
@@ -343,9 +326,7 @@ class TurnEngine:
             state_before, action_plan, competitor_moves
         )
 
-        delta = _merge_competitor_customer_delta(
-            delta, competitor_moves, customer_response
-        )
+        delta = _merge_competitor_customer_delta(delta, competitor_moves, customer_response)
         delta = sanitize_delta(delta, state_before)
         state_after_delta = apply_delta(state_before, delta)
 
@@ -356,9 +337,7 @@ class TurnEngine:
 
         ending = eval_ending(state_after)
         ending_desc = (
-            describe_ending(ending, state_after)
-            if ending and ending != EndingType.NONE
-            else ""
+            describe_ending(ending, state_after) if ending and ending != EndingType.NONE else ""
         )
 
         return TurnResult(
@@ -427,7 +406,7 @@ def generate_monthly_report(
         for line in board_minutes.split("\n"):
             if "分歧焦点" in line or "⚡" in line:
                 lines.append(f"  {line.strip()}")
-        if not any("⚡" in l for l in lines[-5:]):
+        if not any("⚡" in line for line in lines[-5:]):
             lines.append("  本轮无显著争议，董事会意见基本一致。")
     else:
         lines.append("  （无董事会记录）")
@@ -535,13 +514,9 @@ def _identify_risks(state: CompanyState) -> list[str]:
     risks: list[str] = []
 
     if state.runway_months <= 3:
-        risks.append(
-            f"现金流危急：跑道仅{state.runway_months:.1f}个月，需立即融资或大幅削减开支。"
-        )
+        risks.append(f"现金流危急：跑道仅{state.runway_months:.1f}个月，需立即融资或大幅削减开支。")
     elif state.runway_months <= 5:
-        risks.append(
-            f"现金流紧张：跑道{state.runway_months:.1f}个月，建议启动融资准备。"
-        )
+        risks.append(f"现金流紧张：跑道{state.runway_months:.1f}个月，建议启动融资准备。")
 
     if state.team_morale < 40:
         risks.append(f"团队士气极低（{state.team_morale}），核心员工流失风险高。")
@@ -549,9 +524,7 @@ def _identify_risks(state: CompanyState) -> list[str]:
         risks.append(f"团队士气偏低（{state.team_morale}），关注核心人员状态。")
 
     if state.founder_equity < 40:
-        risks.append(
-            f"创始人股权仅剩{state.founder_equity}%，下轮融资后可能失去控制权。"
-        )
+        risks.append(f"创始人股权仅剩{state.founder_equity}%，下轮融资后可能失去控制权。")
 
     if state.product_score < 30:
         risks.append(f"产品分{state.product_score}太低，用户留存和口碑面临严重问题。")
@@ -579,14 +552,10 @@ def _generate_suggestions(state: CompanyState, result: TurnResult) -> list[str]:
     if state.product_score < 40:
         suggestions.append("加大研发投入，产品是根基。建议至少连续3个月投入5万+研发。")
     elif state.product_score < 60:
-        suggestions.append(
-            "产品有进步空间，建议保持研发节奏，同时开始做用户测试收集反馈。"
-        )
+        suggestions.append("产品有进步空间，建议保持研发节奏，同时开始做用户测试收集反馈。")
 
     if state.team_morale < 50:
-        suggestions.append(
-            "团队士气需要关注：安排团建活动或期权激励，防止核心人员流失。"
-        )
+        suggestions.append("团队士气需要关注：安排团建活动或期权激励，防止核心人员流失。")
     elif state.team_morale > 80:
         suggestions.append("团队状态极佳，适合推动关键里程碑或探索性项目。")
 

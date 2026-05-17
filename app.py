@@ -11,20 +11,17 @@ Start a new game and play interactively through 12 months of startup life.
 from __future__ import annotations
 
 import argparse
-import sys
-from pathlib import Path
 
 import yaml
 
-from config import SCENARIOS_PATH, MAX_TURNS
-from src.db.connection import init_db
-from src.db import repository
-from src.core.models import CompanyState, EndingType
-from src.core.turn_engine import TurnEngine
-from src.core.difficulty import get_difficulty
-from src.core.review_engine import ReviewEngine
-from src.core.replay_engine import ReplayEngine
+from config import MAX_TURNS, SCENARIOS_PATH
 from src.core.achievement_engine import AchievementEngine
+from src.core.models import CompanyState, EndingType
+from src.core.replay_engine import ReplayEngine
+from src.core.review_engine import ReviewEngine
+from src.core.turn_engine import TurnEngine
+from src.db import repository
+from src.db.connection import init_db
 
 # ── Display helpers ────────────────────────────────────────────────────────────
 
@@ -48,15 +45,11 @@ def display_state(state: CompanyState, title: str = "📊 公司状态") -> None
         f"  💰 现金:      {_money(state.cash):>10}     🔥 月消耗:   {_money(state.monthly_burn):>10}"
     )
     print(f"  📈 MRR:       {_money(state.mrr):>10}     👥 用户:     {state.users:>10}")
-    print(
-        f"  🛠️  产品评分:  {state.product_score:>10}     💪 团队士气: {state.team_morale:>10}"
-    )
+    print(f"  🛠️  产品评分:  {state.product_score:>10}     💪 团队士气: {state.team_morale:>10}")
     print(
         f"  📊 创始人股权:{state.founder_equity:>10}%    🏛️  董事会:   {state.board_control:>10}%"
     )
-    print(
-        f"  📈 市场份额:  {state.market_share:>10}%    ⭐ 声誉:     {state.reputation:>10}"
-    )
+    print(f"  📈 市场份额:  {state.market_share:>10}%    ⭐ 声誉:     {state.reputation:>10}")
     print(f"  ⏳ 剩余跑道:  {runway_str:>10}")
     print(f"{'='*60}")
 
@@ -93,23 +86,21 @@ def print_review(
 
     scores = review.strategy_scores
     fm = review.final_metrics
-    runway = fm.get("runway_months", 0)
-    runway_str = f"{runway:.1f}个月" if runway != float("inf") else "∞"
 
     print(f"\n{'='*60}")
-    print(f"  🏁 创业复盘报告")
+    print("  🏁 创业复盘报告")
     print(f"{'='*60}")
     print(f"  🎯 结局：{review.ending_title}")
     print(f"  💬 {review.ending_summary}")
     print()
-    print(f"  📊 最终指标")
+    print("  📊 最终指标")
     print(
         f"    现金:{_money(fm.get('cash',0))} | MRR:{_money(fm.get('mrr',0))} | "
         f"产品:{fm.get('product_score',0)} | 用户:{fm.get('users',0)} | "
         f"股权:{fm.get('founder_equity',0)}%"
     )
     print()
-    print(f"  🎯 策略评分")
+    print("  🎯 策略评分")
     print(
         f"    产品力:{scores.product_score:>3} | 增长力:{scores.growth_score:>3} | "
         f"财务力:{scores.finance_score:>3}"
@@ -119,14 +110,14 @@ def print_review(
         f"综合:{scores.overall_score:>3}"
     )
     print()
-    print(f"  🔑 关键转折点")
+    print("  🔑 关键转折点")
     for m in review.key_moments:
         print(f"    [M{m.month:>2}] {m.title} — {m.description}")
     print()
     print(f"  👤 创始人画像：{review.founder_profile.profile_title}")
     print(f"    {review.founder_profile.description}")
     print()
-    print(f"  💡 下局建议")
+    print("  💡 下局建议")
     print(f"    {review.advice_for_next_run}")
     print(f"{'='*60}")
 
@@ -213,7 +204,7 @@ def print_replay(
         if m.major_events:
             for evt in m.major_events[:2]:
                 print(f"      ⚡ {evt}")
-    print(f"  ...")
+    print("  ...")
     print(f"  🏁 {replay.ending_summary}")
     print(f"{'='*60}")
 
@@ -279,7 +270,7 @@ def load_scenario(scenario_id: str) -> CompanyState:
     if not SCENARIOS_PATH.exists():
         raise FileNotFoundError(f"Scenarios file not found: {SCENARIOS_PATH}")
 
-    with open(SCENARIOS_PATH, "r", encoding="utf-8") as f:
+    with open(SCENARIOS_PATH, encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
     scenarios = data.get("scenarios", {})
@@ -308,7 +299,7 @@ def cmd_new(args) -> None:
     """Start a new game."""
     scenario_id = args.scenario or "ai_customer_service_saas"
 
-    print(f"🚀 Startup Sim — 新游戏")
+    print("🚀 Startup Sim — 新游戏")
     print(f"   玩家: {args.name}")
     print(f"   剧本: {scenario_id}")
     print(f"   难度: {args.difficulty}")
@@ -334,13 +325,11 @@ def cmd_new(args) -> None:
 
     # Main game loop
     print(f"\n🎮 输入你的决策 (最多{MAX_TURNS}个月)。输入 'quit' 退出。")
-    print(f"   示例: 研发产品花20万, 招3个销售\n")
+    print("   示例: 研发产品花20万, 招3个销售\n")
 
     while True:
         try:
-            raw = input(
-                "👉 第{}月决策: ".format(repository.load_state(session_id).month)
-            ).strip()
+            raw = input(f"👉 第{repository.load_state(session_id).month}月决策: ").strip()
         except (EOFError, KeyboardInterrupt):
             print("\n👋 再见！")
             break
@@ -364,9 +353,7 @@ def cmd_new(args) -> None:
 
             if result.ending != EndingType.NONE:
                 display_state(result.state_after, "📊 最终状态")
-                print_review(
-                    session_id, scenario_state, result.state_after, result.ending.value
-                )
+                print_review(session_id, scenario_state, result.state_after, result.ending.value)
                 break
 
             # Show updated state

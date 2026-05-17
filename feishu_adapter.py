@@ -16,21 +16,21 @@ if _srcdir not in sys.path:
     sys.path.insert(0, _srcdir)
 
 from db import (
-    init_db,
-    get_state,
-    get_investors,
-    update_state,
-    state_row_to_dict,
-    investor_row_to_dict,
     DB_PATH,
+    get_investors,
+    get_state,
+    init_db,
+    investor_row_to_dict,
+    state_row_to_dict,
+    update_state,
 )
 from pipeline import process as pipeline_process
-from tracks import TRACKS, DEFAULT_TRACK, resolve_track
-
+from tracks import TRACKS
 
 # ---------------------------------------------------------------------------
 # State helpers
 # ---------------------------------------------------------------------------
+
 
 def get_game_state() -> dict:
     """Return a display-ready dict for the current company state, or
@@ -84,6 +84,7 @@ def format_state_for_feishu(state: dict) -> str:
 # ---------------------------------------------------------------------------
 # Game lifecycle
 # ---------------------------------------------------------------------------
+
 
 def start_game(track_name: str) -> str:
     """Delete old save, initialise a fresh game with the given track."""

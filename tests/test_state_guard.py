@@ -1,12 +1,20 @@
 """Tests for state_guard module."""
 
 import pytest
+
 from src.core.models import (
-    ActionPlan, CompanyState, PlayerAction, ActionType, RiskLevel,
+    ActionPlan,
+    ActionType,
+    CompanyState,
+    PlayerAction,
+    RiskLevel,
     StateDelta,
 )
 from src.core.state_guard import (
-    validate_action_plan, sanitize_delta, apply_delta, StateGuardError,
+    StateGuardError,
+    apply_delta,
+    sanitize_delta,
+    validate_action_plan,
 )
 
 

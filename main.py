@@ -8,15 +8,15 @@ Fixes applied:
 """
 
 from db import (
-    init_db,
-    get_state,
     get_investors,
-    update_state,
-    state_row_to_dict,
+    get_state,
+    init_db,
     investor_row_to_dict,
+    state_row_to_dict,
+    update_state,
 )
 from pipeline import process
-from tracks import TRACKS, DEFAULT_TRACK, resolve_track
+from tracks import DEFAULT_TRACK, TRACKS, resolve_track
 
 
 def show_state(state: dict) -> None:

@@ -16,26 +16,23 @@ Phase 1C enhancements:
 
 from __future__ import annotations
 
-from typing import List, Optional, Set
-
-from src.core.models import CompanyState, GameEvent, StateDelta
 from src.core.difficulty import Difficulty, get_difficulty
-from src.core.events import sample_random_events, get_event_summary
-
+from src.core.events import sample_random_events
+from src.core.models import CompanyState, GameEvent, StateDelta
 
 # ── Priority constants ────────────────────────────────────────────────────────
 
 EVENT_PRIORITY = {
-    "runway_warning": 1,       # critical
-    "board_coup_risk": 1,      # critical
+    "runway_warning": 1,  # critical
+    "board_coup_risk": 1,  # critical
     "product_breakthrough": 3,  # positive
 }
 
 # Priority mapping: category → priority level
 CATEGORY_PRIORITY = {
     "opportunity": 3,  # positive
-    "crisis": 2,       # high
-    "neutral": 4,      # low
+    "crisis": 2,  # high
+    "neutral": 4,  # low
 }
 
 # Priority names for display
@@ -51,8 +48,8 @@ class EventEngine:
     """Evaluates game state transitions and triggers narrative events."""
 
     def __init__(self, difficulty: Difficulty = None):
-        self._prev_state: Optional[CompanyState] = None
-        self._triggered_events: Set[str] = set()  # events already fired this session
+        self._prev_state: CompanyState | None = None
+        self._triggered_events: set[str] = set()  # events already fired this session
         self._difficulty = difficulty or get_difficulty("normal")
         self._runway_warning_delay_counter: int = 0
 
@@ -64,7 +61,7 @@ class EventEngine:
         """Reset the set of already-triggered events (for a new session)."""
         self._triggered_events.clear()
 
-    def evaluate(self, current: CompanyState) -> List[GameEvent]:
+    def evaluate(self, current: CompanyState) -> list[GameEvent]:
         """Evaluate the current state (possibly against previous state) and return
         a list of triggered GameEvent objects.
 
@@ -74,7 +71,7 @@ class EventEngine:
 
         Alpha 1.3: pool events sampled randomly after fixed events.
         """
-        events: List[GameEvent] = []
+        events: list[GameEvent] = []
 
         # Event 1: runway_warning (priority: critical)
         if "runway_warning" not in self._triggered_events:
@@ -87,42 +84,50 @@ class EventEngine:
                     self._runway_warning_delay_counter += 1
                 else:
                     self._triggered_events.add("runway_warning")
-                    events.append(GameEvent(
-                        event_type="runway_warning",
-                        description=(
-                            f"⚠️ 现金跑道仅剩 {current.runway_months:.1f} 个月！"
-                            f"投资者开始担忧，团队士气受挫。"
-                        ),
-                        delta=StateDelta(
-                            team_morale=-5,
-                            reputation=-2,
-                            reasons=["现金跑道降至3个月以下，触发 runway_warning"],
-                        ),
-                    ))
+                    events.append(
+                        GameEvent(
+                            event_type="runway_warning",
+                            description=(
+                                f"⚠️ 现金跑道仅剩 {current.runway_months:.1f} 个月！"
+                                f"投资者开始担忧，团队士气受挫。"
+                            ),
+                            delta=StateDelta(
+                                team_morale=-5,
+                                reputation=-2,
+                                reasons=["现金跑道降至3个月以下，触发 runway_warning"],
+                            ),
+                        )
+                    )
 
         # Event 2: board_coup_risk (priority: critical)
         if "board_coup_risk" not in self._triggered_events:
-            mrr_growth = getattr(current, 'mrr_growth_rate', 0.0) or 0.0
+            mrr_growth = getattr(current, "mrr_growth_rate", 0.0) or 0.0
             equity_threshold = self._difficulty.board_coup_equity_threshold
             board_threshold = self._difficulty.board_coup_board_threshold
-            if (current.founder_equity < equity_threshold
-                    and current.board_control < board_threshold
-                    and mrr_growth < 0.05):
+            if (
+                current.founder_equity < equity_threshold
+                and current.board_control < board_threshold
+                and mrr_growth < 0.05
+            ):
                 self._triggered_events.add("board_coup_risk")
-                events.append(GameEvent(
-                    event_type="board_coup_risk",
-                    description=(
-                        f"🔴 董事会危机！创始人股权仅 {current.founder_equity}%，"
-                        f"董事会控制力 {current.board_control}%，"
-                        f"MRR增长率仅 {mrr_growth*100:.1f}%。"
-                        f"董事会开始讨论更换CEO。"
-                    ),
-                    delta=StateDelta(
-                        team_morale=-10,
-                        reputation=-5,
-                        reasons=[f"股权<{equity_threshold}%且董事会<{board_threshold}%且MRR增长率<5%，触发 board_coup_risk"],
-                    ),
-                ))
+                events.append(
+                    GameEvent(
+                        event_type="board_coup_risk",
+                        description=(
+                            f"🔴 董事会危机！创始人股权仅 {current.founder_equity}%，"
+                            f"董事会控制力 {current.board_control}%，"
+                            f"MRR增长率仅 {mrr_growth*100:.1f}%。"
+                            f"董事会开始讨论更换CEO。"
+                        ),
+                        delta=StateDelta(
+                            team_morale=-10,
+                            reputation=-5,
+                            reasons=[
+                                f"股权<{equity_threshold}%且董事会<{board_threshold}%且MRR增长率<5%，触发 board_coup_risk"
+                            ],
+                        ),
+                    )
+                )
 
         # Event 3: product_breakthrough (priority: positive)
         if "product_breakthrough" not in self._triggered_events:
@@ -130,18 +135,20 @@ class EventEngine:
                 self._prev_state is None or self._prev_state.product_score < 75
             ):
                 self._triggered_events.add("product_breakthrough")
-                events.append(GameEvent(
-                    event_type="product_breakthrough",
-                    description=(
-                        f"🚀 产品突破！产品评分达到 {current.product_score}，"
-                        f"市场反响热烈，MRR增长5万元，声誉大幅提升。"
-                    ),
-                    delta=StateDelta(
-                        reputation=8,
-                        mrr=50_000,
-                        reasons=["产品评分突破75，触发 product_breakthrough"],
-                    ),
-                ))
+                events.append(
+                    GameEvent(
+                        event_type="product_breakthrough",
+                        description=(
+                            f"🚀 产品突破！产品评分达到 {current.product_score}，"
+                            f"市场反响热烈，MRR增长5万元，声誉大幅提升。"
+                        ),
+                        delta=StateDelta(
+                            reputation=8,
+                            mrr=50_000,
+                            reasons=["产品评分突破75，触发 product_breakthrough"],
+                        ),
+                    )
+                )
 
         # Alpha 1.3: Sample random pool events
         pool_events = sample_random_events(current, self._triggered_events)
@@ -152,7 +159,7 @@ class EventEngine:
 
         return events
 
-    def apply_event_deltas(self, state: CompanyState, events: List[GameEvent]) -> CompanyState:
+    def apply_event_deltas(self, state: CompanyState, events: list[GameEvent]) -> CompanyState:
         """Apply all event deltas to state and return the new state.
 
         Events can stack — all event deltas are accumulated and applied.

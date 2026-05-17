@@ -10,10 +10,8 @@ the same CompanyState and ActionPlan but focuses on different concerns:
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Tuple
-
 from src.agents.base_agent import BaseAgent
-from src.core.models import ActionPlan, CompanyState, PlayerAction
+from src.core.models import ActionPlan, CompanyState
 
 
 class CFO(BaseAgent):
@@ -97,8 +95,8 @@ class CTO(BaseAgent):
         # Team expansion — check before product budget complaint
         if has_team:
             return (
-                f"👥【CTO】扩团队要注意技术债积累。新老人配比1:2，"
-                f"新人前2个月以熟悉代码库和修bug为主。另外需要同步升级CI/CD基础设施。"
+                "👥【CTO】扩团队要注意技术债积累。新老人配比1:2，"
+                "新人前2个月以熟悉代码库和修bug为主。另外需要同步升级CI/CD基础设施。"
             )
 
         # Need more R&D budget
@@ -160,8 +158,8 @@ class COO(BaseAgent):
 
         # Default
         return (
-            f"📋【COO】日常运营稳定。关注交付质量和客户满意度，"
-            f"定期复盘各项目进度，识别瓶颈及时调整。用户反馈要每条都回。"
+            "📋【COO】日常运营稳定。关注交付质量和客户满意度，"
+            "定期复盘各项目进度，识别瓶颈及时调整。用户反馈要每条都回。"
         )
 
 
@@ -199,31 +197,32 @@ class InvestorDirector(BaseAgent):
         # Growth pressure
         if state.mrr < 200_000 and state.month <= 6:
             return (
-                f"🚀【投资方】早期阶段最重要的是增长斜率。"
-                f"不要太关注利润率，现在的每一分钱都应该用来换增长。"
-                f"如果这个月MRR增长不到20%，建议重新审视策略。"
+                "🚀【投资方】早期阶段最重要的是增长斜率。"
+                "不要太关注利润率，现在的每一分钱都应该用来换增长。"
+                "如果这个月MRR增长不到20%，建议重新审视策略。"
             )
 
         # Default
         return (
-            f"📈【投资方】市场关注度高，保持增长势头。"
-            f"建议准备月度投资人更新邮件，主动管理预期。"
-            f"下一个里程碑是MRR 50万/月，达到后可以启动A轮融资。"
+            "📈【投资方】市场关注度高，保持增长势头。"
+            "建议准备月度投资人更新邮件，主动管理预期。"
+            "下一个里程碑是MRR 50万/月，达到后可以启动A轮融资。"
         )
 
 
 # ── Board meeting minutes generator ─────────────────────────────────────────────
 
+
 def generate_board_minutes(
     state: CompanyState,
     plan: ActionPlan,
-    board_feedback: Dict[str, str],
+    board_feedback: dict[str, str],
 ) -> str:
     """Generate formatted board meeting minutes with conflict highlights.
 
     Highlights where board members disagree based on their roles.
     """
-    lines: List[str] = []
+    lines: list[str] = []
     lines.append("=" * 60)
     lines.append(f"  第{state.month}月度董事会会议记录")
     lines.append("=" * 60)
@@ -250,7 +249,7 @@ def generate_board_minutes(
 
     # ── Each board member's speech ──────────────────────────────────────────
     lines.append("【董事发言】")
-    for name, speech in board_feedback.items():
+    for _name, speech in board_feedback.items():
         lines.append(f"  {speech}")
     lines.append("")
 
@@ -269,10 +268,10 @@ def generate_board_minutes(
 def _detect_conflicts(
     state: CompanyState,
     plan: ActionPlan,
-    _feedback: Dict[str, str],
-) -> List[str]:
+    _feedback: dict[str, str],
+) -> list[str]:
     """Detect conflicts between board members based on state and actions."""
-    conflicts: List[str] = []
+    conflicts: list[str] = []
 
     has_marketing = any(a.type == "marketing" for a in plan.actions)
     has_product = any(a.type == "product" for a in plan.actions)
@@ -291,29 +290,23 @@ def _detect_conflicts(
     # CFO vs COO: conserve cash vs grow users
     if state.cash < 500_000 and has_marketing:
         conflicts.append(
-            f"CFO警告现金流紧张（仅剩{state.cash//10000}万）vs "
-            f"COO认为不投营销就失去增长窗口。"
+            f"CFO警告现金流紧张（仅剩{state.cash//10000}万）vs " f"COO认为不投营销就失去增长窗口。"
         )
 
     # CFO vs Investor: raise now vs conserve equity
     if state.runway_months < 4 and not has_fundraising:
-        conflicts.append(
-            f"CFO可能建议立即融资保命 vs 投资方董事担心融资条款过于不利。"
-        )
+        conflicts.append("CFO可能建议立即融资保命 vs 投资方董事担心融资条款过于不利。")
 
     # CTO vs Investor: long-term tech moat vs short-term growth
     if state.product_score < 40 and state.mrr < 100_000:
         conflicts.append(
-            f"CTO主张先打磨产品再推广 vs 投资方董事要求先证明增长再谈产品。"
-            f"这是一场经典的'增长还是产品'之争。"
+            "CTO主张先打磨产品再推广 vs 投资方董事要求先证明增长再谈产品。"
+            "这是一场经典的'增长还是产品'之争。"
         )
 
     # COO vs CTO: hire vs build
     if has_team and has_product and state.cash < 1_000_000:
-        conflicts.append(
-            f"COO要扩团队提效率 vs CTO要加研发预算，"
-            f"但资源有限，二者难以同时满足。"
-        )
+        conflicts.append("COO要扩团队提效率 vs CTO要加研发预算，" "但资源有限，二者难以同时满足。")
 
     # High total spend with limited cash
     if total_spend > state.cash * 0.4 and state.runway_months >= 4:

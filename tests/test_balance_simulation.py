@@ -4,14 +4,18 @@ Asserts ending diversity ≥ 3 distinct ending types across the 5 strategies.
 """
 
 import pytest
-from src.core.models import (
-    ActionPlan, CompanyState, PlayerAction, ActionType, EndingType,
-)
-from src.core.turn_engine import _simulate
-from src.core.state_guard import apply_delta
-from src.core.ending_evaluator import evaluate as eval_ending
-from src.agents.customers import CustomerAgent
 
+from src.agents.customers import CustomerAgent
+from src.core.ending_evaluator import evaluate as eval_ending
+from src.core.models import (
+    ActionPlan,
+    ActionType,
+    CompanyState,
+    EndingType,
+    PlayerAction,
+)
+from src.core.state_guard import apply_delta
+from src.core.turn_engine import _simulate
 
 _customer_agent = CustomerAgent()
 
@@ -54,6 +58,7 @@ def run_strategy(monthly_actions, initial_state=None):
 
 
 # -- Strategy definitions ------------------------------------------------------
+
 
 def strategy_all_rnd(month, state):
     """Strategy 1: All-in R&D, no fundraising → fast bankruptcy."""
@@ -114,6 +119,7 @@ def strategy_balanced(month, state):
 
 # -- Tests ---------------------------------------------------------------------
 
+
 class TestBalanceSimulation:
     """5-strategy balance test: assert ≥ 3 distinct endings."""
 
@@ -140,9 +146,7 @@ class TestBalanceSimulation:
             endings.add(ending)
 
         distinct = {e for e in endings if e != EndingType.NONE}
-        assert len(distinct) >= 3, (
-            f"Expected ≥3 distinct endings, got {len(distinct)}: {distinct}"
-        )
+        assert len(distinct) >= 3, f"Expected ≥3 distinct endings, got {len(distinct)}: {distinct}"
 
     def test_bankruptcy_is_reached_by_some_strategy(self):
         """At least one strategy ends in BANKRUPTCY."""
@@ -163,9 +167,9 @@ class TestBalanceSimulation:
         fg_cash = final_states["fundraise_then_growth"][1].cash
         rnd_cash = final_states["all_rnd"][1].cash
 
-        assert fg_cash > rnd_cash, (
-            f"fundraise_then_growth({fg_cash}) should have more cash than all_rnd({rnd_cash})"
-        )
+        assert (
+            fg_cash > rnd_cash
+        ), f"fundraise_then_growth({fg_cash}) should have more cash than all_rnd({rnd_cash})"
 
     def test_product_score_differs_by_strategy(self):
         """Heavy R&D strategy gets more product_score per turn than conservative."""
@@ -186,6 +190,6 @@ class TestBalanceSimulation:
                     setattr(s, f, getattr(new_s, f))
                 s.month += 1
 
-        assert state_rnd.product_score > state_cons.product_score, (
-            f"all_rnd({state_rnd.product_score}) > conservative({state_cons.product_score})"
-        )
+        assert (
+            state_rnd.product_score > state_cons.product_score
+        ), f"all_rnd({state_rnd.product_score}) > conservative({state_cons.product_score})"

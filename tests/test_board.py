@@ -1,8 +1,7 @@
 """Tests for board member agents / 董事会会议 (Phase 1B)."""
 
-import pytest
-from src.core.models import ActionPlan, CompanyState, PlayerAction, ActionType
-from src.agents.board import CFO, CTO, COO, InvestorDirector
+from src.agents.board import CFO, COO, CTO, InvestorDirector
+from src.core.models import ActionPlan, ActionType, CompanyState, PlayerAction
 
 
 def make_plan(*actions: PlayerAction) -> ActionPlan:
@@ -11,6 +10,7 @@ def make_plan(*actions: PlayerAction) -> ActionPlan:
 
 
 # ── CFO tests ─────────────────────────────────────────────────────────────────
+
 
 def test_cfo_warns_low_runway():
     """When runway < 4 months, CFO output should mention 融资 or 削减."""
@@ -42,6 +42,7 @@ def test_cfo_default_healthy():
 
 # ── CTO tests ─────────────────────────────────────────────────────────────────
 
+
 def test_cto_suggests_improvement():
     """When product_score < 30, CTO output should mention 研发 or 产品分."""
     cto = CTO()
@@ -70,6 +71,7 @@ def test_cto_team_expansion_warning():
 
 
 # ── COO tests ─────────────────────────────────────────────────────────────────
+
 
 def test_coo_cares_morale():
     """When team_morale < 50, COO output should mention 士气 or 激励."""
@@ -100,6 +102,7 @@ def test_coo_marketing_low_runway_warning():
 
 # ── Investor Director tests (投资方董事) ───────────────────────────────────────
 
+
 def test_investor_warns_equity():
     """When founder_equity < 50, investor director output should mention 控制权 or 股权."""
     investor = InvestorDirector()
@@ -128,6 +131,7 @@ def test_investor_board_control_weak():
 
 
 # ── Generic tests ─────────────────────────────────────────────────────────────
+
 
 def test_all_board_members_return_non_empty_string():
     """Every board member returns a non-empty string for a standard state."""

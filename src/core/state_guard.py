@@ -12,12 +12,13 @@ Rules:
 
 from __future__ import annotations
 
-from src.core.models import ActionPlan, ActionType, CompanyState, StateDelta
 from config import MAX_ACTIONS_PER_TURN
+from src.core.models import ActionPlan, ActionType, CompanyState, StateDelta
 
 
 class StateGuardError(Exception):
     """Raised when an action plan violates guard rules."""
+
     pass
 
 
@@ -28,15 +29,14 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
     """
     # Rule 1: Max MAX_ACTIONS_PER_TURN actions
     if len(plan.actions) > MAX_ACTIONS_PER_TURN:
-        raise StateGuardError(
-            f"Too many actions: {len(plan.actions)} (max {MAX_ACTIONS_PER_TURN})"
-        )
+        raise StateGuardError(f"Too many actions: {len(plan.actions)} (max {MAX_ACTIONS_PER_TURN})")
 
     # Rule 2: total budget of non-fundraising actions <= cash + fundraising inflow
     # Fundraising cash arrives in the same turn, so it's available for spending.
     total_budget = sum(a.budget for a in plan.actions if a.type != ActionType.FUNDRAISING)
     fundraising_inflow = sum(
-        a.fundraise_amount for a in plan.actions
+        a.fundraise_amount
+        for a in plan.actions
         if a.type == ActionType.FUNDRAISING and a.fundraise_amount > 0 and a.equity_offered > 0
     )
     available_cash = state.cash + fundraising_inflow

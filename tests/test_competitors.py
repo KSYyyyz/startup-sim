@@ -1,9 +1,8 @@
 """Tests for competitor agents and customer agent (Phase 1C)."""
 
-import pytest
-from src.core.models import ActionPlan, CompanyState, PlayerAction, ActionType
 from src.agents.competitors import KuaiDaTech, LingxiCSCloud
 from src.agents.customers import CustomerAgent
+from src.core.models import ActionPlan, ActionType, CompanyState, PlayerAction
 
 
 def make_plan(*actions: PlayerAction) -> ActionPlan:
@@ -12,6 +11,7 @@ def make_plan(*actions: PlayerAction) -> ActionPlan:
 
 
 # ── 快答科技 (price_war) tests ────────────────────────────────────────────────
+
 
 class TestKuaiDaTech:
     """快答科技 — price_war 竞品测试."""
@@ -103,8 +103,11 @@ class TestBothCompetitors:
     def test_both_return_valid_move_format(self):
         """Both competitors return dicts with required keys."""
         state = CompanyState(
-            product_score=50, month=3,
-            cash=1_000_000, users=200, mrr=50_000,
+            product_score=50,
+            month=3,
+            cash=1_000_000,
+            users=200,
+            mrr=50_000,
         )
         plan = make_plan(
             PlayerAction(type=ActionType.PRODUCT, budget=100_000),
@@ -137,6 +140,7 @@ class TestBothCompetitors:
 
 # ── CustomerAgent tests ────────────────────────────────────────────────────────
 
+
 class TestCustomerAgent:
     """客户群体Agent 测试."""
 
@@ -144,8 +148,11 @@ class TestCustomerAgent:
         """Product score > 70 → accelerated growth."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=85, month=3,
-            cash=1_000_000, users=200, mrr=50_000,
+            product_score=85,
+            month=3,
+            cash=1_000_000,
+            users=200,
+            mrr=50_000,
             team_morale=70,
         )
         plan = make_plan(PlayerAction(type=ActionType.PRODUCT, budget=50000))
@@ -153,7 +160,9 @@ class TestCustomerAgent:
 
         result = agent.evaluate(state, plan, competitor_moves)
 
-        assert result["growth_change"] > 0, f"Expected positive growth, got {result['growth_change']}"
+        assert (
+            result["growth_change"] > 0
+        ), f"Expected positive growth, got {result['growth_change']}"
         assert "口碑" in result["narrative"] or "增长" in result["narrative"]
         assert "growth_change" in result
         assert "revenue_change" in result
@@ -162,8 +171,11 @@ class TestCustomerAgent:
         """Product score < 30 → customer churn."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=15, month=2,
-            cash=500_000, users=200, mrr=30_000,
+            product_score=15,
+            month=2,
+            cash=500_000,
+            users=200,
+            mrr=30_000,
             team_morale=60,
         )
         plan = make_plan(PlayerAction(type=ActionType.PRODUCT, budget=10000))
@@ -178,8 +190,11 @@ class TestCustomerAgent:
         """Competitor price cut → customer churn (net negative when product is weak)."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=15, month=3,
-            cash=1_000_000, users=500, mrr=100_000,
+            product_score=15,
+            month=3,
+            cash=1_000_000,
+            users=500,
+            mrr=100_000,
             team_morale=70,
         )
         plan = make_plan(PlayerAction(type=ActionType.PRODUCT, budget=50000))
@@ -195,15 +210,20 @@ class TestCustomerAgent:
         result = agent.evaluate(state, plan, competitor_moves)
 
         # Low product → baseline churn, plus competitor undercut → net negative
-        assert result["growth_change"] < 0, f"Expected churn from competitor price cut, got {result['growth_change']}"
+        assert (
+            result["growth_change"] < 0
+        ), f"Expected churn from competitor price cut, got {result['growth_change']}"
         assert "快答" in result["narrative"] or "竞品" in result["narrative"]
 
     def test_marketing_drives_growth(self):
         """Marketing action → user growth but margin pressure."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=50, month=2,
-            cash=1_000_000, users=200, mrr=50_000,
+            product_score=50,
+            month=2,
+            cash=1_000_000,
+            users=200,
+            mrr=50_000,
             team_morale=70,
         )
         plan = make_plan(PlayerAction(type=ActionType.MARKETING, budget=50000))
@@ -219,8 +239,11 @@ class TestCustomerAgent:
         """Team morale >= 80 → better customer retention."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=50, month=3,
-            cash=1_000_000, users=200, mrr=50_000,
+            product_score=50,
+            month=3,
+            cash=1_000_000,
+            users=200,
+            mrr=50_000,
             team_morale=85,
         )
         plan = make_plan(PlayerAction(type=ActionType.TEAM, budget=20000))
@@ -236,8 +259,11 @@ class TestCustomerAgent:
         """Team morale < 40 → delivery issues → customer churn."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=50, month=3,
-            cash=1_000_000, users=200, mrr=50_000,
+            product_score=50,
+            month=3,
+            cash=1_000_000,
+            users=200,
+            mrr=50_000,
             team_morale=25,
         )
         plan = make_plan(PlayerAction(type=ActionType.TEAM, budget=20000))
@@ -254,8 +280,11 @@ class TestCustomerAgent:
         """Competitor enterprise upgrade → premium customers switch."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=25, month=4,  # low product → baseline already churn
-            cash=1_000_000, users=300, mrr=80_000,
+            product_score=25,
+            month=4,  # low product → baseline already churn
+            cash=1_000_000,
+            users=300,
+            mrr=80_000,
             team_morale=70,
         )
         plan = make_plan(PlayerAction(type=ActionType.PRODUCT, budget=50000))
@@ -278,8 +307,11 @@ class TestCustomerAgent:
         """Customer response always has required keys."""
         agent = CustomerAgent()
         state = CompanyState(
-            product_score=50, month=2,
-            cash=1_000_000, users=200, mrr=50_000,
+            product_score=50,
+            month=2,
+            cash=1_000_000,
+            users=200,
+            mrr=50_000,
             team_morale=70,
         )
         plan = make_plan(PlayerAction(type=ActionType.PRODUCT, budget=50000))

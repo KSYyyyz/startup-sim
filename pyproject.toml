@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "startup-sim"
+version = "1.5.0"
+description = "AI创业模拟器 — 回合制创业策略游戏"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0.0",
+    "pytest>=7.0.0",
+    "pyyaml>=6.0",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = [
+    # Style preferences — black handles line length; these rules are noise for this project
+    "E501",     # line-too-long: black is the authority on line length, ruff duplicates
+    # Design patterns — intentional in this codebase
+    "B904",     # raise-without-from-exc: 异常链在此项目中非关键路径
+    "B028",     # no-explicit-stacklevel: warnings 用于用户提示，不需要堆栈跟踪
+    "UP042",    # str-enum-inheritance: str+Enum 是 Pydantic 兼容模式，StrEnum 非必须
+    # Simplification rules — code clarity over terseness
+    "SIM102",   # collapsible-if: 嵌套 if 在事件检查中更清晰
+    "SIM105",   # contextlib-suppress: try/pass 模式在此项目中更直观
+    "SIM108",   # if-else-block-instead-of-if-exp: 显式 if/else 更易读
+    "SIM115",   # open-context-handler: 临时一次性文件写入是合理模式
+    "SIM401",   # if-else-block-instead-of-dict-get: 显式 if 在部分场景更清晰
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "B011",     # assert-false: 测试中 assert False 是合理写法
+    "F811",     # redefined-while-unused: 测试中 fixture/参数复用常见
+]
+"scripts/**" = [
+    "E402",     # module-import-not-at-top: playtest 需要 sys.path.insert
+]
+"src/agents/__init__.py" = [
+    "F401",     # unused-import: 顶层 __init__ 的 re-export 是有意的
+]
+"src/agents/board.py" = [
+    "B007",     # unused-loop-variable: name 在 dict.items() 中仅 speech 被使用
+]
+"src/core/action_parser.py" = [
+    "B007",     # unused-loop-variable: default_risk 在循环后通过 matched_risk 使用
+]
+"tests/test_balance_simulation.py" = [
+    "B007",     # unused-loop-variable: name 在 f-string 断言中使用
+]
+"feishu_adapter.py" = [
+    "E402",     # module-import-not-at-top: sys.path.insert 必须在 import 之前
+    "E501",     # legacy file — long comment lines predate governance
+]
+"agents.py" = [
+    "E501",     # legacy file — long comment lines predate governance
+]
+"db.py" = [
+    "E501",     # legacy file — SQL strings aren't easily line-wrappable
+]
+"pipeline.py" = [
+    "E501",     # legacy file
+]
+"guard.py" = [
+    "E501",     # legacy file
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"

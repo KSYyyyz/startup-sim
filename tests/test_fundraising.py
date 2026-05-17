@@ -3,12 +3,14 @@
 Fundraising: 500万出让10% → cash+500万, equity-10%, board_control-10%, valuation=5000万.
 """
 
-import pytest
 from src.core.models import (
-    ActionPlan, CompanyState, PlayerAction, ActionType,
+    ActionPlan,
+    ActionType,
+    CompanyState,
+    PlayerAction,
 )
-from src.core.turn_engine import _simulate
 from src.core.state_guard import apply_delta
+from src.core.turn_engine import _simulate
 
 
 class TestFundraising:
@@ -177,10 +179,12 @@ class TestFundraisingSanitizeExemption:
         state = CompanyState(cash=1_000_000)
         # Fundraising 500万 + marketing spend 500万
         actions = [
-            PlayerAction(type=ActionType.FUNDRAISING, fundraise_amount=5_000_000,
-                        equity_offered=10, budget=0),
-            PlayerAction(type=ActionType.MARKETING, budget=5_000_000,
-                        intent="500万投放", risk_level="high"),
+            PlayerAction(
+                type=ActionType.FUNDRAISING, fundraise_amount=5_000_000, equity_offered=10, budget=0
+            ),
+            PlayerAction(
+                type=ActionType.MARKETING, budget=5_000_000, intent="500万投放", risk_level="high"
+            ),
         ]
         plan = ActionPlan(raw_input="融资500万出让10%，花500万做营销", actions=actions)
         delta = _simulate(plan, state)

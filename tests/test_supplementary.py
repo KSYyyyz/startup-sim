@@ -7,17 +7,20 @@ Covers:
   4. Product R&D formula: budget//80k + emp//3 + morale//10
 """
 
-import pytest
-from src.core.models import (
-    ActionPlan, CompanyState, PlayerAction, ActionType, EndingType, StateDelta,
-)
-from src.core.turn_engine import _simulate, TurnEngine
-from src.core.state_guard import apply_delta, sanitize_delta
-from src.core.ending_evaluator import evaluate as eval_ending
 from src.agents.customers import CustomerAgent
-
+from src.core.ending_evaluator import evaluate as eval_ending
+from src.core.models import (
+    ActionPlan,
+    ActionType,
+    CompanyState,
+    EndingType,
+    PlayerAction,
+)
+from src.core.state_guard import sanitize_delta
+from src.core.turn_engine import TurnEngine, _simulate
 
 # ── 1. process_turn_raw end-to-end ────────────────────────────────────────────
+
 
 class TestProcessTurnRawE2E:
     """Verify process_turn_raw covers the full pipeline:
@@ -71,9 +74,7 @@ class TestProcessTurnRawE2E:
     def test_process_turn_raw_multi_action(self):
         """Multiple actions in one turn via process_turn_raw."""
         state = CompanyState()
-        result = TurnEngine.process_turn_raw(
-            state, "融资200万出让8%，花5万研发产品，花3万做营销"
-        )
+        result = TurnEngine.process_turn_raw(state, "融资200万出让8%，花5万研发产品，花3万做营销")
 
         action_types = {a.type for a in result.action_plan.actions}
         assert len(action_types) >= 2  # at least product + marketing
@@ -83,8 +84,7 @@ class TestProcessTurnRawE2E:
     def test_process_turn_raw_produces_ending_on_bankruptcy(self):
         """process_turn_raw detects ending when cash runs out."""
         # Use month 12 with miserable stats → slow_death ending
-        state = CompanyState(month=12, cash=1_000, mrr=50_000,
-                            product_score=20, founder_equity=80)
+        state = CompanyState(month=12, cash=1_000, mrr=50_000, product_score=20, founder_equity=80)
         result = TurnEngine.process_turn_raw(state, "")
 
         # Month >= 12, mrr < 100k → SLOW_DEATH
@@ -94,7 +94,6 @@ class TestProcessTurnRawE2E:
 
     def test_process_turn_raw_bankruptcy_from_zero_cash(self):
         """When cash is already 0, evaluating state gives BANKRUPTCY."""
-        from src.core.ending_evaluator import evaluate as eval_ending
 
         # Cash already 0 → evaluate directly returns bankruptcy
         state = CompanyState(cash=0, month=5)
@@ -103,8 +102,9 @@ class TestProcessTurnRawE2E:
 
     def test_process_turn_raw_12_month_ending(self):
         """At month 12, process_turn_raw should evaluate ending."""
-        state = CompanyState(month=12, cash=500_000, mrr=200_000, product_score=75,
-                            founder_equity=80)
+        state = CompanyState(
+            month=12, cash=500_000, mrr=200_000, product_score=75, founder_equity=80
+        )
         result = TurnEngine.process_turn_raw(state, "花1万研发产品")
 
         # Month 12 + 1 = 13 >= 12, so ending should be evaluated
@@ -114,6 +114,7 @@ class TestProcessTurnRawE2E:
 
 
 # ── 2. Marketing does NOT double-add users/MRR ────────────────────────────────
+
 
 class TestMarketingNoDoubleAdd:
     """Verify that marketing actions in _simulate do NOT directly add users/mrr.
@@ -128,12 +129,8 @@ class TestMarketingNoDoubleAdd:
         delta = _simulate(plan, state)
 
         # _simulate should NOT add users or mrr for marketing
-        assert delta.users == 0, (
-            f"_simulate should NOT add users for marketing (got {delta.users})"
-        )
-        assert delta.mrr == 0, (
-            f"_simulate should NOT add mrr for marketing (got {delta.mrr})"
-        )
+        assert delta.users == 0, f"_simulate should NOT add users for marketing (got {delta.users})"
+        assert delta.mrr == 0, f"_simulate should NOT add mrr for marketing (got {delta.mrr})"
 
         # But it should add burn and reputation
         assert delta.monthly_burn > 0
@@ -147,12 +144,12 @@ class TestMarketingNoDoubleAdd:
         ca = CustomerAgent()
         response = ca.evaluate(state, plan, [])
 
-        assert response.get("growth_change", 0) > 0, (
-            f"CustomerAgent should produce positive growth_change for marketing"
-        )
-        assert response.get("revenue_change", 0) > 0, (
-            f"CustomerAgent should produce positive revenue_change for marketing"
-        )
+        assert (
+            response.get("growth_change", 0) > 0
+        ), "CustomerAgent should produce positive growth_change for marketing"
+        assert (
+            response.get("revenue_change", 0) > 0
+        ), "CustomerAgent should produce positive revenue_change for marketing"
 
     def test_combined_simulate_and_customer_no_double_count(self):
         """After _simulate + CustomerAgent, users/mrr come ONLY from CustomerAgent."""
@@ -188,12 +185,11 @@ class TestMarketingNoDoubleAdd:
         # But may have organic growth from product score
         # Key: the "market投放" narrative should NOT appear
         narrative = response.get("narrative", "")
-        assert "市场投放" not in narrative, (
-            f"Product-only should not trigger marketing narrative"
-        )
+        assert "市场投放" not in narrative, "Product-only should not trigger marketing narrative"
 
 
 # ── 3. Fundraising cash exempt from 65% cap ───────────────────────────────────
+
 
 class TestFundraisingCashExemption:
     """Verify that fundraising_cash bypasses the 65% cash outflow cap in sanitize_delta."""
@@ -210,9 +206,9 @@ class TestFundraisingCashExemption:
         plan = ActionPlan(raw_input="融资500万出让10%", actions=[action])
         delta = _simulate(plan, state)
 
-        assert delta.fundraising_cash == 5_000_000, (
-            f"fundraising_cash should be 5,000,000, got {delta.fundraising_cash}"
-        )
+        assert (
+            delta.fundraising_cash == 5_000_000
+        ), f"fundraising_cash should be 5,000,000, got {delta.fundraising_cash}"
 
     def test_small_cash_state_fundraising_not_capped(self):
         """小现金(10万)融资500万: 融资流入不应被65%限制截断."""
@@ -233,9 +229,7 @@ class TestFundraisingCashExemption:
         # Net: 5M - 120k(burn) but burn portion capped at 65k
         # fundraising_cash = 5M, spending = -120k capped at -65k
         # result = 5M + (-65k) = 4,935,000
-        assert sanitized.cash > 4_900_000, (
-            f"Fundraising should not be capped, got {sanitized.cash}"
-        )
+        assert sanitized.cash > 4_900_000, f"Fundraising should not be capped, got {sanitized.cash}"
         assert sanitized.cash < 5_000_000  # burn still deducted
 
     def test_fundraising_via_process_turn_raw_not_capped(self):
@@ -254,8 +248,9 @@ class TestFundraisingCashExemption:
         """Verify that in the same turn: spending is capped, fundraising passes through."""
         state = CompanyState(cash=100_000)
         actions = [
-            PlayerAction(type=ActionType.FUNDRAISING, fundraise_amount=5_000_000,
-                        equity_offered=10, budget=0),
+            PlayerAction(
+                type=ActionType.FUNDRAISING, fundraise_amount=5_000_000, equity_offered=10, budget=0
+            ),
             PlayerAction(type=ActionType.MARKETING, budget=500_000),  # huge spend
         ]
         plan = ActionPlan(raw_input="融资500万出让10%，花50万做营销", actions=actions)
@@ -266,14 +261,14 @@ class TestFundraisingCashExemption:
         # Fundraising 5M passes through uncapped
         # Net: 5M - 65k = 4,935,000
         assert sanitized.cash == 4_935_000, (
-            f"Expected 4,935,000 (5M fundraising - 65k capped spending), "
-            f"got {sanitized.cash}"
+            f"Expected 4,935,000 (5M fundraising - 65k capped spending), " f"got {sanitized.cash}"
         )
         # Verify fundraising_cash is preserved
         assert sanitized.fundraising_cash == 5_000_000
 
 
 # ── 4. Product R&D formula verification ───────────────────────────────────────
+
 
 class TestProductFormula:
     """Verify product formula: budget // 80_000 + employee_count // 3 + team_morale // 10."""
@@ -294,9 +289,9 @@ class TestProductFormula:
         assert expected_base == 11
 
         # Delta should include base gain + 1 organic (emp >= 5)
-        assert delta.product_score == 12, (
-            f"Expected 12 (11 formula + 1 organic), got {delta.product_score}"
-        )
+        assert (
+            delta.product_score == 12
+        ), f"Expected 12 (11 formula + 1 organic), got {delta.product_score}"
 
     def test_product_gain_minimum_one(self):
         """Even with zero budget, formula clamped to minimum 1."""
@@ -393,9 +388,9 @@ class TestProductFormula:
         delta = _simulate(plan, state)
 
         # Burn increase = budget // 30 = 300k // 30 = 10,000
-        assert delta.monthly_burn == 10_000, (
-            f"Expected burn increase 10,000 (300k//30), got {delta.monthly_burn}"
-        )
+        assert (
+            delta.monthly_burn == 10_000
+        ), f"Expected burn increase 10,000 (300k//30), got {delta.monthly_burn}"
 
     def test_marketing_burn_formula(self):
         """Marketing action adds burn: budget // 12."""
@@ -405,9 +400,9 @@ class TestProductFormula:
         delta = _simulate(plan, state)
 
         # Burn increase = budget // 12 = 120k // 12 = 10,000
-        assert delta.monthly_burn == 10_000, (
-            f"Expected burn increase 10,000 (120k//12), got {delta.monthly_burn}"
-        )
+        assert (
+            delta.monthly_burn == 10_000
+        ), f"Expected burn increase 10,000 (120k//12), got {delta.monthly_burn}"
 
     def test_team_burn_formula(self):
         """Team action adds burn: budget // 5."""
@@ -417,6 +412,6 @@ class TestProductFormula:
         delta = _simulate(plan, state)
 
         # Burn increase = budget // 5 = 50k // 5 = 10,000
-        assert delta.monthly_burn == 10_000, (
-            f"Expected burn increase 10,000 (50k//5), got {delta.monthly_burn}"
-        )
+        assert (
+            delta.monthly_burn == 10_000
+        ), f"Expected burn increase 10,000 (50k//5), got {delta.monthly_burn}"

@@ -15,17 +15,17 @@ Five endings (unchanged conditions):
 from __future__ import annotations
 
 import enum
-from typing import Optional
 
 from src.core.models import CompanyState, EndingType
 
 
 class PlayerPath(str, enum.Enum):
     """Player strategy archetype based on final state."""
-    RND = "rnd"           # 研发派: high product, low marketing
+
+    RND = "rnd"  # 研发派: high product, low marketing
     MARKETING = "marketing"  # 营销派: high users, moderate product
     FUNDRAISE = "fundraise"  # 融资派: low equity, high cash
-    BALANCED = "balanced"    # 均衡派: moderate everything
+    BALANCED = "balanced"  # 均衡派: moderate everything
     CONSERVATIVE = "conservative"  # 保守派: low burn, high runway
 
 
@@ -189,7 +189,7 @@ NARRATIVE_TABLE: dict[EndingType, dict[PlayerPath, list[str]]] = {
 }
 
 
-def evaluate(state: CompanyState) -> Optional[EndingType]:
+def evaluate(state: CompanyState) -> EndingType | None:
     """Evaluate the current state and return an EndingType if the game is over,
     or None if the game should continue.
     """
@@ -198,16 +198,12 @@ def evaluate(state: CompanyState) -> Optional[EndingType]:
     if state.cash <= 0:
         return EndingType.BANKRUPTCY
 
-    if (state.founder_equity < 34
-            and state.board_control < 45
-            and state.runway_months < 4):
+    if state.founder_equity < 34 and state.board_control < 45 and state.runway_months < 4:
         return EndingType.FOUNDER_REMOVED
 
     # Terminal month endings (only evaluated at month 12)
     if state.month >= 12:
-        if (state.mrr >= 300_000
-                and state.product_score >= 65
-                and state.founder_equity >= 50):
+        if state.mrr >= 300_000 and state.product_score >= 65 and state.founder_equity >= 50:
             return EndingType.SERIES_A_SUCCESS
 
         if state.mrr >= 100_000 and state.cash > 0:
@@ -222,7 +218,7 @@ def evaluate(state: CompanyState) -> Optional[EndingType]:
 def describe_ending(
     ending: EndingType,
     state: CompanyState,
-    path: Optional[PlayerPath] = None,
+    path: PlayerPath | None = None,
 ) -> str:
     """Return a human-readable narrative for an ending.
 
@@ -251,7 +247,7 @@ def describe_ending(
 def describe_ending_with_seed(
     ending: EndingType,
     state: CompanyState,
-    path: Optional[PlayerPath] = None,
+    path: PlayerPath | None = None,
     seed: int = 0,
 ) -> str:
     """Deterministic variant — uses seed for reproducible narratives."""

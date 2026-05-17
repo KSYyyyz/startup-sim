@@ -10,18 +10,19 @@
 状态持久化通过 src.db.repository 完成，不再使用 JSON 文件。
 """
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.core.models import CompanyState, TurnResult, EndingType
-from src.core.turn_engine import TurnEngine
-from src.core.difficulty import Difficulty, get_difficulty
-from src.core.ending_evaluator import evaluate as eval_ending, describe_ending
-from src.core.review_engine import ReviewEngine
-from src.core.replay_engine import ReplayEngine
 from src.core.achievement_engine import AchievementEngine
+from src.core.difficulty import Difficulty, get_difficulty
+from src.core.ending_evaluator import describe_ending
+from src.core.ending_evaluator import evaluate as eval_ending
+from src.core.models import CompanyState, EndingType, TurnResult
+from src.core.replay_engine import ReplayEngine
+from src.core.review_engine import ReviewEngine
+from src.core.turn_engine import TurnEngine
 from src.db import repository
 from src.db.connection import init_db
 
@@ -112,14 +113,11 @@ def turn(user_id: str, raw_input: str) -> str:
     ending = eval_ending(state)
     if ending:
         return (
-            f"🎮 游戏已结束：{describe_ending(ending, state)}\n"
-            "说「创业模拟器 开始」重新开局。"
+            f"🎮 游戏已结束：{describe_ending(ending, state)}\n" "说「创业模拟器 开始」重新开局。"
         )
 
     session_status = repository.get_session_status(sid)
-    diff_name = (
-        session_status.get("difficulty", "normal") if session_status else "normal"
-    )
+    diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
     difficulty = get_difficulty(diff_name)
 
     result: TurnResult = TurnEngine.process_turn_raw(state, raw_input, difficulty)
@@ -270,9 +268,7 @@ def _render_state(state: CompanyState, difficulty: str = "") -> str:
         f"投资人{100 - state.founder_equity}% | "
         f"董事会控制:{state.board_control}%"
     )
-    line6 = (
-        f"🏦 估值:{state.valuation//10000}万 | " f"⏳ 跑道:{state.runway_months:.1f}月"
-    )
+    line6 = f"🏦 估值:{state.valuation//10000}万 | " f"⏳ 跑道:{state.runway_months:.1f}月"
 
     return "\n".join([line1, line2, line3, line4, line5, line6])
 
@@ -285,9 +281,7 @@ def _format_review_short(session_id: int, result: TurnResult) -> str:
 
     # Reconstruct initial state from session difficulty
     session_status = repository.get_session_status(session_id)
-    diff_name = (
-        session_status.get("difficulty", "normal") if session_status else "normal"
-    )
+    diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
     diff = get_difficulty(diff_name)
     initial_state = CompanyState(
         cash=int(1_000_000 * diff.cash_multiplier),
@@ -333,9 +327,7 @@ def _format_review_short(session_id: int, result: TurnResult) -> str:
         session_id=session_id,
     )
     if replay.months:
-        climax_m = next(
-            (m for m in replay.months if m.month == replay.climax_month), None
-        )
+        climax_m = next((m for m in replay.months if m.month == replay.climax_month), None)
         final_m = replay.months[-1] if replay.months else None
         lines.append("")
         lines.append("🎬 **月历回放**")

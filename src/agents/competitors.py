@@ -12,9 +12,9 @@ Two competitors:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
-from src.core.models import ActionPlan, CompanyState, StateDelta
+from src.core.models import ActionPlan, CompanyState
 
 
 @dataclass
@@ -47,7 +47,7 @@ class CompetitorAgent:
     def get_state(self) -> CompetitorState:
         return self._state
 
-    def periodic_action(self, player_state: CompanyState) -> Optional[Dict[str, Any]]:
+    def periodic_action(self, player_state: CompanyState) -> dict[str, Any] | None:
         """Executed every turn — competitor's own initiative, not a response.
 
         Returns a competitor_move dict (same shape as respond()), or None
@@ -55,7 +55,7 @@ class CompetitorAgent:
         """
         return None
 
-    def respond(self, state: CompanyState, plan: ActionPlan) -> Dict[str, Any]:
+    def respond(self, state: CompanyState, plan: ActionPlan) -> dict[str, Any]:
         """Respond to the player's actions and return a competitor_move dict."""
         raise NotImplementedError
 
@@ -73,7 +73,9 @@ class KuaiDaTech(CompetitorAgent):
     """
 
     def __init__(self, aggression_multiplier: float = 1.0) -> None:
-        super().__init__(name="快答科技", strategy="price_war", aggression_multiplier=aggression_multiplier)
+        super().__init__(
+            name="快答科技", strategy="price_war", aggression_multiplier=aggression_multiplier
+        )
         self._state = CompetitorState(
             product_score=25,
             cash=2_000_000,
@@ -81,7 +83,7 @@ class KuaiDaTech(CompetitorAgent):
             strategy_cooldown=0,
         )
 
-    def periodic_action(self, player_state: CompanyState) -> Optional[Dict[str, Any]]:
+    def periodic_action(self, player_state: CompanyState) -> dict[str, Any] | None:
         """快答科技周期性行为：缓慢产品提升 + 偶尔激进降价."""
         agg = self.aggression_multiplier
 
@@ -100,8 +102,8 @@ class KuaiDaTech(CompetitorAgent):
                 "name": self.name,
                 "action": "initiative_price_cut",
                 "narrative": (
-                    f"快答科技主动发起新一轮价格战，将基础版降价30%，"
-                    f"以低价策略抢占中低端市场份额。"
+                    "快答科技主动发起新一轮价格战，将基础版降价30%，"
+                    "以低价策略抢占中低端市场份额。"
                 ),
                 "delta": {"market_share": int(-1 * agg)},
             }
@@ -121,7 +123,7 @@ class KuaiDaTech(CompetitorAgent):
 
         return None
 
-    def respond(self, state: CompanyState, plan: ActionPlan) -> Dict[str, Any]:
+    def respond(self, state: CompanyState, plan: ActionPlan) -> dict[str, Any]:
         kuai_product = self._state.product_score
         has_marketing = any(a.type == "marketing" for a in plan.actions)
         agg = self.aggression_multiplier
@@ -168,7 +170,11 @@ class LingxiCSCloud(CompetitorAgent):
     """
 
     def __init__(self, aggression_multiplier: float = 1.0) -> None:
-        super().__init__(name="灵犀客服云", strategy="premium_enterprise", aggression_multiplier=aggression_multiplier)
+        super().__init__(
+            name="灵犀客服云",
+            strategy="premium_enterprise",
+            aggression_multiplier=aggression_multiplier,
+        )
         self._state = CompetitorState(
             product_score=35,
             cash=5_000_000,
@@ -176,7 +182,7 @@ class LingxiCSCloud(CompetitorAgent):
             strategy_cooldown=0,
         )
 
-    def periodic_action(self, player_state: CompanyState) -> Optional[Dict[str, Any]]:
+    def periodic_action(self, player_state: CompanyState) -> dict[str, Any] | None:
         """灵犀客服云周期性行为：稳步研发企业功能 + 高端市场增长."""
         agg = self.aggression_multiplier
 
@@ -217,11 +223,8 @@ class LingxiCSCloud(CompetitorAgent):
 
         return None
 
-    def respond(self, state: CompanyState, plan: ActionPlan) -> Dict[str, Any]:
-        has_price_related = any(
-            a.type == "marketing" or a.type == "strategy"
-            for a in plan.actions
-        )
+    def respond(self, state: CompanyState, plan: ActionPlan) -> dict[str, Any]:
+        has_price_related = any(a.type == "marketing" or a.type == "strategy" for a in plan.actions)
         agg = self.aggression_multiplier
 
         if state.product_score > 70:

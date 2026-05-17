@@ -9,13 +9,12 @@ inside a transaction(), the same conn is used for all writes.
 
 from __future__ import annotations
 
-import json
 import sqlite3
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Generator, Optional
 
+from src.core.models import CompanyState
 from src.db.connection import get_connection
-from src.core.models import CompanyState, TurnResult
 
 
 def _get_conn(conn: sqlite3.Connection | None = None) -> tuple[sqlite3.Connection, bool]:
@@ -28,7 +27,7 @@ def _get_conn(conn: sqlite3.Connection | None = None) -> tuple[sqlite3.Connectio
 def _row_to_state(row) -> CompanyState:
     """Convert a sqlite3.Row to a CompanyState."""
     return CompanyState(
-        month=row["current_month"] if "current_month" in row.keys() else 1,
+        month=row["current_month"] if "current_month" in row.keys() else 1,  # noqa: SIM118
         cash=row["cash"],
         monthly_burn=row["monthly_burn"],
         mrr=row["mrr"],
@@ -42,8 +41,12 @@ def _row_to_state(row) -> CompanyState:
     )
 
 
-def create_session(player_name: str, scenario_id: str = "ai_customer_service_saas",
-                   difficulty: str = "normal", seed: int = 42) -> int:
+def create_session(
+    player_name: str,
+    scenario_id: str = "ai_customer_service_saas",
+    difficulty: str = "normal",
+    seed: int = 42,
+) -> int:
     """Create a new game session. Returns session ID."""
     conn, owns = _get_conn()
     try:
@@ -59,8 +62,9 @@ def create_session(player_name: str, scenario_id: str = "ai_customer_service_saa
             conn.close()
 
 
-def init_session_state(session_id: int, state: CompanyState,
-                       conn: sqlite3.Connection | None = None) -> None:
+def init_session_state(
+    session_id: int, state: CompanyState, conn: sqlite3.Connection | None = None
+) -> None:
     """Initialize company_state for a session."""
     conn, owns = _get_conn(conn)
     try:
@@ -69,9 +73,19 @@ def init_session_state(session_id: int, state: CompanyState,
                product_score, team_morale, founder_equity, board_control,
                market_share, reputation)
                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (session_id, state.cash, state.monthly_burn, state.mrr, state.users,
-             state.product_score, state.team_morale, state.founder_equity,
-             state.board_control, state.market_share, state.reputation),
+            (
+                session_id,
+                state.cash,
+                state.monthly_burn,
+                state.mrr,
+                state.users,
+                state.product_score,
+                state.team_morale,
+                state.founder_equity,
+                state.board_control,
+                state.market_share,
+                state.reputation,
+            ),
         )
         if owns:
             conn.commit()
@@ -88,7 +102,8 @@ def load_state(session_id: int) -> CompanyState:
             """SELECT cs.*, gs.current_month
                FROM company_state cs
                JOIN game_sessions gs ON cs.session_id = gs.id
-               WHERE cs.session_id = ?""", (session_id,)
+               WHERE cs.session_id = ?""",
+            (session_id,),
         ).fetchone()
         if row is None:
             raise RuntimeError(f"company_state missing for session {session_id}")
@@ -98,8 +113,9 @@ def load_state(session_id: int) -> CompanyState:
             conn.close()
 
 
-def save_state(session_id: int, state: CompanyState,
-               conn: sqlite3.Connection | None = None) -> None:
+def save_state(
+    session_id: int, state: CompanyState, conn: sqlite3.Connection | None = None
+) -> None:
     """Update company_state for a session."""
     conn, owns = _get_conn(conn)
     try:
@@ -109,18 +125,28 @@ def save_state(session_id: int, state: CompanyState,
                 product_score=?, team_morale=?, founder_equity=?,
                 board_control=?, market_share=?, reputation=?
             WHERE session_id=?""",
-            (state.cash, state.monthly_burn, state.mrr, state.users,
-             state.product_score, state.team_morale, state.founder_equity,
-             state.board_control, state.market_share, state.reputation,
-             session_id),
+            (
+                state.cash,
+                state.monthly_burn,
+                state.mrr,
+                state.users,
+                state.product_score,
+                state.team_morale,
+                state.founder_equity,
+                state.board_control,
+                state.market_share,
+                state.reputation,
+                session_id,
+            ),
         )
     finally:
         if owns:
             conn.close()
 
 
-def update_session_month(session_id: int, month: int, status: str = "active",
-                          conn: sqlite3.Connection | None = None) -> None:
+def update_session_month(
+    session_id: int, month: int, status: str = "active", conn: sqlite3.Connection | None = None
+) -> None:
     """Update current_month and optionally status on game_sessions."""
     conn, owns = _get_conn(conn)
     try:
@@ -134,8 +160,9 @@ def update_session_month(session_id: int, month: int, status: str = "active",
             conn.close()
 
 
-def save_snapshot(session_id: int, month: int, state: CompanyState,
-                  conn: sqlite3.Connection | None = None) -> int:
+def save_snapshot(
+    session_id: int, month: int, state: CompanyState, conn: sqlite3.Connection | None = None
+) -> int:
     """Save a snapshot of the current state. Returns snapshot ID."""
     conn, owns = _get_conn(conn)
     try:
@@ -160,9 +187,14 @@ def snapshot_count() -> int:
             conn.close()
 
 
-def save_action(session_id: int, month: int, raw_input: str,
-                action_plan_json: str, result_json: str = "{}",
-                conn: sqlite3.Connection | None = None) -> int:
+def save_action(
+    session_id: int,
+    month: int,
+    raw_input: str,
+    action_plan_json: str,
+    result_json: str = "{}",
+    conn: sqlite3.Connection | None = None,
+) -> int:
     """Log an action for a turn."""
     conn, owns = _get_conn(conn)
     try:
@@ -177,9 +209,15 @@ def save_action(session_id: int, month: int, raw_input: str,
             conn.close()
 
 
-def save_event(session_id: int, month: int, event_type: str, title: str,
-               severity: str = "medium", payload_json: str = "{}",
-               conn: sqlite3.Connection | None = None) -> int:
+def save_event(
+    session_id: int,
+    month: int,
+    event_type: str,
+    title: str,
+    severity: str = "medium",
+    payload_json: str = "{}",
+    conn: sqlite3.Connection | None = None,
+) -> int:
     """Log a game event."""
     conn, owns = _get_conn(conn)
     try:
@@ -208,11 +246,19 @@ def reset_session(session_id: int, scenario_state: CompanyState) -> None:
                product_score, team_morale, founder_equity, board_control,
                market_share, reputation)
                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (session_id, scenario_state.cash, scenario_state.monthly_burn,
-             scenario_state.mrr, scenario_state.users,
-             scenario_state.product_score, scenario_state.team_morale,
-             scenario_state.founder_equity, scenario_state.board_control,
-             scenario_state.market_share, scenario_state.reputation),
+            (
+                session_id,
+                scenario_state.cash,
+                scenario_state.monthly_burn,
+                scenario_state.mrr,
+                scenario_state.users,
+                scenario_state.product_score,
+                scenario_state.team_morale,
+                scenario_state.founder_equity,
+                scenario_state.board_control,
+                scenario_state.market_share,
+                scenario_state.reputation,
+            ),
         )
         conn.execute(
             "UPDATE game_sessions SET current_month=1, status='active', updated_at=datetime('now') WHERE id=?",
@@ -224,13 +270,11 @@ def reset_session(session_id: int, scenario_state: CompanyState) -> None:
             conn.close()
 
 
-def get_session_status(session_id: int) -> Optional[dict]:
+def get_session_status(session_id: int) -> dict | None:
     """Get session metadata."""
     conn, owns = _get_conn()
     try:
-        row = conn.execute(
-            "SELECT * FROM game_sessions WHERE id = ?", (session_id,)
-        ).fetchone()
+        row = conn.execute("SELECT * FROM game_sessions WHERE id = ?", (session_id,)).fetchone()
         if row is None:
             return None
         return dict(row)
@@ -239,7 +283,7 @@ def get_session_status(session_id: int) -> Optional[dict]:
             conn.close()
 
 
-def find_active_session_by_player_name(player_name: str) -> Optional[int]:
+def find_active_session_by_player_name(player_name: str) -> int | None:
     """Find the most recent active session for a player. Returns session_id or None."""
     conn, owns = _get_conn()
     try:
@@ -284,6 +328,7 @@ def transaction() -> Generator[sqlite3.Connection, None, None]:
 
 # ── Alpha 1.4: History queries for review engine ────────────────────────────
 
+
 def list_snapshots(session_id: int) -> list[dict]:
     """Return all state snapshots for a session, ordered by month."""
     conn, owns = _get_conn()
@@ -293,9 +338,16 @@ def list_snapshots(session_id: int) -> list[dict]:
             "FROM snapshots WHERE session_id = ? ORDER BY month",
             (session_id,),
         ).fetchall()
-        return [{"id": r["id"], "session_id": r["session_id"],
-                 "month": r["month"], "state_json": r["state_json"],
-                 "created_at": r["created_at"]} for r in rows]
+        return [
+            {
+                "id": r["id"],
+                "session_id": r["session_id"],
+                "month": r["month"],
+                "state_json": r["state_json"],
+                "created_at": r["created_at"],
+            }
+            for r in rows
+        ]
     finally:
         if owns:
             conn.close()
@@ -310,11 +362,18 @@ def list_actions(session_id: int) -> list[dict]:
             "FROM actions WHERE session_id = ? ORDER BY month",
             (session_id,),
         ).fetchall()
-        return [{"id": r["id"], "session_id": r["session_id"],
-                 "month": r["month"], "raw_input": r["raw_input"],
-                 "action_plan_json": r["action_plan_json"],
-                 "result_json": r["result_json"],
-                 "created_at": r["created_at"]} for r in rows]
+        return [
+            {
+                "id": r["id"],
+                "session_id": r["session_id"],
+                "month": r["month"],
+                "raw_input": r["raw_input"],
+                "action_plan_json": r["action_plan_json"],
+                "result_json": r["result_json"],
+                "created_at": r["created_at"],
+            }
+            for r in rows
+        ]
     finally:
         if owns:
             conn.close()
@@ -329,11 +388,19 @@ def list_events(session_id: int) -> list[dict]:
             "FROM events WHERE session_id = ? ORDER BY month",
             (session_id,),
         ).fetchall()
-        return [{"id": r["id"], "session_id": r["session_id"],
-                 "month": r["month"], "event_type": r["event_type"],
-                 "title": r["title"], "severity": r["severity"],
-                 "payload_json": r["payload_json"],
-                 "created_at": r["created_at"]} for r in rows]
+        return [
+            {
+                "id": r["id"],
+                "session_id": r["session_id"],
+                "month": r["month"],
+                "event_type": r["event_type"],
+                "title": r["title"],
+                "severity": r["severity"],
+                "payload_json": r["payload_json"],
+                "created_at": r["created_at"],
+            }
+            for r in rows
+        ]
     finally:
         if owns:
             conn.close()

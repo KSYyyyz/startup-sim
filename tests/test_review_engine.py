@@ -2,16 +2,10 @@
 
 from __future__ import annotations
 
-import json
-
-import pytest
-
 from src.core.models import (
     CompanyState,
-    EndingType,
     FounderProfile,
     GameReview,
-    KeyMoment,
     StrategyScore,
 )
 from src.core.review_engine import ReviewEngine
@@ -86,9 +80,7 @@ class TestReviewAllEndings:
             ending_status="founder_removed",
         )
         assert review.ending_title != ""
-        assert (
-            "控制" in review.advice_for_next_run or "股权" in review.advice_for_next_run
-        )
+        assert "控制" in review.advice_for_next_run or "股权" in review.advice_for_next_run
 
     def test_review_series_a_success(self):
         final = CompanyState(
@@ -112,9 +104,7 @@ class TestReviewAllEndings:
         assert review.strategy_scores.overall_score >= 50
 
     def test_review_survived_but_average(self):
-        final = CompanyState(
-            month=12, cash=200000, mrr=120000, product_score=45, users=300
-        )
+        final = CompanyState(month=12, cash=200000, mrr=120000, product_score=45, users=300)
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -127,9 +117,7 @@ class TestReviewAllEndings:
         assert review.advice_for_next_run != ""
 
     def test_review_slow_death(self):
-        final = CompanyState(
-            month=12, cash=50000, mrr=40000, product_score=35, users=150
-        )
+        final = CompanyState(month=12, cash=50000, mrr=40000, product_score=35, users=150)
         review = ReviewEngine.generate_review(
             initial_state=CompanyState(),
             snapshots=_default_snapshots(final),
@@ -203,10 +191,7 @@ class TestStrategyScores:
             final_state=final_b,
             ending_status="bankruptcy",
         )
-        assert (
-            review_b.strategy_scores.overall_score
-            < review_a.strategy_scores.overall_score
-        )
+        assert review_b.strategy_scores.overall_score < review_a.strategy_scores.overall_score
 
 
 # ── Task 7.3: Key moments not empty ───────────────────────────────────────
@@ -219,20 +204,14 @@ class TestKeyMoments:
             month=4, cash=5000, mrr=0, product_score=25, users=10, monthly_burn=80000
         )
         snapshots = [
-            _snapshot(
-                1, CompanyState(month=1, cash=1000000, mrr=0, product_score=20, users=0)
-            ),
+            _snapshot(1, CompanyState(month=1, cash=1000000, mrr=0, product_score=20, users=0)),
             _snapshot(
                 2,
-                CompanyState(
-                    month=2, cash=500000, mrr=10000, product_score=22, users=20
-                ),
+                CompanyState(month=2, cash=500000, mrr=10000, product_score=22, users=20),
             ),
             _snapshot(
                 3,
-                CompanyState(
-                    month=3, cash=80000, mrr=15000, product_score=24, users=30
-                ),
+                CompanyState(month=3, cash=80000, mrr=15000, product_score=24, users=30),
             ),
             _snapshot(4, final),
         ]
@@ -244,9 +223,7 @@ class TestKeyMoments:
             final_state=final,
             ending_status="bankruptcy",
         )
-        assert (
-            len(review.key_moments) >= 1
-        ), f"Expected >=1 moments, got {len(review.key_moments)}"
+        assert len(review.key_moments) >= 1, f"Expected >=1 moments, got {len(review.key_moments)}"
 
     def test_moments_include_cash_crisis(self):
         """Verify cash drops below danger thresholds are captured."""
@@ -265,9 +242,7 @@ class TestKeyMoments:
             ending_status="bankruptcy",
         )
         titles = [m.title for m in review.key_moments]
-        assert any(
-            "现金" in t for t in titles
-        ), f"No cash crisis moments found in {titles}"
+        assert any("现金" in t for t in titles), f"No cash crisis moments found in {titles}"
 
 
 # ── Task 7.4: Founder profile varies with metrics ─────────────────────────
@@ -490,9 +465,7 @@ class TestAdvice:
             final_state=final,
             ending_status="bankruptcy",
         )
-        assert (
-            "现金" in review.advice_for_next_run or "跑道" in review.advice_for_next_run
-        )
+        assert "现金" in review.advice_for_next_run or "跑道" in review.advice_for_next_run
 
     def test_series_a_advice_mentions_growth(self):
         final = CompanyState(

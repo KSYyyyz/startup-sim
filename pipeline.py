@@ -17,7 +17,7 @@ from openai import OpenAI
 
 from agents import simulate_investors
 from config import LLM_CONFIG
-from db import get_state, state_row_to_dict, update_state, log_event
+from db import get_state, log_event, state_row_to_dict, update_state
 from guard import validate
 
 client = OpenAI(api_key=LLM_CONFIG["api_key"], base_url=LLM_CONFIG["base_url"])
@@ -56,8 +56,8 @@ def parse_intent(user_input: str, state_dict: dict) -> dict:
                 {
                     "role": "user",
                     "content": f"当前状态: {state_dict}\n\n"
-                               f"CEO决策: {user_input}\n\n"
-                               f"解析意图并推演后果，返回JSON。",
+                    f"CEO决策: {user_input}\n\n"
+                    f"解析意图并推演后果，返回JSON。",
                 },
             ],
             response_format={"type": "json_object"},
@@ -87,9 +87,7 @@ def process(user_input: str) -> dict:
     if result.get("intent") == "fundraise":
         inv_result = simulate_investors(state_dict, user_input)
         result["investor_simulation"] = inv_result
-        result["narrative"] += (
-            f"\n\n📊 投资人仿真结果:\n{inv_result['summary']}"
-        )
+        result["narrative"] += f"\n\n📊 投资人仿真结果:\n{inv_result['summary']}"
 
     # Step 4: StateGuard validation
     validated = validate(result.get("state_changes", {}), state_dict)

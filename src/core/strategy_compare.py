@@ -6,7 +6,7 @@ best-in-class rankings and a summary table.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from src.core.models import GameReview, StrategyComparison
 
@@ -15,12 +15,12 @@ class StrategyCompare:
     """Stateless strategy comparator."""
 
     @classmethod
-    def compare(cls, reviews: List[GameReview]) -> StrategyComparison:
+    def compare(cls, reviews: list[GameReview]) -> StrategyComparison:
         """Compare multiple game reviews and rank strategies."""
         if not reviews:
             return StrategyComparison(conclusion="没有策略数据可供对比。")
 
-        strategies: List[Dict[str, Any]] = []
+        strategies: list[dict[str, Any]] = []
         best_overall = ""
         best_growth = ""
         best_product = ""
@@ -76,18 +76,20 @@ class StrategyCompare:
         strategies.sort(key=lambda s: s["overall_score"], reverse=True)
 
         # Build summary table
-        summary_table: List[Dict[str, Any]] = []
+        summary_table: list[dict[str, Any]] = []
         for i, s in enumerate(strategies):
-            summary_table.append({
-                "rank": i + 1,
-                "strategy": s["label"],
-                "product": s["product_score"],
-                "growth": s["growth_score"],
-                "finance": s["finance_score"],
-                "control": s["control_score"],
-                "risk": s["risk_score"],
-                "overall": s["overall_score"],
-            })
+            summary_table.append(
+                {
+                    "rank": i + 1,
+                    "strategy": s["label"],
+                    "product": s["product_score"],
+                    "growth": s["growth_score"],
+                    "finance": s["finance_score"],
+                    "control": s["control_score"],
+                    "risk": s["risk_score"],
+                    "overall": s["overall_score"],
+                }
+            )
 
         conclusion = cls._build_conclusion(
             best_overall, best_product, best_growth, best_finance, best_control, worst_risk
@@ -106,9 +108,15 @@ class StrategyCompare:
         )
 
     @classmethod
-    def _build_conclusion(cls, best_overall: str, best_product: str,
-                          best_growth: str, best_finance: str,
-                          best_control: str, worst_risk: str) -> str:
+    def _build_conclusion(
+        cls,
+        best_overall: str,
+        best_product: str,
+        best_growth: str,
+        best_finance: str,
+        best_control: str,
+        worst_risk: str,
+    ) -> str:
         parts = [f"综合最优：{best_overall}"]
         if best_product != best_overall:
             parts.append(f"产品最强：{best_product}")

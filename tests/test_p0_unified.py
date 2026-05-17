@@ -1,15 +1,15 @@
 """Tests for P0 tasks:
-  P0-1: TurnEngine uses parse_multi (4 actions in one input)
-  P0-4: CLI and feishu adapters produce identical action_plan types
+P0-1: TurnEngine uses parse_multi (4 actions in one input)
+P0-4: CLI and feishu adapters produce identical action_plan types
 """
 
 import os
-import sys
 import tempfile
 
 import pytest
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
+
 
 @pytest.fixture
 def temp_db():
@@ -22,6 +22,7 @@ def temp_db():
     config.DB_PATH = type(config.DB_PATH)(tmp_path)
 
     from src.db.connection import init_db
+
     init_db()
 
     yield tmp_path
@@ -32,6 +33,7 @@ def temp_db():
 
 
 # ── P0-1: TurnEngine parse_multi ─────────────────────────────────────────────
+
 
 class TestTurnEngineUsesParseMulti:
     """Verify TurnEngine produces 4 action types from complex input."""
@@ -72,9 +74,9 @@ class TestTurnEngineUsesParseMulti:
 
     def test_process_turn_with_db_uses_parse_multi(self, temp_db):
         """process_turn() (DB-backed) also uses parse_multi."""
-        from src.db import repository
+        from src.core.models import ActionType, CompanyState
         from src.core.turn_engine import TurnEngine
-        from src.core.models import CompanyState, ActionType
+        from src.db import repository
 
         sid = repository.create_session("test")
         state = CompanyState()  # default 100万, fundraising 500万 available same turn
@@ -91,6 +93,7 @@ class TestTurnEngineUsesParseMulti:
 
 
 # ── P0-4: CLI / Feishu unified kernel ────────────────────────────────────────
+
 
 class TestUnifiedKernel:
     """Verify CLI (turn_engine.process_turn_raw) and feishu (feishu_play.turn)
@@ -136,6 +139,7 @@ class TestUnifiedKernel:
         # We need enough cash for the 350万 spending. Reset state with more cash.
         sid = feishu_play._session_map.get(user_id)
         from src.db import repository
+
         rich_state = CompanyState()  # default 100万, fundraising available same turn
         with repository.transaction() as conn:
             repository.save_state(sid, rich_state, conn=conn)
@@ -159,8 +163,9 @@ class TestUnifiedKernel:
         assert "marketing" in cli_types
 
         # Verify fundraising details
-        fundraising = [a for a in feishu_real_result.action_plan.actions
-                       if a.type == ActionType.FUNDRAISING]
+        fundraising = [
+            a for a in feishu_real_result.action_plan.actions if a.type == ActionType.FUNDRAISING
+        ]
         assert len(fundraising) == 1
         assert fundraising[0].fundraise_amount == 5_000_000
         assert fundraising[0].equity_offered == 10

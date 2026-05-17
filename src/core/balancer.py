@@ -6,7 +6,6 @@ Validates that different endings can be reached and game length is reasonable.
 
 from __future__ import annotations
 
-from typing import Dict, List
 from collections import Counter
 
 from src.core.difficulty import Difficulty, get_difficulty
@@ -15,11 +14,10 @@ from src.core.turn_engine import TurnEngine
 from src.db import repository
 from src.db.connection import init_db
 
-
 # ── Seed action sequences for simulation ──────────────────────────────────────
 
 # Each sequence represents a different "play style"
-SEED_ACTIONS: List[List[str]] = [
+SEED_ACTIONS: list[list[str]] = [
     # Play style 1: heavy product focus
     [
         "研发产品花30万",
@@ -116,7 +114,7 @@ SEED_ACTIONS: List[List[str]] = [
 def simulate_run(
     turn_engine: TurnEngine,
     difficulty: Difficulty,
-    actions: List[str],
+    actions: list[str],
     max_months: int = 12,
 ) -> dict:
     """Simulate one full game with a sequence of actions.
@@ -190,8 +188,9 @@ def run_balance_check(
         - avg_months: float average game length
         - runs: list of per-run result dicts
     """
-    from config import SCENARIOS_PATH
     import yaml
+
+    from config import SCENARIOS_PATH
 
     difficulty = get_difficulty(difficulty_name)
     endings_counter: Counter = Counter()
@@ -210,13 +209,14 @@ def run_balance_check(
         # Load scenario and apply difficulty
         if not SCENARIOS_PATH.exists():
             raise FileNotFoundError(f"Scenarios file not found: {SCENARIOS_PATH}")
-        with open(SCENARIOS_PATH, "r", encoding="utf-8") as f:
+        with open(SCENARIOS_PATH, encoding="utf-8") as f:
             data = yaml.safe_load(f)
         scenario_dict = data["scenarios"][scenario_id]
         adjusted = difficulty.apply_to_scenario(scenario_dict)
         init_state = adjusted["initial_state"]
 
         from src.core.models import CompanyState
+
         scenario_state = CompanyState(
             cash=init_state["cash"],
             monthly_burn=init_state["monthly_burn"],
@@ -249,7 +249,7 @@ def run_balance_check(
         endings_counter[run_result["ending"]] += 1
 
     # ── Checks ────────────────────────────────────────────────────────────────
-    issues: List[str] = []
+    issues: list[str] = []
     played_months = [r["months_played"] for r in all_runs if r["months_played"] > 0]
     avg_months = sum(played_months) / len(played_months) if played_months else 0
 
@@ -263,9 +263,7 @@ def run_balance_check(
 
     # Check: average game length 6-9 months
     if avg_months < 6 or avg_months > 9:
-        issues.append(
-            f"Average game length is {avg_months:.1f} months (expected 6-9)."
-        )
+        issues.append(f"Average game length is {avg_months:.1f} months (expected 6-9).")
 
     # Check: no 100% same ending
     most_common_count = endings_counter.most_common(1)

@@ -13,12 +13,12 @@ from pathlib import Path
 # Ensure src is importable
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.core.models import CompanyState, EndingType
-from src.core.turn_engine import TurnEngine
-from src.core.state_guard import StateGuardError
 from src.core.difficulty import get_difficulty
+from src.core.models import CompanyState, EndingType
 from src.core.review_engine import ReviewEngine
+from src.core.state_guard import StateGuardError
 from src.core.strategy_compare import StrategyCompare
+from src.core.turn_engine import TurnEngine
 
 # ── Strategy definitions (generate raw_input strings) ──────────────────────────
 
@@ -131,9 +131,7 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
         if not raw_input or not raw_input.strip():
             raw_input = ""
 
-        actions.append(
-            {"month": month, "raw_input": raw_input, "action_plan_json": "[]"}
-        )
+        actions.append({"month": month, "raw_input": raw_input, "action_plan_json": "[]"})
 
         try:
             result = TurnEngine.process_turn_raw(state, raw_input, difficulty)
@@ -195,9 +193,7 @@ def format_result(r: dict) -> str:
 def main():
     print("=" * 90)
     print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.5)")
-    print(
-        "  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局"
-    )
+    print("  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局")
     print("=" * 90)
     print()
     header = (

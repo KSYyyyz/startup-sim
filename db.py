@@ -19,60 +19,61 @@ DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "startup_stat
 
 # company_state table (id=1 singleton row)
 STATE_COLS = [
-    "id",              # 0
-    "company_name",    # 1
-    "cash",            # 2
-    "burn_rate",       # 3
-    "revenue_mrr",     # 4
-    "team_size",       # 5
-    "team_morale",     # 6
-    "product_stage",   # 7
+    "id",  # 0
+    "company_name",  # 1
+    "cash",  # 2
+    "burn_rate",  # 3
+    "revenue_mrr",  # 4
+    "team_size",  # 5
+    "team_morale",  # 6
+    "product_stage",  # 7
     "founder_equity",  # 8
-    "investor_equity", # 9
-    "option_pool",     # 10
-    "round",           # 11
-    "turn",            # 12
-    "market_sentiment",# 13
-    "track",           # 14
+    "investor_equity",  # 9
+    "option_pool",  # 10
+    "round",  # 11
+    "turn",  # 12
+    "market_sentiment",  # 13
+    "track",  # 14
 ]
 
 # investors table
 INVESTOR_COLS = [
-    "id",              # 0
-    "name",            # 1
-    "type",            # 2
+    "id",  # 0
+    "name",  # 1
+    "type",  # 2
     "check_size_min",  # 3
     "check_size_max",  # 4
-    "focus_stage",     # 5
-    "trust_score",     # 6
-    "memory",          # 7
+    "focus_stage",  # 5
+    "trust_score",  # 6
+    "memory",  # 7
 ]
 
 # events_log table
 EVENT_COLS = [
-    "id",             # 0
-    "turn",           # 1
-    "event_type",     # 2
-    "description",    # 3
-    "data",           # 4
+    "id",  # 0
+    "turn",  # 1
+    "event_type",  # 2
+    "description",  # 3
+    "data",  # 4
 ]
 
 # ---------------------------------------------------------------------------
 # Row → dict helpers (single source of truth for index mapping)
 # ---------------------------------------------------------------------------
 
+
 def state_row_to_dict(row: tuple) -> dict:
     """Convert a raw company_state tuple into a named dict."""
     if row is None:
         return {}
-    return dict(zip(STATE_COLS, row))
+    return dict(zip(STATE_COLS, row, strict=True))
 
 
 def investor_row_to_dict(row: tuple) -> dict:
     """Convert a raw investors tuple into a named dict."""
     if row is None:
         return {}
-    return dict(zip(INVESTOR_COLS, row))
+    return dict(zip(INVESTOR_COLS, row, strict=True))
 
 
 # ---------------------------------------------------------------------------
@@ -134,6 +135,7 @@ _DEFAULT_INVESTORS = [
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
+
 
 def init_db():
     """Create tables + seed initial state if empty.  Safe to call repeatedly."""

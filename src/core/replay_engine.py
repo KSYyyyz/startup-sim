@@ -6,7 +6,7 @@ summary, metric changes, events, and risk level. Identifies the climax month.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from src.core.models import (
     CompanyState,
@@ -36,9 +36,9 @@ class ReplayEngine:
     @classmethod
     def generate_replay(
         cls,
-        snapshots: List[Dict[str, Any]],
-        actions: List[Dict[str, Any]],
-        events: List[Dict[str, Any]],
+        snapshots: list[dict[str, Any]],
+        actions: list[dict[str, Any]],
+        events: list[dict[str, Any]],
         final_state: CompanyState,
         ending_status: str,
         session_id: int = 0,
@@ -50,12 +50,12 @@ class ReplayEngine:
         prev_users = 0
         prev_product = 20
 
-        events_by_month: Dict[int, List[str]] = {}
+        events_by_month: dict[int, list[str]] = {}
         for evt in events:
             m = evt.get("month", 0)
             events_by_month.setdefault(m, []).append(evt.get("title", evt.get("event_type", "")))
 
-        actions_by_month: Dict[int, str] = {}
+        actions_by_month: dict[int, str] = {}
         for act in actions:
             m = act.get("month", 0)
             actions_by_month[m] = act.get("raw_input", "")
@@ -69,6 +69,7 @@ class ReplayEngine:
             state_dict = snap.get("state_json", snap)
             if isinstance(state_dict, str):
                 import json
+
                 state_dict = json.loads(state_dict)
             month = snap.get("month", 0)
 
@@ -81,7 +82,6 @@ class ReplayEngine:
             if isinstance(runway, dict):
                 runway = 0
             equity = state_dict.get("founder_equity", 100)
-            valuation = state_dict.get("valuation", 5_000_000)
 
             title = cls._month_title(month, cash, mrr, runway, ending_status)
             summary = cls._month_summary(month, cash, mrr, product, users, ending_status)
@@ -96,15 +96,17 @@ class ReplayEngine:
             }
             major_events = events_by_month.get(month, [])
 
-            months.append(ReplayMonth(
-                month=month,
-                title=title,
-                summary=summary,
-                action_summary=action_summary,
-                metric_changes=changes,
-                major_events=major_events,
-                risk_level=risk,
-            ))
+            months.append(
+                ReplayMonth(
+                    month=month,
+                    title=title,
+                    summary=summary,
+                    action_summary=action_summary,
+                    metric_changes=changes,
+                    major_events=major_events,
+                    risk_level=risk,
+                )
+            )
 
             if mrr > max_mrr_val:
                 max_mrr_val = mrr
@@ -125,7 +127,7 @@ class ReplayEngine:
         tags = cls._generate_tags(months, final_state, ending_status)
 
         # Opening & ending
-        opening = f"你带着100万种子轮资金和一支10人团队，开始了AI客服SaaS的创业之旅。12个月，一个赛道，无数选择。"
+        opening = "你带着100万种子轮资金和一支10人团队，开始了AI客服SaaS的创业之旅。12个月，一个赛道，无数选择。"
         ending_summary = cls._ending_narrative(ending_status, final_state)
 
         title_text = cls._replay_title(ending_status, final_state)
@@ -154,12 +156,13 @@ class ReplayEngine:
         return base
 
     @classmethod
-    def _month_summary(cls, month: int, cash: int, mrr: int, product: int,
-                       users: int, ending_status: str) -> str:
+    def _month_summary(
+        cls, month: int, cash: int, mrr: int, product: int, users: int, ending_status: str
+    ) -> str:
         cash_w = cash // 10000
         mrr_w = mrr // 10000
         if month == 1:
-            return f"初始资金100万，产品分20，团队10人。你做出了第一个关键决策。"
+            return "初始资金100万，产品分20，团队10人。你做出了第一个关键决策。"
         if mrr >= 500_000:
             return f"MRR突破50万！现金{cash_w}万，产品分{product}，用户{users}。收入引擎已启动。"
         if mrr >= 300_000:
@@ -186,8 +189,9 @@ class ReplayEngine:
         return "normal"
 
     @classmethod
-    def _find_climax(cls, months: List[ReplayMonth], max_mrr_month: int,
-                     min_cash_month: int) -> int:
+    def _find_climax(
+        cls, months: list[ReplayMonth], max_mrr_month: int, min_cash_month: int
+    ) -> int:
         """Find the most dramatic month as the climax."""
         critical_months = [m for m in months if m.risk_level in ("critical", "high")]
         if critical_months:
@@ -197,8 +201,9 @@ class ReplayEngine:
         return min_cash_month
 
     @classmethod
-    def _generate_tags(cls, months: List[ReplayMonth], final_state: CompanyState,
-                       ending_status: str) -> List[str]:
+    def _generate_tags(
+        cls, months: list[ReplayMonth], final_state: CompanyState, ending_status: str
+    ) -> list[str]:
         tags = []
         product = final_state.product_score
         users = final_state.users
@@ -226,7 +231,11 @@ class ReplayEngine:
         cumulative_mrr = 0
         for m in months:
             cumulative_mrr += m.metric_changes.get("mrr", 0)
-            if m.month <= 6 and cumulative_mrr >= 200_000 and m.metric_changes.get("mrr", 0) > 50_000:
+            if (
+                m.month <= 6
+                and cumulative_mrr >= 200_000
+                and m.metric_changes.get("mrr", 0) > 50_000
+            ):
                 tags.append("闪电增长")
                 break
 
@@ -242,7 +251,6 @@ class ReplayEngine:
         product = final_state.product_score
         mrr = final_state.mrr
         users = final_state.users
-        cash = final_state.cash
 
         if ending_status == "series_a_success":
             return (
@@ -266,15 +274,13 @@ class ReplayEngine:
             )
         elif ending_status == "founder_removed":
             return (
-                f"公司还在，但你不再掌舵。过度融资稀释了控制权。"
-                f"这是一堂关于股权结构的残酷课程。"
+                "公司还在，但你不再掌舵。过度融资稀释了控制权。" "这是一堂关于股权结构的残酷课程。"
             )
         return "游戏结束。"
 
     @classmethod
     def _replay_title(cls, ending_status: str, final_state: CompanyState) -> str:
         product = final_state.product_score
-        mrr = final_state.mrr
 
         if ending_status == "series_a_success":
             if product >= 80:

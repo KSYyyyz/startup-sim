@@ -7,11 +7,10 @@ and profiles the founder archetype.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 from src.core.models import (
     CompanyState,
-    EndingType,
     FounderProfile,
     GameReview,
     KeyMoment,
@@ -27,7 +26,7 @@ class ReviewEngine:
     @staticmethod
     def _classify_founder(
         initial_state: CompanyState,
-        snapshots: List[Dict[str, Any]],
+        snapshots: list[dict[str, Any]],
         final_state: CompanyState,
         ending_status: str,
     ) -> FounderProfile:
@@ -41,11 +40,7 @@ class ReviewEngine:
             )
 
         # Estimate spending patterns from snapshots (cash delta between months)
-        rnd_spend = 0.0
-        mkt_spend = 0.0
         total_spend = 0.0
-        total_fundraised = 0.0
-        runway_below_6_count = 0
 
         prev_state = initial_state
         for snap in snapshots:
@@ -59,11 +54,7 @@ class ReviewEngine:
                 total_spend += cash_delta
             # Roughly attribute spending: snapshots alternate or we estimate
             prev_state = CompanyState(
-                **{
-                    k: v
-                    for k, v in state_dict.items()
-                    if k in CompanyState.model_fields
-                }
+                **{k: v for k, v in state_dict.items() if k in CompanyState.model_fields}
             )
 
         # Classify based on final state indicators
@@ -73,11 +64,6 @@ class ReviewEngine:
         equity = final_state.founder_equity
         runway = final_state.runway_months
         valuation = final_state.valuation
-
-        # Use ending_evaluator's PlayerPath as first-pass, then refine
-        from src.core.ending_evaluator import classify_player_path, PlayerPath
-
-        path = classify_player_path(final_state)
 
         # tech_visionary: high product, Series A or survived
         if product >= 70 and ending_status in (
@@ -115,9 +101,7 @@ class ReviewEngine:
             )
 
         # balanced_leader: A轮成功 or moderate everything
-        if ending_status == "series_a_success" or (
-            50 <= product <= 85 and 200 <= users <= 800
-        ):
+        if ending_status == "series_a_success" or (50 <= product <= 85 and 200 <= users <= 800):
             return FounderProfile(
                 profile_type="balanced_leader",
                 profile_title="均衡型CEO",
@@ -136,7 +120,7 @@ class ReviewEngine:
     @staticmethod
     def _score_strategy(
         initial_state: CompanyState,
-        snapshots: List[Dict[str, Any]],
+        snapshots: list[dict[str, Any]],
         final_state: CompanyState,
         ending_status: str,
     ) -> StrategyScore:
@@ -211,13 +195,13 @@ class ReviewEngine:
     @staticmethod
     def _identify_key_moments(
         initial_state: CompanyState,
-        snapshots: List[Dict[str, Any]],
-        event_logs: List[Dict[str, Any]],
+        snapshots: list[dict[str, Any]],
+        event_logs: list[dict[str, Any]],
         final_state: CompanyState,
         ending_status: str,
-    ) -> List[KeyMoment]:
+    ) -> list[KeyMoment]:
         """Scan game history for pivotal turning points."""
-        moments: List[KeyMoment] = []
+        moments: list[KeyMoment] = []
         prev_cash = initial_state.cash
         prev_product = initial_state.product_score
         prev_mrr = initial_state.mrr
@@ -257,7 +241,7 @@ class ReviewEngine:
                     KeyMoment(
                         month=month,
                         title="现金濒危",
-                        description=f"现金不足1万，公司命悬一线。",
+                        description="现金不足1万，公司命悬一线。",
                         impact_type="negative",
                         related_metrics={"cash": cash},
                     )
@@ -269,7 +253,7 @@ class ReviewEngine:
                     KeyMoment(
                         month=month,
                         title="产品突破",
-                        description=f"产品分突破70分，跻身市场领先水平。用户留存和转化率显著提升。",
+                        description="产品分突破70分，跻身市场领先水平。用户留存和转化率显著提升。",
                         impact_type="positive",
                         related_metrics={"product_score": product},
                     )
@@ -299,7 +283,7 @@ class ReviewEngine:
                     KeyMoment(
                         month=month,
                         title="股权稀释",
-                        description=f"创始人股权跌破80%，控制权开始松动。每次融资都是一把双刃剑。",
+                        description="创始人股权跌破80%，控制权开始松动。每次融资都是一把双刃剑。",
                         impact_type="neutral",
                         related_metrics={"founder_equity": equity},
                     )
@@ -309,7 +293,7 @@ class ReviewEngine:
                     KeyMoment(
                         month=month,
                         title="控制权危机",
-                        description=f"股权跌破50%，已经失去了对公司的绝对控制。",
+                        description="股权跌破50%，已经失去了对公司的绝对控制。",
                         impact_type="negative",
                         related_metrics={"founder_equity": equity},
                     )
@@ -406,7 +390,9 @@ class ReviewEngine:
             }
             title = titles.get(profile_type, "A轮成功")
             summary = summaries.get(profile_type, "公司在第12个月成功完成了A轮融资。")
-            advice = "你已经找到了可复制的增长模式。A轮之后，关注团队规模化、市场扩张和产品矩阵的建立。"
+            advice = (
+                "你已经找到了可复制的增长模式。A轮之后，关注团队规模化、市场扩张和产品矩阵的建立。"
+            )
 
         elif ending_status == "survived_but_average":
             titles = {
@@ -422,7 +408,9 @@ class ReviewEngine:
             elif profile_type == "conservative_operator":
                 summary = "你小心翼翼地管理着现金流，公司确实活到了第12个月。但过于保守的策略让增长几乎停滞——活下来了，但没有飞起来。"
             else:
-                summary = "公司活到了第12个月，但各项指标都未达到A轮门槛。你没有死，但也没有真正成功。"
+                summary = (
+                    "公司活到了第12个月，但各项指标都未达到A轮门槛。你没有死，但也没有真正成功。"
+                )
             title = titles.get(profile_type, "勉强存活")
             advice = "生存是第一课，你已经过关了。下一步需要把产品优势和商业化能力结合起来，找到增长飞轮的启动点。"
 
@@ -453,7 +441,9 @@ class ReviewEngine:
                 summary = "你在产品研发上投入了全部资源，但产品尚未成熟、收入尚未建立，现金已经耗尽。好的产品需要好的时机。"
             else:
                 title = "现金断裂"
-                summary = "公司现金流断裂，无法继续运营。创业路上最致命的不是竞争对手，而是钱花完了。"
+                summary = (
+                    "公司现金流断裂，无法继续运营。创业路上最致命的不是竞争对手，而是钱花完了。"
+                )
             advice = "现金流是创业公司的命脉。下次运营时，始终保持至少6个月的跑道，在现金低于危险线前果断融资或削减成本。"
 
         elif ending_status == "founder_removed":
@@ -474,9 +464,9 @@ class ReviewEngine:
     def generate_review(
         cls,
         initial_state: CompanyState,
-        snapshots: List[Dict[str, Any]],
-        action_logs: List[Dict[str, Any]],
-        event_logs: List[Dict[str, Any]],
+        snapshots: list[dict[str, Any]],
+        action_logs: list[dict[str, Any]],
+        event_logs: list[dict[str, Any]],
         final_state: CompanyState,
         ending_status: str,
         session_id: int = 0,
@@ -498,9 +488,7 @@ class ReviewEngine:
         founder_profile = cls._classify_founder(
             initial_state, snapshots, final_state, ending_status
         )
-        strategy_scores = cls._score_strategy(
-            initial_state, snapshots, final_state, ending_status
-        )
+        strategy_scores = cls._score_strategy(initial_state, snapshots, final_state, ending_status)
         key_moments = cls._identify_key_moments(
             initial_state, snapshots, event_logs, final_state, ending_status
         )
