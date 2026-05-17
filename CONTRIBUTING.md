@@ -1,5 +1,17 @@
 # Contributing
 
+## ⚠ 推送前强制要求
+
+每次 commit 和 push 前，必须运行 `make check`，并确认以下全部通过：
+
+- ruff: passed
+- black: passed
+- isort: passed
+- pytest: 全部通过
+- playtest: 平衡验证通过
+
+全部通过后，在 commit message 中注明 check 结果，再 push。禁止跳过任何一步。
+
 ## 开发流程
 
 1. **建分支** — 从 `master` 创建功能分支：`git checkout -b feature/xxx`
