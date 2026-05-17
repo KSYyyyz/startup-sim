@@ -8,6 +8,8 @@
 4. 事件池数量与代码一致
 5. REPORTS 顶部"当前路线"指向最新版本
 
+6. 文本文件健康检查（NUL/编码/行数/行长）
+
 exit 0 = 全部通过, exit 1 = 有失败项
 """
 
@@ -211,6 +213,52 @@ def check_event_pool_counts() -> None:
                     )
 
 
+# ── 检查 5: 文本文件健康检查 ───────────────────────────────
+
+
+HEALTH_FILES = [
+    (PROJECT_ROOT / "QUICKSTART.md", 20),
+    (PROJECT_ROOT / "tests/test_docs_and_demo.py", 20),
+    (PROJECT_ROOT / "README.md", 0),
+    (PROJECT_ROOT / "REPORTS.md", 0),
+]
+
+
+def check_text_file_health() -> None:
+    print("\n📋 检查 5: 文本文件健康检查")
+    for file_path, min_lines in HEALTH_FILES:
+        name = file_path.relative_to(PROJECT_ROOT)
+        try:
+            data = file_path.read_bytes()
+        except FileNotFoundError:
+            fail(f"{name}: 文件不存在")
+            continue
+
+        if b"\x00" in data:
+            fail(f"{name}: 包含 NUL 字节")
+            continue
+
+        try:
+            text = data.decode("utf-8")
+        except UnicodeDecodeError as e:
+            fail(f"{name}: UTF-8 解码失败 — {e}")
+            continue
+
+        lines = text.splitlines()
+        if min_lines > 0 and len(lines) < min_lines:
+            fail(f"{name}: 行数不足 ({len(lines)} < {min_lines})")
+
+        for i, line in enumerate(lines, 1):
+            if len(line) > 500:
+                # 允许 URL 或表格行超长
+                if "http" in line or "|" in line:
+                    continue
+                fail(f"{name}:{i} 单行过长 ({len(line)} 字符)")
+
+    if not any("文本文件健康检查" in f for f in FAILURES):
+        ok("所有受检文本文件通过健康检查")
+
+
 # ── main ─────────────────────────────────────────────────────
 
 
@@ -224,6 +272,7 @@ def main() -> int:
     check_no_stale_versions()
     check_test_count_mentioned()
     check_event_pool_counts()
+    check_text_file_health()
 
     print("\n" + "=" * 60)
     if FAILURES:
