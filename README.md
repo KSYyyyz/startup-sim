@@ -212,4 +212,4 @@ startup-sim/
 
 ---
 
-*内部游戏体验增强版 Alpha 1.3 — 136 tests passed, 5策略3结局平衡验证通过。*
+*内部游戏体验增强版 Alpha 1.3 — 136 tests passed, 5 策略 3 稳定结局，部分随机种子下可出现 bankruptcy。*
