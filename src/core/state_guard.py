@@ -41,10 +41,11 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
     )
     available_cash = state.cash + fundraising_inflow
     if total_budget > available_cash:
-        non_fundraise_spend = total_budget
         raise StateGuardError(
-            f"本回合非融资支出{non_fundraise_spend // 10000}万，超过当前现金{state.cash // 10000}万。"
-            f"请降低预算，或先融资后下回合再投入。"
+            f"本回合非融资支出 {total_budget // 10000} 万，"
+            f"超过当前现金 {state.cash // 10000} 万"
+            f" + 本回合融资到账 {fundraising_inflow // 10000} 万。"
+            f"请降低预算、提高融资额，或减少本回合投入。"
         )
 
     # Rule 3: runway < 2 months → no high-risk marketing
