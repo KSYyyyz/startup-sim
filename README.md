@@ -148,7 +148,7 @@ pytest tests/ -v    # 129 passed (Alpha 1.2)
 ```
 startup-sim/
 ├── app.py                  # CLI入口
-├── feishu_play.py          # 飞书薄适配层（透传 TurnEngine）
+├── feishu_play.py          # 飞书薄适配层：命令识别 + session映射 + TurnEngine调用 + 格式化输出
 ├── config.py               # 配置
 ├── data/scenarios.yaml     # 剧本
 ├── scripts/
