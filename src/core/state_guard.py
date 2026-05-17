@@ -41,10 +41,12 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
     )
     available_cash = state.cash + fundraising_inflow
     if total_budget > available_cash:
+        spend = total_budget // 10000
+        cash = state.cash // 10000
+        fundraising = fundraising_inflow // 10000
         raise StateGuardError(
-            f"本回合非融资支出 {total_budget // 10000} 万，"
-            f"超过当前现金 {state.cash // 10000} 万"
-            f" + 本回合融资到账 {fundraising_inflow // 10000} 万。"
+            f"本回合非融资支出 {spend} 万，超过当前现金 {cash} 万"
+            f" + 本回合融资到账 {fundraising} 万。"
             f"请降低预算、提高融资额，或减少本回合投入。"
         )
 
@@ -67,20 +69,19 @@ def sanitize_delta(delta: StateDelta, state_before: CompanyState) -> StateDelta:
     from fundraising is never capped. Fundraising cash is tracked via
     delta.fundraising_cash and excluded from the cap.
     """
-    # Cash change: max -65% of previous cash (outflow cap only)
-    prev_cash = max(state_before.cash, 1)  # avoid div-by-zero
+    # P0-2: Cash outflow cap at -65% of previous cash.
+    # Fundraising inflow passes through uncapped.
+    prev_cash = max(state_before.cash, 1)
     max_cash_delta = int(prev_cash * 0.65)
 
-    cash = delta.cash
-    # Separate fundraising inflow from spending outflow
     fundraising_inflow = delta.fundraising_cash
-    spending_cash = cash - fundraising_inflow  # non-fundraising portion
+    spending_cash = delta.cash - fundraising_inflow
     if spending_cash < 0:
-        spending_cash = max(spending_cash, -max_cash_delta)  # cap negative spending
-    cash = fundraising_inflow + spending_cash  # fundraising inflow passes through uncapped
+        spending_cash = max(spending_cash, -max_cash_delta)
+    cash_out = fundraising_inflow + spending_cash
 
     return StateDelta(
-        cash=cash,
+        cash=cash_out,
         monthly_burn=delta.monthly_burn,
         mrr=delta.mrr,
         users=delta.users,

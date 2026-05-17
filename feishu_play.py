@@ -95,14 +95,12 @@ def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal")
 
 def turn(user_id: str, raw_input: str) -> str:
     """Process one turn. All game logic delegated to TurnEngine.process_turn_raw()."""
-    # Ensure DB is initialized
     init_db()
 
     sid = _session_map.get(user_id)
     if sid is None:
         return "❌ 游戏还没开始。说「创业模拟器 开始」来开局。"
 
-    # Load state from DB
     state = repository.load_state(sid)
 
     # Check if game already ended
@@ -113,15 +111,12 @@ def turn(user_id: str, raw_input: str) -> str:
             "说「创业模拟器 开始」重新开局。"
         )
 
-    # Get difficulty from session metadata
     session_status = repository.get_session_status(sid)
     diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
     difficulty = get_difficulty(diff_name)
 
-    # Delegate ALL game logic to TurnEngine
     result: TurnResult = TurnEngine.process_turn_raw(state, raw_input, difficulty)
 
-    # Persist state via DB
     with repository.transaction() as conn:
         repository.save_state(sid, result.state_after, conn=conn)
         repository.update_session_month(
@@ -129,23 +124,22 @@ def turn(user_id: str, raw_input: str) -> str:
             "active" if result.ending == EndingType.NONE else result.ending.value,
             conn=conn,
         )
-        repository.save_snapshot(sid, result.state_after.month, result.state_after, conn=conn)
+        repository.save_snapshot(
+            sid, result.state_after.month, result.state_after, conn=conn,
+        )
 
-        # Persist action log (consistent with TurnEngine.process_turn)
         repository.save_action(
-            sid, result.month,
-            raw_input,
+            sid, result.month, raw_input,
             result.action_plan.model_dump_json(),
             result.delta.model_dump_json(),
             conn=conn,
         )
 
-        # Persist event logs
         for event in result.events:
+            severity = "high" if event.event_type == "board_coup_risk" else "medium"
             repository.save_event(
                 sid, result.month,
-                event.event_type, event.description,
-                "high" if event.event_type == "board_coup_risk" else "medium",
+                event.event_type, event.description, severity,
                 event.delta.model_dump_json(),
                 conn=conn,
             )
@@ -205,9 +199,9 @@ def _format_result(result: TurnResult) -> str:
         lines.append("")
 
     # Delta reasons
+    for reason in result.delta.reasons:
+        lines.append(f"• {reason}")
     if result.delta.reasons:
-        for r in result.delta.reasons:
-            lines.append(f"• {r}")
         lines.append("")
 
     # Current state
@@ -221,7 +215,8 @@ def _format_result(result: TurnResult) -> str:
 
     # Ending
     if result.ending != EndingType.NONE:
-        lines.extend(["", f"🏁 **结局：{result.ending_description}**"])
+        lines.append("")
+        lines.append(f"🏁 **结局：{result.ending_description}**")
 
     return "\n".join(lines)
 
@@ -229,11 +224,31 @@ def _format_result(result: TurnResult) -> str:
 def _render_state(state: CompanyState, difficulty: str = "") -> str:
     """Render current game state as Feishu Markdown."""
     diff_str = f" | {difficulty}模式" if difficulty else ""
-    return "\n".join([
-        f"🏢 AI客服SaaS | 第{state.month}月{diff_str}",
-        f"💰 现金:{state.cash//10000}万 | 🔥 烧钱:{state.monthly_burn//10000}万/月 | MRR:{state.mrr//10000}万",
-        f"👥 用户:{state.users} | 👨‍💻 员工:{state.employee_count}人 | 💰 单价:{state.price}元/月",
-        f"📦 产品:{state.product_score} | 💪 士气:{state.team_morale} | ⭐ 声誉:{state.reputation}",
-        f"📊 股权:创始人{state.founder_equity}% | 投资人{100 - state.founder_equity}% | 董事会控制:{state.board_control}%",
-        f"🏦 估值:{state.valuation//10000}万 | ⏳ 跑道:{state.runway_months:.1f}月",
-    ])
+
+    line1 = f"🏢 AI客服SaaS | 第{state.month}月{diff_str}"
+    line2 = (
+        f"💰 现金:{state.cash//10000}万 | "
+        f"🔥 烧钱:{state.monthly_burn//10000}万/月 | "
+        f"MRR:{state.mrr//10000}万"
+    )
+    line3 = (
+        f"👥 用户:{state.users} | "
+        f"👨‍💻 员工:{state.employee_count}人 | "
+        f"💰 单价:{state.price}元/月"
+    )
+    line4 = (
+        f"📦 产品:{state.product_score} | "
+        f"💪 士气:{state.team_morale} | "
+        f"⭐ 声誉:{state.reputation}"
+    )
+    line5 = (
+        f"📊 股权:创始人{state.founder_equity}% | "
+        f"投资人{100 - state.founder_equity}% | "
+        f"董事会控制:{state.board_control}%"
+    )
+    line6 = (
+        f"🏦 估值:{state.valuation//10000}万 | "
+        f"⏳ 跑道:{state.runway_months:.1f}月"
+    )
+
+    return "\n".join([line1, line2, line3, line4, line5, line6])

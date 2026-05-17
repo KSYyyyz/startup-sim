@@ -83,6 +83,24 @@ STRATEGIES = [
 ]
 
 
+def _make_result(name: str, ending: str, ending_desc: str,
+                 state: CompanyState, events: list[str] | None = None) -> dict:
+    """Build a uniform result dict for a completed strategy run."""
+    return {
+        "strategy": name,
+        "ending": ending,
+        "ending_desc": ending_desc,
+        "month": state.month,
+        "cash": state.cash,
+        "mrr": state.mrr,
+        "product_score": state.product_score,
+        "users": state.users,
+        "founder_equity": state.founder_equity,
+        "valuation": state.valuation,
+        "events": events or [],
+    }
+
+
 def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
     """Run a single strategy for up to 12 months via TurnEngine.process_turn_raw.
 
@@ -103,50 +121,20 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
         except StateGuardError:
             # Overspending caught by StateGuard — treat as forced end
             state.month = month
-            return {
-                "strategy": name,
-                "ending": "bankruptcy",
-                "ending_desc": f"第{month}月现金流断裂，无法继续运营。",
-                "month": state.month,
-                "cash": state.cash,
-                "mrr": state.mrr,
-                "product_score": state.product_score,
-                "users": state.users,
-                "founder_equity": state.founder_equity,
-                "valuation": state.valuation,
-                "events": [],
-            }
+            return _make_result(
+                name, "bankruptcy",
+                f"第{month}月现金流断裂，无法继续运营。", state,
+            )
 
         state = result.state_after
 
         if result.ending and result.ending != EndingType.NONE:
-            return {
-                "strategy": name,
-                "ending": result.ending.value,
-                "ending_desc": result.ending_description,
-                "month": state.month,
-                "cash": state.cash,
-                "mrr": state.mrr,
-                "product_score": state.product_score,
-                "users": state.users,
-                "founder_equity": state.founder_equity,
-                "valuation": state.valuation,
-                "events": [e.event_type for e in result.events],
-            }
+            return _make_result(
+                name, result.ending.value, result.ending_description, state,
+                [e.event_type for e in result.events],
+            )
 
-    return {
-        "strategy": name,
-        "ending": "none",
-        "ending_desc": "游戏继续",
-        "month": state.month,
-        "cash": state.cash,
-        "mrr": state.mrr,
-        "product_score": state.product_score,
-        "users": state.users,
-        "founder_equity": state.founder_equity,
-        "valuation": state.valuation,
-        "events": [],
-    }
+    return _make_result(name, "none", "游戏继续", state)
 
 
 def format_result(r: dict) -> str:
@@ -156,9 +144,13 @@ def format_result(r: dict) -> str:
     val_w = r["valuation"] // 10000
     return (
         f"{r['strategy']:<10} | {r['ending']:<22} | "
-        f"月{r['month']:>2} | 现金{cash_w:>5}万 | MRR{mrr_w:>5}万 | "
-        f"产品{r['product_score']:>3} | 用户{r['users']:>5} | "
-        f"股权{r['founder_equity']:>3}% | 估值{val_w:>6}万"
+        f"月{r['month']:>2} | "
+        f"现金{cash_w:>5}万 | "
+        f"MRR{mrr_w:>5}万 | "
+        f"产品{r['product_score']:>3} | "
+        f"用户{r['users']:>5} | "
+        f"股权{r['founder_equity']:>3}% | "
+        f"估值{val_w:>6}万"
     )
 
 
@@ -168,8 +160,12 @@ def main():
     print("  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局")
     print("=" * 90)
     print()
-    print(f"{'策略':<10} | {'结局':<22} | {'回合':>4} | {'现金':>6} | {'MRR':>6} | "
-          f"{'产品':>4} | {'用户':>6} | {'股权':>4} | {'估值':>7}")
+    header = (
+        f"{'策略':<10} | {'结局':<22} | {'回合':>4} | "
+        f"{'现金':>6} | {'MRR':>6} | {'产品':>4} | "
+        f"{'用户':>6} | {'股权':>4} | {'估值':>7}"
+    )
+    print(header)
     print("-" * 90)
 
     difficulty = get_difficulty("normal")
@@ -207,9 +203,13 @@ def main():
     for r in results:
         print(f"📋 {r['strategy']}")
         print(f"   {r['ending_desc']}")
-        print(f"   现金={r['cash']//10000}万  MRR={r['mrr']//10000}万  "
-              f"产品分={r['product_score']}  用户={r['users']}  "
-              f"创始人股权={r['founder_equity']}%")
+        print(
+            f"   现金={r['cash']//10000}万  "
+            f"MRR={r['mrr']//10000}万  "
+            f"产品分={r['product_score']}  "
+            f"用户={r['users']}  "
+            f"创始人股权={r['founder_equity']}%"
+        )
         if r.get("events"):
             print(f"   事件: {', '.join(r['events'])}")
         print()
