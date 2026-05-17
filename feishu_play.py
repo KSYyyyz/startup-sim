@@ -20,6 +20,8 @@ from src.core.turn_engine import TurnEngine
 from src.core.difficulty import Difficulty, get_difficulty
 from src.core.ending_evaluator import evaluate as eval_ending, describe_ending
 from src.core.review_engine import ReviewEngine
+from src.core.replay_engine import ReplayEngine
+from src.core.achievement_engine import AchievementEngine
 from src.db import repository
 from src.db.connection import init_db
 
@@ -320,5 +322,41 @@ def _format_review_short(session_id: int, result: TurnResult) -> str:
         lines.append(f"• M{m.month} {m.title}")
     lines.append("")
     lines.append(f"💡 {review.advice_for_next_run}")
+
+    # Alpha 1.5: Replay (compact — 2-3 key months)
+    replay = ReplayEngine.generate_replay(
+        snapshots=snapshots,
+        actions=actions,
+        events=events_db,
+        final_state=result.state_after,
+        ending_status=result.ending.value,
+        session_id=session_id,
+    )
+    if replay.months:
+        climax_m = next(
+            (m for m in replay.months if m.month == replay.climax_month), None
+        )
+        final_m = replay.months[-1] if replay.months else None
+        lines.append("")
+        lines.append("🎬 **月历回放**")
+        if climax_m:
+            lines.append(f"⭐ M{climax_m.month} {climax_m.title} — {climax_m.summary}")
+        if final_m and final_m != climax_m:
+            lines.append(f"🏁 M{final_m.month} {final_m.title} — {final_m.summary}")
+        if replay.replay_tags:
+            lines.append(f"🏷️ {' · '.join(replay.replay_tags)}")
+
+    # Alpha 1.5: Achievements (top 3)
+    achievements = AchievementEngine.evaluate(
+        final_state=result.state_after,
+        ending_status=result.ending.value,
+        review=review,
+        snapshots=snapshots,
+    )
+    if achievements.achievements:
+        lines.append("")
+        lines.append(f"🏅 **成就** ({achievements.summary})")
+        for a in achievements.achievements[:3]:
+            lines.append(f"• {a.title} — {a.description}")
 
     return "\n".join(lines)

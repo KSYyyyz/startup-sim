@@ -1,4 +1,4 @@
-# Startup Sim 🚀  `Alpha 1.4`
+# Startup Sim 🚀  `Alpha 1.5`
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
@@ -122,13 +122,14 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 161 passed (Alpha 1.4)
+pytest tests/ -v    # 217 passed (Alpha 1.5)
 ```
 
 测试覆盖：
 - **平衡测试**：5种策略 × 12回合自动运行，验证结局多样性 ≥3 种
 - **补充测试**：process_turn_raw 端到端流程、营销不重复结算、融资现金豁免、研发公式验证
-- **新增测试**：结局叙事变体、玩家路径分类、董事会冲突检测
+- **Alpha 1.4 测试**：结局叙事变体、玩家路径分类、董事会冲突检测、复盘系统、创始人画像、策略评分
+- **Alpha 1.5 测试**：回放系统、成就徽章、策略对比
 - 规则解析器、StateGuard、竞品、客户、董事会、结局判定全覆盖
 
 ## 📋 Alpha 1.3 更新内容
@@ -159,6 +160,32 @@ pytest tests/ -v    # 161 passed (Alpha 1.4)
    - 玩家路径分类：研发派/营销派/融资派/均衡派/保守派
    - 5种结局 × 5种路径 = 每种结局2-3种文案变体
    - `describe_ending_with_seed()` 支持确定性叙事（用于测试）
+
+## 📋 Alpha 1.5 更新内容
+
+1. **回放系统** — `src/core/replay_engine.py`
+   - `ReplayEngine.generate_replay()` 生成12个月叙事回放时间线
+   - 每月有叙事标题（如"种子轮后的第一次豪赌""决定命运的融资窗口"）+ 风险等级 + 指标变化
+   - 自动识别climax_month（最具戏剧性的转折月）+ 生成3-4个replay_tags（如"A轮赢家""惊险刺激""稳健经营"）
+   - 5种结局各有定制结局叙事（A轮之路/小而美/温水/燃烧殆尽/失去王座）
+
+2. **成就系统** — `src/core/achievement_engine.py`
+   - `AchievementEngine.evaluate()` 评估15个成就徽章
+   - 4种稀有度：common(7个) / rare(5个) / epic(2个) / legendary(1个)
+   - 涵盖产品/增长/融资/风控/控制全维度：产品信仰者、增长机器、A轮赢家、死里逃生、现金守门员、控制权大师、稀释换增长、慢性死亡、研发陷阱、营销泡沫、小而美、资本玩家、危机处理者、稳健经营者、传奇创始人
+
+3. **策略对比** — `src/core/strategy_compare.py`
+   - `StrategyCompare.compare()` 输入多个 GameReview，输出策略对比表
+   - 每维最佳 + 风控最弱排名：综合最优/产品最强/增长最快/财务最佳/控制最稳/风控最弱
+
+4. **CLI 增强** — `app.py`
+   - 游戏结束时输出回放线（5个关键月份）和成就徽章列表
+
+5. **飞书增强** — `feishu_play.py`
+   - 游戏结束时输出精简回放（2-3个关键月）+ 成就（前3个）
+
+6. **Playtest 策略对比** — `scripts/playtest.py`
+   - 所有策略结束后自动输出策略对比排名表
 
 ## 📋 Alpha 1.4 更新内容
 
@@ -216,6 +243,9 @@ startup-sim/
 │   │   ├── event_engine.py     # 事件引擎
 │   │   ├── ending_evaluator.py # 结局判定+路径分类(Alpha 1.3)
 │   │   ├── review_engine.py    # 复盘系统+创始人画像+策略评分(Alpha 1.4)
+│   │   ├── replay_engine.py    # 回放系统+月历叙事(Alpha 1.5)
+│   │   ├── achievement_engine.py # 成就徽章系统(Alpha 1.5)
+│   │   ├── strategy_compare.py # 策略对比(Alpha 1.5)
 │   │   ├── turn_engine.py      # 回合主流程+月度战报(Alpha 1.3)
 │   │   ├── difficulty.py       # 难度系统
 │   │   └── balancer.py         # 数值平衡器
@@ -226,15 +256,15 @@ startup-sim/
 │   │   └── customers.py        # 客户群体(四因子+转化率)
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
-└── tests/                  # 161个测试，pytest全覆盖
+└── tests/                  # 217个测试，pytest全覆盖
 ```
 
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Alpha 1.4：规则解析器 + Mock Agent + 随机事件池 + 董事会争议 + 竞品状态 + 月度战报 + 结局变体叙事 + 复盘系统
+- Alpha 1.5：规则解析器 + Mock Agent + 随机事件池 + 董事会争议 + 竞品状态 + 月度战报 + 结局变体叙事 + 复盘系统 + 回放系统 + 成就徽章 + 策略对比
 - 零API消耗，全规则引擎驱动
 
 ---
 
-*内部游戏体验增强版 Alpha 1.4 — 161 tests passed, 5 策略 3 稳定结局，复盘系统覆盖全部结局。*
+*内部游戏体验增强版 Alpha 1.5 — 217 tests passed, 5 策略 3 稳定结局，回放/成就/策略对比三大系统全部就绪。*

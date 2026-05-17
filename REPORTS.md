@@ -369,3 +369,93 @@ Alpha 1.5 建议方向：
 ---
 
 *Alpha 1.4 复盘系统增强版 — 2026-05-17*
+
+---
+
+# Startup Sim — Alpha 1.5 开发记录
+
+## 1. 修改了哪些文件
+
+| 文件 | 变更类型 | 说明 |
+|------|----------|------|
+| `src/core/replay_engine.py` | **新增** | ReplayEngine：12个月叙事回放时间线 + 高潮月识别 + 标签生成 |
+| `src/core/achievement_engine.py` | **新增** | AchievementEngine：15个成就徽章，4种稀有度 |
+| `src/core/strategy_compare.py` | **新增** | StrategyCompare：多策略对比 + 各维度排名 |
+| `src/core/models.py` | 修改 | 新增 ReplayMonth/GameReplay/Achievement/AchievementResult/StrategyComparison 五个 Pydantic 模型 |
+| `app.py` | 修改 | CLI 增加回放(5关键月)和成就徽章输出 |
+| `feishu_play.py` | 修改 | 飞书精简版回放(2-3关键月)+成就(前3个) |
+| `scripts/playtest.py` | 修改 | 策略对比排名表输出 |
+| `tests/test_replay_engine.py` | **新增** | 18个回放测试 |
+| `tests/test_achievement_engine.py` | **新增** | 21个成就测试 |
+| `tests/test_strategy_compare.py` | **新增** | 17个策略对比测试 |
+| `README.md` | 修改 | 更新至 Alpha 1.5，添加新功能说明 |
+| `REPORTS.md` | 修改 | 追加本记录 |
+| `VERSION` | 修改 | 1.4 → 1.5 |
+
+## 2. Playtest 五种策略结果（Alpha 1.5）
+
+```
+策略         | 结局                     | 回合 | 现金   | MRR    | 产品 | 用户   | 股权
+全研发        | survived_but_average   | 月12 | 0万    | 18万   | 93  | 80    | 100%
+全营销        | slow_death             | 月12 | 0万    | 4万    | 31  | 229   | 100%
+先融资再增长   | series_a_success       | 月12 | 318万  | 101万  | 86  | 1055  | 90%
+保守现金流     | survived_but_average   | 月12 | 0万    | 18万   | 100 | 160   | 100%
+均衡          | series_a_success       | 月12 | 105万  | 39万   | 81  | 409   | 92%
+```
+
+**结局分布：3 种 → survived_but_average, slow_death, series_a_success** ✅
+
+策略对比排名（综合评分）：
+1. 先融资再增长（100）
+2. 均衡（100）
+3. 保守现金流（55）
+4. 全研发（50）
+5. 全营销（33）
+
+## 3. 新增核心模块
+
+### ReplayEngine（回放系统）
+- 12月每月叙事标题（_MONTH_THEMES）+ 风险等级 + 指标变化
+- 自动识别高潮月（最早的高/关键风险月，或MRR高峰月，或最低现金月）
+- 生成最多4个回放标签（A轮赢家/技术信仰/增长神话/极致产品/惊险刺激/稳健经营/控制力MAX/闪电增长/燃烧殆尽/温水青蛙）
+- 5种结局各对应不同回放标题和结局叙事
+
+### AchievementEngine（成就系统）
+15个成就，4种稀有度：
+- **Common (7)**：产品信仰者、增长机器、A轮赢家、死里逃生、现金守门员、控制权大师、稀释换增长
+- **Rare (5)**：慢性死亡、研发陷阱、营销泡沫、小而美、资本玩家
+- **Epic (2)**：危机处理者、稳健经营者
+- **Legendary (1)**：传奇创始人（A轮+产品85+用户1000+股权80%）
+
+### StrategyCompare（策略对比）
+- 输入多个 GameReview → 输出 StrategyComparison
+- 排名：综合最优/产品最强/增长最快/财务最佳/控制最稳/风控最弱
+- 返回排序的 summary_table + conclusion
+
+## 4. Alpha 1.5 验收标准
+
+| 验证项 | 状态 |
+|--------|------|
+| pytest 217 测试全部通过 | ✅ |
+| playtest 5 策略正常运行并输出对比 | ✅ |
+| ReplayEngine 生成完整12月回放 | ✅ |
+| AchievementEngine 评估15个成就 | ✅ |
+| StrategyCompare 正确排名 | ✅ |
+| CLI 结局时输出回放+成就 | ✅ |
+| 飞书结局时输出回放+成就 | ✅ |
+| 不接 LLM | ✅ |
+| 不做 Web/排行榜 | ✅ |
+| 不破坏 Alpha 1.4 数值平衡 | ✅ |
+
+## 5. 不包含的内容
+
+- ❌ 真实LLM调用
+- ❌ Web界面
+- ❌ 排行榜系统
+- ❌ 多赛道选择
+- ❌ 新结局类型
+- ❌ 数值参数调整
+
+---
+
+*Alpha 1.5 回放/成就/策略对比版 — 2026-05-17*

@@ -18,6 +18,7 @@ from src.core.turn_engine import TurnEngine
 from src.core.state_guard import StateGuardError
 from src.core.difficulty import get_difficulty
 from src.core.review_engine import ReviewEngine
+from src.core.strategy_compare import StrategyCompare
 
 # ── Strategy definitions (generate raw_input strings) ──────────────────────────
 
@@ -193,7 +194,7 @@ def format_result(r: dict) -> str:
 
 def main():
     print("=" * 90)
-    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.4)")
+    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.5)")
     print(
         "  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局"
     )
@@ -239,6 +240,7 @@ def main():
     print()
 
     # Detail for each strategy (Alpha 1.4: + review summary)
+    reviews = []
     for r in results:
         print(f"📋 {r['strategy']}")
         print(f"   {r['ending_desc']}")
@@ -270,10 +272,39 @@ def main():
                 ),
                 ending_status=r["ending"],
             )
+            reviews.append(review)
             print(
                 f"   🎯 {review.ending_title} | 👤 {review.founder_profile.profile_title} | ⭐ 综合评分: {review.strategy_scores.overall_score}"
             )
             print(f"   🔑 关键转折点: {len(review.key_moments)}个")
+        print()
+
+    # Alpha 1.5: Strategy comparison
+    if len(reviews) >= 2:
+        comparison = StrategyCompare.compare(reviews)
+        print("=" * 90)
+        print("  🏆 策略对比")
+        print("=" * 90)
+        print(
+            f"{'排名':<5} {'策略':<18} {'产品':>4} {'增长':>4} "
+            f"{'财务':>4} {'控制':>4} {'风控':>4} {'综合':>4}"
+        )
+        print("-" * 60)
+        for row in comparison.summary_table:
+            print(
+                f"#{row['rank']:<4} {row['strategy']:<18} "
+                f"{row['product']:>4} {row['growth']:>4} "
+                f"{row['finance']:>4} {row['control']:>4} "
+                f"{row['risk']:>4} {row['overall']:>4}"
+            )
+        print("-" * 60)
+        print(f"  🥇 综合最优: {comparison.best_overall}")
+        print(f"  📦 产品最强: {comparison.best_product}")
+        print(f"  📈 增长最快: {comparison.best_growth}")
+        print(f"  💰 财务最佳: {comparison.best_finance}")
+        print(f"  🛡️  控制最稳: {comparison.best_control}")
+        print(f"  ⚠️  风控最弱: {comparison.worst_risk}")
+        print(f"  💡 {comparison.conclusion}")
         print()
 
 

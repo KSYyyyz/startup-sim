@@ -23,6 +23,8 @@ from src.core.models import CompanyState, EndingType
 from src.core.turn_engine import TurnEngine
 from src.core.difficulty import get_difficulty
 from src.core.review_engine import ReviewEngine
+from src.core.replay_engine import ReplayEngine
+from src.core.achievement_engine import AchievementEngine
 
 # ── Display helpers ────────────────────────────────────────────────────────────
 
@@ -126,6 +128,111 @@ def print_review(
     print()
     print(f"  💡 下局建议")
     print(f"    {review.advice_for_next_run}")
+    print(f"{'='*60}")
+
+    # ── Alpha 1.5: Replay ──
+    print_replay(session_id, snapshots, actions, events_db, final_state, ending_status)
+
+    # ── Alpha 1.5: Achievements ──
+    achievements = AchievementEngine.evaluate(
+        final_state=final_state,
+        ending_status=ending_status,
+        review=review,
+        snapshots=snapshots,
+    )
+    print_achievements(achievements)
+
+
+def print_replay(
+    session_id: int,
+    snapshots: list,
+    actions: list,
+    events: list,
+    final_state: CompanyState,
+    ending_status: str,
+) -> None:
+    """Print the monthly replay timeline (5 key months)."""
+    replay = ReplayEngine.generate_replay(
+        snapshots=snapshots,
+        actions=actions,
+        events=events,
+        final_state=final_state,
+        ending_status=ending_status,
+        session_id=session_id,
+    )
+
+    if not replay.months:
+        return
+
+    # Identify 5 key months: M1, climax, most risky, max growth, final
+    key_indices = set()
+    key_indices.add(0)  # month 1
+    key_indices.add(len(replay.months) - 1)  # final month
+
+    if replay.climax_month:
+        for i, m in enumerate(replay.months):
+            if m.month == replay.climax_month:
+                key_indices.add(i)
+                break
+
+    # Most risky month (max risk_level)
+    risk_order = {"critical": 3, "high": 2, "normal": 1, "low": 0}
+    most_risky_i = max(
+        range(len(replay.months)),
+        key=lambda i: risk_order.get(replay.months[i].risk_level, 0),
+    )
+    key_indices.add(most_risky_i)
+
+    # Max MRR growth month
+    max_growth_i = max(
+        range(len(replay.months)),
+        key=lambda i: replay.months[i].metric_changes.get("mrr", 0),
+    )
+    key_indices.add(max_growth_i)
+
+    key_months = sorted(key_indices)
+
+    tags_str = " | ".join(replay.replay_tags) if replay.replay_tags else "无"
+    print(f"\n{'='*60}")
+    print(f"  🎬 回放：{replay.title}")
+    print(f"  🏷️  {tags_str}")
+    print(f"{'='*60}")
+    print(f"  📖 {replay.opening_summary}")
+    print()
+    for i in key_months:
+        m = replay.months[i]
+        marker = "⭐" if m.month == replay.climax_month else "  "
+        print(
+            f"  {marker} M{m.month:>2} | {m.title:20s} | "
+            f"风险:{m.risk_level:8s} | "
+            f"现金:{m.metric_changes.get('cash',0):+5d} "
+            f"MRR:{m.metric_changes.get('mrr',0):+5d}"
+        )
+        if i == 0 or m.month == replay.climax_month or m.risk_level in ("critical", "high"):
+            print(f"      {m.summary}")
+        if m.major_events:
+            for evt in m.major_events[:2]:
+                print(f"      ⚡ {evt}")
+    print(f"  ...")
+    print(f"  🏁 {replay.ending_summary}")
+    print(f"{'='*60}")
+
+
+def print_achievements(achievement_result) -> None:
+    """Print achievement badges."""
+    ach = achievement_result
+    if not ach.achievements:
+        print(f"\n🏅 成就：{ach.summary}")
+        return
+
+    rarity_icon = {"common": "🟢", "rare": "🔵", "epic": "🟣", "legendary": "🟡"}
+    print(f"\n{'='*60}")
+    print(f"  🏅 成就系统 — {ach.summary}")
+    print(f"{'='*60}")
+    for a in ach.achievements:
+        icon = rarity_icon.get(a.rarity, "⚪")
+        print(f"  {icon} [{a.rarity}] {a.title}")
+        print(f"     {a.description}")
     print(f"{'='*60}")
 
 

@@ -177,3 +177,56 @@ class GameReview(BaseModel):
     key_moments: List[KeyMoment] = Field(default_factory=list)
     final_metrics: Dict[str, Any] = Field(default_factory=dict)
     advice_for_next_run: str = ""
+
+
+# ── Alpha 1.5: Replay, Achievements, Strategy Comparison ────────────────────────
+
+class ReplayMonth(BaseModel):
+    """A single month in the game replay narrative."""
+    month: int
+    title: str
+    summary: str
+    action_summary: str = ""
+    metric_changes: Dict[str, Any] = Field(default_factory=dict)
+    major_events: List[str] = Field(default_factory=list)
+    risk_level: str = "normal"  # "low" / "normal" / "high" / "critical"
+
+
+class GameReplay(BaseModel):
+    """Full game replay timeline."""
+    session_id: int = 0
+    title: str = ""
+    opening_summary: str = ""
+    months: List[ReplayMonth] = Field(default_factory=list)
+    climax_month: int = 0
+    ending_summary: str = ""
+    replay_tags: List[str] = Field(default_factory=list)
+
+
+class Achievement(BaseModel):
+    """A single achievement badge."""
+    code: str
+    title: str
+    description: str
+    rarity: str  # "common" / "rare" / "epic" / "legendary"
+
+
+class AchievementResult(BaseModel):
+    """Result of evaluating achievements against a game."""
+    achievements: List[Achievement] = Field(default_factory=list)
+    total_count: int = 0
+    rare_count: int = 0
+    summary: str = ""
+
+
+class StrategyComparison(BaseModel):
+    """Comparison of multiple strategy results."""
+    strategies: List[Dict[str, Any]] = Field(default_factory=list)
+    best_overall: str = ""
+    best_growth: str = ""
+    best_product: str = ""
+    best_finance: str = ""
+    best_control: str = ""
+    worst_risk: str = ""
+    summary_table: List[Dict[str, Any]] = Field(default_factory=list)
+    conclusion: str = ""
