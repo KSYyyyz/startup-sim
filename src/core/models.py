@@ -264,3 +264,43 @@ class StrategyComparison(BaseModel):
     worst_risk: str = ""
     summary_table: list[dict[str, Any]] = Field(default_factory=list)
     conclusion: str = ""
+
+
+# ── Alpha 1.6: Tutorial, Suggestions, State Explainer ────────────────────────────
+
+
+class TutorialStep(BaseModel):
+    """A single step in the onboarding tutorial."""
+
+    step_id: str
+    title: str
+    description: str
+    example_input: str = ""
+    trigger_condition: str = ""  # e.g. "first_turn", "runway<3"
+    shown_once: bool = True
+
+
+class TutorialHint(BaseModel):
+    """A contextual hint triggered by game thresholds."""
+
+    title: str
+    message: str
+    example_inputs: list[str] = Field(default_factory=list)
+
+
+class ActionSuggestion(BaseModel):
+    """A single action suggestion with an example input that parse_multi can parse."""
+
+    title: str
+    description: str
+    example_input: str
+    risk_level: str = "medium"  # conservative / aggressive / warning
+    reason: str = ""
+
+
+class SuggestionResult(BaseModel):
+    """The result of generating suggestions for the current state."""
+
+    suggestions: list[ActionSuggestion] = Field(default_factory=list)
+    warning: str = ""
+    recommended_focus: str = ""

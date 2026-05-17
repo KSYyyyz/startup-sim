@@ -25,11 +25,17 @@ class StateGuardError(Exception):
 def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
     """Validate that an action plan is legal for the current state.
 
-    Raises StateGuardError on violation.
+    Raises StateGuardError with detailed Chinese error messages including
+    what went wrong, current limits, how to fix, and copiable example inputs.
     """
     # Rule 1: Max MAX_ACTIONS_PER_TURN actions
     if len(plan.actions) > MAX_ACTIONS_PER_TURN:
-        raise StateGuardError(f"Too many actions: {len(plan.actions)} (max {MAX_ACTIONS_PER_TURN})")
+        raise StateGuardError(
+            f"❌ 每回合最多 {MAX_ACTIONS_PER_TURN} 个决策，"
+            f"当前输入了 {len(plan.actions)} 个。\n"
+            f"💡 请合并相关操作或减少决策数量。\n"
+            f"📝 示例：把「招人研发营销」合并为「花10万研发产品，花5万做营销」"
+        )
 
     # Rule 2: total budget of non-fundraising actions <= cash + fundraising inflow
     # Fundraising cash arrives in the same turn, so it's available for spending.
@@ -41,22 +47,43 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
     )
     available_cash = state.cash + fundraising_inflow
     if total_budget > available_cash:
-        spend = total_budget // 10000
-        cash = state.cash // 10000
-        fundraising = fundraising_inflow // 10000
-        raise StateGuardError(
-            f"本回合非融资支出 {spend} 万，超过当前现金 {cash} 万"
-            f" + 本回合融资到账 {fundraising} 万。"
-            f"请降低预算、提高融资额，或减少本回合投入。"
-        )
+        spend_w = total_budget // 10000
+        cash_w = state.cash // 10000
+        fundraising_w = fundraising_inflow // 10000
+        deficit_w = (total_budget - available_cash) // 10000
+
+        msg = f"❌ 预算超限：本回合非融资支出 {spend_w} 万，" f"但可用现金仅 {cash_w} 万"
+        if fundraising_w > 0:
+            msg += f"（含本回合融资到账 {fundraising_w} 万）"
+        msg += f"，缺口 {deficit_w} 万。\n"
+
+        # How to fix
+        msg += "\n💡 解决方法（选一种）：\n"
+        msg += f"  1) 降低预算到 {available_cash//10000} 万以内\n"
+        if state.founder_equity >= 75:
+            msg += "  2) 增加融资额度，出让更多股权换取现金\n"
+        msg += "  3) 减少本回合投入，分多回合执行\n"
+
+        # Example inputs
+        safe_budget = (available_cash // 2) // 10000
+        msg += "\n📝 可输入示例：\n"
+        msg += f"  「花{safe_budget}万研发产品」\n"
+        if state.founder_equity >= 75:
+            msg += f"  「融资{deficit_w * 100}万出让5%股权，花{spend_w}万研发产品」\n"
+
+        raise StateGuardError(msg)
 
     # Rule 3: runway < 2 months → no high-risk marketing
     if state.runway_months < 2:
         for action in plan.actions:
             if action.type == "marketing" and action.risk_level == "high":
+                runway = state.runway_months
                 raise StateGuardError(
-                    f"Runway is only {state.runway_months:.1f} months — "
-                    f"high-risk marketing spend is forbidden"
+                    f"❌ 跑道仅 {runway:.1f} 个月，禁止高风险营销支出。\n"
+                    f"💡 跑道不足2个月时，生存是第一优先级。\n"
+                    f"📝 请改用低风险营销，或优先融资/削减开支：\n"
+                    f"  「花1万做基础营销」\n"
+                    f"  「融资300万出让8%股权」"
                 )
 
 

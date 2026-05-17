@@ -1,4 +1,4 @@
-# Startup Sim 🚀  `Alpha 1.5`
+# Startup Sim 🚀  `Alpha 1.6`
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
@@ -122,7 +122,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 217 passed (Alpha 1.5)
+pytest tests/ -v    # 273 passed (Alpha 1.6)
 ```
 
 测试覆盖：
@@ -130,7 +130,42 @@ pytest tests/ -v    # 217 passed (Alpha 1.5)
 - **补充测试**：process_turn_raw 端到端流程、营销不重复结算、融资现金豁免、研发公式验证
 - **Alpha 1.4 测试**：结局叙事变体、玩家路径分类、董事会冲突检测、复盘系统、创始人画像、策略评分
 - **Alpha 1.5 测试**：回放系统、成就徽章、策略对比
+- **Alpha 1.6 测试**：建议引擎(17)、新手引导(18)、状态解读(21)
 - 规则解析器、StateGuard、竞品、客户、董事会、结局判定全覆盖
+
+## 📋 Alpha 1.6 更新内容
+
+1. **新手引导** — `src/core/tutorial.py`
+   - `TutorialEngine`：新开局4步引导（欢迎/输入方式/决策类型/指标说明）
+   - 6种阈值提示：跑道<3月现金流风险、股权<70%稀释提醒、低产品分营销泡沫、高产品低MRR商业化提醒、士气危机、董事会控制权风险
+   - 纯函数无副作用，不改变任何游戏数值
+
+2. **建议引擎** — `src/core/suggestion_engine.py`
+   - `SuggestionEngine.generate(state)` 返回3条建议：稳健路线/激进路线/风险提示
+   - 每条建议包含 title/description/example_input/risk_level/reason
+   - example_input 可被 parse_multi 直接解析
+   - 基于状态智能判断：低现金→控支保命、高产品低MRR→商业化、低产品→研发优先
+
+3. **状态解读** — `src/core/state_explainer.py`
+   - `StateExplainer` 将数值翻译为人话：现金→跑道估算、产品分→成熟度(原型/MVP/可用/成熟/优秀/顶尖)、MRR用户→转化问题、股权→控制权描述
+   - CLI 状态面板和飞书均调用
+
+4. **CLI 每回合建议** — `app.py`
+   - 每回合后显示3条建议（稳健/激进/风险）+ 建议聚焦方向
+   - 输入 help/帮助/怎么玩/指令 显示完整帮助
+   - 状态面板集成 StateExplainer 人话解读
+
+5. **飞书增强** — `feishu_play.py`
+   - 每回合后显示风险提示 + 2个可复制输入示例
+   - 新开局显示轻量引导提示
+   - 支持 help/帮助/怎么玩/指令 路由
+
+6. **StateGuard 错误提示增强** — `src/core/state_guard.py`
+   - 预算超限错误含：哪里错了、当前限制、怎么改、可复制示例输入
+   - 全部中文，结构化输出（❌错误 💡解决方法 📝示例）
+
+7. **Help 命令** — `app.py` + `feishu_play.py`
+   - 游戏目标、输入格式、五种决策类型、关键指标说明、示例输入
 
 ## 📋 Alpha 1.3 更新内容
 
@@ -246,6 +281,9 @@ startup-sim/
 │   │   ├── replay_engine.py    # 回放系统+月历叙事(Alpha 1.5)
 │   │   ├── achievement_engine.py # 成就徽章系统(Alpha 1.5)
 │   │   ├── strategy_compare.py # 策略对比(Alpha 1.5)
+│   │   ├── tutorial.py         # 新手引导+阈值提示(Alpha 1.6)
+│   │   ├── suggestion_engine.py # 行动建议引擎(Alpha 1.6)
+│   │   ├── state_explainer.py  # 状态人话解读(Alpha 1.6)
 │   │   ├── turn_engine.py      # 回合主流程+月度战报(Alpha 1.3)
 │   │   ├── difficulty.py       # 难度系统
 │   │   └── balancer.py         # 数值平衡器
@@ -256,15 +294,15 @@ startup-sim/
 │   │   └── customers.py        # 客户群体(四因子+转化率)
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
-└── tests/                  # 217个测试，pytest全覆盖
+└── tests/                  # 273个测试，pytest全覆盖
 ```
 
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Alpha 1.5：规则解析器 + Mock Agent + 随机事件池 + 董事会争议 + 竞品状态 + 月度战报 + 结局变体叙事 + 复盘系统 + 回放系统 + 成就徽章 + 策略对比
+- Alpha 1.6：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help
 - 零API消耗，全规则引擎驱动
 
 ---
 
-*内部游戏体验增强版 Alpha 1.5 — 217 tests passed, 5 策略 3 稳定结局，回放/成就/策略对比三大系统全部就绪。*
+*内部游戏体验增强版 Alpha 1.6 — 273 tests passed，新手引导/建议引擎/状态解读/Help/StateGuard增强全部就绪，5 策略 3 稳定结局。*

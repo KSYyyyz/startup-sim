@@ -22,6 +22,7 @@ from src.core.ending_evaluator import evaluate as eval_ending
 from src.core.models import CompanyState, EndingType, TurnResult
 from src.core.replay_engine import ReplayEngine
 from src.core.review_engine import ReviewEngine
+from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.db import repository
 from src.db.connection import init_db
@@ -85,6 +86,7 @@ def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal")
     )
 
     # Create or reset session
+    is_new = False
     sid = _session_map.get(user_id)
     if sid is not None:
         repository.reset_session(sid, state)
@@ -92,8 +94,19 @@ def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal")
         sid = repository.create_session(user_id)
         repository.init_session_state(sid, state)
         _session_map[user_id] = sid
+        is_new = True
 
-    return _render_state(state, difficulty)
+    msg = _render_state(state, difficulty)
+
+    # Alpha 1.6: Tutorial hint only for brand-new sessions
+    if is_new:
+        msg += (
+            "\n\n💡 这是你的第一次创业之旅。输入决策开始吧！\n"
+            "试试：「花20万研发产品，花10万做营销」\n"
+            "输入「帮助」查看完整指南。"
+        )
+
+    return msg
 
 
 # ── Command: 决策 ─────────────────────────────────────────────────────────────
@@ -102,6 +115,10 @@ def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal")
 def turn(user_id: str, raw_input: str) -> str:
     """Process one turn. All game logic delegated to TurnEngine.process_turn_raw()."""
     init_db()
+
+    # Alpha 1.6: Help command routing
+    if raw_input.strip().lower() in ("help", "帮助", "怎么玩", "指令", "？", "?"):
+        return help_text()
 
     sid = _session_map.get(user_id)
     if sid is None:
@@ -160,6 +177,9 @@ def turn(user_id: str, raw_input: str) -> str:
 
     msg = _format_result(result)
 
+    # Alpha 1.6: Compact suggestions after turn
+    msg += "\n\n" + _format_suggestions_compact(result.state_after)
+
     # Alpha 1.4: Append review when game ends
     if result.ending != EndingType.NONE:
         msg += "\n\n" + _format_review_short(sid, result)
@@ -190,7 +210,58 @@ def status(user_id: str) -> str:
 
     state = repository.load_state(sid)
     diff_name = session_status.get("difficulty", "normal")
-    return _render_state(state, diff_name)
+    msg = _render_state(state, diff_name)
+
+    # Alpha 1.6: Compact suggestions
+    msg += "\n\n" + _format_suggestions_compact(state)
+
+    return msg
+
+
+# ── Command: 帮助 ─────────────────────────────────────────────────────────────
+
+
+def help_text() -> str:
+    """Alpha 1.6: Return compact help message for Feishu."""
+    return (
+        "📖 **创业模拟器 帮助**\n\n"
+        "🎯 目标：12个月完成A轮融资（MRR≥30万、产品分≥60）\n\n"
+        "🛠️ 五种决策类型：\n"
+        '• 研发 — "花20万研发产品"\n'
+        '• 营销 — "花15万做营销推广"\n'
+        '• 融资 — "融资500万出让10%股权"\n'
+        '• 团队 — "花10万招聘扩充团队"\n'
+        '• 战略 — "花5万做战略规划"\n\n'
+        "📊 关键指标：\n"
+        "💰现金 💰月消耗 📈MRR 👥用户 🛠️产品分 💪士气 📊股权 ⏳跑道\n\n"
+        "💡 示例：\n"
+        "• 花20万研发产品，花10万做营销\n"
+        "• 融资500万出让10%股权，花30万研发产品\n\n"
+        "📌 常用指令：\n"
+        "• 创业模拟器 开始 / 状态 / 帮助\n"
+        "• 直接输入决策即可"
+    )
+
+
+def _format_suggestions_compact(state: CompanyState) -> str:
+    """Alpha 1.6: Generate compact suggestion line for Feishu."""
+    result = SuggestionEngine.generate(state, state.month)
+    lines = []
+
+    # Only show the risk warning line + recommended focus
+    if result.warning:
+        lines.append(f"⚠️ {result.warning}")
+    if result.recommended_focus:
+        lines.append(f"🎯 {result.recommended_focus}")
+
+    # Show top 2 example inputs
+    examples = []
+    for s in result.suggestions[:2]:
+        examples.append(f"「{s.example_input}」")
+    if examples:
+        lines.append(f"💡 {'  '.join(examples)}")
+
+    return "\n".join(lines)
 
 
 # ── Formatting ────────────────────────────────────────────────────────────────

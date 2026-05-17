@@ -19,7 +19,10 @@ from src.core.achievement_engine import AchievementEngine
 from src.core.models import CompanyState, EndingType
 from src.core.replay_engine import ReplayEngine
 from src.core.review_engine import ReviewEngine
+from src.core.state_explainer import StateExplainer
+from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
+from src.core.tutorial import TutorialEngine
 from src.db import repository
 from src.db.connection import init_db
 
@@ -34,7 +37,7 @@ def _money(v: int) -> str:
 
 
 def display_state(state: CompanyState, title: str = "📊 公司状态") -> None:
-    """Pretty-print the company state."""
+    """Pretty-print the company state with human-readable insights."""
     runway = state.runway_months
     runway_str = f"{runway:.1f}个月" if runway != float("inf") else "∞"
 
@@ -52,6 +55,17 @@ def display_state(state: CompanyState, title: str = "📊 公司状态") -> None
     print(f"  📈 市场份额:  {state.market_share:>10}%    ⭐ 声誉:     {state.reputation:>10}")
     print(f"  ⏳ 剩余跑道:  {runway_str:>10}")
     print(f"{'='*60}")
+
+    # Alpha 1.6: Human-readable state insights
+    explanations = StateExplainer.explain_full(state)
+    print(f"  💬 {explanations['cash']}")
+    if state.product_score > 0 or state.month > 1:
+        print(f"  💬 {explanations['product']}")
+    if state.users > 0 or state.mrr > 0:
+        print(f"  💬 {explanations['users_mrr']}")
+    if state.founder_equity < 100:
+        print(f"  💬 {explanations['equity']}")
+    print()
 
 
 def display_events(events) -> None:
@@ -265,6 +279,90 @@ def display_result(result) -> None:
         print(f"{'='*60}")
 
 
+def display_suggestions(state: CompanyState) -> None:
+    """Alpha 1.6: Display 3 action suggestions for the current state."""
+    result = SuggestionEngine.generate(state, state.month)
+
+    print(f"{'='*60}")
+    print("  💡 本月建议")
+    print(f"{'='*60}")
+
+    labels = {"conservative": "🟢 稳健路线", "aggressive": "🔶 激进路线", "warning": "🔴 风险提示"}
+    for s in result.suggestions:
+        label = labels.get(s.risk_level, "📌")
+        print(f"  {label}：{s.title}")
+        print(f"     {s.description}")
+        print(f"     📝 可输入：「{s.example_input}」")
+        print()
+
+    if result.warning:
+        print(f"  ⚠️  {result.warning}")
+        print()
+
+    if result.recommended_focus:
+        print(f"  🎯 建议聚焦：{result.recommended_focus}")
+        print()
+
+    print(f"{'='*60}")
+
+
+def display_tutorial() -> None:
+    """Alpha 1.6: Display onboarding tutorial on first turn."""
+    steps = TutorialEngine.get_first_turn_tutorial()
+    print(f"\n{'='*60}")
+    print("  🎓 新手引导")
+    print(f"{'='*60}")
+    for step in steps:
+        print(f"\n  📖 {step.title}")
+        for line in step.description.split("\n"):
+            print(f"     {line.strip()}")
+        if step.example_input:
+            print(f"     📝 试试输入：「{step.example_input}」")
+    print(f"\n{'='*60}")
+
+
+def show_help() -> None:
+    """Alpha 1.6: Display help / command reference."""
+    print(f"\n{'='*60}")
+    print("  📖 创业模拟器 — 帮助")
+    print(f"{'='*60}")
+    print()
+    print("  🎯 游戏目标：")
+    print("     12个月内带领AI客服SaaS公司完成A轮融资。")
+    print("     A轮条件：MRR≥30万、产品分≥60、用户规模可观。")
+    print()
+    print("  🎮 常用指令：")
+    print("     status  — 查看当前公司状态")
+    print("     help    — 显示本帮助信息")
+    print("     quit    — 退出游戏")
+    print()
+    print("  📝 决策输入格式：")
+    print("     用自然语言描述你的决策，系统会自动解析。")
+    print("     支持同时输入多个决策，用逗号/顿号/分号分隔。")
+    print()
+    print("  🛠️ 五种决策类型：")
+    print('     研发(product)    — "花20万研发产品"')
+    print('     营销(marketing)  — "花15万做营销推广"')
+    print('     融资(fundraising) — "融资500万出让10%股权"')
+    print('     团队(team)       — "花10万招聘扩充团队"')
+    print('     战略(strategy)   — "花5万做战略规划"')
+    print()
+    print("  📊 关键指标：")
+    print("     💰 现金     — 公司的命脉，耗尽则破产")
+    print("     📈 MRR      — 月度经常性收入，A轮关键门槛")
+    print("     🛠️ 产品分   — 产品竞争力(0-100)，影响用户留存")
+    print("     👥 用户     — 付费客户数")
+    print("     📊 股权     — 创始人对公司的控制权")
+    print("     ⏳ 跑道     — 现金/月消耗，剩余生存月数")
+    print()
+    print("  💡 示例输入：")
+    print('     "花20万研发产品，花10万做营销"')
+    print('     "融资500万出让10%股权，花30万研发"')
+    print('     "花5万招聘，花10万做营销推广"')
+    print(f"{'='*60}")
+    print()
+
+
 def load_scenario(scenario_id: str) -> CompanyState:
     """Load initial state from scenarios.yaml."""
     if not SCENARIOS_PATH.exists():
@@ -320,12 +418,18 @@ def cmd_new(args) -> None:
     print(f"✅ 游戏已创建 (会话ID: {session_id})")
     display_state(scenario_state, "📊 初始状态")
 
+    # Alpha 1.6: Show onboarding tutorial
+    display_tutorial()
+
     # Create turn engine
     engine = TurnEngine(session_id)
 
+    # Alpha 1.6: Track shown tutorial hints to avoid repeats
+    shown_hints: set = set()
+
     # Main game loop
-    print(f"\n🎮 输入你的决策 (最多{MAX_TURNS}个月)。输入 'quit' 退出。")
-    print("   示例: 研发产品花20万, 招3个销售\n")
+    print(f"\n🎮 输入你的决策 (最多{MAX_TURNS}个月)。输入 'help' 查看帮助，'quit' 退出。")
+    print("   示例: 花20万研发产品, 花10万做营销\n")
 
     while True:
         try:
@@ -342,9 +446,21 @@ def cmd_new(args) -> None:
             print("👋 再见！")
             break
 
+        if raw.lower() in ("help", "帮助", "怎么玩", "指令"):
+            show_help()
+            continue
+
         if raw.lower() == "status":
             state = repository.load_state(session_id)
             display_state(state)
+            # Alpha 1.6: Show suggestions after status
+            display_suggestions(state)
+            # Alpha 1.6: Show tutorial hints
+            hints = TutorialEngine.check_hints(state, shown_hints)
+            for hint in hints:
+                print(f"\n  💡 [{hint.title}] {hint.message}")
+                if hint.example_inputs:
+                    print(f"     📝 可尝试：「{'」 或 「'.join(hint.example_inputs)}」")
             continue
 
         try:
@@ -358,6 +474,14 @@ def cmd_new(args) -> None:
 
             # Show updated state
             display_state(result.state_after)
+
+            # Alpha 1.6: Show suggestions and tutorial hints after each turn
+            display_suggestions(result.state_after)
+            hints = TutorialEngine.check_hints(result.state_after, shown_hints)
+            for hint in hints:
+                print(f"\n  💡 [{hint.title}] {hint.message}")
+                if hint.example_inputs:
+                    print(f"     📝 可尝试：「{'」 或 「'.join(hint.example_inputs)}」")
 
         except Exception as e:
             print(f"  ❌ 错误: {e}")

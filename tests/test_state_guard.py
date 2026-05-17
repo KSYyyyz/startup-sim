@@ -35,7 +35,7 @@ class TestValidateActionPlan:
                 PlayerAction(type=ActionType.MARKETING, budget=25000),
             ],
         )
-        with pytest.raises(StateGuardError, match="Too many actions"):
+        with pytest.raises(StateGuardError, match="每回合最多"):
             validate_action_plan(plan, state)
 
     def test_budget_exceeds_cash(self):
@@ -48,7 +48,7 @@ class TestValidateActionPlan:
                 PlayerAction(type=ActionType.TEAM, budget=50_000),
             ],
         )
-        with pytest.raises(StateGuardError, match="超过当前现金"):
+        with pytest.raises(StateGuardError, match="预算超限"):
             validate_action_plan(plan, state)
 
     def test_high_risk_marketing_low_runway(self):
@@ -60,7 +60,7 @@ class TestValidateActionPlan:
                 PlayerAction(type=ActionType.MARKETING, budget=10_000, risk_level=RiskLevel.HIGH),
             ],
         )
-        with pytest.raises(StateGuardError, match="high-risk marketing"):
+        with pytest.raises(StateGuardError, match="禁止高风险营销"):
             validate_action_plan(plan, state)
 
     def test_valid_plan_passes(self):

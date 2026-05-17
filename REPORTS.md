@@ -461,3 +461,70 @@ Alpha 1.5 建议方向：
 ---
 
 *Alpha 1.5 回放/成就/策略对比版 — 2026-05-17*
+
+## Alpha 1.6 新手引导 + 输入建议 + 试玩体验打磨 — 2026-05-17
+
+## 1. 新增模块
+
+| 文件 | 行数 | 说明 |
+|------|------|------|
+| `src/core/tutorial.py` | ~150 | TutorialEngine：4步新手引导 + 6种阈值提示 |
+| `src/core/suggestion_engine.py` | ~200 | SuggestionEngine：3条建议(稳健/激进/风险) + 聚焦方向 |
+| `src/core/state_explainer.py` | ~170 | StateExplainer：5维状态人话解读 |
+| `src/core/models.py` | +16 | TutorialStep/TutorialHint/ActionSuggestion/SuggestionResult |
+
+## 2. 修改文件
+
+| 文件 | 修改说明 |
+|------|----------|
+| `app.py` | 导入新模块 → display_state集成StateExplainer → 新手引导显示 → 每回合建议 → help命令 |
+| `feishu_play.py` | 导入新模块 → 新开局引导 → help命令路由 → 每回合简版建议 → status建议 |
+| `src/core/state_guard.py` | 增强错误信息：结构化中文(❌错误💡解决方法📝示例) |
+| `VERSION` | 1.5 → 1.6 |
+| `README.md` | Alpha 1.6功能说明、项目结构更新、测试数273 |
+| `REPORTS.md` | 本记录 |
+
+## 3. 新增测试
+
+| 文件 | 测试数 | 覆盖范围 |
+|------|--------|----------|
+| `tests/test_suggestion_engine.py` | 17 | 低现金建议/高产品低MRR建议/低产品高营销建议/example_input可解析性/边界情况 |
+| `tests/test_tutorial.py` | 18 | 4步引导完整性/跑道提示触发阈值/股权提示/提示不重复/不改数值 |
+| `tests/test_state_explainer.py` | 21 | 现金/产品/MRR用户关系/股权/士气/全维度解读 |
+
+## 4. 关键设计决策
+
+- **纯函数无副作用**：TutorialEngine/SuggestionEngine/StateExplainer均为静态方法，不修改任何游戏状态
+- **建议可执行**：所有 example_input 必须能被 parse_multi 解析（已验证）
+- **不强制操作**：引导和建议均为提示性质，不限制玩家决策自由
+- **不改变数值**：不调整任何游戏平衡参数
+- **保持兼容**：不破坏 Alpha 1.4/1.5 的复盘/回放/成就/策略对比
+
+## 5. 验收标准
+
+| 验证项 | 状态 |
+|--------|------|
+| pytest 273 测试全部通过 | ✅ |
+| playtest 5 策略正常运行 | ✅ |
+| 3个新模块测试全覆盖 | ✅ |
+| 建议 example_input 可解析 | ✅ |
+| StateGuard 错误信息结构化中文 | ✅ |
+| CLI help 命令输出完整 | ✅ |
+| 飞书 help 命令输出精简 | ✅ |
+| 不接 LLM | ✅ |
+| 不做 Web/排行榜 | ✅ |
+| 不破坏 Alpha 1.5 数值平衡 | ✅ |
+
+## 6. 不包含的内容
+
+- ❌ 真实LLM调用
+- ❌ Web界面
+- ❌ 排行榜系统
+- ❌ 多赛道选择
+- ❌ 数值参数调整
+- ❌ 新结局类型
+- ❌ 强制教程（不限制玩家操作）
+
+---
+
+*Alpha 1.6 新手引导 + 建议引擎 + 状态解读版 — 2026-05-17*
