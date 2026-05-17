@@ -81,10 +81,11 @@ class TestProcessTurnRawE2E:
         assert result.state_after.month == 2  # month advanced
         assert result.state_after.cash > 0  # shouldn't go bankrupt
 
-    def test_process_turn_raw_produces_ending_on_bankruptcy(self):
-        """process_turn_raw detects ending when cash runs out."""
-        # Use month 12 with miserable stats → slow_death ending
-        state = CompanyState(month=12, cash=1_000, mrr=50_000, product_score=20, founder_equity=80)
+    def test_process_turn_raw_slow_death_at_month_12(self):
+        """process_turn_raw triggers SLOW_DEATH when month>=12 with low MRR."""
+        state = CompanyState(
+            month=12, cash=5_000_000, mrr=50_000, product_score=20, founder_equity=80
+        )
         result = TurnEngine.process_turn_raw(state, "")
 
         # Month >= 12, mrr < 100k → SLOW_DEATH
