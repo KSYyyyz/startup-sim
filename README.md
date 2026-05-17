@@ -169,6 +169,10 @@ pytest tests/ -v    # 289 passed (Alpha 1.7)
    - 每回合后显示风险提示 + 2个可复制输入示例
    - 新开局显示轻量引导提示
    - 支持 help/帮助/怎么玩/指令 路由
+   - 会话持久化：external_user_id → session_id 绑定写入 SQLite `external_sessions` 表，进程重启可恢复
+   - 「状态」命令只读不创建新 session，「重新开始」才创建新 session 并覆盖绑定
+   - 「会话」命令输出 external_user_id / session_id / 当前月份 / 状态 / 最近更新时间
+   - 调试日志写入 `logs/feishu_session.log`
 
 6. **StateGuard 错误提示增强** — `src/core/state_guard.py`
    - 预算超限错误含：哪里错了、当前限制、怎么改、可复制示例输入
@@ -338,4 +342,4 @@ startup-sim/
 
 ---
 
-*首次玩家试玩验证版 Alpha 1.7 — 289 tests passed，新增快速启动指南/样例局/反馈模板/问题排查，适合小范围内部试玩。*
+*首次玩家试玩验证版 Alpha 1.7 — 305 tests passed，新增快速启动指南/样例局/反馈模板/问题排查，适合小范围内部试玩。*

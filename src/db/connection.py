@@ -5,13 +5,13 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from config import DB_PATH
+import config
 
 
 def get_connection() -> sqlite3.Connection:
     """Get a SQLite connection with WAL mode and foreign keys enabled."""
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(DB_PATH))
+    config.DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(str(config.DB_PATH))
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA foreign_keys=ON")
     conn.row_factory = sqlite3.Row

@@ -124,6 +124,7 @@ class TestUnifiedKernel:
         import feishu_play
         from src.core.models import ActionType, CompanyState
         from src.core.turn_engine import TurnEngine
+        from src.db import repository
 
         raw_input = "融资500万出让10%，花200万研发产品，100万招聘，50万做营销"
 
@@ -137,9 +138,7 @@ class TestUnifiedKernel:
         feishu_play.start(user_id, track="AI客服SaaS", difficulty="normal")
 
         # We need enough cash for the 350万 spending. Reset state with more cash.
-        sid = feishu_play._session_map.get(user_id)
-        from src.db import repository
-
+        sid = repository.find_session_by_external_user("feishu", user_id)
         rich_state = CompanyState()  # default 100万, fundraising available same turn
         with repository.transaction() as conn:
             repository.save_state(sid, rich_state, conn=conn)

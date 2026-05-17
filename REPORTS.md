@@ -565,3 +565,28 @@ Alpha 1.5 建议方向：
 - 新增 `tests/test_docs_and_demo.py`：文档存在性检查 + start_demo.py 可运行验证 + VERSION 一致性
 
 状态：适合小范围内部试玩，不适合公开发布
+
+## Alpha 1.7 Hotfix — 飞书会话持久化 (2026-05-17)
+
+**根因**：`feishu_play.py` 使用进程内 `_session_map = {}` 字典做 user_id→session_id 映射，进程重启或不同 handler 调用间映射丢失，导致玩家每回合找不到上一回合 session。
+
+**方案**：删除内存字典，改用 SQLite `external_sessions` 表存持久化绑定。
+
+**修改**：
+- `src/db/schema.sql` — 新增 `external_sessions` 表（source + external_user_id 联合主键）
+- `src/db/connection.py` — `get_connection()` 改为动态读取 `config.DB_PATH`（修复测试隔离）
+- `src/db/repository.py` — 新增 5 个 external session 方法 + `update_session_month` 补 commit
+- `feishu_play.py` — 删除 `_session_map`，全部改用 DB 查询；新增 `extract_feishu_identity()`、「重新开始」命令、「会话」诊断命令；debug 日志写入 `logs/feishu_session.log`
+- `tests/test_feishu_session_persistence.py` — 新增 15 个测试用例（创建/复用/递增/重启恢复/多用户隔离/诊断）
+- `tests/test_p0_unified.py` — 适配新 API（`_session_map` → repository 方法）
+- `README.md` — 飞书会话说明
+- `REPORTS.md` — 本 hotfix 记录
+
+**命令新行为**：
+- 「开始」：已有 active session 时提示进度，不覆盖
+- 「重新开始」：删除旧绑定，创建新 session
+- 「状态」：只读，不创建新 session
+- 「会话」/「session」/「debug session」：返回 external_user_id / session_id / 月份 / 状态 / 绑定时间
+- 普通决策：通过 external_user_id 找回 session，进程重启后自动恢复
+
+**测试结果**：305 passed，make check 全部通过。VERSION 不变（hotfix）。

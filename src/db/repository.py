@@ -15,6 +15,7 @@ from contextlib import contextmanager
 
 from src.core.models import CompanyState
 from src.db.connection import get_connection
+from src.db.connection import init_db as _init_db
 
 
 def _get_conn(conn: sqlite3.Connection | None = None) -> tuple[sqlite3.Connection, bool]:
@@ -155,6 +156,8 @@ def update_session_month(
                WHERE id=?""",
             (month, status, session_id),
         )
+        if owns:
+            conn.commit()
     finally:
         if owns:
             conn.close()
@@ -401,6 +404,123 @@ def list_events(session_id: int) -> list[dict]:
             }
             for r in rows
         ]
+    finally:
+        if owns:
+            conn.close()
+
+
+# ── External sessions: map platform user IDs to game sessions ──────────────
+
+
+def _ensure_schema() -> None:
+    """Ensure external_sessions table exists (idempotent)."""
+    _init_db()
+
+
+def bind_external_session(
+    source: str, external_user_id: str, session_id: int, conn: sqlite3.Connection | None = None
+) -> None:
+    """Bind an external user to a game session (INSERT OR REPLACE)."""
+    _ensure_schema()
+    conn, owns = _get_conn(conn)
+    try:
+        conn.execute(
+            """INSERT OR REPLACE INTO external_sessions (source, external_user_id, session_id, updated_at)
+               VALUES (?, ?, ?, datetime('now','localtime'))""",
+            (source, external_user_id, session_id),
+        )
+        if owns:
+            conn.commit()
+    finally:
+        if owns:
+            conn.close()
+
+
+def find_session_by_external_user(
+    source: str, external_user_id: str, conn: sqlite3.Connection | None = None
+) -> int | None:
+    """Find the session_id bound to an external user. Returns None if not found."""
+    _ensure_schema()
+    conn, owns = _get_conn(conn)
+    try:
+        row = conn.execute(
+            "SELECT session_id FROM external_sessions WHERE source = ? AND external_user_id = ?",
+            (source, external_user_id),
+        ).fetchone()
+        return row["session_id"] if row else None
+    finally:
+        if owns:
+            conn.close()
+
+
+def get_or_create_external_session(
+    source: str,
+    external_user_id: str,
+    player_name: str | None = None,
+    conn: sqlite3.Connection | None = None,
+) -> tuple[int, bool]:
+    """Get existing session for external user, or create a new one.
+
+    Returns (session_id, is_new) — is_new is True when a fresh session was created.
+    """
+    _ensure_schema()
+    conn, owns = _get_conn(conn)
+    try:
+        row = conn.execute(
+            "SELECT session_id FROM external_sessions WHERE source = ? AND external_user_id = ?",
+            (source, external_user_id),
+        ).fetchone()
+        if row:
+            return row["session_id"], False
+
+        name = player_name or external_user_id
+        cur = conn.execute("INSERT INTO game_sessions (player_name) VALUES (?)", (name,))
+        sid = cur.lastrowid
+        conn.execute(
+            """INSERT INTO external_sessions (source, external_user_id, session_id)
+               VALUES (?, ?, ?)""",
+            (source, external_user_id, sid),
+        )
+        if owns:
+            conn.commit()
+        return sid, True
+    finally:
+        if owns:
+            conn.close()
+
+
+def update_external_session_time(
+    source: str, external_user_id: str, conn: sqlite3.Connection | None = None
+) -> None:
+    """Touch the updated_at timestamp for an external session binding."""
+    _ensure_schema()
+    conn, owns = _get_conn(conn)
+    try:
+        conn.execute(
+            "UPDATE external_sessions SET updated_at = datetime('now','localtime') "
+            "WHERE source = ? AND external_user_id = ?",
+            (source, external_user_id),
+        )
+        if owns:
+            conn.commit()
+    finally:
+        if owns:
+            conn.close()
+
+
+def delete_external_session(
+    source: str, external_user_id: str, conn: sqlite3.Connection | None = None
+) -> None:
+    """Remove an external session binding (for '重新开始')."""
+    _ensure_schema()
+    conn, owns = _get_conn(conn)
+    try:
+        conn.execute(
+            "DELETE FROM external_sessions WHERE source = ? AND external_user_id = ?",
+            (source, external_user_id),
+        )
+        if owns:
+            conn.commit()
     finally:
         if owns:
             conn.close()

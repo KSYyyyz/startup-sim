@@ -66,3 +66,12 @@ CREATE TABLE IF NOT EXISTS snapshots (
     state_json TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS external_sessions (
+    source TEXT NOT NULL,
+    external_user_id TEXT NOT NULL,
+    session_id INTEGER NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+    PRIMARY KEY (source, external_user_id)
+);
