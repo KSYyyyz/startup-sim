@@ -156,7 +156,7 @@ def format_result(r: dict) -> str:
 
 def main():
     print("=" * 90)
-    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.2)")
+    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.3)")
     print("  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局")
     print("=" * 90)
     print()

@@ -1,4 +1,4 @@
-# Startup Sim 🚀  `Alpha 1.2`
+# Startup Sim 🚀  `Alpha 1.3`
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
@@ -122,13 +122,43 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 129 passed (Alpha 1.2)
+pytest tests/ -v    # 136 passed (Alpha 1.3)
 ```
 
 测试覆盖：
 - **平衡测试**：5种策略 × 12回合自动运行，验证结局多样性 ≥3 种
 - **补充测试**：process_turn_raw 端到端流程、营销不重复结算、融资现金豁免、研发公式验证
+- **新增测试**：结局叙事变体、玩家路径分类、董事会冲突检测
 - 规则解析器、StateGuard、竞品、客户、董事会、结局判定全覆盖
+
+## 📋 Alpha 1.3 更新内容
+
+1. **随机事件池（25个事件）** — `src/core/events.py`
+   - 机会类10个：大客户签约、媒体报道、技术洞察、政策利好、竞品失误、自然裂变、人才入职、渠道合作、奖项入围、口碑推荐
+   - 危机类10个：服务器宕机、员工离职、客户投诉、竞品挖角、数据安全传闻、支付故障、监管问询、基础设施涨价、投资人动摇、客户流失
+   - 中性类5个：行业大会、投资人引荐、团队内部分歧、市场传闻、用户需求反馈、收购意向、技术范式变化
+   - 每事件影响 ≤±3产品分/±5士气/±2市场份额，约20%概率触发→每12回合2-3个
+   - 与现有3个固定事件（runway_warning/board_coup_risk/product_breakthrough）共存，不破坏接口
+
+2. **董事会争议系统** — `src/agents/board.py`
+   - CFO/CTO/COO/投资方董事基于同一state给出矛盾建议
+   - `generate_board_minutes()` 函数输出格式化董事会会议记录
+   - 自动检测分歧焦点（CFO砍预算 vs CTO加研发、CFO保守 vs COO增长）
+
+3. **竞品状态化** — `src/agents/competitors.py`
+   - `CompetitorState` 数据类：product_score/cash/market_share/strategy_cooldown
+   - `periodic_action()` 方法：竞品每回合独立行动（自主降价、企业功能发布、市场份额增长）
+   - 竞品状态写入月度战报
+
+4. **月度战报** — `src/core/turn_engine.py`
+   - `generate_monthly_report(result, state_before, state_after)` 函数
+   - 6个板块：关键变化、董事会争议、竞品动作、客户反馈、风险提醒、下月建议
+   - CLI和飞书共用
+
+5. **结局叙事增强** — `src/core/ending_evaluator.py`
+   - 玩家路径分类：研发派/营销派/融资派/均衡派/保守派
+   - 5种结局 × 5种路径 = 每种结局2-3种文案变体
+   - `describe_ending_with_seed()` 支持确定性叙事（用于测试）
 
 ## 📋 Alpha 1.2 更新内容
 
@@ -158,9 +188,10 @@ startup-sim/
 │   │   ├── models.py           # Pydantic模型(含employee/price/valuation)
 │   │   ├── state_guard.py      # StateGuard校验
 │   │   ├── action_parser.py    # 自然语言解析
+│   │   ├── events.py           # 随机事件池(Alpha 1.3)
 │   │   ├── event_engine.py     # 事件引擎
-│   │   ├── ending_evaluator.py # 结局判定
-│   │   ├── turn_engine.py      # 回合主流程
+│   │   ├── ending_evaluator.py # 结局判定+路径分类(Alpha 1.3)
+│   │   ├── turn_engine.py      # 回合主流程+月度战报(Alpha 1.3)
 │   │   ├── difficulty.py       # 难度系统
 │   │   └── balancer.py         # 数值平衡器
 │   ├── agents/
@@ -170,14 +201,15 @@ startup-sim/
 │   │   └── customers.py        # 客户群体(四因子+转化率)
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
-└── tests/                  # 129个测试，pytest全覆盖
+└── tests/                  # 136个测试，pytest全覆盖
 ```
 
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Alpha 1.2 仍是规则解析器 + Mock Agent，不是真LLM推理 — 零API消耗，全规则引擎驱动
+- Alpha 1.3：规则解析器 + Mock Agent + 随机事件池 + 董事会争议 + 竞品状态 + 月度战报 + 结局变体叙事
+- 零API消耗，全规则引擎驱动
 
 ---
 
-*内部平衡测试版 Alpha 1.2 — 数值调优完成，待进入 Alpha 1.3 接入真实 LLM。*
+*内部游戏体验增强版 Alpha 1.3 — 136 tests passed, 5策略3结局平衡验证通过。*

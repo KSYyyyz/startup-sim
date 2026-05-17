@@ -1,9 +1,12 @@
 """Event engine: triggers narrative events based on state transitions.
 
-Three event types:
+Three fixed event types:
 - runway_warning: cash runway drops to <= 3 from above 3
 - board_coup_risk: equity < 34, board < 50, MRR growth < 5%
 - product_breakthrough: product_score crosses 75 threshold upward
+
+Alpha 1.3: 25 random pool events (opportunity/crisis/neutral) with small deltas,
+sampled at ~20% per turn → ~2.4 events per 12 turns.
 
 Phase 1C enhancements:
 - Event priority: critical > high > medium > positive > low
@@ -17,6 +20,7 @@ from typing import List, Optional, Set
 
 from src.core.models import CompanyState, GameEvent, StateDelta
 from src.core.difficulty import Difficulty, get_difficulty
+from src.core.events import sample_random_events, get_event_summary
 
 
 # ── Priority constants ────────────────────────────────────────────────────────
@@ -25,6 +29,13 @@ EVENT_PRIORITY = {
     "runway_warning": 1,       # critical
     "board_coup_risk": 1,      # critical
     "product_breakthrough": 3,  # positive
+}
+
+# Priority mapping: category → priority level
+CATEGORY_PRIORITY = {
+    "opportunity": 3,  # positive
+    "crisis": 2,       # high
+    "neutral": 4,      # low
 }
 
 # Priority names for display
@@ -60,6 +71,8 @@ class EventEngine:
         Events can stack — multiple events may fire in the same turn.
         Events that have already been triggered are skipped (dedup).
         Events are sorted by priority (most critical first).
+
+        Alpha 1.3: pool events sampled randomly after fixed events.
         """
         events: List[GameEvent] = []
 
@@ -130,7 +143,11 @@ class EventEngine:
                     ),
                 ))
 
-        # Sort by priority: critical first
+        # Alpha 1.3: Sample random pool events
+        pool_events = sample_random_events(current, self._triggered_events)
+        events.extend(pool_events)
+
+        # Sort by priority: critical first, then high, positive, low
         events.sort(key=lambda e: EVENT_PRIORITY.get(e.event_type, 4))
 
         return events
