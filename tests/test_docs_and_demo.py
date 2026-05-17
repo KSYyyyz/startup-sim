@@ -103,6 +103,11 @@ class TestQuickstart:
         assert "融资500万出让10%" in self.content, "QUICKSTART must have 均衡 route"
         assert "控制支出" in self.content, "QUICKSTART must have 保守 route"
 
+    def test_no_old_recommendations(self):
+        assert (
+            "花20万研发产品，花10万做营销" not in self.content
+        ), "QUICKSTART must not contain old recommendation"
+
 
 class TestVersion:
     def test_version_is_1_7(self):
