@@ -110,6 +110,6 @@ class TestQuickstart:
 
 
 class TestVersion:
-    def test_version_is_1_9(self):
+    def test_version_is_1_9_1(self):
         version = (PROJECT_DIR / "VERSION").read_text(encoding="utf-8").strip()
-        assert version == "1.9", f"VERSION should be '1.9', got '{version}'"
+        assert version == "1.9.1", f"VERSION should be '1.9.1', got '{version}'"
