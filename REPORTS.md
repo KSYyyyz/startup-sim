@@ -1,6 +1,6 @@
 # Startup Sim — 版本开发报告
 
-> 注意：历史阶段（Alpha 1.2/1.3/1.4/1.5）的下一步建议仅作版本记录，当前路线以最新 Alpha 1.6 规划为准。
+> 注意：历史阶段（Alpha 1.2/1.3/1.4/1.5）的下一步建议仅作版本记录，当前路线以最新 Alpha 1.7 规划为准。
 
 Alpha 1.2 主流程已完成，剩余仅为文案和格式收尾。
 
@@ -543,3 +543,25 @@ Alpha 1.5 建议方向：
 - `.github/workflows/ci.yml` 新增 docs-check 步骤
 - `make check` 现在覆盖格式、lint、测试、playtest、文档一致性五项
 - 后续每次版本推进，`make check` 必须全部通过（含 docs-check）
+
+---
+
+## Alpha 1.7 首次玩家试玩验证版
+
+主题：面向非开发者的首次试玩体验优化
+
+内容：
+- 新增 `QUICKSTART.md`：面向普通试玩者的3分钟启动指南（不涉及开发工具）
+- 新增 `examples/sample_run_balanced.md`：均衡策略→A轮成功样例局（12个月决策/指标/成就/学习点）
+- 新增 `examples/sample_run_marketing_failure.md`：全营销→慢性死亡失败样例（含失败原因分析和教训总结）
+- 新增 `docs/playtest_feedback_template.md`：6个问题的玩家试玩反馈模板
+- 新增 `docs/playtest_observation.md`：试玩观察记录模板（含操作统计和观察笔记）
+- 新增 `docs/troubleshooting.md`：按"症状→解决方法"格式覆盖环境安装/游戏启动/开发工具/Git 问题
+- 新增 `scripts/start_demo.py`：启动前检查脚本（Python版本/依赖/目录检查 + 推荐启动命令 + 第一回合建议）
+- CLI `app.py` help 增加快速导航（QUICKSTART / examples / troubleshooting）
+- 飞书 `feishu_play.py` help 增加快速导航
+- README 更新至 Alpha 1.7，新增快速导航区块、项目结构更新
+- VERSION 更新至 1.7
+- 新增 `tests/test_docs_and_demo.py`：文档存在性检查 + start_demo.py 可运行验证 + VERSION 一致性
+
+状态：适合小范围内部试玩，不适合公开发布

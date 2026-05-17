@@ -1,10 +1,20 @@
-# Startup Sim 🚀  `Alpha 1.6`
+# Startup Sim 🚀  Alpha 1.7
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
 你是AI客服SaaS创始人，种子轮100万。12个月内做产品/营销/招聘/融资决策，在董事会、竞品、客户三方博弈中活下来。
 
-> ⚠️ 当前版本是内部平衡测试版，不是外部公开试玩版。
+> ⚠️ Alpha 1.7 是首次玩家试玩验证版，适合小范围内部试玩。
+
+### 🔗 快速导航
+
+| 文档 | 说明 |
+|------|------|
+| [QUICKSTART.md](QUICKSTART.md) | 3分钟快速启动指南 |
+| [examples/sample_run_balanced.md](examples/sample_run_balanced.md) | 官方样例局：均衡策略→A轮成功 |
+| [examples/sample_run_marketing_failure.md](examples/sample_run_marketing_failure.md) | 官方失败样例：全营销→慢性死亡 |
+| [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |
+| [docs/troubleshooting.md](docs/troubleshooting.md) | 常见问题排查
 
 ## 🎮 快速开始
 
@@ -266,10 +276,15 @@ startup-sim/
 ├── app.py                  # CLI入口
 ├── feishu_play.py          # 飞书薄适配层：命令识别 + session映射 + TurnEngine调用 + 格式化输出
 ├── config.py               # 配置
+├── QUICKSTART.md           # 3分钟快速启动指南
 ├── data/scenarios.yaml     # 剧本
+├── examples/
+│   ├── sample_run_balanced.md         # 样例局：均衡→A轮成功
+│   └── sample_run_marketing_failure.md # 样例局：全营销→慢性死亡
 ├── scripts/
 │   ├── playtest.py              # 12回合自动试玩脚本
-│   └── check_docs_consistency.py # 文档一致性检查脚本
+│   ├── check_docs_consistency.py # 文档一致性检查脚本
+│   └── start_demo.py            # 启动前检查脚本
 ├── src/
 │   ├── core/
 │   │   ├── models.py           # Pydantic模型(含employee/price/valuation)
@@ -295,6 +310,10 @@ startup-sim/
 │   │   └── customers.py        # 客户群体(四因子+转化率)
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
+├── docs/
+│   ├── playtest_feedback_template.md # 玩家试玩反馈模板
+│   ├── playtest_observation.md       # 试玩观察记录模板
+│   └── troubleshooting.md            # 常见问题排查
 └── tests/                  # pytest 全覆盖
 ```
 
@@ -314,9 +333,9 @@ startup-sim/
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Alpha 1.6：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help
+- Alpha 1.7：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help + 试玩文档体系
 - 零API消耗，全规则引擎驱动
 
 ---
 
-*内部游戏体验增强版 Alpha 1.6 — 273 tests passed，新手引导/建议引擎/状态解读/Help/StateGuard增强全部就绪，5 策略 3 稳定结局。*
+*首次玩家试玩验证版 Alpha 1.7 — 273 tests passed，新增快速启动指南/样例局/反馈模板/问题排查，适合小范围内部试玩。*

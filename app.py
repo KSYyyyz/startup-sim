@@ -361,6 +361,10 @@ def show_help() -> None:
     print('     "花5万招聘，花10万做营销推广"')
     print(f"{'='*60}")
     print()
+    print("  📖 快速开始：查看 QUICKSTART.md")
+    print("  📋 样例局：examples/")
+    print("  🔧 遇到问题：docs/troubleshooting.md")
+    print()
 
 
 def load_scenario(scenario_id: str) -> CompanyState:

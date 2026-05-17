@@ -239,7 +239,10 @@ def help_text() -> str:
         "• 融资500万出让10%股权，花30万研发产品\n\n"
         "📌 常用指令：\n"
         "• 创业模拟器 开始 / 状态 / 帮助\n"
-        "• 直接输入决策即可"
+        "• 直接输入决策即可\n\n"
+        "📖 快速开始：QUICKSTART.md\n"
+        "📋 样例局：examples/\n"
+        "🔧 问题排查：docs/troubleshooting.md"
     )
 
 
