@@ -134,7 +134,7 @@ Alpha 1.3 建议方向：
 
 | 文件 | 变更类型 | 说明 |
 |------|----------|------|
-| `src/core/events.py` | **新增** | 25个随机事件池（机会/危机/中性三类） |
+| `src/core/events.py` | **新增** | 27个随机事件池（机会/危机/中性三类） |
 | `src/core/event_engine.py` | 修改 | 集成随机事件池，保持原固定事件接口不变 |
 | `src/agents/board.py` | 重写 | 董事会建议冲突增强 + `generate_board_minutes()` |
 | `src/agents/competitors.py` | 重写 | 新增 `CompetitorState` + `periodic_action()` |

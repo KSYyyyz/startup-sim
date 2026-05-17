@@ -1,4 +1,4 @@
-"""Alpha 1.3 expanded event pool: 25 narrative events across 3 categories.
+"""Alpha 1.3 expanded event pool: 27 narrative events across 3 categories.
 
 Categories:
 - opportunity: 大客户签约、媒体报道、技术突破、政策利好、竞品失误
