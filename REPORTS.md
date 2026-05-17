@@ -257,3 +257,115 @@ CLI和飞书共用此函数。
 ---
 
 *Alpha 1.3 游戏体验增强版 — 2026-05-17*
+
+---
+
+# Startup Sim — Alpha 1.4 开发记录
+
+## 1. 修改了哪些文件
+
+| 文件 | 变更类型 | 说明 |
+|------|----------|------|
+| `src/core/review_engine.py` | **新增** | ReviewEngine：复盘报告生成 + 创始人画像 + 策略评分 + 关键转折点 + 结局解释 |
+| `src/core/models.py` | 修改 | 新增 FounderProfile / StrategyScore / KeyMoment / GameReview 四个 Pydantic 模型 |
+| `src/db/repository.py` | 修改 | 新增 list_snapshots / list_actions / list_events 三个历史查询函数 |
+| `app.py` | 修改 | CLI 结局复盘输出（print_review 函数） |
+| `feishu_play.py` | 修改 | 飞书简版复盘输出（_format_review_short 函数） |
+| `scripts/playtest.py` | 修改 | 每种策略结束后输出复盘摘要（结局标题/创始人画像/综合评分/转折点数） |
+| `tests/test_review_engine.py` | **新增** | 25 个测试覆盖复盘系统 |
+| `README.md` | 修改 | 更新至 Alpha 1.4，添加新功能说明 |
+| `REPORTS.md` | 修改 | 追加本记录 |
+| `VERSION` | 修改 | 1.3 → 1.4 |
+
+## 2. Playtest 五种策略复盘摘要（Alpha 1.4）
+
+```
+策略         | 结局                    | 创始人画像    | 综合评分 | 关键转折点
+全研发        | survived_but_average   | 技术极客     | 50      | 8个
+全营销        | slow_death             | 混乱求生者   | 33      | 8个
+先融资再增长   | series_a_success       | 技术极客     | 100     | 5个
+保守现金流     | survived_but_average   | 技术极客     | 55      | 8个
+均衡          | series_a_success       | 技术极客     | 100     | 3个
+```
+
+**结局分布：3 种 → survived_but_average, slow_death, series_a_success** ✅
+
+策略评分差异显著：A轮成功策略评分远高于失败的（100 vs 33-55），且关键转折点能捕捉到不同策略的关键事件。
+
+## 3. 新增核心模块：ReviewEngine
+
+### 创始人画像分类（6种）
+- **tech_visionary**（技术极客）：产品分≥70，A轮或存活
+- **growth_hacker**（增长黑客）：用户≥500，MRR≥20万
+- **capital_player**（资本玩家）：股权<80%，估值>2000万
+- **conservative_operator**（保守派操盘手）：跑道>9月，产品<60，用户<200
+- **balanced_leader**（均衡型CEO）：中等指标，A轮或均衡
+- **chaotic_survivor**（混乱求生者）：无明显特征
+
+### 策略评分（0-100）
+- product_score：产品分直接映射
+- growth_score：MRR + 用户数组合
+- finance_score：现金管理 + 融资效率
+- control_score：股权保留比例
+- risk_score：跑道健康度
+- overall_score：加权平均（A轮+10，破产-15）
+
+### 关键转折点识别
+- 现金跌破10万/1万
+- 产品分突破70
+- MRR超过30万/50万/100万
+- 股权跌破80%/50%
+- 跑道低于3个月
+- 重大事件触发
+
+### 结局解释增强
+- series_a_success：技术驱动/增长为王/资本杠杆/稳健制胜
+- survived_but_average：小而美/增长不足/现金流守成/技术孤岛
+- slow_death：营销泡沫/产品不足/错失融资窗口/方向迷失
+- bankruptcy：烧钱自焚/研发生不逢时/现金断裂
+- founder_removed：出局
+
+## 4. Alpha 1.4 验收标准
+
+| 验证项 | 状态 |
+|--------|------|
+| pytest 161 测试全部通过 | ✅ |
+| playtest 5 策略正常运行并输出复盘 | ✅ |
+| 每种结局有对应文案 | ✅ |
+| 创始人画像随策略变化 | ✅ |
+| 策略评分0-100 | ✅ |
+| key_moments ≥ 1个 | ✅ |
+| CLI 结局时输出复盘 | ✅ |
+| 飞书结局时输出复盘 | ✅ |
+| 不接 LLM | ✅ |
+| 不做 Web/排行榜 | ✅ |
+| 不破坏 Alpha 1.3 数值平衡 | ✅ |
+
+## 5. 不包含的内容
+
+- ❌ 真实LLM调用
+- ❌ Web界面
+- ❌ 排行榜系统
+- ❌ 多赛道选择
+- ❌ 新结局类型
+- ❌ 数值参数调整
+
+## 6. 是否建议进入 Alpha 1.5
+
+**建议进入 Alpha 1.5。** 理由：
+
+✅ 复盘系统为核心循环闭环：玩家 → 决策 → 结局 → 复盘 → 下次改进
+✅ 创始���画像和策略评分为玩家提供有意义的反馈
+✅ 测试覆盖充分（161个），不破坏原有平衡
+✅ CLI和飞书双端可用
+✅ 复盘系统为未来功能（存档比较、策略建议、成就系统）预留了扩展点
+
+Alpha 1.5 建议方向：
+- 真人试玩反馈收集
+- 回放系统（按月重播决策细节）
+- 策略对比（对比两次游戏的评分差异）
+- 成就徽章系统
+
+---
+
+*Alpha 1.4 复盘系统增强版 — 2026-05-17*

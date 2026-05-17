@@ -22,6 +22,7 @@ from src.db import repository
 from src.core.models import CompanyState, EndingType
 from src.core.turn_engine import TurnEngine
 from src.core.difficulty import get_difficulty
+from src.core.review_engine import ReviewEngine
 
 
 # ── Display helpers ────────────────────────────────────────────────────────────
@@ -57,6 +58,57 @@ def display_events(events) -> None:
     print(f"\n⚡ 事件触发 ({len(events)}):")
     for e in events:
         print(f"  [{e.event_type}] {e.description}")
+
+
+def print_review(session_id: int, initial_state: CompanyState, final_state: CompanyState,
+                 ending_status: str) -> None:
+    """Generate and print the post-game review report."""
+    snapshots = repository.list_snapshots(session_id)
+    actions = repository.list_actions(session_id)
+    events_db = repository.list_events(session_id)
+
+    review = ReviewEngine.generate_review(
+        initial_state=initial_state,
+        snapshots=snapshots,
+        action_logs=actions,
+        event_logs=events_db,
+        final_state=final_state,
+        ending_status=ending_status,
+        session_id=session_id,
+    )
+
+    scores = review.strategy_scores
+    fm = review.final_metrics
+    runway = fm.get("runway_months", 0)
+    runway_str = f"{runway:.1f}个月" if runway != float("inf") else "∞"
+
+    print(f"\n{'='*60}")
+    print(f"  🏁 创业复盘报告")
+    print(f"{'='*60}")
+    print(f"  🎯 结局：{review.ending_title}")
+    print(f"  💬 {review.ending_summary}")
+    print()
+    print(f"  📊 最终指标")
+    print(f"    现金:{_money(fm.get('cash',0))} | MRR:{_money(fm.get('mrr',0))} | "
+          f"产品:{fm.get('product_score',0)} | 用户:{fm.get('users',0)} | "
+          f"股权:{fm.get('founder_equity',0)}%")
+    print()
+    print(f"  🎯 策略评分")
+    print(f"    产品力:{scores.product_score:>3} | 增长力:{scores.growth_score:>3} | "
+          f"财务力:{scores.finance_score:>3}")
+    print(f"    控制力:{scores.control_score:>3} | 风控力:{scores.risk_score:>3} | "
+          f"综合:{scores.overall_score:>3}")
+    print()
+    print(f"  🔑 关键转折点")
+    for m in review.key_moments:
+        print(f"    [M{m.month:>2}] {m.title} — {m.description}")
+    print()
+    print(f"  👤 创始人画像：{review.founder_profile.profile_title}")
+    print(f"    {review.founder_profile.description}")
+    print()
+    print(f"  💡 下局建议")
+    print(f"    {review.advice_for_next_run}")
+    print(f"{'='*60}")
 
 
 def display_result(result) -> None:
@@ -185,6 +237,8 @@ def cmd_new(args) -> None:
 
             if result.ending != EndingType.NONE:
                 display_state(result.state_after, "📊 最终状态")
+                print_review(session_id, scenario_state, result.state_after,
+                           result.ending.value)
                 break
 
             # Show updated state

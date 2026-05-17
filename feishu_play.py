@@ -19,6 +19,7 @@ from src.core.models import CompanyState, TurnResult, EndingType
 from src.core.turn_engine import TurnEngine
 from src.core.difficulty import Difficulty, get_difficulty
 from src.core.ending_evaluator import evaluate as eval_ending, describe_ending
+from src.core.review_engine import ReviewEngine
 from src.db import repository
 from src.db.connection import init_db
 
@@ -144,7 +145,13 @@ def turn(user_id: str, raw_input: str) -> str:
                 conn=conn,
             )
 
-    return _format_result(result)
+    msg = _format_result(result)
+
+    # Alpha 1.4: Append review when game ends
+    if result.ending != EndingType.NONE:
+        msg += "\n\n" + _format_review_short(sid, result)
+
+    return msg
 
 
 def turn_safe(user_id: str, raw_input: str) -> str:
@@ -252,3 +259,50 @@ def _render_state(state: CompanyState, difficulty: str = "") -> str:
     )
 
     return "\n".join([line1, line2, line3, line4, line5, line6])
+
+
+def _format_review_short(session_id: int, result: TurnResult) -> str:
+    """Generate a compact review for Feishu chat window."""
+    snapshots = repository.list_snapshots(session_id)
+    actions = repository.list_actions(session_id)
+    events_db = repository.list_events(session_id)
+
+    # Reconstruct initial state from session difficulty
+    session_status = repository.get_session_status(session_id)
+    diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
+    diff = get_difficulty(diff_name)
+    initial_state = CompanyState(
+        cash=int(1_000_000 * diff.cash_multiplier),
+        product_score=max(0, 20 + diff.product_score_add),
+        team_morale=max(0, 70 + diff.team_morale_add),
+        month=1,
+    )
+
+    review = ReviewEngine.generate_review(
+        initial_state=initial_state,
+        snapshots=snapshots,
+        action_logs=actions,
+        event_logs=events_db,
+        final_state=result.state_after,
+        ending_status=result.ending.value,
+        session_id=session_id,
+    )
+
+    scores = review.strategy_scores
+    lines = [
+        "🏁 **创业复盘**",
+        f"结局：{review.ending_title}",
+        f"💬 {review.ending_summary}",
+        "",
+        f"📊 评分：产品{scores.product_score} | 增长{scores.growth_score} | "
+        f"财务{scores.finance_score} | 控制{scores.control_score} | "
+        f"风控{scores.risk_score} | 综合{scores.overall_score}",
+        "",
+        "🔑 关键转折：",
+    ]
+    for m in review.key_moments[:3]:
+        lines.append(f"• M{m.month} {m.title}")
+    lines.append("")
+    lines.append(f"💡 {review.advice_for_next_run}")
+
+    return "\n".join(lines)

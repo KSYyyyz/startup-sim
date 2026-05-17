@@ -1,4 +1,4 @@
-# Startup Sim 🚀  `Alpha 1.3`
+# Startup Sim 🚀  `Alpha 1.4`
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
@@ -122,7 +122,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 136 passed (Alpha 1.3)
+pytest tests/ -v    # 161 passed (Alpha 1.4)
 ```
 
 测试覆盖：
@@ -160,6 +160,30 @@ pytest tests/ -v    # 136 passed (Alpha 1.3)
    - 5种结局 × 5种路径 = 每种结局2-3种文案变体
    - `describe_ending_with_seed()` 支持确定性叙事（用于测试）
 
+## 📋 Alpha 1.4 更新内容
+
+1. **复盘系统** — `src/core/review_engine.py`
+   - `ReviewEngine.generate_review()` 生成完整 GameReview 复盘报告
+   - 6种创始人画像识别：技术极客/增长黑客/资本玩家/保守派操盘手/均衡型CEO/混乱求生者
+   - 5维策略评分（0-100）：产品力/增长力/财务力/控制力/风控力 + 综合评分
+   - 关键转折点识别：现金危机/产品突破/MRR里程碑/股权稀释/跑道警告/重大事件
+   - 结局解释增强：series_a_success 按风格区分4种叙事，survived_but_average 区分4种，slow_death 区分4种
+
+2. **复盘数据结构** — `src/core/models.py`
+   - `FounderProfile` / `StrategyScore` / `KeyMoment` / `GameReview` 四个 Pydantic 模型
+
+3. **CLI 结局复盘** — `app.py`
+   - 游戏结束时输出完整创业复盘报告：结局标题、一句话总结、最终指标、策略评分、关键转折点、创始人画像、下局建议
+
+4. **飞书简版复盘** — `feishu_play.py`
+   - 游戏结束时输出精简复盘：结局、总结、5项评分、3个关键转折点、下局建议
+
+5. **数据库历史查询** — `src/db/repository.py`
+   - 新增 `list_snapshots()` / `list_actions()` / `list_events()` 三个读接口，不破坏现有事务逻辑
+
+6. **Playtest 增强** — `scripts/playtest.py`
+   - 每种策略结束后输出简版复盘摘要：结局标题、创始人画像、综合评分、关键转折点数量
+
 ## 📋 Alpha 1.2 更新内容
 
 1. **12 回合内部试玩** — `scripts/playtest.py` 跑满 5 种策略 × 12 回合
@@ -191,6 +215,7 @@ startup-sim/
 │   │   ├── events.py           # 随机事件池(Alpha 1.3)
 │   │   ├── event_engine.py     # 事件引擎
 │   │   ├── ending_evaluator.py # 结局判定+路径分类(Alpha 1.3)
+│   │   ├── review_engine.py    # 复盘系统+创始人画像+策略评分(Alpha 1.4)
 │   │   ├── turn_engine.py      # 回合主流程+月度战报(Alpha 1.3)
 │   │   ├── difficulty.py       # 难度系统
 │   │   └── balancer.py         # 数值平衡器
@@ -201,15 +226,15 @@ startup-sim/
 │   │   └── customers.py        # 客户群体(四因子+转化率)
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
-└── tests/                  # 136个测试，pytest全覆盖
+└── tests/                  # 161个测试，pytest全覆盖
 ```
 
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Alpha 1.3：规则解析器 + Mock Agent + 随机事件池 + 董事会争议 + 竞品状态 + 月度战报 + 结局变体叙事
+- Alpha 1.4：规则解析器 + Mock Agent + 随机事件池 + 董事会争议 + 竞品状态 + 月度战报 + 结局变体叙事 + 复盘系统
 - 零API消耗，全规则引擎驱动
 
 ---
 
-*内部游戏体验增强版 Alpha 1.3 — 136 tests passed, 5 策略 3 稳定结局，部分随机种子下可出现 bankruptcy。*
+*内部游戏体验增强版 Alpha 1.4 — 161 tests passed, 5 策略 3 稳定结局，复盘系统覆盖全部结局。*

@@ -17,6 +17,7 @@ from src.core.models import CompanyState, EndingType
 from src.core.turn_engine import TurnEngine
 from src.core.state_guard import StateGuardError
 from src.core.difficulty import get_difficulty
+from src.core.review_engine import ReviewEngine
 
 
 # ── Strategy definitions (generate raw_input strings) ──────────────────────────
@@ -84,7 +85,10 @@ STRATEGIES = [
 
 
 def _make_result(name: str, ending: str, ending_desc: str,
-                 state: CompanyState, events: list[str] | None = None) -> dict:
+                 state: CompanyState, events: list[str] | None = None,
+                 snapshots: list[dict] | None = None,
+                 actions: list[dict] | None = None,
+                 initial_state: CompanyState | None = None) -> dict:
     """Build a uniform result dict for a completed strategy run."""
     return {
         "strategy": name,
@@ -98,6 +102,9 @@ def _make_result(name: str, ending: str, ending_desc: str,
         "founder_equity": state.founder_equity,
         "valuation": state.valuation,
         "events": events or [],
+        "snapshots": snapshots or [],
+        "actions": actions or [],
+        "initial_state": initial_state,
     }
 
 
@@ -106,35 +113,43 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
 
     Each turn: generate raw_input → process_turn_raw → use result.state_after.
     Covers parse_multi, StateGuard, competitors, CustomerAgent, events, endings.
+    Alpha 1.4: Collects snapshots and actions for post-game review.
     """
-    state = CompanyState()
+    initial_state = CompanyState()
+    state = initial_state
     difficulty = difficulty or get_difficulty("normal")
+    snapshots = []
+    actions = []
 
     for month in range(1, 13):
         raw_input = strat_fn(month, state)
         if not raw_input or not raw_input.strip():
-            # Strategy has nothing to do this turn (empty = pass)
             raw_input = ""
+
+        actions.append({"month": month, "raw_input": raw_input, "action_plan_json": "[]"})
 
         try:
             result = TurnEngine.process_turn_raw(state, raw_input, difficulty)
         except StateGuardError:
-            # Overspending caught by StateGuard — treat as forced end
             state.month = month
             return _make_result(
                 name, "bankruptcy",
                 f"第{month}月现金流断裂，无法继续运营。", state,
+                snapshots=snapshots, actions=actions, initial_state=initial_state,
             )
 
         state = result.state_after
+        snapshots.append({"month": state.month, "state_json": state.model_dump()})
 
         if result.ending and result.ending != EndingType.NONE:
             return _make_result(
                 name, result.ending.value, result.ending_description, state,
                 [e.event_type for e in result.events],
+                snapshots=snapshots, actions=actions, initial_state=initial_state,
             )
 
-    return _make_result(name, "none", "游戏继续", state)
+    return _make_result(name, "none", "游戏继续", state,
+                        snapshots=snapshots, actions=actions, initial_state=initial_state)
 
 
 def format_result(r: dict) -> str:
@@ -156,7 +171,7 @@ def format_result(r: dict) -> str:
 
 def main():
     print("=" * 90)
-    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.3)")
+    print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.4)")
     print("  Flow: TurnEngine.process_turn_raw → parse_multi/StateGuard/竞品/客户/事件/结局")
     print("=" * 90)
     print()
@@ -199,7 +214,7 @@ def main():
 
     print()
 
-    # Detail for each strategy
+    # Detail for each strategy (Alpha 1.4: + review summary)
     for r in results:
         print(f"📋 {r['strategy']}")
         print(f"   {r['ending_desc']}")
@@ -212,6 +227,23 @@ def main():
         )
         if r.get("events"):
             print(f"   事件: {', '.join(r['events'])}")
+
+        # Alpha 1.4: Generate and print mini-review
+        if r.get("snapshots") and r["ending"] != "none":
+            review = ReviewEngine.generate_review(
+                initial_state=r["initial_state"],
+                snapshots=r["snapshots"],
+                action_logs=r["actions"],
+                event_logs=[],
+                final_state=CompanyState(
+                    month=r["month"], cash=r["cash"], mrr=r["mrr"],
+                    product_score=r["product_score"], users=r["users"],
+                    founder_equity=r["founder_equity"], valuation=r.get("valuation", 5_000_000),
+                ),
+                ending_status=r["ending"],
+            )
+            print(f"   🎯 {review.ending_title} | 👤 {review.founder_profile.profile_title} | ⭐ 综合评分: {review.strategy_scores.overall_score}")
+            print(f"   🔑 关键转折点: {len(review.key_moments)}个")
         print()
 
 

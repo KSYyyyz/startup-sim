@@ -280,3 +280,60 @@ def transaction() -> Generator[sqlite3.Connection, None, None]:
         raise
     finally:
         conn.close()
+
+
+# ── Alpha 1.4: History queries for review engine ────────────────────────────
+
+def list_snapshots(session_id: int) -> list[dict]:
+    """Return all state snapshots for a session, ordered by month."""
+    conn, owns = _get_conn()
+    try:
+        rows = conn.execute(
+            "SELECT id, session_id, month, state_json, created_at "
+            "FROM snapshots WHERE session_id = ? ORDER BY month",
+            (session_id,),
+        ).fetchall()
+        return [{"id": r["id"], "session_id": r["session_id"],
+                 "month": r["month"], "state_json": r["state_json"],
+                 "created_at": r["created_at"]} for r in rows]
+    finally:
+        if owns:
+            conn.close()
+
+
+def list_actions(session_id: int) -> list[dict]:
+    """Return all player actions for a session, ordered by month."""
+    conn, owns = _get_conn()
+    try:
+        rows = conn.execute(
+            "SELECT id, session_id, month, raw_input, action_plan_json, result_json, created_at "
+            "FROM actions WHERE session_id = ? ORDER BY month",
+            (session_id,),
+        ).fetchall()
+        return [{"id": r["id"], "session_id": r["session_id"],
+                 "month": r["month"], "raw_input": r["raw_input"],
+                 "action_plan_json": r["action_plan_json"],
+                 "result_json": r["result_json"],
+                 "created_at": r["created_at"]} for r in rows]
+    finally:
+        if owns:
+            conn.close()
+
+
+def list_events(session_id: int) -> list[dict]:
+    """Return all game events for a session, ordered by month."""
+    conn, owns = _get_conn()
+    try:
+        rows = conn.execute(
+            "SELECT id, session_id, month, event_type, title, severity, payload_json, created_at "
+            "FROM events WHERE session_id = ? ORDER BY month",
+            (session_id,),
+        ).fetchall()
+        return [{"id": r["id"], "session_id": r["session_id"],
+                 "month": r["month"], "event_type": r["event_type"],
+                 "title": r["title"], "severity": r["severity"],
+                 "payload_json": r["payload_json"],
+                 "created_at": r["created_at"]} for r in rows]
+    finally:
+        if owns:
+            conn.close()

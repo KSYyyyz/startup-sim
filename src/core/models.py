@@ -134,3 +134,46 @@ class TurnResult(BaseModel):
     ending: EndingType = EndingType.NONE
     ending_description: str = ""
     snapshots_saved: int = 0
+
+
+# ── Alpha 1.4: Review & Replay ──────────────────────────────────────────────────
+
+class FounderProfile(BaseModel):
+    """Player founder archetype based on gameplay patterns."""
+    profile_type: str  # tech_visionary / growth_hacker / capital_player / conservative_operator / balanced_leader / chaotic_survivor
+    profile_title: str
+    description: str
+
+
+class StrategyScore(BaseModel):
+    """Multi-dimensional strategy scoring (0-100 each)."""
+    product_score: int = Field(default=0, ge=0, le=100)
+    growth_score: int = Field(default=0, ge=0, le=100)
+    finance_score: int = Field(default=0, ge=0, le=100)
+    control_score: int = Field(default=0, ge=0, le=100)
+    risk_score: int = Field(default=0, ge=0, le=100)
+    overall_score: int = Field(default=0, ge=0, le=100)
+
+
+class KeyMoment(BaseModel):
+    """A pivotal moment identified during the game."""
+    month: int
+    title: str
+    description: str
+    impact_type: str  # "positive" / "negative" / "neutral"
+    related_metrics: Dict[str, Any] = Field(default_factory=dict)
+
+
+class GameReview(BaseModel):
+    """Complete post-game review report."""
+    session_id: int = 0
+    ending_status: str = ""
+    ending_title: str = ""
+    ending_summary: str = ""
+    founder_profile: FounderProfile = Field(default_factory=lambda: FounderProfile(
+        profile_type="balanced_leader", profile_title="均衡型CEO", description=""
+    ))
+    strategy_scores: StrategyScore = Field(default_factory=StrategyScore)
+    key_moments: List[KeyMoment] = Field(default_factory=list)
+    final_metrics: Dict[str, Any] = Field(default_factory=dict)
+    advice_for_next_run: str = ""
