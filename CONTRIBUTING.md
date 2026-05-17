@@ -12,6 +12,7 @@
 8. **质量门** — `make check`（依次执行 format + lint + test + playtest）
 9. **提交** — `git commit -m "描述性信息"`
 10. **推送** — `git push`
+11. **确认 CI** — 确认 GitHub Actions CI 绿色通过
 
 ## 禁止项
 
