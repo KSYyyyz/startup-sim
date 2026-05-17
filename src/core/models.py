@@ -69,7 +69,7 @@ class CompanyState(BaseModel):
     reputation: int = Field(default=50, ge=0, le=100)
     employee_count: int = Field(default=10, ge=0, description="团队人数")
     price: int = Field(default=5000, ge=0, description="产品月单价(元)")
-    valuation: int = Field(default=5_000_000, ge=0, description="公司估值(元)")
+    valuation: int = Field(default=2_640_000, ge=0, description="公司估值(元)")
 
     @computed_field
     @property

@@ -291,13 +291,8 @@ def display_result(result) -> None:
 
 
 def display_suggestions_compact(state: CompanyState) -> None:
-    """Alpha 1.9.1: Compact one-line hint — full suggestions on demand."""
-    result = SuggestionEngine.generate(state, state.month)
-    if result.recommended_focus:
-        print(f"\n  🎯 {result.recommended_focus}")
-    if result.warning:
-        print(f"  ⚠️  {result.warning}")
-    print("  💡 输入「建议」查看3条经营路线及可执行输入示例")
+    """Alpha 1.9.1: Truly compact — only the entry hint, no warning/recommend/focus."""
+    print("  💡 输入「建议」查看经营路线和可执行输入示例")
 
 
 def display_suggestions_full(state: CompanyState, shown_hints: set | None = None) -> None:

@@ -24,13 +24,23 @@ REPORTS_PATH = PROJECT_ROOT / "REPORTS.md"
 FAILURES: list[str] = []
 
 
+def safe_print(text: str) -> None:
+    """Print text safely on Windows consoles that may not support emoji."""
+    try:
+        print(text)
+    except UnicodeEncodeError:
+        # Strip emoji and other non-BMP characters for GBK consoles
+        ascii_text = text.encode("ascii", errors="replace").decode("ascii")
+        print(ascii_text)
+
+
 def fail(msg: str) -> None:
     FAILURES.append(msg)
-    print(f"  ❌ {msg}")
+    safe_print(f"  X {msg}")
 
 
 def ok(msg: str) -> None:
-    print(f"  ✅ {msg}")
+    safe_print(f"  OK {msg}")
 
 
 def read_text(path: Path) -> str:
@@ -41,7 +51,7 @@ def read_text(path: Path) -> str:
 
 
 def check_version_readme_title() -> None:
-    print("\n📋 检查 1: VERSION 与 README 标题一致")
+    safe_print("\n[检查 1: VERSION 与 README 标题一致")
     try:
         version_raw = read_text(VERSION_PATH).strip()
     except FileNotFoundError:
@@ -73,7 +83,7 @@ def check_version_readme_title() -> None:
 
 
 def check_no_stale_versions() -> None:
-    print("\n📋 检查 2: README / REPORTS 无旧版本残留")
+    safe_print("\n[检查 2: README / REPORTS 无旧版本残留")
     try:
         version_raw = read_text(VERSION_PATH).strip()
     except FileNotFoundError:
@@ -131,7 +141,7 @@ def check_no_stale_versions() -> None:
 
 
 def check_test_count_mentioned() -> None:
-    print("\n📋 检查 3: README 包含测试通过数量")
+    safe_print("\n[检查 3: README 包含测试通过数量")
     try:
         readme = read_text(README_PATH)
     except FileNotFoundError:
@@ -148,7 +158,7 @@ def check_test_count_mentioned() -> None:
 
 
 def check_event_pool_counts() -> None:
-    print("\n📋 检查 4: 事件池数量与代码一致")
+    safe_print("\n[检查 4: 事件池数量与代码一致")
     try:
         sys.path.insert(0, str(PROJECT_ROOT))
         from src.core.events import get_event_summary
@@ -210,7 +220,7 @@ HEALTH_FILES = [
 
 
 def check_text_file_health() -> None:
-    print("\n📋 检查 5: 文本文件健康检查")
+    safe_print("\n[检查 5: 文本文件健康检查")
     for file_path, min_lines in HEALTH_FILES:
         name = file_path.relative_to(PROJECT_ROOT)
         try:
@@ -247,10 +257,10 @@ def check_text_file_health() -> None:
 
 
 def main() -> int:
-    print("=" * 60)
-    print("  文档一致性检查")
-    print(f"  项目根目录: {PROJECT_ROOT}")
-    print("=" * 60)
+    safe_print("=" * 60)
+    safe_print("  文档一致性检查")
+    safe_print(f"  项目根目录: {PROJECT_ROOT}")
+    safe_print("=" * 60)
 
     check_version_readme_title()
     check_no_stale_versions()
@@ -258,16 +268,16 @@ def main() -> int:
     check_event_pool_counts()
     check_text_file_health()
 
-    print("\n" + "=" * 60)
+    safe_print("\n" + "=" * 60)
     if FAILURES:
-        print(f"  ❌ 失败 {len(FAILURES)} 项:")
+        safe_print(f"  失败 {len(FAILURES)} 项:")
         for f in FAILURES:
-            print(f"     - {f}")
-        print("=" * 60)
+            safe_print(f"     - {f}")
+        safe_print("=" * 60)
         return 1
     else:
-        print("  ✅ 全部通过")
-        print("=" * 60)
+        safe_print("  全部通过")
+        safe_print("=" * 60)
         return 0
 
 

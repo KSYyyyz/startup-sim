@@ -21,11 +21,11 @@ from src.core.achievement_engine import AchievementEngine
 from src.core.difficulty import Difficulty, get_difficulty
 from src.core.ending_evaluator import describe_ending
 from src.core.ending_evaluator import evaluate as eval_ending
+from src.core.fundraising_engine import calculate_fair_valuation
 from src.core.models import CompanyState, EndingType, TurnResult
 from src.core.replay_engine import ReplayEngine
 from src.core.review_engine import ReviewEngine
 from src.core.state_guard import generate_crisis_guidance
-from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.db import repository
 from src.db.connection import get_connection, init_db
@@ -137,9 +137,9 @@ def start(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal")
         reputation=50,
         employee_count=10,
         price=5000,
-        valuation=5_000_000,
         month=1,
     )
+    state = state.model_copy(update={"valuation": calculate_fair_valuation(state)})
 
     sid = repository.create_session(external_user_id)
     repository.init_session_state(sid, state)
@@ -180,9 +180,9 @@ def restart(user_id: str, track: str = "AI客服SaaS", difficulty: str = "normal
         reputation=50,
         employee_count=10,
         price=5000,
-        valuation=5_000_000,
         month=1,
     )
+    state = state.model_copy(update={"valuation": calculate_fair_valuation(state)})
 
     sid = repository.create_session(external_user_id)
     repository.init_session_state(sid, state)
@@ -403,24 +403,8 @@ def help_text() -> str:
 
 
 def _format_suggestions_compact(state: CompanyState) -> str:
-    """Alpha 1.6: Generate compact suggestion line for Feishu."""
-    result = SuggestionEngine.generate(state, state.month)
-    lines = []
-
-    # Only show the risk warning line + recommended focus
-    if result.warning:
-        lines.append(f"⚠️ {result.warning}")
-    if result.recommended_focus:
-        lines.append(f"🎯 {result.recommended_focus}")
-
-    # Show top 2 example inputs
-    examples = []
-    for s in result.suggestions[:2]:
-        examples.append(f"「{s.example_input}」")
-    if examples:
-        lines.append(f"💡 {'  '.join(examples)}")
-
-    return "\n".join(lines)
+    """Alpha 1.9.1: Truly compact — one-line entry hint for Feishu."""
+    return "💡 输入「建议」查看经营路线和可执行输入示例"
 
 
 # ── Formatting ────────────────────────────────────────────────────────────────

@@ -25,11 +25,13 @@ from src.agents.board import generate_board_minutes, pick_investor_for_session
 from src.agents.competitors import KuaiDaTech, LingxiCSCloud, get_competitor_summary
 from src.agents.customers import CustomerAgent
 from src.core.action_parser import parse_multi
+from src.core.conflict_engine import ConflictEngine
 from src.core.difficulty import Difficulty, get_difficulty
 from src.core.ending_evaluator import describe_ending
 from src.core.ending_evaluator import evaluate as eval_ending
 from src.core.event_engine import EventEngine
 from src.core.fundraising_engine import calculate_fair_valuation
+from src.core.insight_engine import InsightEngine
 from src.core.models import (
     ActionPlan,
     CompanyState,
@@ -267,7 +269,21 @@ class TurnEngine:
         for member in self._active_board_members(state_after, action_plan):
             board_feedback[member.name] = member.speak(state_after, action_plan)
 
-        # Step 13: Evaluate ending
+        # Step 13: Generate core conflict and business insight
+        conflict_summary = ConflictEngine.identify(state_after)
+
+        fundraising_accepted = any("融资" in r and "出让" in r for r in delta.reasons)
+        fundraising_rejected = any("融资被拒" in r for r in delta.reasons)
+        insight = InsightEngine.generate(
+            state_before=state_before,
+            action_plan=action_plan,
+            delta=delta,
+            month=state_after.month,
+            fundraising_accepted=fundraising_accepted,
+            fundraising_rejected=fundraising_rejected,
+        )
+
+        # Step 14: Evaluate ending
         ending = eval_ending(state_after)
         ending_desc = (
             describe_ending(ending, state_after) if ending and ending != EndingType.NONE else ""
@@ -329,6 +345,8 @@ class TurnEngine:
             ending=ending or EndingType.NONE,
             ending_description=ending_desc,
             snapshots_saved=snapshots_saved,
+            conflict_summary=conflict_summary,
+            insight=insight,
         )
 
     @classmethod
@@ -374,6 +392,20 @@ class TurnEngine:
         for member in engine._active_board_members(state_after, action_plan):
             board_feedback[member.name] = member.speak(state_after, action_plan)
 
+        # Core conflict and business insight
+        conflict_summary = ConflictEngine.identify(state_after)
+
+        fundraising_accepted = any("融资" in r and "出让" in r for r in delta.reasons)
+        fundraising_rejected = any("融资被拒" in r for r in delta.reasons)
+        insight = InsightEngine.generate(
+            state_before=state_before,
+            action_plan=action_plan,
+            delta=delta,
+            month=state_after.month,
+            fundraising_accepted=fundraising_accepted,
+            fundraising_rejected=fundraising_rejected,
+        )
+
         ending = eval_ending(state_after)
         ending_desc = (
             describe_ending(ending, state_after) if ending and ending != EndingType.NONE else ""
@@ -392,6 +424,8 @@ class TurnEngine:
             ending=ending or EndingType.NONE,
             ending_description=ending_desc,
             snapshots_saved=0,
+            conflict_summary=conflict_summary,
+            insight=insight,
         )
 
 
@@ -448,7 +482,7 @@ def generate_monthly_report(
     lines.append("")
     if result.board_feedback:
         board_minutes = generate_board_minutes(
-            state_before,
+            state_after,
             result.action_plan,
             result.board_feedback,
         )
