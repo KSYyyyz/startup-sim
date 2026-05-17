@@ -152,7 +152,7 @@ class ReplayEngine:
         if mrr >= 300_000 and month > 6:
             return f"{base} — MRR突破30万"
         if isinstance(runway, (int, float)) and runway < 3 and runway >= 0:
-            return f"{base} — 跑道告急"
+            return f"{base} — 现金流告急"
         return base
 
     @classmethod

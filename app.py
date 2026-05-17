@@ -300,8 +300,8 @@ def display_suggestions_compact(state: CompanyState) -> None:
     print("  💡 输入「建议」查看3条经营路线及可执行输入示例")
 
 
-def display_suggestions_full(state: CompanyState) -> None:
-    """Alpha 1.6: Display 3 action suggestions for the current state (full version)."""
+def display_suggestions_full(state: CompanyState, shown_hints: set | None = None) -> None:
+    """Alpha 1.9.1: Display 3 action suggestions + relevant tutorial hints."""
     result = SuggestionEngine.generate(state, state.month)
 
     print(f"\n{'='*60}")
@@ -323,6 +323,16 @@ def display_suggestions_full(state: CompanyState) -> None:
     if result.recommended_focus:
         print(f"  🎯 建议聚焦：{result.recommended_focus}")
         print()
+
+    # Include tutorial threshold hints
+    if shown_hints is not None:
+        hints = TutorialEngine.check_hints(state, shown_hints)
+        if hints:
+            print("  📖 系统提示：")
+            for hint in hints:
+                print(f"     [{hint.title}] {hint.message}")
+                if hint.example_inputs:
+                    print(f"     📝 可尝试：「{'」 或 「'.join(hint.example_inputs)}」")
 
     print(f"{'='*60}")
 
@@ -404,7 +414,9 @@ def load_scenario(scenario_id: str) -> CompanyState:
 
     s = scenarios[scenario_id]
     init = s["initial_state"]
-    return CompanyState(
+    from src.core.fundraising_engine import calculate_fair_valuation
+
+    state = CompanyState(
         cash=init["cash"],
         monthly_burn=init["monthly_burn"],
         mrr=init["mrr"],
@@ -417,6 +429,8 @@ def load_scenario(scenario_id: str) -> CompanyState:
         reputation=init["reputation"],
         month=1,
     )
+    state.valuation = calculate_fair_valuation(state)
+    return state
 
 
 def cmd_new(args) -> None:
@@ -481,20 +495,13 @@ def cmd_new(args) -> None:
 
         if raw.lower() in ("建议", "suggestions"):
             state = repository.load_state(session_id)
-            display_suggestions_full(state)
+            display_suggestions_full(state, shown_hints)
             continue
 
         if raw.lower() == "status":
             state = repository.load_state(session_id)
             display_state(state)
-            # Alpha 1.9.1: Compact hint instead of full suggestions
             display_suggestions_compact(state)
-            # Alpha 1.6: Show tutorial hints
-            hints = TutorialEngine.check_hints(state, shown_hints)
-            for hint in hints:
-                print(f"\n  💡 [{hint.title}] {hint.message}")
-                if hint.example_inputs:
-                    print(f"     📝 可尝试：「{'」 或 「'.join(hint.example_inputs)}」")
             continue
 
         try:
@@ -524,11 +531,6 @@ def cmd_new(args) -> None:
 
             # Alpha 1.9.1: Compact hint instead of full suggestions
             display_suggestions_compact(result.state_after)
-            hints = TutorialEngine.check_hints(result.state_after, shown_hints)
-            for hint in hints:
-                print(f"\n  💡 [{hint.title}] {hint.message}")
-                if hint.example_inputs:
-                    print(f"     📝 可尝试：「{'」 或 「'.join(hint.example_inputs)}」")
 
         except Exception as e:
             print(f"  ❌ 错误: {e}")

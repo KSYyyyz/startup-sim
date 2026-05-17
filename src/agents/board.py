@@ -6,12 +6,102 @@ the same CompanyState and ActionPlan but focuses on different concerns:
 - CTO: product score / R&D investment / tech debt — wants more resources
 - COO: user growth / MRR / team efficiency — cares about execution
 - Investor: valuation / equity / exit path — pushes for growth or exit
+
+Alpha 1.9.1: Named investment firms with distinct styles and personalities.
 """
 
 from __future__ import annotations
 
+import hashlib
+
 from src.agents.base_agent import BaseAgent
 from src.core.models import ActionPlan, CompanyState
+
+# ── Named investors ──────────────────────────────────────────────────────────
+
+INVESTOR_POOL = [
+    {
+        "name": "红杉中国",
+        "full_name": "红杉中国 — 创始合伙人 周逵",
+        "type": "VC",
+        "check_range": "2000万–1亿",
+        "focus_stage": "A轮/B轮",
+        "style": "激进增长",
+        "personality": "只看增长斜率，能接受高烧钱率换取市场领先地位。常说的话：'不增长就是等死。'",
+    },
+    {
+        "name": "经纬中国",
+        "full_name": "经纬中国 — 合伙人 万浩基",
+        "type": "VC",
+        "check_range": "1000万–5000万",
+        "focus_stage": "早期/A轮",
+        "style": "产品技术导向",
+        "personality": "对技术壁垒有执念，认为产品好自然增长。常说的话：'先把产品打磨到让人无法拒绝。'",
+    },
+    {
+        "name": "高瓴资本",
+        "full_name": "高瓴资本 — 执行董事 李岳",
+        "type": "PE/VC",
+        "check_range": "5000万–5亿",
+        "focus_stage": "成长期/B轮+",
+        "style": "长期价值投资",
+        "personality": "不急于退出，关注商业模式的可持续性。常说的话：'做时间的朋友，不要为了融资而融资。'",
+    },
+    {
+        "name": "真格基金",
+        "full_name": "真格基金 — 合伙人 方爱之",
+        "type": "天使/VC",
+        "check_range": "300万–2000万",
+        "focus_stage": "天使/种子/A轮",
+        "style": "创始人友好",
+        "personality": "对创始人有天然的信任和耐心，重视团队文化和愿景。常说的话：'我们投的是你这个人，相信你能做出对的事。'",
+    },
+    {
+        "name": "源码资本",
+        "full_name": "源码资本 — 合伙人 黄云刚",
+        "type": "VC",
+        "check_range": "1000万–8000万",
+        "focus_stage": "早期/成长期",
+        "style": "精实均衡",
+        "personality": "关注单位经济模型，强调健康增长而非盲目扩张。常说的话：'验证了PMF再放量，数据不会骗人。'",
+    },
+    {
+        "name": "险峰长青",
+        "full_name": "险峰长青 — 合伙人 赵阳",
+        "type": "VC",
+        "check_range": "500万–3000万",
+        "focus_stage": "早期/A轮",
+        "style": "务实稳健",
+        "personality": "偏保守，强调现金流管理和生存优先。常说的话：'活下来是第一位的，增长是第二位的。'",
+    },
+    {
+        "name": "蓝驰创投",
+        "full_name": "蓝驰创投 — 管理合伙人 陈维广",
+        "type": "VC",
+        "check_range": "1000万–6000万",
+        "focus_stage": "早期/A轮",
+        "style": "技术+增长双驱",
+        "personality": "相信技术驱动增长的复利效应，愿意在技术上有耐心的同时推动商业化。常说的话：'技术底座扎实了，增长只是时间问题。'",
+    },
+    {
+        "name": "沈南鹏",
+        "full_name": "沈南鹏 — 个人天使投资人",
+        "type": "个人",
+        "check_range": "300万–2000万",
+        "focus_stage": "天使/早期",
+        "style": "精英主义",
+        "personality": "看人极准，只投最优秀的创始人。对创业者要求极高但一旦投资就全力支持。常说的话：'创始人决定天花板，团队决定能不能走到天花板。'",
+    },
+]
+
+
+def pick_investor_for_session(session_id: int, founder_equity: int) -> dict | None:
+    """Pick a named investor for this session. Returns None if no investment taken."""
+    if founder_equity >= 100:
+        return None
+    # Deterministic pick based on session_id
+    idx = int(hashlib.md5(f"investor_{session_id}".encode()).hexdigest(), 16) % len(INVESTOR_POOL)
+    return INVESTOR_POOL[idx]
 
 
 class CFO(BaseAgent):
@@ -44,7 +134,7 @@ class CFO(BaseAgent):
         if total_spend > state.cash * 0.3 and state.runway_months < 8:
             return (
                 f"🔴【CFO】本回合支出{total_spend//10000}万，占现金的{total_spend*100//state.cash}%。"
-                f"跑道仅剩{runway:.1f}个月，我强烈反对这个预算。砍掉非核心开支，活下来再说。"
+                f"现金流仅够支撑{runway:.1f}个月，我强烈反对这个预算。砍掉非核心开支，活下来再说。"
             )
 
         # MRR growth check
@@ -56,7 +146,7 @@ class CFO(BaseAgent):
 
         # Default — healthy
         return (
-            f"✅【CFO】本月现金流正常（跑道{runway:.1f}个月），"
+            f"✅【CFO】本月现金流正常（可支撑{runway:.1f}个月），"
             f"月烧{state.monthly_burn//10000}万。保持现有节奏，预留至少6个月安全垫。"
         )
 
@@ -143,7 +233,7 @@ class COO(BaseAgent):
         runway = state.runway_months
         if has_marketing and runway < 4:
             return (
-                f"⚠️【COO】现金流紧张（跑道{runway:.1f}个月），"
+                f"⚠️【COO】现金流紧张（可支撑{runway:.1f}个月），"
                 f"此时投放市场ROI很难回正。建议暂停营销投入，优先保证核心产品交付。"
                 f"用户增长可以等等，但现金断了就什么都没了。"
             )
@@ -164,24 +254,40 @@ class COO(BaseAgent):
 
 
 class InvestorDirector(BaseAgent):
-    """Investor Director (投资方董事) — growth & control focused."""
+    """Investor Director — now named and styled based on which firm invested.
 
-    def __init__(self) -> None:
-        super().__init__(name="投资方董事", role="投资方董事", stance="重视增长")
+    Alpha 1.9.1: Uses named investment firms from INVESTOR_POOL with distinct
+    personalities that influence their board feedback.
+    """
+
+    def __init__(self, investor_profile: dict | None = None) -> None:
+        if investor_profile:
+            name = investor_profile["name"]
+            role = investor_profile["full_name"]
+            self.investor_style = investor_profile["style"]
+            self._personality = investor_profile["personality"]
+        else:
+            name = "投资方董事"
+            role = "投资方董事"
+            self.investor_style = "重视增长"
+            self._personality = ""
+        super().__init__(name=name, role=role, stance=self.investor_style)
 
     def speak(self, state: CompanyState, plan: ActionPlan) -> str:
+        tag = f"【{self.name}】"
+
         # Founder losing control
         if state.founder_equity < 50:
             return (
-                f"⚠️【投资方】创始人持股已降至{state.founder_equity}%，"
-                f"下轮融资后可能失去控制权。现在必须证明增长曲线，否则我们投资方"
-                f"会认真考虑管理层调整。建议立即聚焦增长：砍掉无效开支，all-in一条主线。"
+                f"⚠️{tag}创始人持股已降至{state.founder_equity}%，"
+                f"下轮融资后可能失去控制权。现在必须证明增长曲线，否则我们会"
+                f"认真考虑管理层调整。建议立即聚焦增长：砍掉无效开支，all-in一条主线。"
             )
 
         # Slow growth
         if state.mrr < 100_000 and state.month >= 6:
             return (
-                f"📉【投资方】增长太慢了——MRR仅{state.mrr//10000}万/月，"
+                f"📉{tag}增长太慢了——MRR仅{state.mrr//10000}万/月，"
                 f"月{state.month}了还没有PMF信号。投资委员会已经开始质疑。"
                 f"需要在3个月内证明可规模化的增长模型，否则下一轮融不到钱。"
             )
@@ -189,25 +295,69 @@ class InvestorDirector(BaseAgent):
         # Board control weak
         if state.board_control < 60:
             return (
-                f"⚡【投资方】董事会控制力偏弱（{state.board_control}%），"
+                f"⚡{tag}董事会控制力偏弱（{state.board_control}%），"
                 f"暂缓融资是对的。先通过业绩提升增加谈判筹码，"
                 f"否则下轮融资条款会很苛刻。当前第一要务：把数字做漂亮。"
             )
 
-        # Growth pressure
+        # Growth pressure — style-dependent
         if state.mrr < 200_000 and state.month <= 6:
-            return (
-                "🚀【投资方】早期阶段最重要的是增长斜率。"
-                "不要太关注利润率，现在的每一分钱都应该用来换增长。"
-                "如果这个月MRR增长不到20%，建议重新审视策略。"
-            )
+            if "增长" in self.investor_style or "激进" in self.investor_style:
+                return (
+                    f"🚀{tag}早期阶段最重要的是增长斜率。"
+                    f"不要太关注利润率，现在的每一分钱都应该用来换增长。"
+                    f"如果这个月MRR增长不到20%，建议重新审视策略。"
+                )
+            elif "产品" in self.investor_style or "技术" in self.investor_style:
+                return (
+                    f"🔧{tag}产品技术是根基。MRR{state.mrr//10000}万/月还不够，"
+                    f"但与其烧钱买量不如打磨产品。产品做好了，用户自然会来。"
+                )
+            elif "长期" in self.investor_style or "价值" in self.investor_style:
+                return (
+                    f"📊{tag}不用太焦虑短期增长节奏。"
+                    f"关键是把商业模式跑通，确保单位经济模型健康。"
+                    f"我们有耐心，但需要看到明确的PMF方向。"
+                )
+            else:
+                return (
+                    f"📋{tag}MRR{state.mrr//10000}万/月，继续稳步推进。"
+                    f"保持现金纪律，不要为了增长而牺牲财务健康。"
+                )
 
-        # Default
-        return (
-            "📈【投资方】市场关注度高，保持增长势头。"
-            "建议准备月度投资人更新邮件，主动管理预期。"
-            "下一个里程碑是MRR 50万/月，达到后可以启动A轮融资。"
-        )
+        # Default — style-dependent
+        if self.investor_style == "激进增长":
+            return (
+                f"📈{tag}市场关注度高，保持增长势头。"
+                f"下一个里程碑是MRR 50万/月，达到后可以启动A轮融资。"
+                f"不要减速——现在正是抢市场的窗口期。"
+            )
+        elif self.investor_style == "产品技术导向":
+            return (
+                f"👍{tag}产品口碑不错（{state.product_score}分），继续深耕。"
+                f"技术壁垒才是真正的护城河。建议每季度做一次技术评审。"
+            )
+        elif self.investor_style == "长期价值投资":
+            return (
+                f"📊{tag}保持节奏，我们不急于退出。"
+                f"重点验证商业模式的长期可持续性，别被短期数字绑架。"
+            )
+        elif self.investor_style == "创始人友好":
+            return (
+                f"🤝{tag}状态不错，继续按你的节奏走。"
+                f"我们投的是你这个人，有问题随时沟通，别自己扛。"
+            )
+        elif "均衡" in self.investor_style or "稳健" in self.investor_style:
+            return (
+                f"📋{tag}保持现有节奏，稳扎稳打。"
+                f"建议准备月度投资人更新邮件，主动管理预期。"
+            )
+        else:
+            return (
+                f"📈{tag}市场关注度高，保持增长势头。"
+                f"建议准备月度投资人更新邮件，主动管理预期。"
+                f"下一个里程碑是MRR 50万/月。"
+            )
 
 
 # ── Board meeting minutes generator ─────────────────────────────────────────────
@@ -230,7 +380,7 @@ def generate_board_minutes(
 
     # ── State snapshot ──────────────────────────────────────────────────────
     lines.append("【公司现状】")
-    lines.append(f"  现金: {state.cash//10000}万  跑道: {state.runway_months:.1f}月")
+    lines.append(f"  现金: {state.cash//10000}万  可支撑: {state.runway_months:.1f}月")
     lines.append(f"  MRR: {state.mrr//10000}万  用户: {state.users}")
     lines.append(f"  产品分: {state.product_score}  士气: {state.team_morale}")
     lines.append(f"  股权: {state.founder_equity}%  董事会: {state.board_control}%")
@@ -283,7 +433,7 @@ def _detect_conflicts(
     # CFO vs CTO: cut budget vs invest in product
     if state.runway_months < 6 and has_product:
         conflicts.append(
-            f"CFO要求控制烧钱（跑道{state.runway_months:.1f}月） vs "
+            f"CFO要求控制烧钱（可支撑{state.runway_months:.1f}月） vs "
             f"CTO坚持研发投入（产品分{state.product_score}）。两者立场截然相反。"
         )
 

@@ -25,26 +25,26 @@ class StateExplainer:
 
         if runway < 2:
             return (
-                f"💰 现金{cash_w}万，每月烧{burn_w}万——跑道仅{runway:.1f}个月。"
+                f"💰 现金{cash_w}万，每月烧{burn_w}万——可支撑仅{runway:.1f}个月。"
                 f"公司处于极度危险状态，必须立即融资或大幅削减开支。"
             )
         elif runway < 4:
             return (
-                f"💰 现金{cash_w}万，每月烧{burn_w}万——跑道{runway:.1f}个月。"
+                f"💰 现金{cash_w}万，每月烧{burn_w}万——可支撑{runway:.1f}个月。"
                 f"现金流紧张，建议尽快启动融资准备或控制支出。"
             )
         elif runway < 7:
             return (
-                f"💰 现金{cash_w}万，每月烧{burn_w}万——跑道{runway:.1f}个月。"
+                f"💰 现金{cash_w}万，每月烧{burn_w}万——可支撑{runway:.1f}个月。"
                 f"现金流偏紧但尚可维持，注意控制烧钱速度。"
             )
         elif runway >= 12:
             return (
-                f"💰 现金{cash_w}万，每月烧{burn_w}万——跑道{runway:.1f}个月。"
+                f"💰 现金{cash_w}万，每月烧{burn_w}万——可支撑{runway:.1f}个月。"
                 f"现金储备充裕，可以考虑加大投入加速增长。"
             )
         return (
-            f"💰 现金{cash_w}万，每月烧{burn_w}万——跑道{runway:.1f}个月。"
+            f"💰 现金{cash_w}万，每月烧{burn_w}万——可支撑{runway:.1f}个月。"
             f"现金流健康，有足够的缓冲空间。"
         )
 

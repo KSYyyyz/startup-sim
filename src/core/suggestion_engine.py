@@ -67,7 +67,7 @@ class SuggestionEngine:
             if product < 50:
                 return ActionSuggestion(
                     title="稳健：控支保命",
-                    description=f"现金{cash_w}万、跑道{runway:.1f}月。大幅削减开支，最小研发维持产品，暂停营销。",
+                    description=f"现金{cash_w}万、可支撑{runway:.1f}月。大幅削减开支，最小研发维持产品，暂停营销。",
                     example_input="花2万研发产品维持最低运转",
                     risk_level="conservative",
                     reason="现金流优先——先活下来，再谈增长。",
@@ -75,7 +75,7 @@ class SuggestionEngine:
             else:
                 return ActionSuggestion(
                     title="稳健：控支过渡",
-                    description=f"现金{cash_w}万、跑道{runway:.1f}月。暂停大额支出，用现有产品维持客户，等待融资窗口。",
+                    description=f"现金{cash_w}万、可支撑{runway:.1f}月。暂停大额支出，用现有产品维持客户，等待融资窗口。",
                     example_input="花2万做基础运维",
                     risk_level="conservative",
                     reason="现金流优先——产品已成熟，先守住存量客户。",
@@ -131,7 +131,7 @@ class SuggestionEngine:
         if runway < 5 and equity >= 70:
             return ActionSuggestion(
                 title="激进：融资续命",
-                description=f"跑道仅{runway:.1f}月。果断融资换取现金和跑道，出让少量股权换生存权。",
+                description=f"可支撑仅{runway:.1f}月。果断融资换取现金和时间，出让少量股权换生存权。",
                 example_input="融资400万出让10%股权",
                 risk_level="aggressive",
                 reason="生死存亡之际，股权稀释的代价远小于破产。",
@@ -154,9 +154,9 @@ class SuggestionEngine:
         risks = []
 
         if runway <= 3 and cash_w > 0:
-            risks.append(f"跑道仅{runway:.1f}月——本回合必须行动，否则下月可能破产。")
+            risks.append(f"可支撑仅{runway:.1f}月——本回合必须行动，否则下月可能破产。")
         elif runway <= 5 and cash_w > 0:
-            risks.append(f"跑道{runway:.1f}月，建议尽快启动融资准备。")
+            risks.append(f"可支撑{runway:.1f}月，建议尽快启动融资准备。")
 
         if product < 30:
             risks.append(f"产品分{product}太低，用户留存极差，花营销钱基本白花。")

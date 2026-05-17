@@ -232,7 +232,7 @@ class ReviewEngine:
                     KeyMoment(
                         month=month,
                         title="现金告急",
-                        description=f"现金跌破10万，跑道仅剩{int(rw)}个月。生存成为第一优先级。",
+                        description=f"现金跌破10万，现金流仅够支撑{int(rw)}个月。生存成为第一优先级。",
                         impact_type="negative",
                         related_metrics={"cash": cash, "runway_months": int(rw)},
                     )
@@ -305,7 +305,7 @@ class ReviewEngine:
                 moments.append(
                     KeyMoment(
                         month=month,
-                        title="跑道不足3个月",
+                        title="可支撑不足3个月",
                         description=f"按当前烧钱速度，现金只够撑{int(rw)}个月。必须立刻融资或大幅削减开支。",
                         impact_type="negative",
                         related_metrics={"runway_months": int(rw)},
@@ -445,7 +445,7 @@ class ReviewEngine:
                 summary = (
                     "公司现金流断裂，无法继续运营。创业路上最致命的不是竞争对手，而是钱花完了。"
                 )
-            advice = "现金流是创业公司的命脉。下次运营时，始终保持至少6个月的跑道，在现金低于危险线前果断融资或削减成本。"
+            advice = "现金流是创业公司的命脉。下次运营时，始终保持至少6个月的可支撑时间，在现金低于危险线前果断融资或削减成本。"
 
         elif ending_status == "founder_removed":
             title = "出局"

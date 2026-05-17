@@ -88,13 +88,13 @@ class EventEngine:
                         GameEvent(
                             event_type="runway_warning",
                             description=(
-                                f"⚠️ 现金跑道仅剩 {current.runway_months:.1f} 个月！"
+                                f"⚠️ 现金流仅够支撑 {current.runway_months:.1f} 个月！"
                                 f"投资者开始担忧，团队士气受挫。"
                             ),
                             delta=StateDelta(
                                 team_morale=-5,
                                 reputation=-2,
-                                reasons=["现金跑道降至3个月以下，触发 runway_warning"],
+                                reasons=["现金流可支撑时间降至3个月以下，触发 runway_warning"],
                             ),
                         )
                     )

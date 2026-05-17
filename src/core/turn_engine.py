@@ -21,7 +21,7 @@ All DB writes are wrapped in repository.transaction().
 from __future__ import annotations
 
 from src.agents import CFO, COO, CTO, InvestorDirector
-from src.agents.board import generate_board_minutes
+from src.agents.board import generate_board_minutes, pick_investor_for_session
 from src.agents.competitors import KuaiDaTech, LingxiCSCloud, get_competitor_summary
 from src.agents.customers import CustomerAgent
 from src.core.action_parser import parse_multi
@@ -185,7 +185,6 @@ class TurnEngine:
             CFO(),
             CTO(),
             COO(),
-            InvestorDirector(),
         ]
         self.competitors = [
             KuaiDaTech(aggression_multiplier=self.difficulty.competitor_aggression),
@@ -194,6 +193,22 @@ class TurnEngine:
         self.customer_agent = CustomerAgent(
             churn_multiplier=self.difficulty.customer_churn_multiplier,
         )
+
+    def _active_board_members(self, state: CompanyState, plan: ActionPlan) -> list:
+        """Return board members that should be active this turn.
+
+        InvestorDirector only sits on the board if the company has taken outside
+        investment (founder_equity < 100) or is attempting to fundraise.
+        When active, picks a named investor from INVESTOR_POOL based on session_id.
+        """
+        has_investment = state.founder_equity < 100
+        has_fundraising_action = any(a.type == "fundraising" for a in plan.actions)
+
+        members = list(self.board_members)
+        if has_investment or has_fundraising_action:
+            profile = pick_investor_for_session(self.session_id, state.founder_equity)
+            members.append(InvestorDirector(investor_profile=profile))
+        return members
 
     def process_turn(self, raw_input: str) -> TurnResult:
         """Process one turn from raw player input. Returns TurnResult."""
@@ -204,12 +219,7 @@ class TurnEngine:
         # Step 1: Parse input (multi-segment parser)
         action_plan = parse_multi(raw_input)
 
-        # Step 2: Collect board feedback (董事会会议发言)
-        board_feedback: dict[str, str] = {}
-        for member in self.board_members:
-            board_feedback[member.name] = member.speak(state_before, action_plan)
-
-        # Step 3: Validate
+        # Step 2: Validate
         validate_action_plan(action_plan, state_before)
 
         # Step 4: Simulate (player actions)
@@ -252,7 +262,12 @@ class TurnEngine:
         # Recalculate fair valuation based on current metrics
         state_after.valuation = calculate_fair_valuation(state_after)
 
-        # Step 12: Evaluate ending
+        # Step 12: Collect board feedback (post-results — comments on execution outcome)
+        board_feedback: dict[str, str] = {}
+        for member in self._active_board_members(state_after, action_plan):
+            board_feedback[member.name] = member.speak(state_after, action_plan)
+
+        # Step 13: Evaluate ending
         ending = eval_ending(state_after)
         ending_desc = (
             describe_ending(ending, state_after) if ending and ending != EndingType.NONE else ""
@@ -326,10 +341,6 @@ class TurnEngine:
 
         action_plan = parse_multi(raw_input)
 
-        board_feedback: dict[str, str] = {}
-        for member in engine.board_members:
-            board_feedback[member.name] = member.speak(state_before, action_plan)
-
         validate_action_plan(action_plan, state_before)
 
         delta = _simulate(action_plan, state_before)
@@ -357,6 +368,11 @@ class TurnEngine:
 
         # Recalculate fair valuation based on current metrics
         state_after.valuation = calculate_fair_valuation(state_after)
+
+        # Board feedback post-results
+        board_feedback: dict[str, str] = {}
+        for member in engine._active_board_members(state_after, action_plan):
+            board_feedback[member.name] = member.speak(state_after, action_plan)
 
         ending = eval_ending(state_after)
         ending_desc = (
@@ -588,9 +604,9 @@ def _identify_risks(state: CompanyState) -> list[str]:
     risks: list[str] = []
 
     if state.runway_months <= 3:
-        risks.append(f"现金流危急：跑道仅{state.runway_months:.1f}个月，需立即融资或大幅削减开支。")
+        risks.append(f"现金流危急：可支撑仅{state.runway_months:.1f}个月，需立即融资或大幅削减开支。")
     elif state.runway_months <= 5:
-        risks.append(f"现金流紧张：跑道{state.runway_months:.1f}个月，建议启动融资准备。")
+        risks.append(f"现金流紧张：可支撑{state.runway_months:.1f}个月，建议启动融资准备。")
 
     if state.team_morale < 40:
         risks.append(f"团队士气极低（{state.team_morale}），核心员工流失风险高。")

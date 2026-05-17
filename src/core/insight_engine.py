@@ -86,7 +86,7 @@ class InsightEngine:
                 title="融资被拒",
                 description=(
                     f"投资人拒绝了本轮融资提案。通常原因是估值期望与公司实际表现不匹配。"
-                    f"当前产品分{product}、MRR{mrr//10000}万、跑道{runway:.1f}个月。"
+                    f"当前产品分{product}、MRR{mrr//10000}万、可支撑{runway:.1f}个月。"
                 ),
                 action_advice="提升核心指标（产品分、MRR、用户数）后再尝试融资，或降低融资额度和估值期望。",
             )
@@ -111,7 +111,7 @@ class InsightEngine:
                 category="cash_warning",
                 title="研发投入过高，现金流承压",
                 description=(
-                    f"本回合研发投入{product_budget//10000}万，但跑道仅{runway:.1f}个月。"
+                    f"本回合研发投入{product_budget//10000}万，但可支撑仅{runway:.1f}个月。"
                     f"研发是长期投资，但如果死在产品完成之前，一切都没有意义。"
                 ),
                 action_advice="考虑适当降低研发单月投入，分多个月执行；或启动融资补充现金流。",
@@ -122,7 +122,7 @@ class InsightEngine:
             return BusinessInsight(
                 month=month,
                 category="cash_warning",
-                title=f"现金流危急：跑道仅{runway:.1f}个月",
+                title=f"现金流危急：可支撑仅{runway:.1f}个月",
                 description=(
                     f"公司现金仅够维持{runway:.1f}个月运营。"
                     f"在SaaS行业，重新融资通常需要2-3个月的准备和谈判周期——你已经在死亡线上了。"

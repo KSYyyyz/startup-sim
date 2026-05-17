@@ -98,8 +98,8 @@ def validate_action_plan(plan: ActionPlan, state: CompanyState) -> None:
             if action.type == "marketing" and action.risk_level == "high":
                 runway = state.runway_months
                 raise StateGuardError(
-                    f"❌ 跑道仅 {runway:.1f} 个月，禁止高风险营销支出。\n"
-                    f"💡 跑道不足2个月时，生存是第一优先级。\n"
+                    f"❌ 可支撑仅 {runway:.1f} 个月，禁止高风险营销支出。\n"
+                    f"💡 可支撑不足2个月时，生存是第一优先级。\n"
                     f"📝 请改用低风险营销，或优先融资/削减开支：\n"
                     f"  「花1万做基础营销」\n"
                     f"  「融资300万出让8%股权」"
@@ -220,7 +220,7 @@ def generate_crisis_guidance(
             crisis_type="budget_overrun",
             explanation=(
                 f"预算超限：你的非融资支出超过了可用现金（{avail_w}万）。"
-                f"在跑道{runway:.1f}个月的情况下，必须控制支出节奏。"
+                f"在可支撑{runway:.1f}个月的情况下，必须控制支出节奏。"
             ),
             severity="high",
             recovery_inputs=recovery[:3],
@@ -257,7 +257,7 @@ def generate_crisis_guidance(
         return CrisisGuidance(
             crisis_type="runway_critical",
             explanation=(
-                f"跑道危急：现金仅够{runway:.1f}个月。"
+                f"现金流危急：现金仅够支撑{runway:.1f}个月。"
                 f"每月消耗{burn_w}万，这意味着你只有{runway:.1f}个月的时间找到出路。"
                 f"SaaS公司融资通常需要2-3个月——时间已经不多了。"
             ),

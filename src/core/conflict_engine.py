@@ -68,8 +68,8 @@ class ConflictEngine:
             )
         if runway < 4:
             return ConflictSummary(
-                title="跑道紧张",
-                description=f"现金跑道仅剩{runway:.1f}个月，公司需要在资金耗尽前找到出路。",
+                title="现金流紧张",
+                description=f"现金流仅够支撑{runway:.1f}个月，公司需要在资金耗尽前找到出路。",
                 pressure_type="cash",
                 severity="medium",
                 next_focus="启动融资准备或控制烧钱速度，争取更多时间。",
@@ -169,7 +169,7 @@ class ConflictEngine:
         if product >= 60 and mrr >= 100000 and runway >= 6:
             return ConflictSummary(
                 title="战略窗口期",
-                description=f"公司状态良好：产品分{product}、MRR{mrr//10000}万、跑道{runway:.1f}个月。你有选择的余地去思考下一步大动作。",
+                description=f"公司状态良好：产品分{product}、MRR{mrr//10000}万、可支撑{runway:.1f}个月。你有选择的余地去思考下一步大动作。",
                 pressure_type="growth",
                 severity="low",
                 next_focus="利用这段窗口期加速增长或准备A轮融资，不要浪费好状态。",
