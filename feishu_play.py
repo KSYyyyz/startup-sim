@@ -24,6 +24,7 @@ from src.core.ending_evaluator import evaluate as eval_ending
 from src.core.models import CompanyState, EndingType, TurnResult
 from src.core.replay_engine import ReplayEngine
 from src.core.review_engine import ReviewEngine
+from src.core.state_guard import generate_crisis_guidance
 from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.db import repository
@@ -240,7 +241,17 @@ def turn(user_id: str, raw_input: str) -> str:
     diff_name = session_status.get("difficulty", "normal") if session_status else "normal"
     difficulty = get_difficulty(diff_name)
 
-    result: TurnResult = TurnEngine.process_turn_raw(state, raw_input, difficulty)
+    try:
+        result: TurnResult = TurnEngine.process_turn_raw(state, raw_input, difficulty)
+    except Exception as exc:
+        err_str = str(exc)
+        if "预算超限" in err_str or "Budget" in err_str:
+            guidance = generate_crisis_guidance("budget_overrun", state)
+            guidance_text = f"🆘 **危机应对**\n{guidance.explanation}\n\n可尝试以下操作：\n"
+            for i, inp in enumerate(guidance.recovery_inputs, 1):
+                guidance_text += f"{i}) {inp}\n"
+            return f"❌ {err_str}\n\n{guidance_text}"
+        return f"❌ 出错: {exc}"
 
     with repository.transaction() as conn:
         repository.save_state(sid, result.state_after, conn=conn)
@@ -416,8 +427,20 @@ def _format_suggestions_compact(state: CompanyState) -> str:
 
 
 def _format_result(result: TurnResult) -> str:
-    """Format a TurnResult into a Feishu Markdown message."""
+    """Format a TurnResult into a Feishu Markdown message (Alpha 1.9 enhanced)."""
     lines = [f"📅 第{result.month}月结果", ""]
+
+    # Alpha 1.9: Core conflict
+    if result.conflict_summary:
+        cs = result.conflict_summary
+        sev_map = {"high": "🔴", "medium": "🟡", "low": "🟢"}
+        sev = sev_map.get(cs.severity, "⚪")
+        lines.append("")
+        lines.append(f"**⚡ 本月核心矛盾** [{sev} {cs.severity}]")
+        lines.append(f"**{cs.title}**")
+        lines.append(cs.description)
+        lines.append(f"🎯 {cs.next_focus}")
+        lines.append("")
 
     # Board feedback — always shown
     lines.append("**👔 董事会：**")
@@ -454,6 +477,15 @@ def _format_result(result: TurnResult) -> str:
         lines.append(f"• {reason}")
     if result.delta.reasons:
         lines.append("")
+
+    # Alpha 1.9: Business insight
+    if result.insight:
+        ins = result.insight
+        lines.append("")
+        lines.append(f"**💡 经营洞察**：{ins.title}")
+        lines.append(ins.description)
+        if ins.action_advice:
+            lines.append(f"→ {ins.action_advice}")
 
     # Current state
     lines.append(_render_state(result.state_after, ""))
@@ -510,6 +542,8 @@ def _format_review_short(session_id: int, result: TurnResult) -> str:
         final_state=result.state_after,
         ending_status=result.ending.value,
         session_id=session_id,
+        stateguard_intercepts=None,
+        top_insights=None,
     )
 
     scores = review.strategy_scores

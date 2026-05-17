@@ -1,4 +1,4 @@
-# Startup Sim 🚀  Alpha 1.8
+# Startup Sim 🚀  Alpha 1.9
 
 **AI创业模拟器** — 回合制创业策略游戏，CLI + 飞书双端可玩。
 
@@ -133,7 +133,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 337 passed (Alpha 1.8)
+pytest tests/ -v    # 389 passed (Alpha 1.9)
 ```
 
 测试覆盖：
@@ -145,7 +145,42 @@ pytest tests/ -v    # 337 passed (Alpha 1.8)
 - **Alpha 1.8 测试**：融资估值引擎(10)、声誉效果(6)、状态面板(6)、反馈可见性(4)、StateGuard建议(5)
 - 规则解析器、StateGuard、竞品、客户、董事会、结局判定全覆盖
 
+## 📋 Alpha 1.9 更新内容
+
+**真实内测反馈修复版** — 不堆功能，只提升可理解性、反馈质量和复玩动力。
+
+1. **本月核心矛盾** — `src/core/conflict_engine.py`
+   - 每回合识别最紧迫的经营矛盾（现金流/PMF/增长/股权/交付/竞争/团队）
+   - 1-2句话描述 + 严重程度 + 建议聚焦方向
+   - CLI 和飞书每回合显示
+
+2. **竞品态势强化** — `src/core/turn_engine.py`
+   - 市场格局估算：你的份额 vs 快答科技+灵犀客服云
+   - 每回合显示竞品动作对玩家的具体影响（份额变化、用户变化）
+   - 竞品状态一目了然
+
+3. **经营洞察** — `src/core/insight_engine.py`
+   - 每回合根据动作和结果生成一条经营洞察
+   - 覆盖：融资成功/被拒、高营销低产品、高研发低现金、MRR增长信号、声誉下滑、士气下降
+   - 复盘记录最重要的3条洞察，融入下局建议
+
+4. **危机解释和可复制策略** — `src/core/state_guard.py`
+   - 预算超限、融资被拒、跑道<2、现金<月消耗、股权<70%时
+   - 显示危机解释 + 2-3条可直接复制粘贴的恢复输入
+   - 所有替代输入可被 parse_multi 解析
+
+5. **StateGuard 拦截进入复盘** — `src/core/review_engine.py`
+   - 被 StateGuard 拦截时记录 KeyMoment：「第X月：预算计划超出现金承受能力」
+   - 不影响正常通过的回合
+
+6. **内测反馈日志** — `docs/playtest_feedback_log.md`
+   - 标准化反馈模板：玩家代号、结局、拦截次数、理解度、再玩意愿、困惑月份等
+
+7. **Playtest 输出增强** — `scripts/playtest.py`
+   - 每种策略增加：核心矛盾摘要、经营洞察数量、危机解释次数、融资拒绝、StateGuard拦截
+
 ## 📋 Alpha 1.8 更新内容
+
 
 1. **融资估值约束系统** — `src/core/fundraising_engine.py`
    - 投资人根据 MRR、用户数、产品分、声誉、跑道计算合理估值区间
@@ -372,4 +407,4 @@ startup-sim/
 
 ---
 
-*试玩反馈修复版 Alpha 1.8 — 337 tests passed，新增融资估值引擎/声誉系统/状态面板/反馈可见性/StateGuard建议增强，基于真实试玩反馈。*
+*试玩反馈修复版 Alpha 1.8 — XXX tests passed，新增融资估值引擎/声誉系统/状态面板/反馈可见性/StateGuard建议增强，基于真实试玩反馈。*

@@ -1,5 +1,48 @@
 # Startup Sim — 版本开发报告
 
+当前路线以最新 Alpha 1.9
+
+## Alpha 1.9 — 真实内测反馈修复 (2026-05-17)
+
+**来源**: 真实玩家试玩反馈 — 核心诉求是每回合更清晰地理解当前矛盾、竞品动态、决策有效性。
+
+**设计原则**:
+1. 不堆功能，只提升可理解性和张力
+2. 每回合必须给玩家一个"经营判断"
+3. 失败和拦截要变成学习点
+4. 所有提示必须能被飞书和CLI看到
+5. 不破坏 Alpha 1.8 融资估值、声誉、固定状态面板、飞书持久会话
+
+**新增文件**:
+- `src/core/conflict_engine.py` — 本月核心矛盾引擎（7种压力类型）
+- `src/core/insight_engine.py` — 经营洞察引擎（8种洞察类别）
+- `docs/playtest_feedback_log.md` — 内测反馈日志模板
+
+**修改文件**:
+- `src/core/models.py` — 新增 ConflictSummary、BusinessInsight、CrisisGuidance 模型；TurnResult 增加 conflict_summary/insight/stateguard_intercepted 字段
+- `src/core/turn_engine.py` — 集成 ConflictEngine 和 InsightEngine；月度战报增加核心矛盾/竞品态势/经营洞察板块
+- `src/core/state_guard.py` — 新增 generate_crisis_guidance() 函数（5种危机类型）
+- `src/core/review_engine.py` — 支持 StateGuard 拦截关键转折点和经营洞察
+- `app.py` — CLI 显示核心矛盾/经营洞察/危机解释；StateGuard 拦截追踪
+- `feishu_play.py` — 飞书显示核心矛盾/经营洞察/危机解释；StateGuard 错误处理
+- `scripts/playtest.py` — 输出增加核心矛盾摘要/洞察数量/危机解释次数/融资拒绝/StateGuard拦截
+- `VERSION` — 1.8 → 1.9
+- `README.md` — Alpha 1.9 功能说明
+- `REPORTS.md` — 本记录
+
+**新增测试**: test_conflict_engine.py, test_business_insights.py, test_crisis_explanations.py, test_competitor_visibility.py, test_review_stateguard_moments.py
+
+**不包含的内容**:
+- ❌ 真实LLM调用
+- ❌ Web界面
+- ❌ 排行榜系统
+- ❌ 多赛道选择
+- ❌ 新增复杂经营系统（供应链、定价策略等）
+
+---
+
+# Startup Sim — 版本开发报告
+
 > 注意：历史阶段（Alpha 1.2/1.3/1.4/1.5）的下一步建议仅作版本记录，当前路线以最新 Alpha 1.8 规划为准。
 
 ## Alpha 1.8 — 试玩反馈修复 (2026-05-17)

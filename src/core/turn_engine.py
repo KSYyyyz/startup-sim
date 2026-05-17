@@ -400,6 +400,17 @@ def generate_monthly_report(
     lines.append("#" * 64)
     lines.append("")
 
+    # Alpha 1.9: Core conflict
+    if result.conflict_summary:
+        cs = result.conflict_summary
+        sev = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(cs.severity, "⚪")
+        lines.append("")
+        lines.append(f"## ⚡ 本月核心矛盾 [{sev} {cs.severity}]")
+        lines.append(f"  **{cs.title}**")
+        lines.append(f"  {cs.description}")
+        lines.append(f"  🎯 建议聚焦：{cs.next_focus}")
+        lines.append("")
+
     # ── 1. Key changes ───────────────────────────────────────────────────
     lines.append("## 📈 本月关键变化")
     lines.append("")
@@ -428,23 +439,53 @@ def generate_monthly_report(
         lines.append("  （无董事会记录）")
     lines.append("")
 
-    # ── 3. Competitor actions ─────────────────────────────────────────────
-    lines.append("## 🎯 竞品动作")
+    # Alpha 1.9: Enhanced competitor landscape
+    lines.append("## 🎯 竞品态势")
     lines.append("")
+
+    total_users = state_after.users
+    kuai_users = 0
+    lingxi_users = 0
+    if competitors:
+        for comp in competitors:
+            cs = comp.get_state()
+            if comp.name == "快答科技":
+                kuai_users = int(cs.market_share / 100 * max(total_users + 500, 1) * 20)
+            elif comp.name == "灵犀客服云":
+                lingxi_users = int(cs.market_share / 100 * max(total_users + 500, 1) * 15)
+        total_comp_users = kuai_users + lingxi_users
+    else:
+        total_comp_users = 500
+
+    estimated_total = total_users + total_comp_users
+    player_share = min(30, total_users / max(estimated_total, 1) * 100)
+
+    lines.append(f"  📊 市场格局：你约{player_share:.0f}%份额 | 快答科技+灵犀客服云占据其余市场")
+    lines.append("")
+
     if result.competitor_moves:
         for move in result.competitor_moves:
             action = move.get("action", "未知")
             name = move.get("name", "未知竞品")
             narrative = move.get("narrative", "")
-            lines.append(f"  [{name}] {action}")
+            impact = move.get("delta", {})
+            impact_str = ""
+            if impact:
+                parts = []
+                if impact.get("market_share", 0) != 0:
+                    parts.append(f"你的份额{impact['market_share']:+d}%")
+                if impact.get("users", 0) != 0:
+                    parts.append(f"你的用户{impact['users']:+d}")
+                if parts:
+                    impact_str = f" [对你影响: {', '.join(parts)}]"
+            lines.append(f"  [{name}] {action}{impact_str}")
             if narrative:
-                lines.append(f"    {narrative[:120]}")
+                lines.append(f"    {narrative[:150]}")
         lines.append("")
     else:
         lines.append("  本月竞品无显著动作。")
         lines.append("")
 
-    # If competitors with state were passed, show their status
     if competitors:
         lines.append("  **竞品状态:**")
         for comp in competitors:
@@ -460,6 +501,16 @@ def generate_monthly_report(
     else:
         lines.append("  （无客户反馈数据）")
     lines.append("")
+
+    # Alpha 1.9: Business insight
+    if result.insight:
+        ins = result.insight
+        lines.append("## 💡 经营洞察")
+        lines.append(f"  **{ins.title}**")
+        lines.append(f"  {ins.description}")
+        if ins.action_advice:
+            lines.append(f"  → {ins.action_advice}")
+        lines.append("")
 
     # ── 5. Risk alerts ───────────────────────────────────────────────────
     lines.append("## ⚠️ 风险提醒")

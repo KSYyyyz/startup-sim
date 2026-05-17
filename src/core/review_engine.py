@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Any
 
 from src.core.models import (
+    BusinessInsight,
     CompanyState,
     FounderProfile,
     GameReview,
@@ -470,6 +471,8 @@ class ReviewEngine:
         final_state: CompanyState,
         ending_status: str,
         session_id: int = 0,
+        stateguard_intercepts: list[dict[str, Any]] | None = None,
+        top_insights: list[BusinessInsight] | None = None,
     ) -> GameReview:
         """Generate a complete post-game review.
 
@@ -492,9 +495,50 @@ class ReviewEngine:
         key_moments = cls._identify_key_moments(
             initial_state, snapshots, event_logs, final_state, ending_status
         )
+        # Alpha 1.9: Add StateGuard intercepts as key moments
+        if stateguard_intercepts:
+            for intercept in stateguard_intercepts:
+                month = intercept.get("month", 0)
+                reason = intercept.get("reason", "预算超限")
+                existing_keys = {(m.month, m.title) for m in key_moments}
+                key = (month, "预算计划超限")
+                if key not in existing_keys:
+                    key_moments.append(
+                        KeyMoment(
+                            month=month,
+                            title="预算计划超限",
+                            description=(
+                                f"第{month}月：预算计划超出现金承受能力，系统建议收缩或融资。"
+                                f"原因：{reason[:80]}"
+                            ),
+                            impact_type="negative",
+                            related_metrics={"month": month},
+                        )
+                    )
+
+        # Alpha 1.9: Top insights are integrated below in the advice augmentation
+
         ending_title, ending_summary, advice = cls._explain_ending(
             ending_status, final_state, founder_profile
         )
+
+        # Alpha 1.9: Augment advice with top insights
+        if top_insights and len(top_insights) > 0:
+            key_categories = {
+                "cash_warning": "现金流管理",
+                "fundraising_fail": "融资策略",
+                "marketing_efficiency": "营销效率",
+                "product_gap": "产品投入",
+                "risk_alert": "风险意识",
+                "team_health": "团队管理",
+            }
+            relevant = []
+            for ins in top_insights[:3]:
+                cat = key_categories.get(ins.category, "")
+                if cat and cat not in relevant:
+                    relevant.append(cat)
+            if relevant:
+                advice += f" 特别关注：{'、'.join(relevant)}。"
 
         final_metrics = {
             "month": final_state.month,

@@ -155,6 +155,10 @@ class TurnResult(BaseModel):
     ending: EndingType = EndingType.NONE
     ending_description: str = ""
     snapshots_saved: int = 0
+    # Alpha 1.9 fields
+    conflict_summary: ConflictSummary | None = None
+    insight: BusinessInsight | None = None
+    stateguard_intercepted: bool = False
 
 
 # ── Alpha 1.4: Review & Replay ──────────────────────────────────────────────────
@@ -304,3 +308,35 @@ class SuggestionResult(BaseModel):
     suggestions: list[ActionSuggestion] = Field(default_factory=list)
     warning: str = ""
     recommended_focus: str = ""
+
+
+# ── Alpha 1.9: Conflict Engine, Insight Engine, Crisis Guidance ─────────────────
+
+
+class ConflictSummary(BaseModel):
+    """Monthly core conflict — the main tension the player must navigate."""
+
+    title: str
+    description: str
+    pressure_type: str  # cash / pmf / growth / equity / delivery / competition / team
+    severity: str  # low / medium / high
+    next_focus: str
+
+
+class BusinessInsight(BaseModel):
+    """A single business insight generated from turn results."""
+
+    month: int
+    category: str  # marketing_efficiency / product_gap / cash_warning / fundraising_win / fundraising_fail / growth_signal / risk_alert / team_health
+    title: str
+    description: str
+    action_advice: str = ""
+
+
+class CrisisGuidance(BaseModel):
+    """Crisis explanation and copiable recovery inputs when player hits a wall."""
+
+    crisis_type: str  # budget_overrun / fundraising_rejected / runway_critical / cash_below_burn / equity_warning
+    explanation: str
+    severity: str  # medium / high / critical
+    recovery_inputs: list[str] = Field(default_factory=list)

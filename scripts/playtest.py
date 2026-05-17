@@ -93,6 +93,10 @@ def _make_result(
     snapshots: list[dict] | None = None,
     actions: list[dict] | None = None,
     initial_state: CompanyState | None = None,
+    conflict_summaries: list | None = None,
+    all_insights: list | None = None,
+    stateguard_intercepts_count: int = 0,
+    fundraising_rejected_count: int = 0,
 ) -> dict:
     """Build a uniform result dict for a completed strategy run."""
     return {
@@ -110,6 +114,10 @@ def _make_result(
         "snapshots": snapshots or [],
         "actions": actions or [],
         "initial_state": initial_state,
+        "conflict_summaries": conflict_summaries or [],
+        "all_insights": all_insights or [],
+        "stateguard_intercepts_count": stateguard_intercepts_count,
+        "fundraising_rejected_count": fundraising_rejected_count,
     }
 
 
@@ -125,6 +133,10 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
     difficulty = difficulty or get_difficulty("normal")
     snapshots = []
     actions = []
+    conflict_summaries = []
+    all_insights = []
+    stateguard_intercepts_count = 0
+    fundraising_rejected_count = 0
 
     for month in range(1, 13):
         raw_input = strat_fn(month, state)
@@ -137,6 +149,7 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
             result = TurnEngine.process_turn_raw(state, raw_input, difficulty)
         except StateGuardError:
             state.month = month
+            stateguard_intercepts_count += 1
             return _make_result(
                 name,
                 "bankruptcy",
@@ -145,10 +158,20 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
                 snapshots=snapshots,
                 actions=actions,
                 initial_state=initial_state,
+                conflict_summaries=conflict_summaries,
+                all_insights=all_insights,
+                stateguard_intercepts_count=stateguard_intercepts_count,
+                fundraising_rejected_count=fundraising_rejected_count,
             )
 
         state = result.state_after
         snapshots.append({"month": state.month, "state_json": state.model_dump()})
+        if result.conflict_summary:
+            conflict_summaries.append(result.conflict_summary)
+        if result.insight:
+            all_insights.append(result.insight)
+        if any("融资被拒" in r for r in result.delta.reasons):
+            fundraising_rejected_count += 1
 
         if result.ending and result.ending != EndingType.NONE:
             return _make_result(
@@ -160,6 +183,10 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
                 snapshots=snapshots,
                 actions=actions,
                 initial_state=initial_state,
+                conflict_summaries=conflict_summaries,
+                all_insights=all_insights,
+                stateguard_intercepts_count=stateguard_intercepts_count,
+                fundraising_rejected_count=fundraising_rejected_count,
             )
 
     return _make_result(
@@ -170,6 +197,10 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
         snapshots=snapshots,
         actions=actions,
         initial_state=initial_state,
+        conflict_summaries=conflict_summaries,
+        all_insights=all_insights,
+        stateguard_intercepts_count=stateguard_intercepts_count,
+        fundraising_rejected_count=fundraising_rejected_count,
     )
 
 

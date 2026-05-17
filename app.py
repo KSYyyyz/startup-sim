@@ -16,10 +16,12 @@ import yaml
 
 from config import MAX_TURNS, SCENARIOS_PATH
 from src.core.achievement_engine import AchievementEngine
+from src.core.insight_engine import InsightEngine
 from src.core.models import CompanyState, EndingType
 from src.core.replay_engine import ReplayEngine
 from src.core.review_engine import ReviewEngine
 from src.core.state_explainer import StateExplainer
+from src.core.state_guard import generate_crisis_guidance
 from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.core.tutorial import TutorialEngine
@@ -70,6 +72,8 @@ def print_review(
     initial_state: CompanyState,
     final_state: CompanyState,
     ending_status: str,
+    stateguard_intercepts: list | None = None,
+    top_insights: list | None = None,
 ) -> None:
     """Generate and print the post-game review report."""
     snapshots = repository.list_snapshots(session_id)
@@ -84,6 +88,8 @@ def print_review(
         final_state=final_state,
         ending_status=ending_status,
         session_id=session_id,
+        stateguard_intercepts=stateguard_intercepts,
+        top_insights=top_insights,
     )
 
     scores = review.strategy_scores
@@ -418,6 +424,9 @@ def cmd_new(args) -> None:
 
     # Alpha 1.6: Track shown tutorial hints to avoid repeats
     shown_hints: set = set()
+    # Alpha 1.9: Track insights and stateguard intercepts for review
+    all_insights: list = []
+    stateguard_intercepts: list = []
 
     # Main game loop
     print(f"\n🎮 输入你的决策 (最多{MAX_TURNS}个月)。输入 'help' 查看帮助，'quit' 退出。")
@@ -457,11 +466,24 @@ def cmd_new(args) -> None:
 
         try:
             result = engine.process_turn(raw)
+            if result.insight:
+                all_insights.append(result.insight)
             display_result(result)
 
             if result.ending != EndingType.NONE:
                 display_state(result.state_after, "📊 最终状态")
-                print_review(session_id, scenario_state, result.state_after, result.ending.value)
+                # Alpha 1.9: Collect top insights for review
+                top_insights = (
+                    InsightEngine.select_top_insights(all_insights, 3) if all_insights else []
+                )
+                print_review(
+                    session_id,
+                    scenario_state,
+                    result.state_after,
+                    result.ending.value,
+                    stateguard_intercepts=stateguard_intercepts,
+                    top_insights=top_insights,
+                )
                 break
 
             # Show updated state
@@ -477,6 +499,19 @@ def cmd_new(args) -> None:
 
         except Exception as e:
             print(f"  ❌ 错误: {e}")
+            # Alpha 1.9: Show crisis guidance on known error types
+            err_str = str(e)
+            if "预算超限" in err_str or "Budget" in err_str:
+                state = repository.load_state(session_id)
+                guidance = generate_crisis_guidance(
+                    "budget_overrun", state, {"available_cash": state.cash}
+                )
+                print("\n🆘 **危机应对**：")
+                print(f"  {guidance.explanation}")
+                print("  可尝试以下操作：")
+                for i, inp in enumerate(guidance.recovery_inputs, 1):
+                    print(f"    {i}) {inp}")
+                stateguard_intercepts.append({"month": state.month, "reason": "预算超限"})
 
 
 def main():
