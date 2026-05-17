@@ -41,7 +41,7 @@ class TestFullPanel:
         "董事会",
         "市场份额",
         "估值",
-        "剩余跑道",
+        "现金流可支撑时间",
     ]
 
     def test_full_panel_includes_all_metrics(self):

@@ -263,6 +263,23 @@ def display_result(result) -> None:
         for r in result.delta.reasons:
             print(f"    • {r}")
 
+    # Board feedback
+    if result.board_feedback:
+        print("\n  👔 董事会反馈:")
+        for name, msg in result.board_feedback.items():
+            print(f"    [{name}] {msg}")
+
+    # Competitor moves
+    if result.competitor_moves:
+        print("\n  🏪 竞品动态:")
+        for move in result.competitor_moves:
+            name = move.get("name", "未知")
+            action = move.get("action", "")
+            narrative = move.get("narrative", "")
+            print(f"    [{name}] {action}")
+            if narrative:
+                print(f"      {narrative[:150]}")
+
     display_events(result.events)
 
     # Ending
@@ -273,12 +290,22 @@ def display_result(result) -> None:
         print(f"{'='*60}")
 
 
-def display_suggestions(state: CompanyState) -> None:
-    """Alpha 1.6: Display 3 action suggestions for the current state."""
+def display_suggestions_compact(state: CompanyState) -> None:
+    """Alpha 1.9.1: Compact one-line hint — full suggestions on demand."""
+    result = SuggestionEngine.generate(state, state.month)
+    if result.recommended_focus:
+        print(f"\n  🎯 {result.recommended_focus}")
+    if result.warning:
+        print(f"  ⚠️  {result.warning}")
+    print("  💡 输入「建议」查看3条经营路线及可执行输入示例")
+
+
+def display_suggestions_full(state: CompanyState) -> None:
+    """Alpha 1.6: Display 3 action suggestions for the current state (full version)."""
     result = SuggestionEngine.generate(state, state.month)
 
-    print(f"{'='*60}")
-    print("  💡 本月建议")
+    print(f"\n{'='*60}")
+    print("  💡 本月经营路线建议")
     print(f"{'='*60}")
 
     labels = {"conservative": "🟢 稳健路线", "aggressive": "🔶 激进路线", "warning": "🔴 风险提示"}
@@ -327,6 +354,7 @@ def show_help() -> None:
     print()
     print("  🎮 常用指令：")
     print("     status  — 查看当前公司状态")
+    print("     建议    — 查看完整经营路线建议（3条+可执行示例）")
     print("     help    — 显示本帮助信息")
     print("     quit    — 退出游戏")
     print()
@@ -347,7 +375,7 @@ def show_help() -> None:
     print("     🛠️ 产品分   — 产品竞争力(0-100)，影响用户留存")
     print("     👥 用户     — 付费客户数")
     print("     📊 股权     — 创始人对公司的控制权")
-    print("     ⏳ 跑道     — 现金/月消耗，剩余生存月数")
+    print("     ⏳ 现金流可支撑时间 — 现金/月消耗，剩余生存月数")
     print()
     print("  💡 示例输入：")
     print('     "花20万研发产品，花10万做营销"')
@@ -451,11 +479,16 @@ def cmd_new(args) -> None:
             show_help()
             continue
 
+        if raw.lower() in ("建议", "suggestions"):
+            state = repository.load_state(session_id)
+            display_suggestions_full(state)
+            continue
+
         if raw.lower() == "status":
             state = repository.load_state(session_id)
             display_state(state)
-            # Alpha 1.6: Show suggestions after status
-            display_suggestions(state)
+            # Alpha 1.9.1: Compact hint instead of full suggestions
+            display_suggestions_compact(state)
             # Alpha 1.6: Show tutorial hints
             hints = TutorialEngine.check_hints(state, shown_hints)
             for hint in hints:
@@ -489,8 +522,8 @@ def cmd_new(args) -> None:
             # Show updated state
             display_state(result.state_after)
 
-            # Alpha 1.6: Show suggestions and tutorial hints after each turn
-            display_suggestions(result.state_after)
+            # Alpha 1.9.1: Compact hint instead of full suggestions
+            display_suggestions_compact(result.state_after)
             hints = TutorialEngine.check_hints(result.state_after, shown_hints)
             for hint in hints:
                 print(f"\n  💡 [{hint.title}] {hint.message}")

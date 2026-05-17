@@ -63,6 +63,7 @@ class TestEndingEvaluator:
             mrr=250_000,
             product_score=60,
             founder_equity=40,
+            monthly_burn=50_000,
         )
         result = evaluate(state)
         assert result == EndingType.SURVIVED_BUT_AVERAGE
@@ -75,6 +76,7 @@ class TestEndingEvaluator:
             mrr=50_000,
             product_score=30,
             founder_equity=30,
+            monthly_burn=25_000,
         )
         result = evaluate(state)
         assert result == EndingType.SLOW_DEATH

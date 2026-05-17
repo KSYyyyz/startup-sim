@@ -198,6 +198,9 @@ def evaluate(state: CompanyState) -> EndingType | None:
     if state.cash <= 0:
         return EndingType.BANKRUPTCY
 
+    if state.cash < state.monthly_burn:
+        return EndingType.BANKRUPTCY
+
     if state.founder_equity < 34 and state.board_control < 45 and state.runway_months < 4:
         return EndingType.FOUNDER_REMOVED
 

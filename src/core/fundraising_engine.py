@@ -30,6 +30,40 @@ class FundraisingOffer:
     warnings: list = field(default_factory=list)
 
 
+def calculate_fair_valuation(state: CompanyState) -> int:
+    """Calculate the midpoint fair valuation based on company metrics.
+
+    Used for both the status display and the fundraising negotiation baseline.
+    Formula: base = max(mrr*60, users*3000, 3,000,000), then product/reputation/runway modifiers.
+    """
+    base_valuation = max(state.mrr * 60, state.users * 3000, 3_000_000)
+
+    modifier = 1.0
+    if state.product_score >= 80:
+        modifier *= 1.30
+    elif state.product_score >= 60:
+        modifier *= 1.15
+    elif state.product_score < 40:
+        modifier *= 0.80
+
+    if state.reputation >= 80:
+        modifier *= 1.15
+    elif state.reputation >= 50:
+        pass
+    elif state.reputation >= 30:
+        modifier *= 0.90
+    else:
+        modifier *= 0.75
+
+    runway = state.runway_months
+    if runway < 2:
+        modifier *= 0.80
+    elif runway > 6:
+        modifier *= 1.10
+
+    return int(base_valuation * modifier)
+
+
 def evaluate_fundraising(
     state: CompanyState,
     requested_amount: int,
@@ -43,38 +77,7 @@ def evaluate_fundraising(
 
     Returns a FundraisingOffer with acceptance decision, counter-offer, and warnings.
     """
-    # ── Base valuation ────────────────────────────────────────────────────
-    base_valuation = max(state.mrr * 60, state.users * 3000, 3_000_000)
-
-    # ── Valuation modifiers ───────────────────────────────────────────────
-    modifier = 1.0
-
-    # Product score modifier
-    if state.product_score >= 80:
-        modifier *= 1.30
-    elif state.product_score >= 60:
-        modifier *= 1.15
-    elif state.product_score < 40:
-        modifier *= 0.80
-
-    # Reputation modifier
-    if state.reputation >= 80:
-        modifier *= 1.15
-    elif state.reputation >= 50:
-        pass  # no modifier in 50-79 range
-    elif state.reputation >= 30:
-        modifier *= 0.90
-    else:
-        modifier *= 0.75
-
-    # Runway modifier
-    runway = state.runway_months
-    if runway < 2:
-        modifier *= 0.80
-    elif runway > 6:
-        modifier *= 1.10
-
-    base_valuation = int(base_valuation * modifier)
+    base_valuation = calculate_fair_valuation(state)
 
     fair_valuation_min = int(base_valuation * 0.7)
     fair_valuation_max = int(base_valuation * 1.3)

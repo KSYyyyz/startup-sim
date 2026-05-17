@@ -39,7 +39,7 @@ def show_state(state: dict) -> None:
         f"期权池: {state['option_pool'] * 100:.0f}%"
     )
     print(f"🏦 当前轮次: {state['round']}")
-    print(f"⏳ 跑道: {runway:.1f}个月")
+    print(f"⏳ 可支撑: {runway:.1f}个月")
     print("=" * 50)
 
 

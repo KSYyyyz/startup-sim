@@ -23,8 +23,11 @@ venv/
 
 # Game state (runtime)
 feishu_state.json
+.work/
+reports/
 
 # OS
 .DS_Store
 Thumbs.db
 logs/
+*.lnk

@@ -53,14 +53,17 @@ class TestProcessTurnRawE2E:
 
     def test_process_turn_raw_with_fundraising(self):
         """Fundraising via process_turn_raw: cash increases, equity decreases."""
+        from src.core.fundraising_engine import calculate_fair_valuation
+
         state = CompanyState(mrr=700_000, product_score=70, reputation=60)
         result = TurnEngine.process_turn_raw(state, "融资500万出让10%")
 
         assert result.state_after.cash > state.cash
         assert result.state_after.founder_equity == 90
         assert result.state_after.board_control == 90
-        # Post-money valuation = 500万 / 10% = 5000万, added to initial 500万 = 5500万
-        assert result.state_after.valuation == 55_000_000
+        # Valuation is now recalculated from current metrics
+        expected_val = calculate_fair_valuation(result.state_after)
+        assert result.state_after.valuation == expected_val
 
     def test_process_turn_raw_with_marketing(self):
         """Marketing via process_turn_raw: users/MRR grow via CustomerAgent."""

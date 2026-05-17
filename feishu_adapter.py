@@ -71,7 +71,7 @@ def format_state_for_feishu(state: dict) -> str:
         f"🏢 **{state['company']}** | 第{state['turn']}回合",
         f"📌 赛道: {state['track']} | 市场: {state['market']}",
         f"💰 现金: {state['cash']}万 | 烧钱: {state['burn_rate']}万/月",
-        f"📈 MRR: {state['mrr']}万/月 | ⏳ 跑道: {state['runway']}个月",
+        f"📈 MRR: {state['mrr']}万/月 | ⏳ 可支撑: {state['runway']}个月",
         f"👥 团队: {state['team_size']}人 | 士气: {state['team_morale']}/100",
         f"📊 股权: 创始人{state['founder_equity']}% "
         f"| 投资人{state['investor_equity']}% "

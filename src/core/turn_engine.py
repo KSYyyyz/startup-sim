@@ -29,6 +29,7 @@ from src.core.difficulty import Difficulty, get_difficulty
 from src.core.ending_evaluator import describe_ending
 from src.core.ending_evaluator import evaluate as eval_ending
 from src.core.event_engine import EventEngine
+from src.core.fundraising_engine import calculate_fair_valuation
 from src.core.models import (
     ActionPlan,
     CompanyState,
@@ -248,6 +249,9 @@ class TurnEngine:
         state_after = self.event_engine.apply_event_deltas(state_after_delta, events)
         state_after.month = month + 1  # advance month
 
+        # Recalculate fair valuation based on current metrics
+        state_after.valuation = calculate_fair_valuation(state_after)
+
         # Step 12: Evaluate ending
         ending = eval_ending(state_after)
         ending_desc = (
@@ -350,6 +354,9 @@ class TurnEngine:
         events = engine.event_engine.evaluate(state_after_delta)
         state_after = engine.event_engine.apply_event_deltas(state_after_delta, events)
         state_after.month = month + 1
+
+        # Recalculate fair valuation based on current metrics
+        state_after.valuation = calculate_fair_valuation(state_after)
 
         ending = eval_ending(state_after)
         ending_desc = (
