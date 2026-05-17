@@ -268,7 +268,8 @@ startup-sim/
 ├── config.py               # 配置
 ├── data/scenarios.yaml     # 剧本
 ├── scripts/
-│   └── playtest.py         # 12回合自动试玩脚本
+│   ├── playtest.py              # 12回合自动试玩脚本
+│   └── check_docs_consistency.py # 文档一致性检查脚本
 ├── src/
 │   ├── core/
 │   │   ├── models.py           # Pydantic模型(含employee/price/valuation)
@@ -294,8 +295,21 @@ startup-sim/
 │   │   └── customers.py        # 客户群体(四因子+转化率)
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
-└── tests/                  # 273个测试，pytest全覆盖
+└── tests/                  # pytest 全覆盖
 ```
+
+## 🛠️ 工程治理
+
+| 命令 | 说明 |
+|------|------|
+| `make format` | black + isort 代码格式化 |
+| `make lint` | ruff 静态检查 |
+| `make test` | pytest 全量测试 |
+| `make playtest` | 12回合自动试玩 + 策略对比 |
+| `make docs-check` | 检查 VERSION / README / REPORTS / 事件统计等文档一致性 |
+| `make check` | 依次执行 format + lint + test + playtest + docs-check |
+
+每次版本推进前必须 `make check` 全部通过。
 
 ## 🛠️ 技术栈
 

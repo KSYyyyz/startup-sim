@@ -1,6 +1,6 @@
 # Startup Sim — Alpha 1.2 收尾校验报告
 
-> 注意：历史阶段（Alpha 1.2/1.3/1.4）的下一步建议仅作版本记录，当前路线以最新 Alpha 1.5 规划为准。
+> 注意：历史阶段（Alpha 1.2/1.3/1.4/1.5）的下一步建议仅作版本记录，当前路线以最新 Alpha 1.6 规划为准。
 
 Alpha 1.2 主流程已完成，剩余仅为文案和格式收尾。
 
@@ -528,3 +528,18 @@ Alpha 1.5 建议方向：
 ---
 
 *Alpha 1.6 新手引导 + 建议引擎 + 状态解读版 — 2026-05-17*
+
+---
+
+## Alpha 1.6 工程规范更新 — 文档一致性规范接入
+
+主题：文档一致性规范接入工程质量门
+
+内容：
+- CONTRIBUTING 新增"文档一致性规范"章节（7条规则）
+- release checklist 新增"文档一致性检查"章节（10个勾选项）
+- 新增 `scripts/check_docs_consistency.py`：自动检查 VERSION 与 README 标题一致、旧版本残留、测试数量、事件池统计
+- Makefile 新增 `make docs-check` target
+- `.github/workflows/ci.yml` 新增 docs-check 步骤
+- `make check` 现在覆盖格式、lint、测试、playtest、文档一致性五项
+- 后续每次版本推进，`make check` 必须全部通过（含 docs-check）

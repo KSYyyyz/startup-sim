@@ -1,4 +1,4 @@
-.PHONY: format lint test playtest check
+.PHONY: format lint test playtest docs-check check
 
 # 代码格式化
 format:
@@ -17,6 +17,10 @@ test:
 playtest:
 	python scripts/playtest.py
 
+# 文档一致性检查
+docs-check:
+	python scripts/check_docs_consistency.py
+
 # 质量门（版本推进前必须通过）
-check: format lint test playtest
+check: format lint test playtest docs-check
 	@echo "All checks passed."

@@ -37,3 +37,6 @@ jobs:
 
       - name: Playtest
         run: python scripts/playtest.py
+
+      - name: Docs consistency check
+        run: python scripts/check_docs_consistency.py
