@@ -604,7 +604,9 @@ def _identify_risks(state: CompanyState) -> list[str]:
     risks: list[str] = []
 
     if state.runway_months <= 3:
-        risks.append(f"现金流危急：可支撑仅{state.runway_months:.1f}个月，需立即融资或大幅削减开支。")
+        risks.append(
+            f"现金流危急：可支撑仅{state.runway_months:.1f}个月，需立即融资或大幅削减开支。"
+        )
     elif state.runway_months <= 5:
         risks.append(f"现金流紧张：可支撑{state.runway_months:.1f}个月，建议启动融资准备。")
 

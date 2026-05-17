@@ -348,10 +348,7 @@ class InvestorDirector(BaseAgent):
                 f"我们投的是你这个人，有问题随时沟通，别自己扛。"
             )
         elif "均衡" in self.investor_style or "稳健" in self.investor_style:
-            return (
-                f"📋{tag}保持现有节奏，稳扎稳打。"
-                f"建议准备月度投资人更新邮件，主动管理预期。"
-            )
+            return f"📋{tag}保持现有节奏，稳扎稳打。" f"建议准备月度投资人更新邮件，主动管理预期。"
         else:
             return (
                 f"📈{tag}市场关注度高，保持增长势头。"
