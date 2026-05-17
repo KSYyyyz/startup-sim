@@ -132,7 +132,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 273 passed (Alpha 1.6)
+pytest tests/ -v    # 289 passed (Alpha 1.7)
 ```
 
 测试覆盖：
@@ -338,4 +338,4 @@ startup-sim/
 
 ---
 
-*首次玩家试玩验证版 Alpha 1.7 — 273 tests passed，新增快速启动指南/样例局/反馈模板/问题排查，适合小范围内部试玩。*
+*首次玩家试玩验证版 Alpha 1.7 — 289 tests passed，新增快速启动指南/样例局/反馈模板/问题排查，适合小范围内部试玩。*
