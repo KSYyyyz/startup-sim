@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 
 import { OfficeStage } from './game/OfficeStage';
+import type { OfficeAction } from './game/officeRooms';
 import { useGameStore } from './store';
 import type { CompetitorItem, MetricSet } from './types';
 import './styles.css';
@@ -127,6 +128,7 @@ export default function App() {
   const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
     useGameStore();
   const [command, setCommand] = useState('');
+  const [preparedAction, setPreparedAction] = useState<OfficeAction | null>(null);
   const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'log'>('board');
 
   useEffect(() => {
@@ -141,6 +143,22 @@ export default function App() {
     if (!command.trim()) return;
     await runTurn(command);
     setCommand('');
+    setPreparedAction(null);
+  }
+
+  function handleCommandChange(value: string) {
+    setCommand(value);
+    setPreparedAction(null);
+  }
+
+  function handleQuickCommand(value: string) {
+    setCommand(value);
+    setPreparedAction(null);
+  }
+
+  function handleOfficeAction(action: OfficeAction) {
+    setCommand(action.command);
+    setPreparedAction(action);
   }
 
   async function handleAdvice() {
@@ -184,7 +202,7 @@ export default function App() {
         <input
           id="mobile-turn-command"
           value={command}
-          onChange={(event) => setCommand(event.target.value)}
+          onChange={(event) => handleCommandChange(event.target.value)}
           placeholder="例如：花10万研发产品"
         />
         <button type="submit" disabled={submitting}>
@@ -258,7 +276,7 @@ export default function App() {
         <OfficeStage
           insightTitle={state.insight.title}
           insightDescription={state.insight.description}
-          onCommandSelect={setCommand}
+          onActionSelect={handleOfficeAction}
         />
 
         <aside className="right-stack">
@@ -350,31 +368,41 @@ export default function App() {
       </section>
 
       <section className="action-dock" aria-label="本回合动作">
-        <button type="button" onClick={() => setCommand('花10万研发产品')}>
+        <button type="button" onClick={() => handleQuickCommand('花10万研发产品')}>
           <Boxes size={22} /> 研发
         </button>
-        <button type="button" onClick={() => setCommand('花8万招聘人才')}>
+        <button type="button" onClick={() => handleQuickCommand('花8万招聘人才')}>
           <Users size={22} /> 招聘
         </button>
-        <button type="button" onClick={() => setCommand('融资300万出让8%股权')}>
+        <button type="button" onClick={() => handleQuickCommand('融资300万出让8%股权')}>
           <HandCoins size={22} /> 融资
         </button>
-        <button type="button" onClick={() => setCommand('花10万做营销推广')}>
+        <button type="button" onClick={() => handleQuickCommand('花10万做营销推广')}>
           <Megaphone size={22} /> 营销
         </button>
-        <form onSubmit={handleSubmit} className="command-form">
-          <label htmlFor="turn-command">本回合指令</label>
-          <input
-            id="turn-command"
-            value={command}
-            onChange={(event) => setCommand(event.target.value)}
-            placeholder="例如：花10万研发产品"
-          />
-          <button type="submit" disabled={submitting}>
-            <Play size={20} />
-            执行回合
-          </button>
-        </form>
+        <div className="command-stack">
+          {preparedAction && (
+            <article className="prepared-action" aria-label="已准备行动">
+              <span>已准备行动</span>
+              <strong>{preparedAction.title}</strong>
+              <p>{preparedAction.description}</p>
+              <code>{preparedAction.command}</code>
+            </article>
+          )}
+          <form onSubmit={handleSubmit} className="command-form">
+            <label htmlFor="turn-command">本回合指令</label>
+            <input
+              id="turn-command"
+              value={command}
+              onChange={(event) => handleCommandChange(event.target.value)}
+              placeholder="例如：花10万研发产品"
+            />
+            <button type="submit" disabled={submitting}>
+              <Play size={20} />
+              执行回合
+            </button>
+          </form>
+        </div>
       </section>
 
       {error && <div className="toast" role="alert">{error}</div>}

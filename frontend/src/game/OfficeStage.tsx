@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { officeRooms, type OfficeRoom } from './officeRooms';
+import { officeRooms, type OfficeAction, type OfficeRoom } from './officeRooms';
 
 type OfficeStageProps = {
   insightTitle: string;
   insightDescription: string;
-  onCommandSelect: (command: string) => void;
+  onActionSelect: (action: OfficeAction) => void;
 };
 
 function drawPixiOverlay(container: HTMLDivElement) {
@@ -62,7 +62,7 @@ function drawPixiOverlay(container: HTMLDivElement) {
   };
 }
 
-export function OfficeStage({ insightTitle, insightDescription, onCommandSelect }: OfficeStageProps) {
+export function OfficeStage({ insightTitle, insightDescription, onActionSelect }: OfficeStageProps) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [selectedRoomId, setSelectedRoomId] = useState(officeRooms[0].id);
   const selectedRoom = useMemo<OfficeRoom>(
@@ -103,7 +103,7 @@ export function OfficeStage({ insightTitle, insightDescription, onCommandSelect 
               <b>{action.title}</b>
               <p>{action.description}</p>
               <small>{action.impact}</small>
-              <button type="button" onClick={() => onCommandSelect(action.command)}>
+              <button type="button" onClick={() => onActionSelect(action)}>
                 采用行动：{action.title}
               </button>
             </article>

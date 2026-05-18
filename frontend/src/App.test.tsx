@@ -168,6 +168,10 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.click(screen.getByRole('button', { name: '采用行动：产品打磨' }));
 
     expect(screen.getByLabelText('本回合指令')).toHaveValue('花10万研发产品');
+    const preparedAction = screen.getByLabelText('已准备行动');
+    expect(preparedAction).toHaveTextContent('产品打磨');
+    expect(preparedAction).toHaveTextContent('现金消耗中等，产品体验提升。');
+    expect(preparedAction).toHaveTextContent('花10万研发产品');
   });
 
   test('submits a turn and refreshes post-turn board competitor and insight feedback', async () => {

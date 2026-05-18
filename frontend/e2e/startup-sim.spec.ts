@@ -13,6 +13,8 @@ test('creates a session and submits one turn', async ({ page }) => {
   await page.getByRole('button', { name: '产品室' }).click();
   await expect(page.getByText('产品打磨', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '采用行动：产品打磨' }).click();
+  await expect(page.getByLabel('已准备行动')).toContainText('产品打磨');
+  await expect(page.getByLabel('已准备行动')).toContainText('花10万研发产品');
 
   if ((page.viewportSize()?.width ?? 0) <= 640) {
     await expect(page.getByLabel('移动端本回合指令')).toHaveValue('花10万研发产品');
