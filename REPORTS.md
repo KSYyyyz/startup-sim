@@ -1,6 +1,40 @@
 # Startup Sim — 版本开发报告
 
-当前路线以最新 Alpha 1.9.1 体验验证
+当前路线以最新 Alpha 1.9.1 体验验证；前端并行推进 Alpha 0.2 桌面游戏层
+
+---
+
+## Frontend Alpha 0.2 — 桌面游戏层连续推进 (2026-05-18)
+
+**性质**: 前端独立游戏化切片。目标是把 Web 入口从状态面板推进为可点击、可操作、可反馈的办公室经营场景。
+
+**线上入口**: https://startup-sim-khaki.vercel.app
+
+**主要产出**:
+- `frontend/src/game/OfficeStage.tsx` — 办公室主场景、房间热点、动态反馈、月末变化。
+- `frontend/src/App.tsx` — 董事会/竞品/建议/记录面板与底部 CEO 指令闭环。
+- `frontend/e2e/startup-sim.spec.ts` — 桌面 1366×768、1440×900、1920×1080 与移动 smoke 覆盖。
+- `docs/frontend_alpha_0_2_desktop_game_layer.md` — 前端 Alpha 0.2 执行计划与迭代进度。
+
+**已完成的可玩闭环**:
+1. 办公室房间可点击，行动卡可生成自然语言 CEO 指令。
+2. 董事会信号和竞品信号可从办公室动态反馈进入右侧面板。
+3. 董事会压力可生成回应指令，并显示来源解释。
+4. 竞品压力可生成回应指令，并显示来源解释。
+5. 回应指令会显示取舍标签，如 `用户 +`、`现金 -`、`现金流可支撑时间 +`。
+6. 提交回合后，办公室场景内显示月末变化，左侧显示月度战报。
+
+**验证记录**:
+- Python: `pytest tests/ -q` → 399 passed
+- Frontend: `npm test -- --run` → 9 passed
+- Frontend E2E: `npm run test:e2e` → 8 passed
+- GitHub CI: latest pushed frontend slices passed
+- Vercel smoke: `https://startup-sim-khaki.vercel.app` verified after push
+
+**下一步**:
+- 将普通办公室行动卡、底部快捷按钮与压力回应统一为同一套执行前预期系统。
+- 继续桌面端优先，移动端保持 smoke 级别。
+- 后续性能 pass 需要处理 PixiJS 大 chunk。
 
 ---
 

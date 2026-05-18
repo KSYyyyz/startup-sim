@@ -7,7 +7,8 @@
 3. README 包含测试通过数量
 4. 事件池数量与代码一致
 5. REPORTS 顶部"当前路线"指向最新版本
-6. 文本文件健康检查（NUL/编码/行数/行长）
+6. README 暴露前端 Alpha 0.2 计划和 Vercel 入口
+7. 文本文件健康检查（NUL/编码/行数/行长）
 
 exit 0 = 全部通过, exit 1 = 有失败项
 """
@@ -20,6 +21,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 VERSION_PATH = PROJECT_ROOT / "VERSION"
 README_PATH = PROJECT_ROOT / "README.md"
 REPORTS_PATH = PROJECT_ROOT / "REPORTS.md"
+FRONTEND_PLAN_PATH = PROJECT_ROOT / "docs" / "frontend_alpha_0_2_desktop_game_layer.md"
+VERCEL_FRONTEND_URL = "https://startup-sim-khaki.vercel.app"
 
 FAILURES: list[str] = []
 
@@ -210,6 +213,38 @@ def check_event_pool_counts() -> None:
 # ── 检查 5: 文本文件健康检查 ───────────────────────────────
 
 
+def check_frontend_docs_visible() -> None:
+    safe_print("\n[检查 5] README 暴露前端 Alpha 0.2 入口")
+    try:
+        readme = read_text(README_PATH)
+    except FileNotFoundError:
+        fail("README.md 不存在")
+        return
+
+    missing = []
+    required_markers = [
+        "docs/frontend_alpha_0_2_desktop_game_layer.md",
+        "docs/indie_game_product_direction.md",
+        "docs/vercel_frontend_deploy.md",
+        VERCEL_FRONTEND_URL,
+        "前端 Alpha 0.2",
+    ]
+    for marker in required_markers:
+        if marker not in readme:
+            missing.append(marker)
+
+    if not FRONTEND_PLAN_PATH.exists():
+        missing.append(str(FRONTEND_PLAN_PATH.relative_to(PROJECT_ROOT)))
+
+    if missing:
+        fail("README 缺少前端入口或计划引用: " + ", ".join(missing))
+    else:
+        ok("README 已暴露前端计划、产品方向、部署说明和 Vercel 入口")
+
+
+# ── 检查 6: 文本文件健康检查 ───────────────────────────────
+
+
 HEALTH_FILES = [
     (PROJECT_ROOT / "QUICKSTART.md", 40),
     (PROJECT_ROOT / "README.md", 80),
@@ -220,7 +255,7 @@ HEALTH_FILES = [
 
 
 def check_text_file_health() -> None:
-    safe_print("\n[检查 5] 文本文件健康检查")
+    safe_print("\n[检查 6] 文本文件健康检查")
     for file_path, min_lines in HEALTH_FILES:
         name = file_path.relative_to(PROJECT_ROOT)
         try:
@@ -266,6 +301,7 @@ def main() -> int:
     check_no_stale_versions()
     check_test_count_mentioned()
     check_event_pool_counts()
+    check_frontend_docs_visible()
     check_text_file_health()
 
     safe_print("\n" + "=" * 60)

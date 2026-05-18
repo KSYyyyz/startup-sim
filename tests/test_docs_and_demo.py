@@ -25,6 +25,8 @@ README_NAV_KEYWORDS = [
     "QUICKSTART.md",
     "examples/sample_run_balanced.md",
     "docs/troubleshooting.md",
+    "docs/frontend_alpha_0_2_desktop_game_layer.md",
+    "https://startup-sim-khaki.vercel.app",
 ]
 
 

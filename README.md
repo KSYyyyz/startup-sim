@@ -5,6 +5,9 @@
 你是AI客服SaaS创始人，种子轮100万。12个月内做产品/营销/招聘/融资决策，在董事会、竞品、客户三方博弈中活下来。
 
 > ⚠️ Alpha 1.9.1 是体验验证与路线收口版本。Alpha 1.9 已完成核心矛盾/竞品态势/经营洞察/危机解释等反馈增强。
+> 前端独立游戏化方向正在并行推进 Alpha 0.2：桌面端办公室经营层、角色压力回应、竞品压力回应和回合结果反馈已接入 Vercel 试玩页。
+
+**前端试玩地址**: https://startup-sim-khaki.vercel.app
 
 ### 🔗 快速导航
 
@@ -13,8 +16,24 @@
 | [QUICKSTART.md](QUICKSTART.md) | 3分钟快速启动指南 |
 | [examples/sample_run_balanced.md](examples/sample_run_balanced.md) | 官方样例局：均衡策略→A轮成功 |
 | [examples/sample_run_marketing_failure.md](examples/sample_run_marketing_failure.md) | 官方失败样例：全营销→慢性死亡 |
+| [docs/indie_game_product_direction.md](docs/indie_game_product_direction.md) | 独立游戏化产品方向与可分发路线 |
+| [docs/frontend_alpha_0_2_desktop_game_layer.md](docs/frontend_alpha_0_2_desktop_game_layer.md) | 前端 Alpha 0.2 桌面游戏层执行计划与进度 |
+| [docs/vercel_frontend_deploy.md](docs/vercel_frontend_deploy.md) | Vercel 前端部署与线上验收说明 |
 | [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 常见问题排查
+
+## 🖥️ 前端 Alpha 0.2 试玩进度
+
+当前前端目标不是复刻 CLI 文本界面，而是把项目推进成桌面优先的独立经营游戏切片。
+
+- Vercel 试玩页：<https://startup-sim-khaki.vercel.app>
+- 主场景：办公室可点击房间，包含产品室、研发团队、销售区、董事会、服务器。
+- 行动闭环：点击房间或角色/竞品压力，可生成自然语言 CEO 指令并提交回合。
+- 反馈闭环：董事会信号、竞品信号、经营洞察、月度战报和办公室月末变化已可见。
+- 决策可读性：行动卡和压力回应会显示取舍标签，如 `产品 +`、`用户 +`、`现金 -`、`现金流可支撑时间 +`。
+- 验证范围：桌面 1366×768、1440×900、1920×1080 E2E；移动端只做基础 smoke。
+
+前端工程入口：`frontend/`。后端 API 包装层：`src/api/app.py`。当前前端仍复用现有 `TurnEngine`，不复制游戏规则。
 
 ## 🎮 快速开始
 
@@ -133,7 +152,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 389 passed (Alpha 1.9)
+pytest tests/ -v    # 399 passed
 ```
 
 测试覆盖：
@@ -342,6 +361,7 @@ pytest tests/ -v    # 389 passed (Alpha 1.9)
 startup-sim/
 ├── app.py                  # CLI入口
 ├── feishu_play.py          # 飞书薄适配层：命令识别 + session映射 + TurnEngine调用 + 格式化输出
+├── frontend/               # React + Vite 前端桌面游戏层
 ├── config.py               # 配置
 ├── QUICKSTART.md           # 3分钟快速启动指南
 ├── data/scenarios.yaml     # 剧本
@@ -380,6 +400,9 @@ startup-sim/
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
 ├── docs/
+│   ├── frontend_alpha_0_2_desktop_game_layer.md # 前端桌面游戏层计划与进度
+│   ├── indie_game_product_direction.md          # 独立游戏化产品方向
+│   ├── vercel_frontend_deploy.md                # Vercel 部署说明
 │   ├── playtest_feedback_template.md # 玩家试玩反馈模板
 │   ├── playtest_observation.md       # 试玩观察记录模板
 │   └── troubleshooting.md            # 常见问题排查
@@ -402,9 +425,10 @@ startup-sim/
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
+- Frontend: React + Vite + TypeScript + Zustand + PixiJS + Playwright
 - Alpha 1.8：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help + 融资估值引擎/声誉系统/状态面板/反馈强制 + 试玩文档体系
 - 零API消耗，全规则引擎驱动
 
 ---
 
-*体验验证版 Alpha 1.9.1 — 389 tests passed，游戏性优先路线规划、试玩验证计划、反馈模板修正、版本文档一致性收口。*
+*体验验证版 Alpha 1.9.1 — 399 tests passed；前端 Alpha 0.2 桌面游戏层正在并行推进并部署到 Vercel。*
