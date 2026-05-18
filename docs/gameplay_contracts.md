@@ -23,6 +23,7 @@
 | `ScenarioDefinition` | 共享 | 剧本、房间、角色、竞品和市场背景。 |
 | `CompanyGoal` | 规则层 | 公司经营目标、收益目标和成就进度。 |
 | `EmployeeState` | 共享 | 员工能力、职位、特性、疲劳、情绪、健康和需求状态。 |
+| `EmployeeGrowthState` | 共享 | 员工经验、等级、潜力、培训和成长事件状态。 |
 | `TimeControlState` | Godot | 暂停、正常速度、二倍速、三倍速等时间控制状态。 |
 | `AssetManifest` | Godot / 美术 | image-2 视觉资产和稳定引用。 |
 
@@ -117,8 +118,44 @@
 - `health`
 - `needs`
 - `current_activity`
+- `growth`
 
 `current_activity` 可以是工作、休息、娱乐、上厕所、请病假或空闲。员工状态会影响部门产能，但产能结算必须由规则层完成。
+
+## EmployeeGrowthState
+
+`EmployeeGrowthState` 描述员工长期成长，挂载在 `EmployeeState.growth` 下。成长系统必须服务于公司经营结果，不能成为脱离经营主线的独立养成层。
+
+必填字段：
+
+- `level`
+- `experience_by_skill`
+- `potential`
+- `growth_rate`
+- `training_status`
+- `recent_growth_events`
+- `role_fit_score`
+- `mentor_employee_id`
+
+字段约束：
+
+- `level` 用于玩家快速理解员工资历，不直接替代具体能力。
+- `experience_by_skill` 必须按能力维度记录，例如研发、销售、运营、客服、服务器维护、人事、财务、协作、抗压、管理。
+- `potential` 表示成长上限或潜力段位，用于避免员工无限同质化成长。
+- `growth_rate` 受特性、岗位匹配、设施、疲劳、情绪、健康和导师影响。
+- `training_status` 只能表示未培训、培训中、培训冷却或培训完成，不能直接修改经营结果。
+- `recent_growth_events` 记录最近成长来源，例如岗位经验、定向培训、项目突破、导师带教。
+- `role_fit_score` 用于 Godot 展示岗位适配，不得绕过规则层结算部门产能。
+- `mentor_employee_id` 可以为空；非空时必须引用同公司有效员工。
+
+成长来源：
+
+- 岗位经验：员工在匹配岗位工作时随时间积累。
+- 定向培训：消耗现金和时间，短期降低产出，长期提高能力或专长。
+- 项目突破：重大产品、客户、融资或危机处理事件给相关员工成长。
+- 导师带教：资深员工提升新人学习速度，同时占用部分资深员工产能。
+
+规则层输出给 Godot 的成长变化必须是已结算事实，例如“销售专员通过连续跟进客户提升了沟通能力”。Godot 只能展示这些事实，不能在表现层自行发放经验。
 
 ## TimeControlState
 

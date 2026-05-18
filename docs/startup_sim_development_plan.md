@@ -268,7 +268,39 @@ Godot 必须从内容数据读取可变内容，而不是把内容写死在场�
 - 员工能力和特长决定适合的职位和工种，例如研发、销售、运营、客服、服务器维护、人事、财务等。
 - 员工成长不能喧宾夺主，必须服务于公司经营收益和发展目标。
 
-### 6.4 中期循环
+### 6.4 员工成长系统
+
+员工成长是公司经营主线的长期杠杆，不是独立养成游戏。玩家培养员工的目的，是让公司获得更稳定的产出、更高的岗位匹配、更少的事故和更强的阶段目标完成能力。
+
+成长来源：
+
+- 自然经验：员工在匹配岗位持续工作，会缓慢积累对应能力经验。
+- 定向培训：玩家花费时间和现金安排培训，短期降低产出，长期提高能力或解锁专长。
+- 项目突破：产品发布、重大客户签约、融资成功、危机处理等事件会给相关员工成长机会。
+- 导师带教：高能力员工或管理岗可以提升同部门新人学习速度，但会占用一部分资深员工产能。
+
+成长维度：
+
+- 专业能力：研发、销售、运营、客服、服务器维护、人事、财务等。
+- 协作能力：影响团队效率、跨部门摩擦和项目稳定性。
+- 抗压能力：影响危机、加班、融资压力和客户投诉下的情绪波动。
+- 管理能力：影响团队容量、带教效率、离职风险和部门执行稳定性。
+- 学习潜力：影响经验获取速度和培训收益。
+
+玩家可见表达：
+
+- 不默认展示复杂公式，只展示等级、经验趋势、岗位适配、成长潜力和近期变化。
+- 员工详情页可以显示“适合岗位”“近期成长”“当前瓶颈”“建议培养方向”。
+- 月报只展示与经营结果有关的成长，例如“研发组通过版本攻坚提升了交付稳定性”。
+
+约束：
+
+- 员工成长必须有成本：现金、时间、导师产能、疲劳或短期机会成本。
+- 成长收益必须反馈到公司主线：产品能力、销售转化、客户满意、服务器稳定、组织效率、现金流压力或成就进度。
+- 员工不会无限成长。每名员工有潜力上限、成长曲线和适配方向，避免所有人最终同质化。
+- 负面特性不能只靠成长完全抹掉，只能通过管理、岗位调整、设施或培训降低影响。
+
+### 6.5 中期循环
 
 1. 验证产品方向。
 2. 获得早期用户。
@@ -276,13 +308,13 @@ Godot 必须从内容数据读取可变内容，而不是把内容写死在场�
 4. 在扩区、买设施、招聘、融资、节流之间取舍。
 5. 形成公司路线风格。
 
-### 6.5 长期循环
+### 6.6 长期循环
 
 1. 路线成型：产品信仰、资本狂飙、大客户、精益创业、产业合作。
 2. 逐步解锁 PMF、销售体系、回款、毛利、组织压力、合规、上市路线。
 3. 进入多种结局：破产、勉强存活、A 轮成功、被收购、技术孤岛、创始人出局、独角兽、IPO。
 
-### 6.6 CLI 旧玩法定位
+### 6.7 CLI 旧玩法定位
 
 CLI/飞书版本不再代表最终核心玩法。它们只保留为：
 
@@ -466,6 +498,8 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 - 设施有至少 2 个升级等级。
 - 有员工管理入口，显示能力、特长、正负特性、疲劳、情绪、健康和需求。
 - 可以招聘至少 3 类员工并分配部门。
+- 可以查看员工等级、成长潜力、岗位适配和近期成长事件。
+- 至少有 1 种培训动作，培训有现金、时间或短期产出成本。
 - 员工会随时间推进产生疲劳、休息、娱乐、上厕所、情绪和生病等状态变化。
 - 支持暂停、正常速度、二倍速、三倍速。
 - 系统根据区域、设施、员工能力和员工状态生成经营产出预览。
@@ -481,7 +515,7 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 
 - `ContentDatabase` 可加载 JSON 内容。
 - 内容 ID 唯一性检查通过。
-- Godot 区域类型、设施、升级梯度和员工特性不再硬编码。
+- Godot 区域类型、设施、升级梯度、员工特性、成长轨道和培训动作不再硬编码。
 - 缺字段、重复 ID、引用失效会在验证脚本中失败。
 - README 或 docs 写明新增内容的方法。
 
@@ -576,6 +610,8 @@ godot/StartupSimGodot/data/employees/employee_roles.json
 godot/StartupSimGodot/data/employees/employee_traits.json
 godot/StartupSimGodot/data/employees/employee_needs.json
 godot/StartupSimGodot/data/employees/employee_skills.json
+godot/StartupSimGodot/data/employees/employee_growth_tracks.json
+godot/StartupSimGodot/data/employees/employee_training_actions.json
 godot/StartupSimGodot/data/company/company_goals.json
 godot/StartupSimGodot/data/company/achievements.json
 godot/StartupSimGodot/data/actions/derived_actions.json
@@ -599,6 +635,8 @@ godot/StartupSimGodot/data/locales/zh-cn.json
 - `EmployeeTraitDefinition`
 - `EmployeeNeedDefinition`
 - `EmployeeSkillDefinition`
+- `EmployeeGrowthTrackDefinition`
+- `EmployeeTrainingActionDefinition`
 - `CompanyGoalDefinition`
 - `AchievementDefinition`
 - `DerivedActionDefinition`

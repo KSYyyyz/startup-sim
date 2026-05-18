@@ -96,6 +96,18 @@ class TestDocsConsistencyScript:
         assert "[检查 1]" in script
 
 
+class TestGodotGameplayDocs:
+    def test_employee_growth_system_is_documented_as_company_lever(self):
+        plan = (PROJECT_DIR / "docs" / "startup_sim_development_plan.md").read_text(encoding="utf-8")
+        direction = (PROJECT_DIR / "docs" / "indie_game_product_direction.md").read_text(encoding="utf-8")
+        contracts = (PROJECT_DIR / "docs" / "gameplay_contracts.md").read_text(encoding="utf-8")
+
+        assert "员工成长系统" in plan
+        assert "岗位经验、定向培训、项目突破和导师带教" in direction
+        assert "EmployeeGrowthState" in contracts
+        assert "成长系统必须服务于公司经营结果" in contracts
+
+
 class TestQuickstart:
     @pytest.fixture(autouse=True)
     def _read_quickstart(self):
