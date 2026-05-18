@@ -231,6 +231,14 @@ def test_godot_office_view_keeps_selection_feedback_after_grid_click():
     assert "悬停格子" in panel_script
 
 
+def test_godot_office_view_uses_mouse_event_position_for_grid_automation():
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+
+    assert "GetCellAtEventPosition(InputEventMouse inputEvent)" in grid_script
+    assert "inputEvent.Position" in grid_script
+    assert "GetCellAtWorldPosition(GetGlobalMousePosition())" not in grid_script
+
+
 def test_godot_main_scene_mounts_zone_painting_controller():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     controller = (SCRIPTS / "ZonePaintingController.cs").read_text(encoding="utf-8")

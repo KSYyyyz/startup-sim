@@ -63,15 +63,15 @@ public partial class OfficeGridView : Node2D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event is InputEventMouseMotion)
+        if (@event is InputEventMouseMotion mouseMotion)
         {
-            UpdateHoveredCell();
+            UpdateHoveredCell(mouseMotion);
             return;
         }
 
-        if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+        if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } mouseButton)
         {
-            var cell = GetCellAtWorldPosition(GetGlobalMousePosition());
+            var cell = GetCellAtEventPosition(mouseButton);
             if (!grid.Contains(cell))
             {
                 return;
@@ -87,6 +87,11 @@ public partial class OfficeGridView : Node2D
     {
         var local = ToLocal(worldPosition);
         return grid.WorldToCell(local.X, local.Y);
+    }
+
+    public OfficeCell GetCellAtEventPosition(InputEventMouse inputEvent)
+    {
+        return GetCellAtWorldPosition(GetViewport().CanvasTransform.AffineInverse() * inputEvent.Position);
     }
 
     public bool TryOccupyRect(int x, int y, int width, int height, string occupantId)
@@ -184,9 +189,9 @@ public partial class OfficeGridView : Node2D
         DrawHoverCell();
     }
 
-    private void UpdateHoveredCell()
+    private void UpdateHoveredCell(InputEventMouse inputEvent)
     {
-        var cell = GetCellAtWorldPosition(GetGlobalMousePosition());
+        var cell = GetCellAtEventPosition(inputEvent);
         if (cell.Equals(hoveredCell))
         {
             return;
