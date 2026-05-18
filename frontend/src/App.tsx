@@ -137,6 +137,7 @@ export default function App() {
 
   const cards = useMemo(() => (state ? metricCards(state.metrics) : []), [state]);
   const highlights = useMemo(() => (state ? turnHighlights(state.metrics) : []), [state]);
+  const hasCommand = command.trim().length > 0;
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -210,9 +211,9 @@ export default function App() {
           onChange={(event) => handleCommandChange(event.target.value)}
           placeholder="例如：花10万研发产品"
         />
-        <button type="submit" disabled={submitting}>
-          <Play size={18} />
-          执行
+            <button type="submit" disabled={submitting}>
+              <Play size={18} />
+              执行
         </button>
       </form>
 
@@ -397,6 +398,7 @@ export default function App() {
               <code>{preparedAction.command}</code>
             </article>
           )}
+          {!preparedAction && <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>}
           <form onSubmit={handleSubmit} className="command-form">
             <label htmlFor="turn-command">本回合指令</label>
             <input
@@ -405,7 +407,7 @@ export default function App() {
               onChange={(event) => handleCommandChange(event.target.value)}
               placeholder="例如：花10万研发产品"
             />
-            <button type="submit" disabled={submitting}>
+            <button type="submit" disabled={submitting || !hasCommand}>
               <Play size={20} />
               执行回合
             </button>
