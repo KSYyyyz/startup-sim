@@ -22,3 +22,9 @@ def test_registered_design_assets_have_existing_files_and_prompts():
         assert (ROOT / asset["frontend_path"]).is_file()
         assert asset["public_url"].startswith("/assets/")
         assert asset["used_by"], f"{asset['id']} should declare frontend usage"
+        for used_by in asset["used_by"]:
+            usage_file = ROOT / used_by
+            assert usage_file.is_file(), f"{asset['id']} references missing usage file {used_by}"
+            assert asset["public_url"] in usage_file.read_text(
+                encoding="utf-8"
+            ), f"{asset['id']} usage file {used_by} should reference {asset['public_url']}"

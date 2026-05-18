@@ -18,7 +18,7 @@
       "frontend_path": "frontend/public/assets/scenes/office-command-center-v0.1.jpg",
       "public_url": "/assets/scenes/office-command-center-v0.1.jpg",
       "used_by": [
-        "frontend/src/App.tsx"
+        "frontend/src/game/OfficeStage.tsx"
       ],
       "notes": "Alpha 0.1 office command center scene registered as the reusable frontend stage asset. Regenerate with image-2 before major style changes."
     }
