@@ -98,8 +98,12 @@ class TestDocsConsistencyScript:
 
 class TestGodotGameplayDocs:
     def test_employee_growth_system_is_documented_as_company_lever(self):
-        plan = (PROJECT_DIR / "docs" / "startup_sim_development_plan.md").read_text(encoding="utf-8")
-        direction = (PROJECT_DIR / "docs" / "indie_game_product_direction.md").read_text(encoding="utf-8")
+        plan = (PROJECT_DIR / "docs" / "startup_sim_development_plan.md").read_text(
+            encoding="utf-8"
+        )
+        direction = (PROJECT_DIR / "docs" / "indie_game_product_direction.md").read_text(
+            encoding="utf-8"
+        )
         contracts = (PROJECT_DIR / "docs" / "gameplay_contracts.md").read_text(encoding="utf-8")
 
         assert "员工成长系统" in plan
