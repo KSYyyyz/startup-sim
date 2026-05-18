@@ -93,6 +93,47 @@ Startup Sim should keep the current Vite/React frontend deployable to Vercel, bu
 - Later packaging can use Tauri or Electron without rewriting the game layer.
 - Steam-specific integration should be deferred until the core office loop is compelling.
 
+### 2.4 Game Dev Story / 游戏开发物语
+
+Local path: `D:\XDWork\Game\Game.Dev.Story.Build.8596453`
+
+Observed structure:
+
+- Unity/IL2CPP runtime layout with `KairoGames_Data`, `GameAssembly.dll`, `UnityPlayer.dll`, and compact resource files.
+- The install shape is comparatively small and self-contained.
+- No public modding or localization surface was visible from the top-level scan.
+
+Usefulness for Startup Sim:
+
+- Strong reference for compact management loops: small screens, fast decisions, clear progress feedback, and long-term replayability.
+- Useful as a reminder that a business simulation does not need to expose every system at once to feel strategic.
+- Supports Startup Sim's "complexity unlocks gradually" principle.
+
+Safe takeaway:
+
+Startup Sim should keep the early game readable and snappy. Even as the office view becomes richer, each month should still resolve through a small number of meaningful CEO decisions, not a dense management spreadsheet.
+
+### 2.5 Game Dev Tycoon
+
+Local path: `D:\XDWork\Game\Game Dev Tycoon`
+
+Observed structure:
+
+- NW.js/web-tech desktop distribution with `nw.exe`, `package.json`, `defaultBrowser.html`, `js`, `css`, `images`, `audio`, `i18n`, and `mods`.
+- The window configuration sets a desktop-oriented 1024 x 768 minimum size.
+- A visible `mods\gdt-modAPI` package exists with package metadata, public API folders, examples, and a README pointing to official mod API documentation.
+- The install includes localization and license folders, which makes extension and distribution boundaries visible.
+
+Usefulness for Startup Sim:
+
+- Excellent confirmation that a simulation game can ship as a desktop app using web technology.
+- Strong reference for how to keep a game moddable or extendable through visible package boundaries.
+- Useful precedent for desktop-first UI sizing, localization folders, mod API separation, and web-runtime packaging.
+
+Safe takeaway:
+
+Startup Sim should continue the current Vite/React/PixiJS route and avoid a premature Unity migration. The more valuable lesson is to keep the web game modular enough that it can later be wrapped as a desktop build and expanded with original data packs or scenario APIs.
+
 ## 3. Product Implications
 
 ### 3.1 Office Layer Is The Main Game Board
@@ -119,11 +160,12 @@ Recommended direction:
 
 ### 3.3 Desktop Distribution Should Remain Open
 
-The reference games show three viable packaging shapes:
+The reference games show several viable packaging shapes:
 
 - Unity-heavy desktop game.
 - GameMaker-style executable with visible data/mod folders.
 - Electron desktop game using web technology.
+- NW.js desktop game using web technology.
 
 Startup Sim should not switch to Unity now. The current project benefits from fast web iteration, existing Vercel deployment, and reusable Python simulation logic. The right path is:
 
@@ -140,6 +182,7 @@ Startup Sim should not switch to Unity now. The current project benefits from fa
 - Improve the office scene as an interactive board, not a static illustration.
 - Add visible room states and activity pulses.
 - Make board, competitor, and office feedback feel like game events.
+- Keep single-turn decisions compact enough to preserve Game Dev Story-style pace.
 - Keep suggestions folded by default.
 - Continue using "现金流可支撑时间" in player-facing text.
 
@@ -153,6 +196,7 @@ Introduce a small original data layer for frontend gameplay definitions:
 - Board pressure response templates.
 - Competitor pressure response templates.
 - Office feedback signal types.
+- Scenario metadata, so future packs can describe sectors, starting conditions, and competitor sets without rewriting UI code.
 
 This should be data-driven, but still executed through the existing API/TurnEngine. The frontend can propose commands; the deterministic engine still owns state changes.
 
@@ -164,6 +208,7 @@ Prepare for a distributable independent game without committing to a final wrapp
 - Avoid browser-only assumptions where possible.
 - Document required environment variables and offline fallback behavior.
 - Keep generated image-2 assets inside the project design asset library.
+- Keep localization and content-pack directories visible and documented before public modding is promised.
 - Defer Steamworks, achievements, cloud saves, and mod uploader until after a playable Alpha loop.
 
 ## 5. What Not To Do
