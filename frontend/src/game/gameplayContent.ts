@@ -17,6 +17,30 @@ export type GameplayRoomDefinition = {
   actions: GameplayActionDefinition[];
 };
 
+export type BoardPressureInput = {
+  name: string;
+  role: string;
+  message: string;
+};
+
+export type CompetitorPressureInput = {
+  name: string;
+  status: string;
+  mrr?: number;
+  trend: string;
+};
+
+export type PressureResponseTemplate = {
+  id: string;
+  pattern: RegExp;
+  command: string;
+};
+
+export type PressureResponsePlan = {
+  command: string;
+  tradeoffs: string[];
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -106,3 +130,78 @@ export const gameplayRooms: GameplayRoomDefinition[] = [
     ]
   }
 ];
+
+export const pressureResponseTemplates = {
+  board: [
+    {
+      id: 'board-cash-discipline',
+      pattern: /CFO|财务|现金|支出/,
+      command: '花1万研发产品保持最低运转'
+    },
+    {
+      id: 'board-product-moat',
+      pattern: /CTO|技术|产品/,
+      command: '花10万研发产品'
+    },
+    {
+      id: 'board-delivery-quality',
+      pattern: /COO|运营|交付|团队/,
+      command: '花5万招聘人才'
+    },
+    {
+      id: 'board-growth-efficiency',
+      pattern: /增长|Growth|用户|获客/,
+      command: '花10万做营销推广'
+    }
+  ],
+  competitor: [
+    {
+      id: 'competitor-enterprise-feature',
+      pattern: /企业|功能|产品|升级/,
+      command: '花25万研发产品提升竞争力'
+    },
+    {
+      id: 'competitor-reliability',
+      pattern: /服务器|稳定|故障|交付/,
+      command: '花6万优化服务器稳定性'
+    },
+    {
+      id: 'competitor-market-up',
+      pattern: /trend:up/,
+      command: '花10万做营销推广'
+    },
+    {
+      id: 'competitor-market-down',
+      pattern: /trend:down/,
+      command: '花10万研发产品'
+    }
+  ]
+} satisfies Record<'board' | 'competitor', PressureResponseTemplate[]>;
+
+export function commandTradeoffs(value: string) {
+  if (/保持最低运转/.test(value)) return ['现金流可支撑时间 +', '增长 -'];
+  if (/融资/.test(value)) return ['现金 +', '股权 -'];
+  if (/招聘/.test(value)) return ['团队 +', '固定支出 +'];
+  if (/营销/.test(value)) return ['用户 +', '现金 -'];
+  if (/服务器|稳定/.test(value)) return ['稳定性 +', '现金 -'];
+  if (/25万|提升竞争力/.test(value)) return ['产品 ++', '现金 --'];
+  return ['产品 +', '现金 -'];
+}
+
+function responseFromTemplates(templates: PressureResponseTemplate[], signal: string, fallbackCommand: string) {
+  const command = templates.find((template) => template.pattern.test(signal))?.command ?? fallbackCommand;
+  return {
+    command,
+    tradeoffs: commandTradeoffs(command)
+  };
+}
+
+export function buildBoardPressureResponse(member: BoardPressureInput): PressureResponsePlan {
+  const signal = `${member.name} ${member.role} ${member.message}`;
+  return responseFromTemplates(pressureResponseTemplates.board, signal, '花10万研发产品');
+}
+
+export function buildCompetitorPressureResponse(item: CompetitorPressureInput): PressureResponsePlan {
+  const signal = `${item.name} ${item.status} trend:${item.trend}`;
+  return responseFromTemplates(pressureResponseTemplates.competitor, signal, '花10万做营销推广');
+}

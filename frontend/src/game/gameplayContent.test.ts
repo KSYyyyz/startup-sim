@@ -1,6 +1,13 @@
 ﻿import { describe, expect, test } from 'vitest';
 
-import { gameContentManifest, gameplayRooms } from './gameplayContent';
+import {
+  buildBoardPressureResponse,
+  buildCompetitorPressureResponse,
+  commandTradeoffs,
+  gameContentManifest,
+  gameplayRooms,
+  pressureResponseTemplates
+} from './gameplayContent';
 
 describe('gameplay content definitions', () => {
   test('keeps room action content data-driven and UI independent', () => {
@@ -24,5 +31,33 @@ describe('gameplay content definitions', () => {
         expect(action.tags.length).toBeGreaterThan(0);
       }
     }
+  });
+
+  test('builds board and competitor pressure responses from data templates', () => {
+    expect(pressureResponseTemplates.board.length).toBeGreaterThanOrEqual(4);
+    expect(pressureResponseTemplates.competitor.length).toBeGreaterThanOrEqual(4);
+
+    const cfoResponse = buildBoardPressureResponse({
+      name: 'CFO',
+      role: '财务负责人',
+      message: '现金压力明显，需要控制支出。'
+    });
+    expect(cfoResponse).toEqual({
+      command: '花1万研发产品保持最低运转',
+      tradeoffs: ['现金流可支撑时间 +', '增长 -']
+    });
+
+    const competitorResponse = buildCompetitorPressureResponse({
+      name: '灵犀客服云',
+      status: '升级企业功能',
+      mrr: 41000,
+      trend: 'up'
+    });
+    expect(competitorResponse).toEqual({
+      command: '花25万研发产品提升竞争力',
+      tradeoffs: ['产品 ++', '现金 --']
+    });
+
+    expect(commandTradeoffs('融资300万出让8%股权')).toEqual(['现金 +', '股权 -']);
   });
 });

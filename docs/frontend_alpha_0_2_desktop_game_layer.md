@@ -83,6 +83,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Office dynamic feedback signals are clickable: board signals open the board panel, and competitor signals open the competitor panel.
 - After submitting a turn, the office scene shows a compact "办公室月末变化" pulse strip for cash, product, users, and recurring revenue changes.
 - Room and action definitions now have a UI-independent data layer in `frontend/src/game/gameplayContent.ts`, with `officeRooms.ts` only binding those definitions to React/lucide presentation.
+- Board and competitor pressure response templates now live in the same gameplay data layer, so `App.tsx` no longer owns those command-selection rules.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:

@@ -17,6 +17,10 @@ import {
 } from 'lucide-react';
 
 import { OfficeStage } from './game/OfficeStage';
+import {
+  buildBoardPressureResponse,
+  buildCompetitorPressureResponse
+} from './game/gameplayContent';
 import type { OfficeAction } from './game/officeRooms';
 import { useGameStore } from './store';
 import type { CompetitorItem, GameStateView, MetricSet } from './types';
@@ -139,34 +143,6 @@ function boardStance(member: { name: string; role: string }) {
   return '公司治理';
 }
 
-function boardResponseCommand(member: { name: string; role: string; message: string }) {
-  const identity = `${member.name} ${member.role} ${member.message}`;
-  if (/CFO|财务|现金|支出/.test(identity)) return '花1万研发产品保持最低运转';
-  if (/CTO|技术|产品/.test(identity)) return '花10万研发产品';
-  if (/COO|运营|交付|团队/.test(identity)) return '花5万招聘人才';
-  if (/增长|Growth|用户|获客/.test(identity)) return '花10万做营销推广';
-  return '花10万研发产品';
-}
-
-function competitorResponseCommand(item: CompetitorItem) {
-  const signal = `${item.name} ${item.status}`;
-  if (/企业|功能|产品|升级/.test(signal)) return '花25万研发产品提升竞争力';
-  if (/服务器|稳定|故障|交付/.test(signal)) return '花6万优化服务器稳定性';
-  if (item.trend === 'up') return '花10万做营销推广';
-  if (item.trend === 'down') return '花10万研发产品';
-  return '花10万做营销推广';
-}
-
-function commandTradeoffs(value: string) {
-  if (/保持最低运转/.test(value)) return ['现金流可支撑时间 +', '增长 -'];
-  if (/融资/.test(value)) return ['现金 +', '股权 -'];
-  if (/招聘/.test(value)) return ['团队 +', '固定支出 +'];
-  if (/营销/.test(value)) return ['用户 +', '现金 -'];
-  if (/服务器|稳定/.test(value)) return ['稳定性 +', '现金 -'];
-  if (/25万|提升竞争力/.test(value)) return ['产品 ++', '现金 --'];
-  return ['产品 +', '现金 -'];
-}
-
 function officePulseRoom(state: GameStateView) {
   const signal = `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title}`;
   if (/现金|融资|股权/.test(signal)) return { roomId: 'board', text: '现金压力' };
@@ -230,17 +206,17 @@ export default function App() {
   }
 
   function handleBoardResponse(member: { name: string; role: string; message: string }) {
-    const responseCommand = boardResponseCommand(member);
-    setCommand(responseCommand);
+    const response = buildBoardPressureResponse(member);
+    setCommand(response.command);
     setPreparedAction(null);
-    setPressureResponse({ source: member.name, message: member.message, tradeoffs: commandTradeoffs(responseCommand) });
+    setPressureResponse({ source: member.name, message: member.message, tradeoffs: response.tradeoffs });
   }
 
   function handleCompetitorResponse(item: CompetitorItem) {
-    const responseCommand = competitorResponseCommand(item);
-    setCommand(responseCommand);
+    const response = buildCompetitorPressureResponse(item);
+    setCommand(response.command);
     setPreparedAction(null);
-    setPressureResponse({ source: item.name, message: item.status, tradeoffs: commandTradeoffs(responseCommand) });
+    setPressureResponse({ source: item.name, message: item.status, tradeoffs: response.tradeoffs });
   }
 
   async function handleAdvice() {

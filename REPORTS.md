@@ -37,10 +37,11 @@
 5. 回应指令会显示取舍标签，如 `用户 +`、`现金 -`、`现金流可支撑时间 +`。
 6. 提交回合后，办公室场景内显示月末变化，左侧显示月度战报。
 7. 房间和行动定义已从 UI 组件中抽出，为后续原创剧本包、行业包和本地化做准备。
+8. 董事会/竞品压力回应模板已进入玩法数据层，UI 只负责触发和展示回应。
 
 **验证记录**:
 - Python: `pytest tests/ -q` → 400 passed
-- Frontend: `npm test -- --run` → 10 passed
+- Frontend: `npm test -- --run` → 11 passed
 - Frontend E2E: `npm run test:e2e` → 8 passed
 - GitHub CI: latest pushed frontend slices passed
 - Vercel smoke: `https://startup-sim-khaki.vercel.app` verified after push
