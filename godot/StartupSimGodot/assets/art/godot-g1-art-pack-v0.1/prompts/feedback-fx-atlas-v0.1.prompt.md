@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: Godot 2D gameplay feedback effect atlas
+Primary request: Create a transparent-ready atlas of gameplay feedback effects for a startup office management sim.
+Scene/backdrop: Perfectly flat solid #00ff00 chroma-key background for background removal.
+Subject: A clean 8 columns x 4 rows atlas of isolated effect sprites. Include facility upgrade sparkle burst, cash pressure red pulse, customer growth blue-green burst, server incident electric spark, task blocked impact, employee level-up glow, zone efficiency ripple, morale boost hearts/sparkles, fatigue puff, sick warning haze, hiring success burst, resignation/fired red marker burst, product progress blue particle trail, monthly report stamp burst, objective completed ribbon burst, maintenance wrench flash, training learning glow, opportunity golden shimmer, risk warning pulse, bottleneck pressure lines, fast-time streak, paused-time freeze glint, valid placement glow, invalid placement red shake mark, low runway alarm flare, revenue gain coin sparkle, churn warning blue down swirl, communication ping, overload heat haze, rest recovery soft glow, achievement confetti, promotion star burst.
+Style/medium: Polished 2D game VFX sprites, readable at 32-96 px, crisp stylized particles, no realistic smoke.
+Composition/framing: Each effect isolated in its own cell with generous padding; no overlap; no baked text.
+Color palette: Multi-color coded effects: gold positive, red risk, blue product/customer, violet server, green recovery, neutral gray maintenance.
+Constraints: The background must be one uniform #00ff00 color with no shadows, gradients, texture, reflections, floor plane, or lighting variation. Do not use #00ff00 anywhere in the subject. No cast shadow, no contact shadow, no reflection, no watermark, no text, no labels, no numbers, no letters.

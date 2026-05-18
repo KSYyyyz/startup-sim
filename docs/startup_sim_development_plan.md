@@ -741,6 +741,7 @@ godot/StartupSimGodot/data/locales/zh-cn.json
 - Prompt 存入 `design-assets/image-2/prompts/`。
 - 导出结果存入 `design-assets/image-2/exports/`。
 - 可进 Godot 的稳定资产放入 `godot/StartupSimGodot/assets/`。
+- Godot 美术资产包可以跟踪在 `godot/StartupSimGodot/assets/art/`，新增资源需同时提交索引、prompt、源图、导出图和切片指南。
 - 资产登记进入 `design-assets/manifest.json`。
 
 优先资产：

@@ -1,0 +1,310 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.1",
+  "created_at_local": "2026-05-18T22:55:02",
+  "storage_policy": "Project-integrated art library. Assets are now stored under D:/startup-sim/godot/StartupSimGodot/assets/art/godot-g1-art-pack-v0.1; external D:/???? copy may remain as backup.",
+  "project_context": {
+    "engine_direction": "Godot 4.x .NET presentation layer with C# Core gameplay facts",
+    "art_priority": "Godot G1 playable slice: office construction, zones, facilities, employee sprites and animation, UI frames, feedback FX, icons, and recruitment portraits."
+  },
+  "assets": [
+    {
+      "id": "office-tile-atlas-v0.1",
+      "category": "office_tiles",
+      "file": "exports/office-tile-atlas-v0.1.png",
+      "source": "sources/office-tile-atlas-v0.1-source.png",
+      "prompt": "prompts/office-tile-atlas-v0.1.prompt.md",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "TileSet source candidate"
+      ],
+      "notes": "Office construction tiles, walls, doors, placement hints, zone floors, footprint markers.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 192.0,
+        "cell_height_px": 256.0,
+        "godot_region_hint": "8 columns x 4 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "zone-state-overlay-atlas-v0.1",
+      "category": "zone_overlays",
+      "file": "exports/zone-state-overlay-atlas-v0.1.png",
+      "source": "sources/zone-state-overlay-atlas-v0.1-source.png",
+      "prompt": "prompts/zone-state-overlay-atlas-v0.1.prompt.md",
+      "grid": {
+        "columns": 8,
+        "rows": 5
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Sprite2D overlay"
+      ],
+      "notes": "Zone colors and status badges for risk, opportunity, blocked, improving, efficiency, time controls.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 192.0,
+        "cell_height_px": 204.8,
+        "godot_region_hint": "8 columns x 5 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "facility-upgrade-atlas-v0.1",
+      "category": "facilities",
+      "file": "exports/facility-upgrade-atlas-v0.1.png",
+      "source": "sources/facility-upgrade-atlas-v0.1-source.png",
+      "prompt": "prompts/facility-upgrade-atlas-v0.1.prompt.md",
+      "grid": {
+        "columns": 6,
+        "rows": 3
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Sprite2D"
+      ],
+      "notes": "Six facility families with three upgrade tiers: desk, R&D board, sales booth, server rack, meeting table, rest/coffee.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 256.0,
+        "cell_height_px": 341.33,
+        "godot_region_hint": "6 columns x 3 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "employee-sprite-atlas-v0.1",
+      "category": "employees",
+      "file": "exports/employee-sprite-atlas-v0.1.png",
+      "source": "sources/employee-sprite-atlas-v0.1-source.png",
+      "prompt": "prompts/employee-sprite-atlas-v0.1.prompt.md",
+      "grid": {
+        "columns": 6,
+        "rows": 5
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "AnimatedSprite2D source candidate"
+      ],
+      "notes": "Six employee roles across idle, working, walking, tired, resting gameplay states.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 256.0,
+        "cell_height_px": 204.8,
+        "godot_region_hint": "6 columns x 5 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "employee-direction-variants-v0.1",
+      "category": "employees",
+      "file": "exports/employee-direction-variants-v0.1.png",
+      "source": "sources/employee-direction-variants-v0.1-source.png",
+      "prompt": "prompts/employee-direction-variants-v0.1.prompt.md",
+      "grid": {
+        "columns": 6,
+        "rows": 4
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "AnimatedSprite2D direction source"
+      ],
+      "notes": "Front, left, right, and back directions for the same six role silhouettes.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 256.0,
+        "cell_height_px": 256.0,
+        "godot_region_hint": "6 columns x 4 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "status-icon-atlas-v0.1",
+      "category": "icons",
+      "file": "exports/status-icon-atlas-v0.1.png",
+      "source": "sources/status-icon-atlas-v0.1-source.png",
+      "prompt": "prompts/status-icon-atlas-v0.1.prompt.md",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Control icon texture"
+      ],
+      "notes": "HUD, employee needs, traits, facility states, and monthly report icons. No baked text.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 192.0,
+        "cell_height_px": 256.0,
+        "godot_region_hint": "8 columns x 4 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "employee-animation-minimal-v0.1",
+      "category": "employee_animation",
+      "file": "exports/employee-animation-minimal-v0.1.png",
+      "source": "sources/employee-animation-minimal-v0.1-source.png",
+      "prompt": "prompts/employee-animation-minimal-v0.1.prompt.md",
+      "grid": {
+        "columns": 8,
+        "rows": 6
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "AnimatedSprite2D source candidate"
+      ],
+      "notes": "Six employee roles with two-frame loops for walk, work, tired, and rest states.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 192.0,
+        "cell_height_px": 170.67,
+        "godot_region_hint": "8 columns x 6 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "ui-core-atlas-v0.1",
+      "category": "ui_core",
+      "file": "exports/ui-core-atlas-v0.1.png",
+      "source": "sources/ui-core-atlas-v0.1-source.png",
+      "prompt": "prompts/ui-core-atlas-v0.1.prompt.md",
+      "grid": {
+        "columns": 6,
+        "rows": 4
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Control stylebox texture source"
+      ],
+      "notes": "HUD, metric cards, employee/recruitment panels, build menu, monthly report modal, toast frames, progress bars, and time controls.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 256.0,
+        "cell_height_px": 256.0,
+        "godot_region_hint": "6 columns x 4 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "feedback-fx-atlas-v0.1",
+      "category": "gameplay_feedback_fx",
+      "file": "exports/feedback-fx-atlas-v0.1.png",
+      "source": "sources/feedback-fx-atlas-v0.1-source.png",
+      "prompt": "prompts/feedback-fx-atlas-v0.1.prompt.md",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Sprite2D one-shot FX",
+        "AnimatedSprite2D source candidate"
+      ],
+      "notes": "Gameplay effects for upgrades, pressure, customer growth, incidents, blocked tasks, level-up, morale, training, risk, alerts, placement, and achievements.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 192.0,
+        "cell_height_px": 256.0,
+        "godot_region_hint": "8 columns x 4 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "recruitment-portrait-sheet-v0.1",
+      "category": "portraits",
+      "file": "exports/recruitment-portrait-sheet-v0.1.png",
+      "source": "sources/recruitment-portrait-sheet-v0.1-source.png",
+      "prompt": "prompts/recruitment-portrait-sheet-v0.1.prompt.md",
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Recruitment UI portraits"
+      ],
+      "notes": "First portrait pass with strong role, age, clothing, and accessory variety.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 384.0,
+        "cell_height_px": 341.33,
+        "godot_region_hint": "4 columns x 3 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    },
+    {
+      "id": "recruitment-portrait-sheet-v0.2-angle-balanced",
+      "category": "portraits",
+      "file": "exports/recruitment-portrait-sheet-v0.2-angle-balanced.png",
+      "source": "sources/recruitment-portrait-sheet-v0.2-angle-balanced-source.png",
+      "prompt": "prompts/recruitment-portrait-sheet-v0.2-angle-balanced.prompt.md",
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Recruitment UI portraits"
+      ],
+      "notes": "Preferred portrait pass for recruitment UI because gaze and face angles are better balanced.",
+      "image": {
+        "width": 1536,
+        "height": 1024,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 384.0,
+        "cell_height_px": 341.33,
+        "godot_region_hint": "4 columns x 3 rows from the full atlas; trim transparent padding per sprite if needed"
+      }
+    }
+  ],
+  "updated_at_local": "2026-05-18T23:26:08"
+}

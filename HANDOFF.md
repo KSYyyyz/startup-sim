@@ -14,7 +14,7 @@ GitHub 仓库：`https://github.com/KSYyyyz/startup-sim`
 4. 以后只做 Godot 前端，不再维护 Vercel/Web 前端。
 5. 所有项目文档默认使用中文。
 6. AI 玩法暂时不做。
-7. 资产包已经迁移到体外管理，当前未跟踪的 `godot/StartupSimGodot/assets/art/` 不要擅自提交。
+7. Godot 美术资产包现在可以跟踪在 `godot/StartupSimGodot/assets/art/`，后续新增资源需保留索引、prompt、源图、导出图和切片指南。
 8. Python CLI/飞书代码暂时作为规则参考和回归测试来源保留，不能在 C# Core 完整覆盖前删除。
 9. C# Core 是规则核心，Godot 负责表现层和交互，不要在 Godot UI 里复制经营规则。
 10. 玩家可见文案使用“现金流可支撑时间”，不要恢复“跑道”或 `Runway`。
@@ -52,11 +52,11 @@ GitHub 仓库：`https://github.com/KSYyyyz/startup-sim`
 - `Docs consistency check`
 - Python 格式与静态检查
 
-当前已知未跟踪项：
+当前美术资产：
 
 - `godot/StartupSimGodot/assets/art/`
 
-该目录是外部迁移来的资产包，不属于当前提交范围。除非用户明确要求接入资产，否则忽略。
+该目录现在作为 Godot 资产包跟踪。新增资源应先补齐 `asset-index.json`、prompt、source、export 和 slice guide，再进入 Godot 导入验证。
 
 ## 3. 当前核心文件
 
@@ -200,7 +200,7 @@ G1 当前具备代码级纵向切片：
 - AI 自由指令或 AI 对话。
 - 移动端适配。
 - 上市、债务、回款、毛利等后期复杂系统一次性加入。
-- 提交外部资产包，除非用户明确要求接入。
+- 跳过资产索引直接提交零散美术文件。
 
 ## 8. 新会话接力提示词
 
@@ -229,7 +229,7 @@ https://github.com/KSYyyyz/startup-sim
 4. 以后只做 Godot 前端，不再维护 Vercel/Web 前端。
 5. 所有项目文档默认用中文。
 6. AI 玩法暂时不做。
-7. 当前未跟踪的 godot/StartupSimGodot/assets/art/ 是外部资产包，暂时不要提交，除非用户明确要求接入。
+7. godot/StartupSimGodot/assets/art/ 现在可以作为 Godot 美术资产包跟踪，后续新增资源也应补齐索引、prompt、源图、导出图和切片指南。
 8. Python CLI/飞书代码暂时作为规则参考和回归测试来源保留，不能在 C# Core 完整覆盖前删除。
 9. C# Core 是规则核心，Godot 负责表现层和交互，不要在 Godot UI 里复制经营规则。
 10. 玩家可见文案必须使用“现金流可支撑时间”，不要恢复“跑道”或 Runway。
