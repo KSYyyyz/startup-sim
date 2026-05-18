@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-import { createSession, loadSuggestions, previewCommand, submitTurn } from './api';
+import { createSession, loadReview, loadSuggestions, previewCommand, submitTurn } from './api';
 
 describe('Vercel demo fallback', () => {
   afterEach(() => {
@@ -59,12 +59,20 @@ describe('Vercel demo fallback', () => {
                 replay_basis: ['TurnFacts 复盘依据'],
                 next_pressure: 'TurnFacts 下月压力'
               },
-              role_memory: [
+              recent_role_memory: [
                 {
                   role_id: 'cfo',
                   role_name: 'CFO',
                   fact: '上月现金消耗来自研发投入。',
                   implication: 'CFO 会优先追问预算纪律。'
+                }
+              ],
+              memory_history: [
+                {
+                  role_id: 'cto',
+                  role_name: 'CTO',
+                  fact: '产品改善来自研发投入。',
+                  implication: 'CTO 会支持继续验证。'
                 }
               ],
               office_signals: [
@@ -98,9 +106,39 @@ describe('Vercel demo fallback', () => {
     expect(result.turn_facts?.replay_basis).toEqual(['TurnFacts 复盘依据']);
     expect(result.turn_facts?.changes[0]).toEqual({ label: '产品', value: '+12 分', tone: 'good' });
     expect(result.turn_facts?.next_pressure).toBe('TurnFacts 下月压力');
-    expect(result.role_memory?.[0].fact).toBe('上月现金消耗来自研发投入。');
+    expect(result.recent_role_memory?.[0].fact).toBe('上月现金消耗来自研发投入。');
+    expect(result.memory_history?.[0].role_name).toBe('CTO');
     expect(result.office_signals?.[0].room_id).toBe('board');
     expect(result.story_events?.[0].title).toBe('产品冲刺');
+  });
+
+  test('loads optional game review when the backend endpoint exists', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              ending_title: '本局复盘',
+              ending_summary: '产品推进有效，但现金压力上升。',
+              advice_for_next_run: '下局先设预算上限。',
+              key_moments: [{ title: '研发冲刺', description: '产品分显著提升。' }]
+            }),
+            { status: 200 }
+          )
+      )
+    );
+
+    const review = await loadReview(1);
+
+    expect(review?.ending_title).toBe('本局复盘');
+    expect(review?.key_moments?.[0].title).toBe('研发冲刺');
+  });
+
+  test('treats a missing review endpoint as optional', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ message: 'not found' }), { status: 404 })));
+
+    await expect(loadReview(1)).resolves.toBeNull();
   });
 
   test('previews multi-action demo commands with segment budgets', async () => {

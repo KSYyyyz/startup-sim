@@ -148,21 +148,31 @@ function roleMemoryLine(memory: RoleMemoryPayload) {
   return `记忆：${memory.fact}${memory.implication}`;
 }
 
+function mostRelevantMemory(memories: RoleMemoryPayload[], members: Array<{ name: string; role: string }>) {
+  return memories
+    .filter((memory) => members.some((member) => memoryMatchesMember(memory, member)))
+    .sort((left, right) => (right.relevance_score ?? 0) - (left.relevance_score ?? 0))[0];
+}
+
 export default function App() {
   const {
     state,
     suggestions,
     commandPreview,
+    review,
     lastTurn,
     loading,
     submitting,
     previewing,
+    reviewing,
+    reviewUnavailable,
     error,
     boot,
     runTurn,
     explainCommand,
     clearCommandPreview,
-    openSuggestions
+    openSuggestions,
+    openReview
   } = useGameStore();
   const [command, setCommand] = useState('');
   const [lastCommand, setLastCommand] = useState('');
@@ -175,7 +185,11 @@ export default function App() {
 
   const cards = useMemo(() => (state ? metricCards(state.metrics) : []), [state]);
   const highlights = useMemo(() => (state ? turnHighlights(state.metrics) : []), [state]);
-  const roleMemory = lastTurn?.role_memory ?? [];
+  const roleMemory = [
+    ...(lastTurn?.recent_role_memory ?? []),
+    ...(lastTurn?.role_memory ?? []),
+    ...(lastTurn?.memory_history ?? [])
+  ];
   const officeSignals = lastTurn?.office_signals ?? [];
   const storyEvents = lastTurn?.story_events ?? [];
   const primaryOfficeSignal = officeSignals[0];
@@ -215,20 +229,34 @@ export default function App() {
     [officeSignals, state]
   );
   const boardProfiles = useMemo(
-    () =>
-      state
-        ? buildBoardNpcProfiles({
+    () => {
+      if (!state) return [];
+      const baseProfiles = buildBoardNpcProfiles({
             members: state.board,
             cashCoverageMonths: state.metrics.cash_coverage_months,
             productChange: state.metrics.product_change,
             usersChange: state.metrics.users_change,
             cashChange: lastTurn ? state.metrics.cash_change : undefined,
             lastCommand: lastTurn ? lastCommand : undefined
-          }).map((member) => {
-            const memory = roleMemory.find((item) => memoryMatchesMember(item, member));
-            return memory ? { ...member, memoryFact: roleMemoryLine(memory) } : member;
-          })
-        : [],
+          });
+      const backendMemory = mostRelevantMemory(roleMemory, baseProfiles);
+      if (backendMemory) {
+        return baseProfiles.map((member) =>
+          memoryMatchesMember(backendMemory, member)
+            ? { ...member, memoryFact: roleMemoryLine(backendMemory) }
+            : { ...member, memoryFact: undefined }
+        );
+      }
+      const firstFallbackMemory = baseProfiles.find((member) => member.memoryFact)?.memoryFact;
+      let fallbackUsed = false;
+      return baseProfiles.map((member) => {
+        if (!member.memoryFact || member.memoryFact !== firstFallbackMemory || fallbackUsed) {
+          return { ...member, memoryFact: undefined };
+        }
+        fallbackUsed = true;
+        return member;
+      });
+    },
     [lastCommand, lastTurn, roleMemory, state]
   );
   const competitorMoves = useMemo(() => (state ? buildCompetitorMoves(state.competitors) : []), [state]);
@@ -343,6 +371,10 @@ export default function App() {
   async function handleExplainCommand() {
     if (!command.trim()) return;
     await explainCommand(command);
+  }
+
+  async function handleReview() {
+    await openReview();
   }
 
   if (loading || !state) {
@@ -498,6 +530,25 @@ export default function App() {
                     <em>{fact.value}</em>
                   </span>
                 ))}
+              </section>
+              <section className="report-block review-entry" aria-label="轻量复盘入口">
+                <h3>轻量复盘</h3>
+                <button type="button" onClick={handleReview} disabled={reviewing}>
+                  {reviewing ? '加载复盘中' : '查看轻量复盘'}
+                </button>
+                {reviewUnavailable && <p>复盘接口暂未开放。</p>}
+                {review && (
+                  <div aria-label="轻量复盘">
+                    <b>{review.ending_title ?? '本局复盘'}</b>
+                    {review.ending_summary && <p>{review.ending_summary}</p>}
+                    {review.key_moments?.[0] && (
+                      <span>
+                        {review.key_moments[0].title}：{review.key_moments[0].description}
+                      </span>
+                    )}
+                    {review.advice_for_next_run && <small>{review.advice_for_next_run}</small>}
+                  </div>
+                )}
               </section>
               {storyEvents.length > 0 && (
                 <section className="report-block story-events" aria-label="本月事件">

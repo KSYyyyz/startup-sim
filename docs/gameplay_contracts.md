@@ -66,7 +66,7 @@ Required fields:
 - `implication`
 - `source`
 
-The `source` field must be `settled-turn-facts`. Role memory cannot be generated from UI hover state, unsent commands, or speculative previews.
+The `source` field must be `settled-turn-facts`. Role memory cannot be generated from UI hover state, unsent commands, or speculative previews. Persisted history lives in SQLite `role_memory_history`; the turn response exposes the current turn as `role_memory` and recent persisted rows as `memory_history` / `recent_role_memory`.
 
 ### OfficeSignal
 
@@ -104,15 +104,16 @@ Current backend coverage:
 
 - `ActionPlan` already exists as `src.core.models.ActionPlan`. The HTTP command preview exposes a read-only action explanation, while TurnEngine remains the only numeric settlement authority.
 - `TurnFacts` first slice is exposed through `POST /api/sessions/{session_id}/turns` as `turn.turn_facts`. It is serialized from `src.core.models.TurnResult`, especially `month`, `action_plan.raw_input`, `delta`, `delta.reasons`, post-turn `CompanyState`, and `conflict_summary.next_focus`.
-- `RoleMemory` first slice is exposed through the same turn response as `turn.role_memory`. It is serialized from settled `TurnFacts` plus post-turn role feedback in `TurnResult`; it must not derive from hover state, unsent commands, or command previews.
+- `RoleMemory` is persisted in `role_memory_history` after each settled turn. The same turn response exposes `turn.role_memory` for current memories and `turn.memory_history` / `turn.recent_role_memory` for recent persisted memories; it must not derive from hover state, unsent commands, or command previews.
 - `OfficeSignal` first slice is exposed through the same turn response as `turn.office_signals`. It is serialized from settled state, `conflict_summary`, and `insight`, with short fact text plus renderer-neutral room and visual intent fields.
 - `StoryEvent` first slice is exposed through the same turn response as `turn.story_events`. It is serialized from settled rule events, competitor moves, or business insight fallback, then rendered by the frontend as a compact monthly event list.
+- A read-only `GET /api/sessions/{session_id}/review` endpoint wraps existing `ReviewEngine` and `AchievementEngine` outputs without mutating state or changing TurnEngine settlement.
 
 Migration sequence:
 
 1. Keep the `TurnResult` to `TurnFacts` serializer thin; it must not change TurnEngine settlement behavior.
 2. Broaden `TurnFacts` only with fields that can be proven from settled state, `delta.reasons`, events, or deterministic replay facts.
-3. Persist `RoleMemory` only after saved `TurnFacts` history is available; the current API slice is a per-turn derived view.
+3. Keep `RoleMemory` persistence append-only and derived from settled turn facts; do not backfill from frontend text.
 4. Broaden `OfficeSignal` only with fields derived from settled state, conflict, and insight facts; keep it renderer-neutral and limited to facts plus short display text.
 5. Use `StoryEvent` for replay and monthly reporting only; it must remain downstream from settled events, competitor facts, and insight facts.
 6. Extend `docs/frontend_api_contract.md` only when additional fields are actually exposed through HTTP.

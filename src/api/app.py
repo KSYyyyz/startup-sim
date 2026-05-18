@@ -6,6 +6,7 @@ repository and TurnEngine layers, then shapes the response for the web UI.
 
 from __future__ import annotations
 
+import json
 import math
 import sqlite3
 from typing import Any
@@ -17,6 +18,7 @@ from pydantic import BaseModel, Field
 
 from src.agents import CFO, COO, CTO
 from src.agents.competitors import KuaiDaTech, LingxiCSCloud
+from src.core.achievement_engine import AchievementEngine
 from src.core.action_parser import parse_multi
 from src.core.conflict_engine import ConflictEngine
 from src.core.models import (
@@ -28,6 +30,7 @@ from src.core.models import (
     StateDelta,
     TurnResult,
 )
+from src.core.review_engine import ReviewEngine
 from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.db import repository
@@ -363,6 +366,23 @@ def _role_memory_view(result: TurnResult, turn_facts: dict[str, Any]) -> list[di
     return _sanitize_copy(memories)
 
 
+def _memory_history_view(session_id: int) -> list[dict[str, Any]]:
+    history = repository.list_recent_role_memory(session_id)
+    return _sanitize_copy(
+        [
+            {
+                "role_id": item["role_id"],
+                "role_name": item["role_name"],
+                "month": item["month"],
+                "fact": item["fact"],
+                "implication": item["implication"],
+                "source": item["source"],
+            }
+            for item in history
+        ]
+    )
+
+
 def _room_for_pressure(pressure_type: str) -> str:
     return {
         "cash": "board",
@@ -477,6 +497,43 @@ def _story_events_view(result: TurnResult) -> list[dict[str, Any]]:
     return _sanitize_copy(events)
 
 
+def _review_payload(session_id: int) -> dict[str, Any]:
+    final_state = repository.load_state(session_id)
+    session = repository.get_session_status(session_id)
+    if session is None:
+        raise KeyError(session_id)
+
+    snapshots = repository.list_snapshots(session_id)
+    actions = repository.list_actions(session_id)
+    events = repository.list_events(session_id)
+    ending_status = session.get("status", "active")
+    review = ReviewEngine.generate_review(
+        initial_state=CompanyState(),
+        snapshots=snapshots,
+        action_logs=actions,
+        event_logs=events,
+        final_state=final_state,
+        ending_status=ending_status,
+        session_id=session_id,
+    )
+    achievements = AchievementEngine.evaluate(
+        final_state=final_state,
+        ending_status=ending_status,
+        review=review,
+        snapshots=snapshots,
+    )
+    payload = json.loads(review.model_dump_json())
+    payload["achievements"] = [
+        json.loads(item.model_dump_json()) for item in achievements.achievements
+    ]
+    payload["achievement_summary"] = {
+        "total_count": achievements.total_count,
+        "rare_count": achievements.rare_count,
+        "summary": achievements.summary,
+    }
+    return _sanitize_copy(payload)
+
+
 def _command_preview_view(command: str) -> dict[str, Any]:
     plan = parse_multi(command)
     actions = [
@@ -577,6 +634,9 @@ def create_app() -> FastAPI:
             ending_description=result.ending_description,
         )
         turn_facts = _turn_facts_view(result)
+        role_memory = _role_memory_view(result, turn_facts)
+        repository.save_role_memory_history(session_id, role_memory)
+        memory_history = _memory_history_view(session_id)
         payload = {
             "state": state,
             "turn": {
@@ -587,7 +647,9 @@ def create_app() -> FastAPI:
                 "raw_competitor_moves": result.competitor_moves,
                 "parsed_actions": [action.model_dump() for action in result.action_plan.actions],
                 "turn_facts": turn_facts,
-                "role_memory": _role_memory_view(result, turn_facts),
+                "role_memory": role_memory,
+                "memory_history": memory_history,
+                "recent_role_memory": memory_history,
                 "office_signals": _office_signals_view(result),
                 "story_events": _story_events_view(result),
             },
@@ -601,6 +663,13 @@ def create_app() -> FastAPI:
         except RuntimeError:
             return JSONResponse(status_code=404, content={"message": "未找到这个游戏存档。"})
         return _suggestions_view(state)
+
+    @app.get("/api/sessions/{session_id}/review")
+    def review(session_id: int):
+        try:
+            return _review_payload(session_id)
+        except (RuntimeError, KeyError, sqlite3.Error):
+            return JSONResponse(status_code=404, content={"message": "未找到这个游戏存档。"})
 
     @app.post("/api/sessions/{session_id}/command-preview")
     def command_preview(session_id: int, request: TurnRequest):

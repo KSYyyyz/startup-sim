@@ -111,9 +111,11 @@ export type TurnFacts = {
 export type RoleMemoryPayload = {
   role_id?: string;
   role_name?: string;
+  month?: number;
   fact: string;
   implication: string;
   source?: 'settled-turn-facts';
+  relevance_score?: number;
 };
 
 export type OfficeSignalPayload = {
@@ -140,6 +142,30 @@ export type StoryEventPayload = {
   source: 'rule-event' | 'competitor-fact' | 'business-insight';
 };
 
+export type GameReviewResponse = {
+  session_id?: number;
+  ending_status?: string;
+  ending_title?: string;
+  ending_summary?: string;
+  advice_for_next_run?: string;
+  final_metrics?: Record<string, unknown>;
+  achievements?: Array<{
+    code?: string;
+    title: string;
+    description?: string;
+    rarity?: string;
+  }>;
+  achievement_summary?: {
+    total_count: number;
+    rare_count: number;
+    summary: string;
+  };
+  key_moments?: Array<{
+    title: string;
+    description: string;
+  }>;
+};
+
 export type TurnResponse = {
   state: GameStateView;
   turn: {
@@ -147,11 +173,15 @@ export type TurnResponse = {
     delta_reasons?: string[];
     turn_facts?: TurnFacts;
     role_memory?: RoleMemoryPayload[];
+    recent_role_memory?: RoleMemoryPayload[];
+    memory_history?: RoleMemoryPayload[];
     office_signals?: OfficeSignalPayload[];
     story_events?: StoryEventPayload[];
   };
   turn_facts?: TurnFacts;
   role_memory?: RoleMemoryPayload[];
+  recent_role_memory?: RoleMemoryPayload[];
+  memory_history?: RoleMemoryPayload[];
   office_signals?: OfficeSignalPayload[];
   story_events?: StoryEventPayload[];
 };

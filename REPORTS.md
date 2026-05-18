@@ -1040,3 +1040,23 @@ Alpha 1.5 建议方向：
 - 第 10 轮：本轮保持 TurnEngine 数值结算不变，所有新增层都是事实展示、角色反馈和月报表现层。
 
 状态：Alpha 0.5 第一组十轮推进完成，下一步进入完整验证、Vercel smoke 和发布硬化。
+
+---
+
+## Alpha 0.5 十轮推进 — 持久记忆与轻量复盘闭环 (2026-05-18)
+
+主题：把上一组 settled 事实反馈从“本回合展示”推进到“可持续记忆 + 可打开复盘”，让桌面经营局更像一段能被回看和复盘的游戏过程。
+
+内容：
+- 第 1 轮：新增 SQLite `role_memory_history` 表，用于保存每回合结算后生成的角色记忆事实。
+- 第 2 轮：`src/db/repository.py` 新增角色记忆保存、最近记忆读取和重开清理逻辑，保持记忆来源为 settled turn facts。
+- 第 3 轮：`POST /api/sessions/{session_id}/turns` 在回合结算后写入 `role_memory_history`，不改变 TurnEngine 数值结算。
+- 第 4 轮：同一回合响应新增 `turn.memory_history` 和 `turn.recent_role_memory`，前端可直接消费最近记忆。
+- 第 5 轮：前端类型、store 和 API 测试同步扩展角色记忆历史契约，兼容 nested turn 字段和 top-level fallback 字段。
+- 第 6 轮：董事会 NPC 只展示当前最相关的一条角色记忆，避免多个历史事实堆叠到界面里。
+- 第 7 轮：新增只读 `GET /api/sessions/{session_id}/review`，包装现有 `ReviewEngine` 与 `AchievementEngine`，不推进月份、不修改状态。
+- 第 8 轮：前端新增 `loadReview()` 和 `openReview()`，把复盘作为按需入口，而不是默认铺满页面。
+- 第 9 轮：月度战报新增紧凑“轻量复盘”入口，展示标题、摘要、一个关键时刻和下局建议。
+- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充持久记忆、复盘接口和表现层边界。
+
+状态：Alpha 0.5 第二组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。

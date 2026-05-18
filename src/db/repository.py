@@ -235,6 +235,69 @@ def save_event(
             conn.close()
 
 
+def save_role_memory_history(
+    session_id: int,
+    memories: list[dict],
+    conn: sqlite3.Connection | None = None,
+) -> None:
+    """Persist role memories derived from a settled turn."""
+    conn, owns = _get_conn(conn)
+    try:
+        conn.executemany(
+            """INSERT INTO role_memory_history
+               (session_id, month, role_id, role_name, fact, implication, source)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            [
+                (
+                    session_id,
+                    memory["month"],
+                    memory["role_id"],
+                    memory["role_name"],
+                    memory["fact"],
+                    memory["implication"],
+                    memory.get("source", "settled-turn-facts"),
+                )
+                for memory in memories
+            ],
+        )
+        if owns:
+            conn.commit()
+    finally:
+        if owns:
+            conn.close()
+
+
+def list_recent_role_memory(session_id: int, limit: int = 12) -> list[dict]:
+    """Return recent persisted role memories for a session, newest first."""
+    conn, owns = _get_conn()
+    try:
+        rows = conn.execute(
+            """SELECT id, session_id, month, role_id, role_name, fact, implication, source, created_at
+               FROM role_memory_history
+               WHERE session_id = ?
+               ORDER BY month DESC, id DESC
+               LIMIT ?""",
+            (session_id, limit),
+        ).fetchall()
+        return [
+            {
+                "id": r["id"],
+                "session_id": r["session_id"],
+                "month": r["month"],
+                "role_id": r["role_id"],
+                "role_name": r["role_name"],
+                "fact": r["fact"],
+                "implication": r["implication"],
+                "source": r["source"],
+                "created_at": r["created_at"],
+            }
+            for r in rows
+        ]
+    finally:
+        if owns:
+            conn.close()
+
+
 def reset_session(session_id: int, scenario_state: CompanyState) -> None:
     """Reset a session to scenario initial state."""
     conn, owns = _get_conn()
@@ -244,6 +307,7 @@ def reset_session(session_id: int, scenario_state: CompanyState) -> None:
         conn.execute("DELETE FROM events WHERE session_id = ?", (session_id,))
         conn.execute("DELETE FROM snapshots WHERE session_id = ?", (session_id,))
         conn.execute("DELETE FROM competitors WHERE session_id = ?", (session_id,))
+        conn.execute("DELETE FROM role_memory_history WHERE session_id = ?", (session_id,))
         conn.execute(
             """INSERT INTO company_state (session_id, cash, monthly_burn, mrr, users,
                product_score, team_morale, founder_equity, board_control,

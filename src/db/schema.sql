@@ -75,3 +75,15 @@ CREATE TABLE IF NOT EXISTS external_sessions (
     updated_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
     PRIMARY KEY (source, external_user_id)
 );
+
+CREATE TABLE IF NOT EXISTS role_memory_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_id INTEGER NOT NULL REFERENCES game_sessions(id),
+    month INTEGER NOT NULL,
+    role_id TEXT NOT NULL,
+    role_name TEXT NOT NULL,
+    fact TEXT NOT NULL,
+    implication TEXT NOT NULL,
+    source TEXT NOT NULL DEFAULT 'settled-turn-facts',
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

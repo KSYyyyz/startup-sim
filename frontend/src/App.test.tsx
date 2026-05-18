@@ -119,9 +119,19 @@ const commandPreview = {
 };
 
 function installFetchMock(
-  turnPayload: Pick<TurnResponse, 'turn' | 'turn_facts' | 'role_memory' | 'office_signals' | 'story_events'> = {
+  turnPayload: Pick<
+    TurnResponse,
+    | 'turn'
+    | 'turn_facts'
+    | 'role_memory'
+    | 'recent_role_memory'
+    | 'memory_history'
+    | 'office_signals'
+    | 'story_events'
+  > = {
     turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
-  }
+  },
+  reviewPayload: unknown = null
 ) {
   const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
     const url = String(input);
@@ -142,6 +152,11 @@ function installFetchMock(
     }
     if (url.endsWith('/api/sessions/7/command-preview')) {
       return new Response(JSON.stringify(commandPreview), { status: 200 });
+    }
+    if (url.endsWith('/api/sessions/7/review')) {
+      return reviewPayload
+        ? new Response(JSON.stringify(reviewPayload), { status: 200 })
+        : new Response(JSON.stringify({ message: 'not found' }), { status: 404 });
     }
     return new Response(JSON.stringify({ message: 'not found' }), { status: 404 });
   });
@@ -473,5 +488,71 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByLabelText('本月事件')).toHaveTextContent('研发投入带来可见产品改善。');
     expect(screen.getByText('记忆：后端事实：现金消耗来自研发冲刺。CFO 会要求下月预算上限。')).toBeInTheDocument();
     expect(screen.queryByText('记忆：上月现金减少，CFO 会继续盯预算。')).not.toBeInTheDocument();
+  });
+
+  test('shows only the most relevant board memory from recent and historical facts', async () => {
+    installFetchMock({
+      turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] },
+      role_memory: [
+        {
+          role_id: 'cfo',
+          role_name: 'CFO',
+          fact: '旧 role_memory：现金减少。',
+          implication: '旧建议。'
+        }
+      ],
+      recent_role_memory: [
+        {
+          role_id: 'cfo',
+          role_name: 'CFO',
+          fact: '最近事实：研发让现金承压。',
+          implication: 'CFO 会先问预算上限。'
+        }
+      ],
+      memory_history: [
+        {
+          role_id: 'cfo',
+          role_name: 'CFO',
+          fact: '历史事实：早期现金健康。',
+          implication: '历史建议。'
+        }
+      ]
+    });
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+
+    expect(await screen.findByText('记忆：最近事实：研发让现金承压。CFO 会先问预算上限。')).toBeInTheDocument();
+    expect(screen.queryByText('记忆：旧 role_memory：现金减少。旧建议。')).not.toBeInTheDocument();
+    expect(screen.queryByText('记忆：历史事实：早期现金健康。历史建议。')).not.toBeInTheDocument();
+    expect(document.querySelectorAll('.board-memory')).toHaveLength(1);
+  });
+
+  test('loads a compact game review entry without opening a new panel', async () => {
+    installFetchMock(
+      {
+        turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
+      },
+      {
+        ending_title: '本局复盘',
+        ending_summary: '产品推进有效，但现金压力上升。',
+        advice_for_next_run: '下局先设预算上限。',
+        key_moments: [{ title: '研发冲刺', description: '产品分显著提升。' }]
+      }
+    );
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+    await userEvent.click(await screen.findByRole('button', { name: '查看轻量复盘' }));
+
+    const review = await screen.findByLabelText('轻量复盘');
+    expect(review).toHaveTextContent('本局复盘');
+    expect(review).toHaveTextContent('产品推进有效，但现金压力上升。');
+    expect(review).toHaveTextContent('研发冲刺');
+    expect(screen.queryByRole('heading', { name: '复盘详情' })).not.toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
 import { demoCommandPreview, demoInitialState, demoSuggestions, demoTurn } from './demo';
-import type { CommandPreviewResponse, GameStateView, SuggestionResponse, TurnResponse } from './types';
+import type { CommandPreviewResponse, GameReviewResponse, GameStateView, SuggestionResponse, TurnResponse } from './types';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
 const DEMO_FALLBACK =
@@ -61,6 +61,26 @@ export function loadSuggestions(sessionId: number): Promise<SuggestionResponse> 
     if (!DEMO_FALLBACK) throw error;
     return demoSuggestions;
   });
+}
+
+export async function loadReview(sessionId: number): Promise<GameReviewResponse | null> {
+  if (shouldUseDirectDemoFallback()) return null;
+  try {
+    const response = await fetch(`${API_BASE}/api/sessions/${sessionId}/review`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const payload = await response.json();
+    if (response.status === 404) return null;
+    if (!response.ok) {
+      throw new Error(payload.message ?? '复盘加载失败');
+    }
+    return payload as GameReviewResponse;
+  } catch (error) {
+    if (!DEMO_FALLBACK) throw error;
+    return null;
+  }
 }
 
 export function previewCommand(sessionId: number, command: string): Promise<CommandPreviewResponse> {

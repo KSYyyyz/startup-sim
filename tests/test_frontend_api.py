@@ -157,6 +157,53 @@ def test_submit_turn_returns_post_turn_feedback(client):
     assert "Runway" not in _body_text(payload)
 
 
+def test_submit_turn_persists_role_memory_history(client):
+    created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
+    session_id = created["session_id"]
+
+    first = client.post(
+        f"/api/sessions/{session_id}/turns",
+        json={"command": "花10万研发产品"},
+    ).json()
+    second = client.post(
+        f"/api/sessions/{session_id}/turns",
+        json={"command": "花5万做营销"},
+    ).json()
+
+    first_memory = first["turn"]["role_memory"]
+    second_memory = second["turn"]["role_memory"]
+    history = second["turn"]["memory_history"]
+
+    assert first_memory
+    assert second_memory
+    assert len(history) >= len(first_memory) + len(second_memory)
+    assert {item["source"] for item in history} == {"settled-turn-facts"}
+    assert {item["month"] for item in history} >= {1, 2}
+    cfo_history = [item for item in history if item["role_id"] == "cfo"]
+    assert [item["month"] for item in cfo_history[:2]] == [2, 1]
+
+
+def test_review_endpoint_returns_compact_replay_and_achievements(client):
+    created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
+    session_id = created["session_id"]
+    client.post(
+        f"/api/sessions/{session_id}/turns",
+        json={"command": "花10万研发产品"},
+    )
+
+    response = client.get(f"/api/sessions/{session_id}/review")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["ending_title"]
+    assert payload["ending_summary"]
+    assert payload["advice_for_next_run"]
+    assert isinstance(payload["key_moments"], list)
+    assert isinstance(payload["achievements"], list)
+    assert "跑道" not in _body_text(payload)
+    assert "Runway" not in _body_text(payload)
+
+
 def test_command_preview_explains_free_text_without_advancing_turn(client):
     created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
     session_id = created["session_id"]
@@ -212,6 +259,56 @@ def test_suggestions_are_loaded_on_demand(client):
     assert len(payload["items"]) == 3
     assert all(item["title"] for item in payload["items"])
     assert all(item["command"] for item in payload["items"])
+
+
+def test_turns_return_recent_role_memory_history(client):
+    created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
+    session_id = created["session_id"]
+
+    first = client.post(
+        f"/api/sessions/{session_id}/turns",
+        json={"command": "花10万研发产品"},
+    ).json()
+    second = client.post(
+        f"/api/sessions/{session_id}/turns",
+        json={"command": "花5万做营销"},
+    ).json()
+
+    first_cfo = next(item for item in first["turn"]["role_memory"] if item["role_id"] == "cfo")
+    second_cfo = next(item for item in second["turn"]["role_memory"] if item["role_id"] == "cfo")
+    history = second["turn"]["recent_role_memory"]
+
+    assert second["turn"]["memory_history"] == history
+    assert len(history) >= len(first["turn"]["role_memory"]) + len(second["turn"]["role_memory"])
+    assert {item["source"] for item in history} == {"settled-turn-facts"}
+    assert (first_cfo["month"], first_cfo["fact"]) in {
+        (item["month"], item["fact"]) for item in history
+    }
+    assert (second_cfo["month"], second_cfo["fact"]) in {
+        (item["month"], item["fact"]) for item in history
+    }
+
+
+def test_review_endpoint_returns_read_only_review_and_achievements(client):
+    created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
+    session_id = created["session_id"]
+    client.post(
+        f"/api/sessions/{session_id}/turns",
+        json={"command": "花10万研发产品"},
+    )
+
+    before = client.get(f"/api/sessions/{session_id}").json()
+    response = client.get(f"/api/sessions/{session_id}/review")
+    after = client.get(f"/api/sessions/{session_id}").json()
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["session_id"] == session_id
+    assert payload["ending_status"] == before["status"]
+    assert payload["final_metrics"]["month"] == before["metrics"]["month"]
+    assert isinstance(payload["achievements"], list)
+    assert "total_count" in payload["achievement_summary"]
+    assert after["metrics"] == before["metrics"]
 
 
 def test_empty_turn_command_returns_plain_language_error(client):

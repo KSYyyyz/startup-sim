@@ -156,6 +156,26 @@ Response:
         "source": "settled-turn-facts"
       }
     ],
+    "memory_history": [
+      {
+        "role_id": "cfo",
+        "role_name": "CFO",
+        "month": 1,
+        "fact": "cash changed by -220000",
+        "implication": "<settled role implication>",
+        "source": "settled-turn-facts"
+      }
+    ],
+    "recent_role_memory": [
+      {
+        "role_id": "cfo",
+        "role_name": "CFO",
+        "month": 1,
+        "fact": "cash changed by -220000",
+        "implication": "<settled role implication>",
+        "source": "settled-turn-facts"
+      }
+    ],
     "office_signals": [
       {
         "id": "month-1-core-tension",
@@ -182,7 +202,31 @@ Response:
 
 `turn.turn_facts` is the first backend TurnFacts serializer slice. It is derived from the settled `TurnResult`, not from frontend UI state or command preview text. `changes` contains backend metric facts and short labels; frontend renderers decide layout, animation, and emphasis.
 
-`turn.role_memory` is derived from settled TurnFacts plus post-turn role feedback in `TurnResult`. `turn.office_signals` is derived from settled state, core tension, and business insight. `turn.story_events` is derived from settled rule events, competitor moves, or business insight fallback. These fields are renderer-neutral: the backend supplies facts and short text, while frontend renderers decide placement, animation, and visual treatment.
+`turn.role_memory` is derived from settled TurnFacts plus post-turn role feedback in `TurnResult`. `turn.memory_history` and `turn.recent_role_memory` are read from persisted SQLite `role_memory_history` rows after the current turn is saved; newest memories are returned first. `turn.office_signals` is derived from settled state, core tension, and business insight. `turn.story_events` is derived from settled rule events, competitor moves, or business insight fallback. These fields are renderer-neutral: the backend supplies facts and short text, while frontend renderers decide placement, animation, and visual treatment.
+
+### `GET /api/sessions/{session_id}/review`
+
+Returns a read-only compact post-game review snapshot. This endpoint must not advance the month, mutate state, or change settlement results.
+
+Response:
+
+```json
+{
+  "session_id": 1,
+  "ending_status": "active",
+  "ending_title": "<review title>",
+  "ending_summary": "<review summary>",
+  "key_moments": [],
+  "final_metrics": { "month": 2 },
+  "advice_for_next_run": "<review advice>",
+  "achievements": [],
+  "achievement_summary": {
+    "total_count": 0,
+    "rare_count": 0,
+    "summary": "<achievement summary>"
+  }
+}
+```
 
 ### `POST /api/sessions/{session_id}/command-preview`
 
