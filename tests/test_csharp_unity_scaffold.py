@@ -2,6 +2,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CORE = ROOT / "csharp" / "StartupSim.Core"
+CORE_TESTS = ROOT / "csharp" / "StartupSim.Core.Tests"
 UNITY = ROOT / "unity" / "StartupSimUnity" / "Assets" / "Scripts" / "StartupSim"
 
 
@@ -37,6 +38,32 @@ def test_csharp_core_scaffold_is_unity_independent():
     for path in CORE.rglob("*.cs"):
         content = path.read_text(encoding="utf-8")
         assert "UnityEngine" not in content, f"Core must stay Unity-independent: {path}"
+
+
+def test_csharp_core_has_compile_gate_and_ci_coverage():
+    test_project = CORE_TESTS / "StartupSim.Core.Tests.csproj"
+    ci = ROOT / ".github" / "workflows" / "ci.yml"
+    gitignore = ROOT / ".gitignore"
+
+    assert test_project.is_file()
+    test_content = test_project.read_text(encoding="utf-8")
+    assert "<TargetFramework>net8.0</TargetFramework>" in test_content
+    assert (
+        '<ProjectReference Include="..\\StartupSim.Core\\StartupSim.Core.csproj" />' in test_content
+    )
+    assert (CORE_TESTS / "DeterministicTurnEngineTests.cs").is_file()
+    assert (CORE_TESTS / "GoldenCaseTests.cs").is_file()
+
+    ci_content = ci.read_text(encoding="utf-8")
+    assert "actions/setup-dotnet@v4" in ci_content
+    assert (
+        "dotnet test csharp/StartupSim.Core.Tests/StartupSim.Core.Tests.csproj "
+        "--configuration Release"
+    ) in ci_content
+
+    ignored = gitignore.read_text(encoding="utf-8")
+    assert "csharp/**/bin/" in ignored
+    assert "csharp/**/obj/" in ignored
 
 
 def test_unity_component_scaffold_is_adapter_only():

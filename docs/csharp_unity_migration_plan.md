@@ -64,6 +64,21 @@ The first golden case is:
 - command: `花10万研发产品`
 - authority: `python-turn-engine-reference`
 
+`StartupSim.Core.Tests` is the compile gate for the portable C# layer. It currently verifies:
+
+- deterministic turn execution for the first product-investment slice
+- input state immutability
+- unknown-command fallback behavior
+- the first golden fixture imported from the Python reference layer
+
+CI must run:
+
+```bash
+dotnet test csharp/StartupSim.Core.Tests/StartupSim.Core.Tests.csproj --configuration Release
+```
+
+Local Windows development can use a repo-local SDK under `.work/dotnet`; `.work/`, `csharp/**/bin/`, and `csharp/**/obj/` are intentionally ignored.
+
 ## 5. Unity Component Preparation
 
 The first Unity vertical slice should contain:
@@ -80,7 +95,7 @@ This lets Unity validate interaction feel while the C# core catches up to the Py
 
 1. Build C# contracts and skeleton engine.
 2. Add golden fixtures from Python.
-3. Add C# test project once .NET SDK is available.
+3. Add C# test project and CI compile gate.
 4. Port `ActionParser`.
 5. Port the minimum `TurnEngine` loop.
 6. Add Unity office-room vertical slice.

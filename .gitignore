@@ -36,6 +36,10 @@ feishu_state.json
 .work/
 reports/
 
+# C# / .NET
+csharp/**/bin/
+csharp/**/obj/
+
 # OS
 .DS_Store
 Thumbs.db

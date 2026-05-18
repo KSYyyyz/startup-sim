@@ -32,6 +32,14 @@ jobs:
       - name: isort check
         run: python -m isort --check-only --profile black --line-length 100 .
 
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: CSharp core tests
+        run: dotnet test csharp/StartupSim.Core.Tests/StartupSim.Core.Tests.csproj --configuration Release
+
       - name: Pytest
         run: python -m pytest tests/ -v
 

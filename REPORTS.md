@@ -4,6 +4,23 @@
 
 ---
 
+## C# / Unity Migration Prep — Compile gate and CI coverage (2026-05-18)
+
+**性质**: C# Core 迁移基础设施收口。目标是让 `StartupSim.Core` 不再只是文件骨架，而是进入可编译、可测试、可在 GitHub CI 上守门的状态。
+
+**主要产出**:
+- 新增 `csharp/StartupSim.Core.Tests/` xUnit 测试工程，覆盖首个产品投入切片、输入状态不可变、未知指令兜底，以及 Python 参考黄金样例读取。
+- CI 新增 `.NET 8` 安装与 `dotnet test csharp/StartupSim.Core.Tests/StartupSim.Core.Tests.csproj --configuration Release`，后续 C# 规则迁移会被自动编译验证。
+- `.gitignore` 新增 `csharp/**/bin/` 和 `csharp/**/obj/`，避免把本地编译产物推入仓库。
+- `docs/csharp_unity_migration_plan.md` 补充 C# 测试门禁、CI 命令、本地 `.work/dotnet` SDK 使用边界。
+
+**验收边界**:
+- C# Core 仍保持 `UnityEngine` 零依赖。
+- Unity 侧仍只是适配层，不拥有现金、产品、估值、董事会或竞品结算规则。
+- Python TurnEngine 仍是完整规则参考实现，C# 只迁移已纳入黄金样例的切片。
+
+---
+
 ## C# / Unity Migration Prep — Core and adapter scaffold (2026-05-18)
 
 **性质**: 技术路线切换准备。目标是把项目从 Web 前端打磨主线，转向 C# Core + Unity 表现层的可迁移架构。
