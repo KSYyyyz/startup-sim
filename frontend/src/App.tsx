@@ -19,7 +19,9 @@ import {
 import { OfficeStage } from './game/OfficeStage';
 import {
   buildBoardPressureResponse,
-  buildCompetitorPressureResponse
+  buildCompetitorPressureResponse,
+  quickActionShortcuts,
+  type QuickActionShortcut
 } from './game/gameplayContent';
 import type { OfficeAction } from './game/officeRooms';
 import { useGameStore } from './store';
@@ -117,6 +119,13 @@ function trendText(item: CompetitorItem) {
   return '持平';
 }
 
+const quickActionIcons = {
+  boxes: Boxes,
+  users: Users,
+  'hand-coins': HandCoins,
+  megaphone: Megaphone
+} satisfies Record<QuickActionShortcut['iconKey'], typeof Boxes>;
+
 function turnHighlights(metrics: MetricSet) {
   return [
     { label: '现金', value: signed(metrics.cash_change) || '稳定', tone: metrics.cash_change >= 0 ? 'good' : 'bad' },
@@ -187,9 +196,9 @@ export default function App() {
     setPressureResponse(null);
   }
 
-  function handleQuickCommand(value: string) {
-    setCommand(value);
-    setPreparedAction(null);
+  function handleQuickAction(action: QuickActionShortcut) {
+    setCommand(action.command);
+    setPreparedAction(action);
     setPressureResponse(null);
   }
 
@@ -459,18 +468,14 @@ export default function App() {
       </section>
 
       <section className="action-dock" aria-label="本回合动作">
-        <button type="button" onClick={() => handleQuickCommand('花10万研发产品')}>
-          <Boxes size={22} /> 研发
-        </button>
-        <button type="button" onClick={() => handleQuickCommand('花8万招聘人才')}>
-          <Users size={22} /> 招聘
-        </button>
-        <button type="button" onClick={() => handleQuickCommand('融资300万出让8%股权')}>
-          <HandCoins size={22} /> 融资
-        </button>
-        <button type="button" onClick={() => handleQuickCommand('花10万做营销推广')}>
-          <Megaphone size={22} /> 营销
-        </button>
+        {quickActionShortcuts.map((action) => {
+          const Icon = quickActionIcons[action.iconKey];
+          return (
+            <button type="button" onClick={() => handleQuickAction(action)} key={action.id}>
+              <Icon size={22} /> {action.title}
+            </button>
+          );
+        })}
         <div className="command-stack">
           {preparedAction && (
             <article className="prepared-action" aria-label="已准备行动">

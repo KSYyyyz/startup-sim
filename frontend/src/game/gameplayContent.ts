@@ -6,6 +6,11 @@ export type GameplayActionDefinition = {
   tags: string[];
 };
 
+export type QuickActionShortcut = GameplayActionDefinition & {
+  id: string;
+  iconKey: 'boxes' | 'users' | 'hand-coins' | 'megaphone';
+};
+
 export type GameplayRoomDefinition = {
   id: string;
   name: string;
@@ -128,6 +133,45 @@ export const gameplayRooms: GameplayRoomDefinition[] = [
         tags: ['稳定性 +', '现金 -']
       }
     ]
+  }
+];
+
+export const quickActionShortcuts: QuickActionShortcut[] = [
+  {
+    id: 'research',
+    iconKey: 'boxes',
+    title: '研发',
+    description: '投入产品打磨，提升核心体验。',
+    command: '花10万研发产品',
+    impact: '适合早期把产品体验补到可验证水平。',
+    tags: commandTradeoffs('花10万研发产品')
+  },
+  {
+    id: 'hire',
+    iconKey: 'users',
+    title: '招聘',
+    description: '补充团队产能，但固定支出会上升。',
+    command: '花8万招聘人才',
+    impact: '适合产品和交付都开始吃紧的时候。',
+    tags: commandTradeoffs('花8万招聘人才')
+  },
+  {
+    id: 'fundraise',
+    iconKey: 'hand-coins',
+    title: '融资',
+    description: '补充现金，同时稀释创始人股权。',
+    command: '融资300万出让8%股权',
+    impact: '适合现金流紧张或准备加速扩张时。',
+    tags: commandTradeoffs('融资300万出让8%股权')
+  },
+  {
+    id: 'marketing',
+    iconKey: 'megaphone',
+    title: '营销',
+    description: '扩大获客和市场信号，但消耗现金。',
+    command: '花10万做营销推广',
+    impact: '适合产品已有基本体验后扩大增长。',
+    tags: commandTradeoffs('花10万做营销推广')
   }
 ];
 

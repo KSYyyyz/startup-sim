@@ -5,6 +5,7 @@ import {
   buildCompetitorPressureResponse,
   commandTradeoffs,
   gameContentManifest,
+  quickActionShortcuts,
   gameplayRooms,
   pressureResponseTemplates
 } from './gameplayContent';
@@ -59,5 +60,16 @@ describe('gameplay content definitions', () => {
     });
 
     expect(commandTradeoffs('融资300万出让8%股权')).toEqual(['现金 +', '股权 -']);
+  });
+
+  test('defines bottom-dock quick actions as reusable gameplay actions', () => {
+    expect(quickActionShortcuts.map((action) => action.id)).toEqual(['research', 'hire', 'fundraise', 'marketing']);
+
+    for (const action of quickActionShortcuts) {
+      expect(action.title).toBeTruthy();
+      expect(action.command).toMatch(/花|融资/);
+      expect(action.tags).toEqual(commandTradeoffs(action.command));
+      expect(action.iconKey).toMatch(/boxes|users|hand-coins|megaphone/);
+    }
   });
 });

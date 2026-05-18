@@ -195,6 +195,20 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByLabelText('本回合指令')).toHaveValue('');
   });
 
+  test('uses gameplay quick actions to prepare commands from the bottom dock', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.click(screen.getByRole('button', { name: '融资' }));
+
+    expect(screen.getByLabelText('本回合指令')).toHaveValue('融资300万出让8%股权');
+    const preparedAction = screen.getByLabelText('已准备行动');
+    expect(preparedAction).toHaveTextContent('融资');
+    expect(preparedAction).toHaveTextContent('补充现金，同时稀释创始人股权。');
+    expect(preparedAction).toHaveTextContent('融资300万出让8%股权');
+  });
+
   test('lets office feedback signals open matching side panels', async () => {
     installFetchMock();
     render(<App />);
