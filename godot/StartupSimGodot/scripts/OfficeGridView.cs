@@ -28,6 +28,7 @@ public partial class OfficeGridView : Node2D
 
     private OfficeGrid grid = new(12, 8, 64);
     private OfficeCell hoveredCell = new(-1, -1);
+    private OfficeCell selectedCell = new(-1, -1);
     private readonly Dictionary<string, FacilityVisual> facilityVisuals = new();
     private readonly Dictionary<string, EmployeeVisual> employeeVisuals = new();
 
@@ -46,6 +47,7 @@ public partial class OfficeGridView : Node2D
     [Export] public Color FloorBaseColor { get; set; } = new(0.72f, 0.69f, 0.62f, 1f);
     [Export] public Color GridColor { get; set; } = new(0.25f, 0.42f, 0.66f, 0.55f);
     [Export] public Color HoverColor { get; set; } = new(0.2f, 0.55f, 0.95f, 0.22f);
+    [Export] public Color SelectionColor { get; set; } = new(0.98f, 0.86f, 0.28f, 0.75f);
     [Export] public Color OccupiedColor { get; set; } = new(0.95f, 0.72f, 0.25f, 0.25f);
 
     public OfficeGrid Grid => grid;
@@ -74,6 +76,8 @@ public partial class OfficeGridView : Node2D
                 return;
             }
 
+            selectedCell = cell;
+            QueueRedraw();
             EmitSignal(SignalName.GridCellSelected, cell.X, cell.Y, grid.GetOccupant(cell) ?? string.Empty);
         }
     }
@@ -156,6 +160,7 @@ public partial class OfficeGridView : Node2D
             DrawGridLines();
         }
 
+        DrawSelectedCell();
         DrawHoverCell();
     }
 
@@ -345,6 +350,18 @@ public partial class OfficeGridView : Node2D
             new Rect2(hoveredCell.X * CellSize, hoveredCell.Y * CellSize, CellSize, CellSize),
             HoverColor,
             filled: true);
+    }
+
+    private void DrawSelectedCell()
+    {
+        if (!grid.Contains(selectedCell))
+        {
+            return;
+        }
+
+        var rect = new Rect2(selectedCell.X * CellSize, selectedCell.Y * CellSize, CellSize, CellSize);
+        DrawRect(rect.Grow(-3f), new Color(SelectionColor.R, SelectionColor.G, SelectionColor.B, 0.16f), filled: true);
+        DrawRect(rect.Grow(-2f), SelectionColor, filled: false, width: 3f);
     }
 
     private bool ShouldDrawGrid()

@@ -56,6 +56,7 @@ public partial class G2OperationsPanelController : Control
         if (OfficeGridView != null)
         {
             OfficeGridView.GridCellSelected += OnGridCellSelected;
+            OfficeGridView.GridCellHovered += OnGridCellHovered;
         }
 
         ConnectButton("ZoneButtons/ProductZoneButton", SelectProductZoneTool);
@@ -236,6 +237,20 @@ public partial class G2OperationsPanelController : Control
         }
 
         UpdateStatus($"已选择格子 ({x}, {y})。先选择区域或设施工具。");
+    }
+
+    private void OnGridCellHovered(int x, int y, string occupantId)
+    {
+        var occupancyHint = string.IsNullOrWhiteSpace(occupantId) ? "空格子" : $"已有内容：{occupantId}";
+        var actionHint = activeMode switch
+        {
+            PaintZoneMode when hasZoneStart => "再次点击可完成区域框选。",
+            PaintZoneMode => "点击可设置区域起点。",
+            PlaceFacilityMode => "点击可尝试摆放设施。",
+            _ => "点击可选中格子。"
+        };
+
+        UpdateStatus($"悬停格子 ({x}, {y})，{occupancyHint}。{actionHint}");
     }
 
     private void SelectZoneTool(string zoneTypeId, string displayName)

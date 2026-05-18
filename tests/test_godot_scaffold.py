@@ -174,6 +174,22 @@ def test_godot_office_view_keeps_kairosoft_style_grid_interaction_readable():
     assert "buildModeEnabled ? BuildModeGridAlpha : DefaultGridAlpha" in grid_script
 
 
+def test_godot_office_view_keeps_selection_feedback_after_grid_click():
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "private OfficeCell selectedCell = new(-1, -1);" in grid_script
+    assert "SelectionColor" in grid_script
+    assert "selectedCell = cell;" in grid_script
+    assert "DrawSelectedCell();" in grid_script
+    assert "private void DrawSelectedCell()" in grid_script
+    assert "new Rect2(selectedCell.X * CellSize" in grid_script
+
+    assert "OfficeGridView.GridCellHovered += OnGridCellHovered;" in panel_script
+    assert "private void OnGridCellHovered(int x, int y, string occupantId)" in panel_script
+    assert "悬停格子" in panel_script
+
+
 def test_godot_main_scene_mounts_zone_painting_controller():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     controller = (SCRIPTS / "ZonePaintingController.cs").read_text(encoding="utf-8")
