@@ -1,0 +1,22 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "focused_skill_training",
+      "display_name": "专项能力培训",
+      "description": "让员工短期离开产出岗位，换取对应能力成长。",
+      "target_skill_ids": [
+        "product_development",
+        "sales_conversion",
+        "infrastructure_ops",
+        "collaboration",
+        "resilience"
+      ],
+      "duration_days": 7,
+      "cost": 12000,
+      "fatigue_delta": 5,
+      "output_penalty": 0.25,
+      "effects": { "experience_gain": 60 }
+    }
+  ]
+}

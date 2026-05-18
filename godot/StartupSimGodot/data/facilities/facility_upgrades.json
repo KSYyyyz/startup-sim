@@ -1,0 +1,32 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "basic_desk_level_2",
+      "facility_id": "basic_desk",
+      "level": 2,
+      "display_name": "人体工学工位",
+      "upgrade_cost": 6000,
+      "monthly_cost_delta": 300,
+      "effects": { "organization_efficiency": 2, "morale": 1 }
+    },
+    {
+      "id": "product_whiteboard_level_2",
+      "facility_id": "product_whiteboard",
+      "level": 2,
+      "display_name": "产品作战墙",
+      "upgrade_cost": 12000,
+      "monthly_cost_delta": 500,
+      "effects": { "product_capacity": 5, "quality": 2 }
+    },
+    {
+      "id": "starter_server_rack_level_2",
+      "facility_id": "starter_server_rack",
+      "level": 2,
+      "display_name": "冗余服务器柜",
+      "upgrade_cost": 45000,
+      "monthly_cost_delta": 5000,
+      "effects": { "stability": 9, "delivery_capacity": 8 }
+    }
+  ]
+}

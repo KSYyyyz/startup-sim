@@ -1,0 +1,83 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "product_engineer_growth",
+      "role_ids": ["product_engineer"],
+      "skill_id": "product_development",
+      "max_level": 3,
+      "levels": [
+        {
+          "level": 1,
+          "label": "初级产品工程师",
+          "required_experience": 0,
+          "effects": { "product_capacity": 1 }
+        },
+        {
+          "level": 2,
+          "label": "成熟产品工程师",
+          "required_experience": 100,
+          "effects": { "product_capacity": 3, "quality": 1 }
+        },
+        {
+          "level": 3,
+          "label": "核心产品工程师",
+          "required_experience": 260,
+          "effects": { "product_capacity": 6, "quality": 2 }
+        }
+      ]
+    },
+    {
+      "id": "sales_specialist_growth",
+      "role_ids": ["sales_specialist"],
+      "skill_id": "sales_conversion",
+      "max_level": 3,
+      "levels": [
+        {
+          "level": 1,
+          "label": "初级销售专员",
+          "required_experience": 0,
+          "effects": { "sales_capacity": 1 }
+        },
+        {
+          "level": 2,
+          "label": "成熟销售专员",
+          "required_experience": 100,
+          "effects": { "sales_capacity": 3, "customer_growth": 1 }
+        },
+        {
+          "level": 3,
+          "label": "关键客户销售",
+          "required_experience": 260,
+          "effects": { "sales_capacity": 6, "customer_growth": 2 }
+        }
+      ]
+    },
+    {
+      "id": "ops_engineer_growth",
+      "role_ids": ["ops_engineer"],
+      "skill_id": "infrastructure_ops",
+      "max_level": 3,
+      "levels": [
+        {
+          "level": 1,
+          "label": "初级运维工程师",
+          "required_experience": 0,
+          "effects": { "stability": 1 }
+        },
+        {
+          "level": 2,
+          "label": "成熟运维工程师",
+          "required_experience": 100,
+          "effects": { "stability": 3, "delivery_capacity": 1 }
+        },
+        {
+          "level": 3,
+          "label": "核心运维工程师",
+          "required_experience": 260,
+          "effects": { "stability": 6, "delivery_capacity": 2 }
+        }
+      ]
+    }
+  ]
+}

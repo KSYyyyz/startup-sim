@@ -1,0 +1,41 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "basic_desk",
+      "display_name": "基础办公桌",
+      "description": "提供一个员工工位，是早期团队扩张的基础设施。",
+      "zone_ids": ["product_zone", "sales_zone"],
+      "tags": ["desk"],
+      "footprint": { "width": 1, "height": 1 },
+      "base_cost": 3000,
+      "monthly_cost": 200,
+      "capacity": 1,
+      "effects": { "organization_efficiency": 1 }
+    },
+    {
+      "id": "product_whiteboard",
+      "display_name": "产品白板",
+      "description": "提升研发区协作和需求梳理能力。",
+      "zone_ids": ["product_zone"],
+      "tags": ["product", "collaboration"],
+      "footprint": { "width": 2, "height": 1 },
+      "base_cost": 8000,
+      "monthly_cost": 300,
+      "capacity": 0,
+      "effects": { "product_capacity": 3, "quality": 1 }
+    },
+    {
+      "id": "starter_server_rack",
+      "display_name": "入门服务器柜",
+      "description": "提升服务稳定性和交付容量，但增加维护成本。",
+      "zone_ids": ["server_zone"],
+      "tags": ["server", "ops"],
+      "footprint": { "width": 1, "height": 2 },
+      "base_cost": 30000,
+      "monthly_cost": 3000,
+      "capacity": 0,
+      "effects": { "stability": 5, "delivery_capacity": 4 }
+    }
+  ]
+}

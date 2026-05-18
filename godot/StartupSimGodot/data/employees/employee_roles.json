@@ -1,0 +1,32 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "product_engineer",
+      "display_name": "产品工程师",
+      "description": "适合研发区，负责产品能力和质量提升。",
+      "primary_skill": "product_development",
+      "target_zone_ids": ["product_zone"],
+      "salary": 22000,
+      "output_tags": ["product_capacity", "quality"]
+    },
+    {
+      "id": "sales_specialist",
+      "display_name": "销售专员",
+      "description": "适合销售区，负责客户增长和收入转化。",
+      "primary_skill": "sales_conversion",
+      "target_zone_ids": ["sales_zone"],
+      "salary": 18000,
+      "output_tags": ["sales_capacity", "customer_growth"]
+    },
+    {
+      "id": "ops_engineer",
+      "display_name": "运维工程师",
+      "description": "适合服务器区，负责稳定性和交付容量。",
+      "primary_skill": "infrastructure_ops",
+      "target_zone_ids": ["server_zone"],
+      "salary": 20000,
+      "output_tags": ["stability", "delivery_capacity"]
+    }
+  ]
+}

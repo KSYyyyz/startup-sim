@@ -1,0 +1,29 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "product_zone",
+      "display_name": "研发区",
+      "description": "负责产品研发、质量修复和客户需求验证。",
+      "color": "#2f80ed",
+      "allowed_facility_tags": ["desk", "product", "collaboration"],
+      "output_tags": ["product_capacity", "quality"]
+    },
+    {
+      "id": "sales_zone",
+      "display_name": "销售区",
+      "description": "负责客户线索、销售转化和大客户跟进。",
+      "color": "#27ae60",
+      "allowed_facility_tags": ["desk", "sales", "communication"],
+      "output_tags": ["sales_capacity", "customer_growth"]
+    },
+    {
+      "id": "server_zone",
+      "display_name": "服务器区",
+      "description": "负责系统稳定性、交付容量和基础设施维护。",
+      "color": "#9b51e0",
+      "allowed_facility_tags": ["server", "ops"],
+      "output_tags": ["stability", "delivery_capacity"]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "product_development",
+      "display_name": "产品研发",
+      "category": "professional",
+      "description": "影响产品功能开发、质量修复和研发效率。"
+    },
+    {
+      "id": "sales_conversion",
+      "display_name": "销售转化",
+      "category": "professional",
+      "description": "影响客户线索转化、订阅收入增长和大客户跟进。"
+    },
+    {
+      "id": "infrastructure_ops",
+      "display_name": "基础设施运维",
+      "category": "professional",
+      "description": "影响服务器稳定性、交付容量和故障处理。"
+    },
+    {
+      "id": "collaboration",
+      "display_name": "协作",
+      "category": "team",
+      "description": "影响跨部门效率、项目摩擦和团队稳定性。"
+    },
+    {
+      "id": "resilience",
+      "display_name": "抗压",
+      "category": "team",
+      "description": "影响高压状态下的情绪、疲劳和事故概率。"
+    }
+  ]
+}

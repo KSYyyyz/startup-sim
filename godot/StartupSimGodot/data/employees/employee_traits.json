@@ -1,0 +1,33 @@
+{
+  "schema_version": "godot-content.g1",
+  "items": [
+    {
+      "id": "fast_learner",
+      "display_name": "学习快",
+      "polarity": "positive",
+      "description": "成长速度更快，适合早期培养。",
+      "effects": { "growth_rate": 0.15 }
+    },
+    {
+      "id": "strong_communicator",
+      "display_name": "善于沟通",
+      "polarity": "positive",
+      "description": "提高协作和销售相关产出。",
+      "effects": { "collaboration": 2, "sales_conversion": 1 }
+    },
+    {
+      "id": "easily_tired",
+      "display_name": "易疲劳",
+      "polarity": "negative",
+      "description": "疲劳积累更快，需要更好的休息安排。",
+      "effects": { "fatigue_rate": 0.2 }
+    },
+    {
+      "id": "moody",
+      "display_name": "情绪化",
+      "polarity": "negative",
+      "description": "压力下情绪波动更明显。",
+      "effects": { "mood_volatility": 0.2 }
+    }
+  ]
+}

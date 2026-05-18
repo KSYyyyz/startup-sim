@@ -46,6 +46,9 @@ jobs:
       - name: Pytest
         run: python -m pytest tests/ -v
 
+      - name: Godot content data check
+        run: python scripts/validate_godot_content.py
+
       - name: Playtest
         run: python scripts/playtest.py
 
