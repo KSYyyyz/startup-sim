@@ -563,6 +563,8 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 - 已建立 Godot `ZonePaintingController`，主场景挂载区域框定控制器，支持选择区域类型、开始框定、提交、重命名和删除。
 - 已建立 C# Core 设施模型，支持设施定义、合法区域校验、设施占用、重叠拒绝、升级和快照。
 - 已建立 Godot `FacilityPlacementController`，主场景挂载设施摆放控制器，支持选择设施、摆放和升级。
+- 已建立 C# Core 员工模型，支持候选人招聘、能力/特性/薪资记录、岗位适配校验、员工分配和快照。
+- 已建立 Godot `EmployeeManagementController`，主场景挂载员工管理控制器，支持招聘 G1 候选人并分配到匹配区域。
 
 验收：
 

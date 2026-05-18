@@ -36,6 +36,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "OfficeGridView.cs",
         SCRIPTS / "ZonePaintingController.cs",
         SCRIPTS / "FacilityPlacementController.cs",
+        SCRIPTS / "EmployeeManagementController.cs",
     ]
 
     for path in required:
@@ -119,3 +120,15 @@ def test_godot_main_scene_mounts_facility_placement_controller():
     assert "PlaceFacility" in controller
     assert "UpgradeFacility" in controller
     assert "OfficeFacilityDefinition" in controller
+
+
+def test_godot_main_scene_mounts_employee_management_controller():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "EmployeeManagementController.cs").read_text(encoding="utf-8")
+
+    assert "EmployeeManagementController" in scene
+    assert "res://scripts/EmployeeManagementController.cs" in scene
+    assert "HireCandidate" in controller
+    assert "AssignEmployeeToZone" in controller
+    assert "EmployeeCandidate" in controller
+    assert "RoleFitScore" in controller

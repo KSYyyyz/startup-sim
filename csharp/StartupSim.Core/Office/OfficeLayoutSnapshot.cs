@@ -8,6 +8,8 @@ namespace StartupSim.Core.Office
         public List<OfficeZoneSnapshot> Zones { get; set; } = new List<OfficeZoneSnapshot>();
         public List<OfficeFacilitySnapshot> Facilities { get; set; } =
             new List<OfficeFacilitySnapshot>();
+        public List<OfficeEmployeeSnapshot> Employees { get; set; } =
+            new List<OfficeEmployeeSnapshot>();
     }
 
     public sealed class OfficeZoneSnapshot
@@ -33,5 +35,18 @@ namespace StartupSim.Core.Office
         public int Level { get; set; }
         public int TotalCost { get; set; }
         public int MonthlyCost { get; set; }
+    }
+
+    public sealed class OfficeEmployeeSnapshot
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string RoleId { get; set; } = string.Empty;
+        public int Salary { get; set; }
+        public string AssignedZoneId { get; set; } = string.Empty;
+        public int RoleFitScore { get; set; }
+        public List<string> PositiveTraits { get; set; } = new List<string>();
+        public List<string> NegativeTraits { get; set; } = new List<string>();
+        public Dictionary<string, int> Skills { get; set; } = new Dictionary<string, int>();
     }
 }

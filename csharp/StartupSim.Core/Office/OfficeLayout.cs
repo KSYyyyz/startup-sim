@@ -10,8 +10,10 @@ namespace StartupSim.Core.Office
         private readonly Dictionary<OfficeCell, string> facilityOccupants =
             new Dictionary<OfficeCell, string>();
         private readonly List<OfficeFacility> facilities = new List<OfficeFacility>();
+        private readonly List<OfficeEmployee> employees = new List<OfficeEmployee>();
         private int nextZoneNumber = 1;
         private int nextFacilityNumber = 1;
+        private int nextEmployeeNumber = 1;
 
         public OfficeLayout(int width, int height, int cellSize, IEnumerable<string> allowedZoneTypeIds)
         {
@@ -22,6 +24,7 @@ namespace StartupSim.Core.Office
         public OfficeGrid Grid { get; }
         public IReadOnlyList<OfficeZone> Zones => zones;
         public IReadOnlyList<OfficeFacility> Facilities => facilities;
+        public IReadOnlyList<OfficeEmployee> Employees => employees;
 
         public bool TryDefineZone(
             string zoneTypeId,
@@ -159,6 +162,53 @@ namespace StartupSim.Core.Office
             return true;
         }
 
+        public bool TryHireEmployee(EmployeeCandidate candidate, out OfficeEmployee? employee)
+        {
+            employee = null;
+            if (string.IsNullOrWhiteSpace(candidate.Name)
+                || string.IsNullOrWhiteSpace(candidate.RoleId)
+                || candidate.Salary <= 0
+                || candidate.TargetZoneTypeIds.Count == 0)
+            {
+                return false;
+            }
+
+            employee = new OfficeEmployee
+            {
+                Id = $"employee-{nextEmployeeNumber:000}",
+                Name = candidate.Name,
+                RoleId = candidate.RoleId,
+                Salary = candidate.Salary,
+                TargetZoneTypeIds = new List<string>(candidate.TargetZoneTypeIds),
+                Skills = new Dictionary<string, int>(candidate.Skills),
+                PositiveTraits = new List<string>(candidate.PositiveTraits),
+                NegativeTraits = new List<string>(candidate.NegativeTraits)
+            };
+
+            employees.Add(employee);
+            nextEmployeeNumber++;
+            return true;
+        }
+
+        public bool AssignEmployeeToZone(string employeeId, string zoneId)
+        {
+            var employee = employees.FirstOrDefault(item => item.Id == employeeId);
+            var zone = zones.FirstOrDefault(item => item.Id == zoneId);
+            if (employee == null || zone == null)
+            {
+                return false;
+            }
+
+            if (!employee.TargetZoneTypeIds.Contains(zone.ZoneTypeId))
+            {
+                return false;
+            }
+
+            employee.AssignedZoneId = zoneId;
+            employee.RoleFitScore = 100;
+            return true;
+        }
+
         public OfficeLayoutSnapshot ToSnapshot()
         {
             return new OfficeLayoutSnapshot
@@ -189,6 +239,20 @@ namespace StartupSim.Core.Office
                         Level = facility.Level,
                         TotalCost = facility.TotalCost,
                         MonthlyCost = facility.MonthlyCost
+                    })
+                    .ToList(),
+                Employees = employees
+                    .Select(employee => new OfficeEmployeeSnapshot
+                    {
+                        Id = employee.Id,
+                        Name = employee.Name,
+                        RoleId = employee.RoleId,
+                        Salary = employee.Salary,
+                        AssignedZoneId = employee.AssignedZoneId,
+                        RoleFitScore = employee.RoleFitScore,
+                        PositiveTraits = new List<string>(employee.PositiveTraits),
+                        NegativeTraits = new List<string>(employee.NegativeTraits),
+                        Skills = new Dictionary<string, int>(employee.Skills)
                     })
                     .ToList()
             };
