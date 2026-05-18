@@ -776,3 +776,19 @@ Alpha 1.5 建议方向：
 - 前端测试扩展到 19 个用例，覆盖场景种子和内置场景目录。
 
 状态：第五轮完成，下一轮推进 PixiJS 懒加载边界。
+
+---
+
+## Frontend Alpha 0.2 桌面游戏层推进 — PixiJS 懒加载边界 (2026-05-18)
+
+主题：把可选画布层从 React 办公室组件中拆出去。
+
+内容：
+- 新增 `frontend/src/game/pixiOverlay.ts`，集中管理 PixiJS 动态导入、canvas 挂载和清理。
+- `OfficeStage.tsx` 不再直接拥有 Pixi 初始化逻辑，只负责办公室交互和 React 热区。
+- 新增 `frontend/src/game/pixiOverlay.test.ts`，验证测试环境下可选画布层保持惰性且可安全清理。
+- 前端测试扩展到 20 个用例。
+
+备注：生产构建中 Pixi 异步 chunk 仍超过 Vite 默认 500KB 提示线。当前已完成边界隔离，后续发行优化再决定轻量 renderer、进一步 tree-shaking 或调整发布 chunk 预算。
+
+状态：第六轮完成。

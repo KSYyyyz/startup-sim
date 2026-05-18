@@ -91,11 +91,12 @@ Completed in the first ten desktop-first implementation rounds:
 - Office event bubbles now resolve from board, competitor, and operating insight facts, with clickable board and competitor bubbles opening the matching side panel.
 - Monthly reports now resolve from gameplay data into a headline, highlight cards, review lines, next pressure, and one executable recovery action.
 - `frontend/src/game/scenarios.ts` now defines the built-in AI SaaS seed scenario metadata, keeping scenario content separate from backend settlement rules.
+- PixiJS canvas setup now lives behind `frontend/src/game/pixiOverlay.ts`, keeping `OfficeStage.tsx` focused on React interactions and preserving a lazy optional rendering boundary.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:
 
-- PixiJS currently creates a large production chunk. This is acceptable for Alpha 0.2, but the next performance pass should lazy-load or split the game canvas layer.
+- PixiJS now loads through an isolated optional overlay boundary. Its async production chunk is still large, so the next performance pass should choose between a lighter canvas renderer, deeper Pixi tree-shaking, or a release-oriented chunk budget.
 - The mobile path is intentionally smoke-level only. Desktop layout remains the primary acceptance target until the office-management loop feels complete.
 
 ## 5. Next Desktop Tasks
