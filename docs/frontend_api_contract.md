@@ -17,12 +17,14 @@ The frontend talks to a small local HTTP API. The Python simulation remains the 
     "month": 1,
     "cash": 1000000,
     "cash_change": 0,
+    "cash_coverage_label": "现金流可支撑时间",
     "cash_coverage_months": 8.3,
     "mrr": 0,
     "mrr_change": 0,
     "users": 0,
     "users_change": 0,
     "product_score": 20,
+    "product_change": 0,
     "reputation": 50,
     "founder_equity": 100,
     "valuation": 2640000
@@ -34,7 +36,9 @@ The frontend talks to a small local HTTP API. The Python simulation remains the 
   },
   "core_tension": {
     "title": "产品推进 vs 现金消耗",
-    "description": "继续研发会提升产品，但现金流可支撑时间会缩短。"
+    "description": "继续研发会提升产品，但现金流可支撑时间会缩短。",
+    "severity": "medium",
+    "next_focus": "先验证产品改善能否转化成增长。"
   },
   "insight": {
     "title": "本月经营洞察",
@@ -122,6 +126,7 @@ Response:
   "turn": {
     "month": 1,
     "delta_reasons": ["product: 预算=100000, 风险=medium"],
+    "parsed_actions": [],
     "events": [],
     "customer_response": {},
     "raw_competitor_moves": []
@@ -176,9 +181,13 @@ Response:
     {
       "title": "先验证客户需求",
       "description": "小预算研发加客户访谈比一次性重投入更稳。",
-      "command": "花10万研发产品"
+      "command": "花10万研发产品",
+      "risk_level": "conservative",
+      "reason": "保持节奏"
     }
-  ]
+  ],
+  "warning": "",
+  "recommended_focus": "产品"
 }
 ```
 
