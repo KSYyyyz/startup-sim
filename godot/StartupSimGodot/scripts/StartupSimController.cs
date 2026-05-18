@@ -10,7 +10,11 @@ public partial class StartupSimController : Node
     [Signal]
     public delegate void PreparedActionSubmittedEventHandler(string command);
 
+    [Signal]
+    public delegate void TurnResultReceivedEventHandler(TurnResultSnapshot snapshot);
+
     [Export] public string ApiBaseUrl { get; set; } = "http://127.0.0.1:8000";
+    [Export] public GodotTurnBridge? TurnBridge { get; set; }
 
     public PreparedActionSnapshot CurrentPreparedAction { get; private set; } = new();
 
@@ -39,6 +43,14 @@ public partial class StartupSimController : Node
         }
 
         EmitSignal(SignalName.PreparedActionSubmitted, CurrentPreparedAction.Command);
-        GD.Print($"Startup Sim submit prepared command via {ApiBaseUrl}: {CurrentPreparedAction.Command}");
+        if (TurnBridge != null)
+        {
+            var result = TurnBridge.ExecutePreparedAction(CurrentPreparedAction);
+            EmitSignal(SignalName.TurnResultReceived, result);
+            GD.Print($"Startup Sim settled prepared command locally: {CurrentPreparedAction.Command}");
+            return;
+        }
+
+        GD.Print($"Startup Sim has no local turn bridge; command not settled: {CurrentPreparedAction.Command}");
     }
 }

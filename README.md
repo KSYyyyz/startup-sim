@@ -48,7 +48,8 @@
 - 已完成 `ActionParser.ParseMulti()` 的 C# 迁移切片，支持研发、营销、招聘、战略、融资、多动作、预算、风险词、融资额和出让比例。
 - 已完成最小 `DeterministicTurnEngine` 切片：产品、营销、团队、战略、融资、多动作聚合、现金透支破产保护。
 - 已建立 C# xUnit 测试与 GitHub CI 门禁，当前 C# Core 测试覆盖 17 个用例。
-- Godot 侧已有 `godot/StartupSimGodot/` 工程骨架、主场景、办公室热点脚本和 `PreparedActionSnapshot`，只负责展示/输入，不拥有结算规则。
+- Godot 侧已有 `godot/StartupSimGodot/` 工程骨架、主场景、办公室热点脚本、`PreparedActionSnapshot`、`TurnResultSnapshot` 和 `GodotTurnBridge`。
+- `StartupSimGodot.csproj` 已引用 `csharp/StartupSim.Core`，Godot 可以通过本地 C# Core 执行回合结算。
 - Unity 路线暂停，旧适配脚本仅作为历史探索材料保留。
 
 ## 🎮 快速开始

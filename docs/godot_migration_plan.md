@@ -36,6 +36,7 @@ csharp/
 
 godot/
   StartupSimGodot/
+    StartupSimGodot.csproj          Godot C# project referencing StartupSim.Core
     project.godot                   Godot desktop project
     scenes/main.tscn                First boot scene
     scripts/                        Godot presentation adapters
@@ -46,7 +47,7 @@ frontend/
 
 ## 4. Rules Boundary
 
-`StartupSim.Core` owns:
+`StartupSim.Core` / C# Core owns:
 
 - action parsing
 - turn settlement
@@ -71,12 +72,26 @@ The first Godot slice should contain:
 2. Office room hotspots.
 3. A prepared action snapshot model.
 4. A controller that can prepare and clear actions.
-5. A submit hook that can later call the API or local C# Core.
+5. A local bridge that calls `StartupSim.Core` directly.
+6. A turn result snapshot that Godot UI can display.
+
+Current bridge:
+
+- `StartupSimGodot.csproj` references `../../csharp/StartupSim.Core/StartupSim.Core.csproj`.
+- `GodotTurnBridge` owns a `GameState`, calls `DeterministicTurnEngine.Execute()`, and returns `TurnResultSnapshot`.
+- `StartupSimController` submits the prepared action through `GodotTurnBridge` when the bridge is assigned.
+
+Build check:
+
+```powershell
+$env:PATH = "D:\Startup-sim\.work\dotnet;$env:PATH"
+dotnet build godot\StartupSimGodot\StartupSimGodot.csproj
+```
 
 ## 6. Near-Term Order
 
 1. Keep migrating gameplay rules into `StartupSim.Core`.
 2. Build Godot office shell around structured actions.
-3. Add a Godot-to-API bridge for early playtests.
-4. Later switch Godot from API bridge to direct C# Core bridge if packaging requires it.
+3. Use `GodotTurnBridge` for local desktop playtests.
+4. Add optional API bridge only if a remote service is needed for AI features.
 5. Keep Vercel frontend available for rule QA and quick remote demos.

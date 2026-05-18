@@ -4,6 +4,23 @@
 
 ---
 
+## Godot Migration Prep — Local C# Core bridge (2026-05-18)
+
+**性质**: Godot 可用性收口。目标是让 Godot 工程不只是展示骨架，而是可以直接引用并调用 `StartupSim.Core` 的本地规则代码。
+
+**主要产出**:
+- 新增 `godot/StartupSimGodot/StartupSimGodot.csproj`，使用 `Godot.NET.Sdk/4.6.2` 并引用 `../../csharp/StartupSim.Core/StartupSim.Core.csproj`。
+- 新增 `GodotTurnBridge`，持有 `GameState`，调用 `DeterministicTurnEngine.Execute()`，返回 Godot 可显示的结果。
+- 新增 `TurnResultSnapshot`，把 C# Core 的 `TurnResult` 转成 Godot UI 友好的字段。
+- `StartupSimController` 支持通过本地 `GodotTurnBridge` 提交行动并发出 `TurnResultReceived` 信号。
+- `.gitignore` 新增 Godot 构建缓存忽略规则。
+
+**验收边界**:
+- Godot 可以使用 C# Core，但不复制现金、产品、用户、估值、股权或结局规则。
+- Godot 4 C# 不作为 Web 导出方案；Web 前端仍是 Vercel 规则验证台。
+
+---
+
 ## Godot Migration Prep — Engine pivot and project scaffold (2026-05-18)
 
 **性质**: 独立游戏表现层技术路线调整。目标是从 Unity 探索切换到 Godot 4.6.x .NET，并保留已完成的 C# Core 规则迁移成果。

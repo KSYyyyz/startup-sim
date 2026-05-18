@@ -20,10 +20,13 @@ def test_godot_migration_plan_exists_and_pauses_unity_route():
 def test_godot_project_scaffold_exists():
     required = [
         GODOT / "project.godot",
+        GODOT / "StartupSimGodot.csproj",
         GODOT / "README.md",
         SCENES / "main.tscn",
         SCRIPTS / "StartupSimController.cs",
         SCRIPTS / "PreparedActionSnapshot.cs",
+        SCRIPTS / "TurnResultSnapshot.cs",
+        SCRIPTS / "GodotTurnBridge.cs",
         SCRIPTS / "OfficeRoomHotspot.cs",
     ]
 
@@ -35,15 +38,37 @@ def test_godot_project_scaffold_exists():
     assert 'run/main_scene="res://scenes/main.tscn"' in project
 
 
-def test_godot_scripts_are_presentation_adapters_only():
+def test_godot_project_references_portable_csharp_core():
+    csproj = (GODOT / "StartupSimGodot.csproj").read_text(encoding="utf-8")
+    gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
+
+    assert 'Sdk="Godot.NET.Sdk/4.6.2"' in csproj
+    assert "<TargetFramework>net8.0</TargetFramework>" in csproj
+    assert "..\\..\\csharp\\StartupSim.Core\\StartupSim.Core.csproj" in csproj
+    assert "godot/**/.godot/" in gitignore
+    assert "godot/**/obj/" in gitignore
+
+
+def test_godot_scripts_keep_rules_inside_bridge_only():
     for path in SCRIPTS.glob("*.cs"):
         content = path.read_text(encoding="utf-8")
         assert "namespace StartupSim.Godot" in content
-        assert "TurnEngine" not in content
-        assert "DeterministicTurnEngine" not in content
+        if path.name != "GodotTurnBridge.cs":
+            assert "DeterministicTurnEngine" not in content
+            assert "StartupSim.Core.Engines" not in content
 
     snapshot = (SCRIPTS / "PreparedActionSnapshot.cs").read_text(encoding="utf-8")
     assert "ActionType" in snapshot
     assert "Budget" in snapshot
     assert "FundraiseAmount" in snapshot
     assert "EquityOffered" in snapshot
+
+    bridge = (SCRIPTS / "GodotTurnBridge.cs").read_text(encoding="utf-8")
+    assert "StartupSim.Core.Contracts" in bridge
+    assert "StartupSim.Core.Engines" in bridge
+    assert "DeterministicTurnEngine" in bridge
+    assert "ExecuteCommand" in bridge
+
+    controller = (SCRIPTS / "StartupSimController.cs").read_text(encoding="utf-8")
+    assert "GodotTurnBridge" in controller
+    assert "TurnResultReceived" in controller

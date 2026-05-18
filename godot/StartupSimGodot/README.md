@@ -9,8 +9,15 @@ Current scope:
 - Bootable `main.tscn` shell.
 - Presentation-only C# scripts.
 - Structured prepared action snapshots.
-- No gameplay settlement rules in Godot scripts.
+- `GodotTurnBridge` calls the portable C# core; Godot scripts do not duplicate settlement rules.
 
 Rule authority remains in `../../csharp/StartupSim.Core/`.
+
+Build check from repository root:
+
+```powershell
+$env:PATH = "D:\Startup-sim\.work\dotnet;$env:PATH"
+dotnet build godot\StartupSimGodot\StartupSimGodot.csproj
+```
 
 The existing Web frontend remains a rule validation bench and remote demo surface.

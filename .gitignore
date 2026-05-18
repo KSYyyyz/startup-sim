@@ -40,6 +40,12 @@ reports/
 csharp/**/bin/
 csharp/**/obj/
 
+# Godot
+godot/**/.godot/
+godot/**/.mono/
+godot/**/bin/
+godot/**/obj/
+
 # OS
 .DS_Store
 Thumbs.db
