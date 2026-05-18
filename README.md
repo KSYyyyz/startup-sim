@@ -153,7 +153,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 399 passed
+pytest tests/ -v    # 400 passed
 ```
 
 测试覆盖：

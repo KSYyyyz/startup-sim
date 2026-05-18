@@ -82,6 +82,7 @@ Completed in the first ten desktop-first implementation rounds:
 - The office scene has a non-blocking "办公室提示" bubble for the current focus.
 - Office dynamic feedback signals are clickable: board signals open the board panel, and competitor signals open the competitor panel.
 - After submitting a turn, the office scene shows a compact "办公室月末变化" pulse strip for cash, product, users, and recurring revenue changes.
+- Room and action definitions now have a UI-independent data layer in `frontend/src/game/gameplayContent.ts`, with `officeRooms.ts` only binding those definitions to React/lucide presentation.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:
@@ -121,6 +122,12 @@ Known follow-up:
 - Continue using `design-assets/` as the reusable image-2 asset library.
 - Register every generated visual asset in `design-assets/manifest.json`.
 - Prefer reusable room, UI, and character assets over one-off page decorations.
+
+### M6 Gameplay Data Layer
+
+- Keep frontend gameplay definitions UI-independent where possible.
+- Move room metadata, action commands, tradeoff tags, pressure response templates, and later scenario metadata into data modules before adding more UI complexity.
+- Keep the deterministic API/TurnEngine as the only authority for state changes; data definitions may prepare player commands but must not settle numeric outcomes.
 
 ## 6. Verification
 

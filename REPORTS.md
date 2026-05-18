@@ -23,6 +23,7 @@
 **线上入口**: https://startup-sim-khaki.vercel.app
 
 **主要产出**:
+- `frontend/src/game/gameplayContent.ts` — UI 无关的房间/行动/取舍标签数据层，作为后续剧本包和内容数据化的起点。
 - `frontend/src/game/OfficeStage.tsx` — 办公室主场景、房间热点、动态反馈、月末变化。
 - `frontend/src/App.tsx` — 董事会/竞品/建议/记录面板与底部 CEO 指令闭环。
 - `frontend/e2e/startup-sim.spec.ts` — 桌面 1366×768、1440×900、1920×1080 与移动 smoke 覆盖。
@@ -35,10 +36,11 @@
 4. 竞品压力可生成回应指令，并显示来源解释。
 5. 回应指令会显示取舍标签，如 `用户 +`、`现金 -`、`现金流可支撑时间 +`。
 6. 提交回合后，办公室场景内显示月末变化，左侧显示月度战报。
+7. 房间和行动定义已从 UI 组件中抽出，为后续原创剧本包、行业包和本地化做准备。
 
 **验证记录**:
-- Python: `pytest tests/ -q` → 399 passed
-- Frontend: `npm test -- --run` → 9 passed
+- Python: `pytest tests/ -q` → 400 passed
+- Frontend: `npm test -- --run` → 10 passed
 - Frontend E2E: `npm run test:e2e` → 8 passed
 - GitHub CI: latest pushed frontend slices passed
 - Vercel smoke: `https://startup-sim-khaki.vercel.app` verified after push
