@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import type { RoomStatus } from './gameplayContent';
 import { officeRooms, type OfficeAction, type OfficeRoom } from './officeRooms';
 
 type OfficeStageProps = {
@@ -15,6 +16,7 @@ type OfficeStageProps = {
     value: string;
     tone: string;
   }>;
+  roomStatuses: Record<string, RoomStatus>;
   onBoardSignalSelect: () => void;
   onCompetitorSignalSelect: () => void;
   onActionSelect: (action: OfficeAction) => void;
@@ -83,6 +85,7 @@ export function OfficeStage({
   pulseRoomId,
   pulseText,
   resultHighlights,
+  roomStatuses,
   onBoardSignalSelect,
   onCompetitorSignalSelect,
   onActionSelect
@@ -128,6 +131,7 @@ export function OfficeStage({
       <div className="room-hotspots" aria-label="可操作房间">
         {officeRooms.map((room) => {
           const Icon = room.icon;
+          const roomStatus = roomStatuses[room.id] ?? { tone: 'normal', label: '运转中' };
           return (
             <div className="room-hotspot-wrap" key={room.id} style={{ left: `${room.x}%`, top: `${room.y}%` }}>
               <button
@@ -144,6 +148,9 @@ export function OfficeStage({
                   {pulseText}
                 </span>
               )}
+              <span className={`room-status ${roomStatus.tone}`} aria-label={`${room.name}经营状态`}>
+                {roomStatus.label}
+              </span>
             </div>
           );
         })}

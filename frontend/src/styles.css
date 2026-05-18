@@ -338,6 +338,35 @@ h2 {
   box-shadow: 0 8px 20px rgba(24, 36, 56, 0.18);
 }
 
+.room-status {
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #1f3d56;
+  font-size: 0.66rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 6px 14px rgba(24, 36, 56, 0.14);
+}
+
+.room-status.warning {
+  background: #fff3d0;
+  color: #7c4a03;
+}
+
+.room-status.improving,
+.room-status.opportunity {
+  background: #daf7dc;
+  color: #226332;
+}
+
+.room-status.blocked {
+  background: #ffe0dd;
+  color: #8a2520;
+}
+
 .office-feedback {
   position: absolute;
   z-index: 3;

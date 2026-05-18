@@ -24,6 +24,7 @@ import {
   quickActionShortcuts,
   type PreparedAction,
   resolveOfficePulse,
+  resolveRoomStatuses,
   type QuickActionShortcut
 } from './game/gameplayContent';
 import type { OfficeAction } from './game/officeRooms';
@@ -178,6 +179,19 @@ export default function App() {
             insightTitle: state.insight.title
           })
         : { roomId: 'product', text: '产品压力' },
+    [state]
+  );
+  const roomStatuses = useMemo(
+    () =>
+      state
+        ? resolveRoomStatuses({
+            cashCoverageMonths: state.metrics.cash_coverage_months,
+            productChange: state.metrics.product_change,
+            usersChange: state.metrics.users_change,
+            mrrChange: state.metrics.mrr_change,
+            signalText: `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title} ${state.insight.description}`
+          })
+        : {},
     [state]
   );
 
@@ -354,6 +368,7 @@ export default function App() {
           pulseRoomId={pulse.roomId}
           pulseText={pulse.text}
           resultHighlights={lastTurn ? highlights : []}
+          roomStatuses={roomStatuses}
           onBoardSignalSelect={() => setRightTab('board')}
           onCompetitorSignalSelect={() => setRightTab('competitors')}
           onActionSelect={handleOfficeAction}

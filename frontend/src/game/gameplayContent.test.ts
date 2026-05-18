@@ -9,7 +9,8 @@ import {
   gameplayRooms,
   officePulseRules,
   pressureResponseTemplates,
-  resolveOfficePulse
+  resolveOfficePulse,
+  resolveRoomStatuses
 } from './gameplayContent';
 
 describe('gameplay content definitions', () => {
@@ -102,5 +103,21 @@ describe('gameplay content definitions', () => {
       roomId: 'product',
       text: '产品压力'
     });
+  });
+
+  test('resolves data-driven room statuses from operating signals', () => {
+    const statuses = resolveRoomStatuses({
+      cashCoverageMonths: 2.4,
+      productChange: 8,
+      usersChange: 120,
+      mrrChange: 5000,
+      signalText: '服务器稳定性下降，交付风险升高'
+    });
+
+    expect(statuses.board).toEqual({ tone: 'warning', label: '现金紧张' });
+    expect(statuses.product).toEqual({ tone: 'improving', label: '产品改善' });
+    expect(statuses.sales).toEqual({ tone: 'opportunity', label: '增长机会' });
+    expect(statuses.servers).toEqual({ tone: 'blocked', label: '交付阻塞' });
+    expect(statuses.team).toEqual({ tone: 'normal', label: '运转中' });
   });
 });

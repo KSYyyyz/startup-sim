@@ -41,10 +41,11 @@
 9. 底部快捷行动已进入玩法数据层，并复用“已准备行动”预览。
 10. 办公室压力脉冲路由已进入玩法数据层，为未来剧本/行业包扩展房间信号做准备。
 11. 办公室行动、快捷行动、董事会回应、竞品回应已统一到同一套“已准备行动”预览。
+12. 房间经营状态已数据化，可在办公室场景显示“运转中”“产品改善”等状态。
 
 **验证记录**:
 - Python: `pytest tests/ -q` → 400 passed
-- Frontend: `npm test -- --run` → 14 passed
+- Frontend: `npm test -- --run` → 15 passed
 - Frontend E2E: `npm run test:e2e` → 8 passed
 - GitHub CI: latest pushed frontend slices passed
 - Vercel smoke: `https://startup-sim-khaki.vercel.app` verified after push

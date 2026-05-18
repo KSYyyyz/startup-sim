@@ -67,6 +67,21 @@ export type OfficePulseSignal = {
   text: string;
 };
 
+export type RoomStatusTone = 'normal' | 'warning' | 'improving' | 'blocked' | 'opportunity';
+
+export type RoomStatus = {
+  tone: RoomStatusTone;
+  label: string;
+};
+
+export type RoomStatusInput = {
+  cashCoverageMonths: number;
+  productChange: number;
+  usersChange: number;
+  mrrChange: number;
+  signalText: string;
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -340,4 +355,32 @@ export function resolveOfficePulse(input: OfficePulseInput): OfficePulseSignal {
   const signal = `${input.title} ${input.description} ${input.insightTitle}`;
   const rule = officePulseRules.find((item) => item.pattern.test(signal));
   return rule ? { roomId: rule.roomId, text: rule.text } : { roomId: 'product', text: '产品压力' };
+}
+
+export function resolveRoomStatuses(input: RoomStatusInput): Record<string, RoomStatus> {
+  const statuses: Record<string, RoomStatus> = {
+    product: { tone: 'normal', label: '运转中' },
+    team: { tone: 'normal', label: '运转中' },
+    sales: { tone: 'normal', label: '运转中' },
+    board: { tone: 'normal', label: '运转中' },
+    servers: { tone: 'normal', label: '运转中' }
+  };
+
+  if (input.cashCoverageMonths < 3) {
+    statuses.board = { tone: 'warning', label: '现金紧张' };
+  }
+  if (input.productChange > 0) {
+    statuses.product = { tone: 'improving', label: '产品改善' };
+  }
+  if (input.usersChange > 0 || input.mrrChange > 0) {
+    statuses.sales = { tone: 'opportunity', label: '增长机会' };
+  }
+  if (/服务器|稳定|交付|故障/.test(input.signalText)) {
+    statuses.servers = { tone: 'blocked', label: '交付阻塞' };
+  }
+  if (/团队|招聘|士气/.test(input.signalText)) {
+    statuses.team = { tone: 'warning', label: '团队吃紧' };
+  }
+
+  return statuses;
 }

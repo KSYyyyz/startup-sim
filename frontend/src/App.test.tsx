@@ -142,6 +142,7 @@ describe('Startup Sim frontend shell', () => {
     expect(officeFeedback).toHaveTextContent('控制固定支出。');
     expect(officeFeedback).toHaveTextContent('快答科技：本月暂无重大动作');
     expect(screen.getByLabelText('产品室状态')).toHaveTextContent('产品压力');
+    expect(screen.getByLabelText('产品室经营状态')).toHaveTextContent('运转中');
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('持平')).toBeInTheDocument();
@@ -274,6 +275,7 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('月度战报')).toBeInTheDocument();
     expect(screen.getByLabelText('办公室月末变化')).toHaveTextContent('产品');
     expect(screen.getByLabelText('办公室月末变化')).toHaveTextContent('+8 分');
+    expect(screen.getByLabelText('产品室经营状态')).toHaveTextContent('产品改善');
     expect(screen.getByText('第1月执行结果')).toBeInTheDocument();
     expect(screen.getAllByText('本月变化').length).toBeGreaterThan(1);
     expect(screen.getByText('原因复盘')).toBeInTheDocument();
