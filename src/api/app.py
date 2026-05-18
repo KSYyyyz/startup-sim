@@ -18,13 +18,11 @@ from pydantic import BaseModel, Field
 from src.agents import CFO, COO, CTO
 from src.agents.competitors import KuaiDaTech, LingxiCSCloud
 from src.core.conflict_engine import ConflictEngine
-from src.core.insight_engine import InsightEngine
 from src.core.models import ActionPlan, CompanyState, EndingType, StateDelta
 from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.db import repository
 from src.db.connection import get_connection, init_db
-
 
 FORBIDDEN_COPY = {
     "跑道": "现金流可支撑时间",

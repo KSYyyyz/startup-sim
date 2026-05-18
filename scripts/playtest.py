@@ -8,6 +8,7 @@ Alpha 1.2 平衡验证：走完整 TurnEngine.process_turn_raw 流程，
 from __future__ import annotations
 
 import sys
+from builtins import print as builtin_print
 from pathlib import Path
 
 # Ensure src is importable
@@ -21,6 +22,22 @@ from src.core.strategy_compare import StrategyCompare
 from src.core.turn_engine import TurnEngine
 
 # ── Strategy definitions (generate raw_input strings) ──────────────────────────
+
+
+def safe_print(*args, **kwargs) -> None:
+    """Print readable output even on Windows consoles with legacy encodings."""
+    try:
+        builtin_print(*args, **kwargs)
+    except UnicodeEncodeError:
+        sep = kwargs.get("sep", " ")
+        end = kwargs.get("end", "\n")
+        text = sep.join(str(arg) for arg in args)
+        encoding = getattr(sys.stdout, "encoding", None) or "utf-8"
+        safe_text = text.encode(encoding, errors="replace").decode(encoding, errors="replace")
+        builtin_print(safe_text, end=end)
+
+
+print = safe_print
 
 
 def strategy_all_rnd(month: int, state: CompanyState) -> str:

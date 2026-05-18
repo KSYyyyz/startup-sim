@@ -86,10 +86,8 @@ class TestReadme:
 
 class TestDocsConsistencyScript:
     def test_check_headers_are_well_formed(self):
-        script = (PROJECT_DIR / "scripts" / "check_docs_consistency.py").read_text(
-            encoding="utf-8"
-        )
-        assert "safe_print(\"\\n[检查 1:" not in script
+        script = (PROJECT_DIR / "scripts" / "check_docs_consistency.py").read_text(encoding="utf-8")
+        assert 'safe_print("\\n[检查 1:' not in script
         assert "[检查 1]" in script
 
 
