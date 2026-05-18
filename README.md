@@ -15,6 +15,7 @@
 | [examples/sample_run_balanced.md](examples/sample_run_balanced.md) | 官方样例局：均衡策略→A轮成功 |
 | [examples/sample_run_marketing_failure.md](examples/sample_run_marketing_failure.md) | 官方失败样例：全营销→慢性死亡 |
 | [docs/indie_game_product_direction.md](docs/indie_game_product_direction.md) | 独立游戏化产品方向与可分发路线 |
+| [docs/startup_sim_development_plan.md](docs/startup_sim_development_plan.md) | Godot 主线完整开发规划 |
 | [docs/reference_game_analysis.md](docs/reference_game_analysis.md) | 本地参考游戏结构分析与 Startup Sim 借鉴边界 |
 | [docs/godot_migration_plan.md](docs/godot_migration_plan.md) | Godot 独立游戏表现层迁移方案 |
 | [docs/csharp_core_migration_plan.md](docs/csharp_core_migration_plan.md) | C# Core 规则迁移方案 |
