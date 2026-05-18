@@ -192,7 +192,7 @@ export default function App() {
   const [command, setCommand] = useState('');
   const [lastCommand, setLastCommand] = useState('');
   const [preparedAction, setPreparedAction] = useState<PreparedAction | null>(null);
-  const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'log'>('board');
+  const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'archive'>('board');
 
   useEffect(() => {
     void boot();
@@ -320,6 +320,12 @@ export default function App() {
   );
   const reviewAchievements = useMemo(() => (review?.achievement_cards ?? review?.achievements ?? []).slice(0, 3), [review]);
   const reviewSuggestions = useMemo(() => review?.next_run_suggestions?.slice(0, 3) ?? [], [review]);
+  const archiveSummary = review?.archive_summary ?? review?.ending_summary ?? '';
+  const archiveTimeline = useMemo(() => (review?.archive_timeline ?? review?.key_moments ?? []).slice(0, 5), [review]);
+  const archiveBadges = useMemo(
+    () => (review?.archive_badges ?? review?.achievement_cards ?? review?.achievements ?? []).slice(0, 3),
+    [review]
+  );
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -392,6 +398,13 @@ export default function App() {
 
   async function handleReview() {
     await openReview();
+  }
+
+  async function handleArchive() {
+    setRightTab('archive');
+    if (!review && !reviewUnavailable) {
+      await openReview();
+    }
   }
 
   if (loading || !state) {
@@ -637,8 +650,8 @@ export default function App() {
             <button className={rightTab === 'advice' ? 'active' : ''} onClick={handleAdvice}>
               建议
             </button>
-            <button className={rightTab === 'log' ? 'active' : ''} onClick={() => setRightTab('log')}>
-              记录
+            <button className={rightTab === 'archive' ? 'active' : ''} onClick={handleArchive}>
+              档案
             </button>
           </div>
 
@@ -718,12 +731,50 @@ export default function App() {
             </article>
           )}
 
-          {rightTab === 'log' && (
-            <article className="panel tall-panel">
-              <h2>经营记录</h2>
-              <p>当前状态：{state.status}</p>
-              <p>估值：{money(state.metrics.valuation)}</p>
-              {state.ending.type !== 'none' && <strong>{state.ending.description}</strong>}
+          {rightTab === 'archive' && (
+            <article className="panel tall-panel archive-panel" aria-label="局内档案">
+              <h2>局内档案</h2>
+              {reviewing && <p>正在整理档案...</p>}
+              {reviewUnavailable && <p>复盘接口暂未开放。</p>}
+              {review && (
+                <>
+                  <section className="archive-summary">
+                    <div className="review-summary-line">
+                      <b>{review.ending_title ?? '本局档案'}</b>
+                      <span>{compactReviewLabel(review)}</span>
+                    </div>
+                    {archiveSummary && <p>{archiveSummary}</p>}
+                  </section>
+                  {archiveTimeline.length > 0 && (
+                    <section className="archive-timeline" aria-label="档案时间线">
+                      {archiveTimeline.map((item) => {
+                        const archiveItemKey = 'id' in item && item.id ? item.id : item.title;
+                        return (
+                          <article key={`${archiveItemKey}-${item.description}`}>
+                            <b>{item.title}</b>
+                            <span>{item.description}</span>
+                          </article>
+                        );
+                      })}
+                    </section>
+                  )}
+                  {archiveBadges.length > 0 && (
+                    <section className="archive-badges" aria-label="档案徽章">
+                      {archiveBadges.map((badge) => (
+                        <span className="achievement-card" key={badge.code ?? badge.title}>
+                          <b>{badge.title}</b>
+                          {badge.description && <small>{badge.description}</small>}
+                        </span>
+                      ))}
+                    </section>
+                  )}
+                </>
+              )}
+              <section className="archive-status">
+                <span>当前状态：{state.status}</span>
+                <span>估值：{money(state.metrics.valuation)}</span>
+                {state.ending.type !== 'none' && <strong>{state.ending.description}</strong>}
+              </section>
             </article>
           )}
         </aside>

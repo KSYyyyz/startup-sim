@@ -570,6 +570,130 @@ def _next_run_suggestions_view(review: Any, final_state: CompanyState) -> list[s
     return unique[:3]
 
 
+def _archive_summary_view(review: Any, ending_status: str, final_state: CompanyState) -> str:
+    phase = _review_phase(ending_status)
+    return _sanitize_copy(
+        f"{phase}：{review.ending_title}。第{final_state.month}月，"
+        f"现金约{int(final_state.cash)//10000}万，产品{final_state.product_score}分，"
+        f"用户{final_state.users}人。"
+    )
+
+
+def _archive_tone(value: str | None) -> str:
+    if value in {"positive", "negative", "neutral"}:
+        return value
+    if value in {"high", "critical"}:
+        return "negative"
+    if value == "low":
+        return "positive"
+    return "neutral"
+
+
+def _archive_timeline_view(
+    key_moments: list[dict[str, Any]],
+    actions: list[dict[str, Any]],
+    events: list[dict[str, Any]],
+    snapshots: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    candidates: list[tuple[int, int, dict[str, Any]]] = []
+
+    for idx, moment in enumerate(key_moments, start=1):
+        candidates.append(
+            (
+                0 if moment.get("impact_type") in {"positive", "negative"} else 1,
+                int(moment.get("month") or 0),
+                {
+                    "id": f"moment-{idx}",
+                    "month": int(moment.get("month") or 0),
+                    "title": moment.get("display_title") or moment.get("title") or "关键节点",
+                    "description": moment.get("display_description")
+                    or moment.get("description")
+                    or "",
+                    "tone": _archive_tone(moment.get("display_tone") or moment.get("impact_type")),
+                    "source": "key_moment",
+                },
+            )
+        )
+
+    for idx, event in enumerate(events, start=1):
+        candidates.append(
+            (
+                2,
+                int(event.get("month") or 0),
+                {
+                    "id": f"event-{event.get('id') or idx}",
+                    "month": int(event.get("month") or 0),
+                    "title": event.get("title") or event.get("event_type") or "经营事件",
+                    "description": event.get("payload_json") or event.get("severity") or "",
+                    "tone": _archive_tone(event.get("severity")),
+                    "source": "event",
+                },
+            )
+        )
+
+    for idx, action in enumerate(actions, start=1):
+        command = action.get("raw_input") or "本月行动"
+        candidates.append(
+            (
+                3,
+                int(action.get("month") or 0),
+                {
+                    "id": f"action-{action.get('id') or idx}",
+                    "month": int(action.get("month") or 0),
+                    "title": "CEO决策",
+                    "description": command,
+                    "tone": "neutral",
+                    "source": "action",
+                },
+            )
+        )
+
+    if snapshots:
+        latest = snapshots[-1]
+        month = int(latest.get("month") or 0)
+        description = "结算后的公司状态快照。"
+        try:
+            state_data = json.loads(latest.get("state_json") or "{}")
+            description = (
+                f"现金约{int(state_data.get('cash', 0))//10000}万，"
+                f"产品{state_data.get('product_score', 0)}分，用户{state_data.get('users', 0)}人。"
+            )
+        except (TypeError, ValueError):
+            pass
+        candidates.append(
+            (
+                4,
+                month,
+                {
+                    "id": f"snapshot-{latest.get('id') or month}",
+                    "month": month,
+                    "title": "状态快照",
+                    "description": description,
+                    "tone": "neutral",
+                    "source": "snapshot",
+                },
+            )
+        )
+
+    selected = [item for _, _, item in sorted(candidates, key=lambda row: (row[0], row[1]))[:5]]
+    selected.sort(key=lambda item: item["month"])
+    return _sanitize_copy(selected)
+
+
+def _archive_badges_view(achievement_cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return _sanitize_copy(
+        [
+            {
+                "title": item.get("title", ""),
+                "description": item.get("description", ""),
+                "rarity": item.get("rarity", "common"),
+                "source": "achievement",
+            }
+            for item in achievement_cards[:3]
+        ]
+    )
+
+
 def _review_payload(session_id: int) -> dict[str, Any]:
     final_state = repository.load_state(session_id)
     session = repository.get_session_status(session_id)
@@ -609,6 +733,11 @@ def _review_payload(session_id: int) -> dict[str, Any]:
         "summary": achievements.summary,
     }
     payload["next_run_suggestions"] = _next_run_suggestions_view(review, final_state)
+    payload["archive_summary"] = _archive_summary_view(review, ending_status, final_state)
+    payload["archive_timeline"] = _archive_timeline_view(
+        payload["key_moments"], actions, events, snapshots
+    )
+    payload["archive_badges"] = _archive_badges_view(payload["achievement_cards"])
     return _sanitize_copy(payload)
 
 

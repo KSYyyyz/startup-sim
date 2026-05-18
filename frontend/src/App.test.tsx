@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import App from './App';
+import { useGameStore } from './store';
 import type { TurnResponse } from './types';
 
 const initialState = {
@@ -167,6 +168,19 @@ function installFetchMock(
 describe('Startup Sim frontend shell', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
+    useGameStore.setState({
+      state: null,
+      suggestions: null,
+      commandPreview: null,
+      review: null,
+      lastTurn: null,
+      loading: false,
+      submitting: false,
+      previewing: false,
+      reviewing: false,
+      reviewUnavailable: false,
+      error: ''
+    });
   });
 
   test('renders the playable command center without banned cash wording', async () => {
@@ -575,6 +589,120 @@ describe('Startup Sim frontend shell', () => {
     expect(review).toHaveTextContent('复盘获客质量');
     expect(review).not.toHaveTextContent('不应显示的第 4 条建议');
     expect(screen.queryByRole('heading', { name: '复盘详情' })).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/跑道|Runway/);
+  });
+
+  test('opens a compact archive tab and limits archive facts from review payload', async () => {
+    const fetchMock = installFetchMock(
+      {
+        turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
+      },
+      {
+        ending_status: 'survived_but_average',
+        review_phase: '终局复盘',
+        status_copy: '已结束',
+        ending_title: '本局复盘',
+        ending_summary: '旧摘要不应优先显示。',
+        archive_summary: '档案摘要：研发路线留下清晰记录。',
+        archive_timeline: [
+          { title: '第1月 研发冲刺', description: '产品分提升。' },
+          { title: '第2月 现金审查', description: '董事会要求收紧预算。' },
+          { title: '第3月 用户验证', description: '小规模获客开始反馈。' },
+          { title: '第4月 产品定型', description: '核心功能稳定。' },
+          { title: '第5月 复盘沉淀', description: '形成下一局假设。' },
+          { title: '第6月 不应显示', description: '超过档案时间线上限。' }
+        ],
+        archive_badges: [
+          { title: '产品主义者', description: '产品分提升明显。', rarity: 'silver' },
+          { title: '现金守夜人', description: '及时注意到现金压力。', rarity: 'bronze' },
+          { title: '董事会沟通者', description: '保持董事会反馈可见。', rarity: 'bronze' },
+          { title: '第4个不应显示徽章', description: '超过徽章上限。', rarity: 'gold' }
+        ],
+        key_moments: [{ title: '兜底关键时刻不应显示', description: 'archive_timeline 存在时不用兜底。' }],
+        achievement_cards: [{ title: '兜底成就不应显示', description: 'archive_badges 存在时不用兜底。' }]
+      }
+    );
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+    await screen.findByText('月度战报');
+
+    expect(fetchMock.mock.calls.some(([input]) => String(input).endsWith('/api/sessions/7/review'))).toBe(false);
+
+    const sideTabs = within(screen.getByRole('tablist', { name: '右侧信息' }));
+    await userEvent.click(sideTabs.getByRole('button', { name: '档案' }));
+
+    const archive = await screen.findByLabelText('局内档案');
+    expect(archive).toHaveTextContent('档案摘要：研发路线留下清晰记录。');
+    expect(archive).toHaveTextContent('终局复盘');
+    expect(archive).toHaveTextContent('已结束');
+    expect(archive).toHaveTextContent('第1月 研发冲刺');
+    expect(archive).toHaveTextContent('第5月 复盘沉淀');
+    expect(archive).not.toHaveTextContent('第6月 不应显示');
+    expect(archive).toHaveTextContent('产品主义者');
+    expect(archive).toHaveTextContent('现金守夜人');
+    expect(archive).toHaveTextContent('董事会沟通者');
+    expect(archive).not.toHaveTextContent('第4个不应显示徽章');
+    expect(archive).not.toHaveTextContent('兜底关键时刻不应显示');
+    expect(archive).not.toHaveTextContent('兜底成就不应显示');
+    expect(document.body.textContent).not.toMatch(/跑道|Runway/);
+  });
+
+  test('falls back to key moments and achievement cards when archive fields are absent', async () => {
+    installFetchMock(
+      {
+        turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
+      },
+      {
+        ending_status: 'active',
+        review_phase: '阶段复盘',
+        status_copy: '进行中',
+        ending_summary: '阶段摘要：现金承压但产品方向清晰。',
+        key_moments: [
+          { title: '兜底时刻 1', description: '研发推进。' },
+          { title: '兜底时刻 2', description: '现金承压。' },
+          { title: '兜底时刻 3', description: '用户验证。' },
+          { title: '兜底时刻 4', description: '产品定型。' },
+          { title: '兜底时刻 5', description: '准备复盘。' },
+          { title: '兜底时刻 6 不应显示', description: '超过时间线上限。' }
+        ],
+        achievement_cards: [
+          { title: '兜底成就 1', description: '保持产品推进。', rarity: 'common' },
+          { title: '兜底成就 2', description: '识别现金压力。', rarity: 'common' },
+          { title: '兜底成就 3', description: '维持董事会沟通。', rarity: 'common' },
+          { title: '兜底成就 4 不应显示', description: '超过徽章上限。', rarity: 'rare' }
+        ]
+      }
+    );
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+    await userEvent.click(within(screen.getByRole('tablist', { name: '右侧信息' })).getByRole('button', { name: '档案' }));
+
+    const archive = await screen.findByLabelText('局内档案');
+    expect(archive).toHaveTextContent('阶段摘要：现金承压但产品方向清晰。');
+    expect(archive).toHaveTextContent('兜底时刻 1');
+    expect(archive).toHaveTextContent('兜底时刻 5');
+    expect(archive).not.toHaveTextContent('兜底时刻 6 不应显示');
+    expect(archive).toHaveTextContent('兜底成就 1');
+    expect(archive).toHaveTextContent('兜底成就 3');
+    expect(archive).not.toHaveTextContent('兜底成就 4 不应显示');
+    expect(document.body.textContent).not.toMatch(/跑道|Runway/);
+  });
+
+  test('keeps the archive unavailable message when review endpoint is missing', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.click(within(screen.getByRole('tablist', { name: '右侧信息' })).getByRole('button', { name: '档案' }));
+
+    const archive = await screen.findByLabelText('局内档案');
+    expect(archive).toHaveTextContent('复盘接口暂未开放。');
     expect(document.body.textContent).not.toMatch(/跑道|Runway/);
   });
 

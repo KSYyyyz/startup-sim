@@ -1080,3 +1080,23 @@ Alpha 1.5 建议方向：
 - 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充复盘展示契约和只读边界。
 
 状态：Alpha 0.5 第三组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。
+
+---
+
+## Alpha 0.5 十轮推进 — 局内档案与复盘资产化 (2026-05-18)
+
+主题：把复盘结果从“看一次的摘要”沉淀为局内可回看的档案资产，帮助玩家理解这一局为什么走到当前状态。
+
+内容：
+- 第 1 轮：`GET /api/sessions/{session_id}/review` 新增 `archive_summary`，作为档案面板的一句话局势记录。
+- 第 2 轮：复盘接口新增 `archive_timeline`，从关键时刻、行动、事件和快照投影最多 5 条可回看事实。
+- 第 3 轮：复盘接口新增 `archive_badges`，从已解锁成就投影最多 3 个档案徽章。
+- 第 4 轮：后端档案投影保持只读，不推进月份、不修改状态、不改变 TurnEngine 结算。
+- 第 5 轮：后端测试覆盖档案字段存在、长度上限、字段结构、只读性和禁用词。
+- 第 6 轮：前端 `GameReviewResponse` 同步扩展档案摘要、时间线和徽章字段。
+- 第 7 轮：右侧信息区用“档案”替代原“记录”，保持 4 个 tab，不增加额外拥挤入口。
+- 第 8 轮：档案 tab 按需加载 review，展示局势摘要、最多 5 条时间线、最多 3 个徽章，并保留状态/估值记录。
+- 第 9 轮：前端兼容后端暂未返回 `archive_*` 的情况，回退到 `ending_summary`、`key_moments` 和 `achievement_cards`。
+- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充档案投影契约和只读边界。
+
+状态：Alpha 0.5 第四组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。

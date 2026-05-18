@@ -125,7 +125,10 @@ describe('Vercel demo fallback', () => {
               advice_for_next_run: '下局先设预算上限。',
               key_moments: [{ title: '研发冲刺', description: '产品分显著提升。' }],
               achievement_cards: [{ title: '产品主义者', description: '产品分提升明显。', rarity: 'silver' }],
-              next_run_suggestions: ['先设预算上限', '把营销放在产品验证之后']
+              next_run_suggestions: ['先设预算上限', '把营销放在产品验证之后'],
+              archive_summary: '档案摘要：研发路线留下清晰记录。',
+              archive_timeline: [{ title: '第1月 研发冲刺', description: '产品分显著提升。' }],
+              archive_badges: [{ title: '产品主义者', description: '产品分提升明显。', rarity: 'silver' }]
             }),
             { status: 200 }
           )
@@ -138,6 +141,9 @@ describe('Vercel demo fallback', () => {
     expect(review?.key_moments?.[0].title).toBe('研发冲刺');
     expect(review?.achievement_cards?.[0].title).toBe('产品主义者');
     expect(review?.next_run_suggestions).toEqual(['先设预算上限', '把营销放在产品验证之后']);
+    expect(review?.archive_summary).toBe('档案摘要：研发路线留下清晰记录。');
+    expect(review?.archive_timeline?.[0].title).toBe('第1月 研发冲刺');
+    expect(review?.archive_badges?.[0].title).toBe('产品主义者');
   });
 
   test('treats a missing review endpoint as optional', async () => {

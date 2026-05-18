@@ -149,6 +149,22 @@ export type GameReviewResponse = {
   status_copy?: string;
   ending_title?: string;
   ending_summary?: string;
+  archive_summary?: string;
+  archive_timeline?: Array<{
+    id?: string;
+    title: string;
+    description: string;
+    month?: number;
+    tone?: string;
+    source?: string;
+  }>;
+  archive_badges?: Array<{
+    code?: string;
+    title: string;
+    description?: string;
+    rarity?: string;
+    source?: string;
+  }>;
   advice_for_next_run?: string;
   next_run_suggestions?: string[];
   final_metrics?: Record<string, unknown>;

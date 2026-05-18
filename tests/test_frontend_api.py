@@ -205,6 +205,13 @@ def test_review_endpoint_returns_compact_replay_and_achievements(client):
     assert isinstance(payload["achievement_cards"], list)
     assert 2 <= len(payload["next_run_suggestions"]) <= 3
     assert all(item for item in payload["next_run_suggestions"])
+    assert payload["archive_summary"]
+    assert len(payload["archive_timeline"]) <= 5
+    assert payload["archive_timeline"]
+    first_archive_item = payload["archive_timeline"][0]
+    assert set(first_archive_item) == {"id", "month", "title", "description", "tone", "source"}
+    assert first_archive_item["source"] in {"key_moment", "action", "event", "snapshot"}
+    assert len(payload["archive_badges"]) <= 3
     assert "跑道" not in _body_text(payload)
     assert "Runway" not in _body_text(payload)
 
@@ -335,6 +342,14 @@ def test_review_endpoint_returns_read_only_review_and_achievements(client):
     assert set(first_card) == {"title", "description", "rarity", "unlocked"}
     assert first_card["unlocked"] is True
     assert 2 <= len(payload["next_run_suggestions"]) <= 3
+    assert payload["archive_summary"]
+    assert len(payload["archive_timeline"]) <= 5
+    assert payload["archive_timeline"]
+    assert len(payload["archive_badges"]) <= 3
+    assert payload["archive_badges"]
+    first_badge = payload["archive_badges"][0]
+    assert set(first_badge) == {"title", "description", "rarity", "source"}
+    assert first_badge["source"] == "achievement"
     assert "跑道" not in _body_text(payload)
     assert "Runway" not in _body_text(payload)
     assert after["metrics"] == before["metrics"]

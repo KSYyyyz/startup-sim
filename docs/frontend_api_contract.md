@@ -218,6 +218,25 @@ Response:
   "status_copy": "进行中",
   "ending_title": "<review title>",
   "ending_summary": "<review summary>",
+  "archive_summary": "<compact in-run archive summary>",
+  "archive_timeline": [
+    {
+      "id": "moment-1",
+      "month": 2,
+      "title": "<archive moment title>",
+      "description": "<archive moment description>",
+      "tone": "positive",
+      "source": "key_moment"
+    }
+  ],
+  "archive_badges": [
+    {
+      "title": "<archive badge title>",
+      "description": "<archive badge description>",
+      "rarity": "common",
+      "source": "achievement"
+    }
+  ],
   "key_moments": [
     {
       "month": 2,
@@ -250,6 +269,8 @@ Response:
 ```
 
 `review_phase` is `"阶段复盘"` while the session is active and `"终局复盘"` after an ending status. `status_copy` is short frontend-ready copy for the same status class. `key_moments` keeps existing `title` and `description` fields while adding compact `display_*` fields. `achievement_cards` is derived from unlocked achievements only. `next_run_suggestions` returns 2-3 short suggestions derived from `ReviewEngine.advice_for_next_run` plus final cash, product, and user performance; it must not introduce new settlement facts.
+
+`archive_summary`, `archive_timeline`, and `archive_badges` are optional read-only archive projections for the in-game archive tab. Frontend clients display at most 5 timeline items and 3 badges. If these fields are absent, clients may fall back to `ending_summary`, `key_moments`, and `achievement_cards` without requesting a different endpoint. Valid timeline sources are `key_moment`, `action`, `event`, and `snapshot`; valid tones are `positive`, `negative`, and `neutral`.
 
 ### `POST /api/sessions/{session_id}/command-preview`
 

@@ -688,6 +688,64 @@ h2 {
   line-height: 1.35;
 }
 
+.archive-panel {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+}
+
+.archive-summary,
+.archive-timeline,
+.archive-badges {
+  border: 1px solid #d6dee8;
+  border-radius: 6px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.archive-summary {
+  display: grid;
+  gap: 6px;
+}
+
+.archive-timeline {
+  display: grid;
+  gap: 7px;
+}
+
+.archive-timeline article {
+  display: grid;
+  gap: 3px;
+  border-left: 3px solid #245a9d;
+  padding-left: 8px;
+}
+
+.archive-timeline b {
+  color: #153b68;
+  font-size: 0.8rem;
+}
+
+.archive-timeline span {
+  color: #4c5e76;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.archive-badges {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.archive-status {
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid #d6dee8;
+  padding-top: 8px;
+  color: #4c5e76;
+  font-size: 0.76rem;
+}
+
 .room-action-panel {
   position: absolute;
   z-index: 3;
