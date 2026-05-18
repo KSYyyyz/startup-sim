@@ -4,6 +4,25 @@
 
 ---
 
+## C# / Unity Migration Prep — Ten-round portable core push (2026-05-18)
+
+**性质**: C# Core 迁移连续十轮推进。目标是把 `StartupSim.Core` 从解析器切片推进到可执行的最小回合结算切片，并为 Unity 表现层准备结构化行动入口。
+
+**主要产出**:
+- `DeterministicTurnEngine` 改为消费 `ActionParser.ParseMulti()` 的结构化行动，不再依赖单纯字符串命中。
+- 新增产品、营销、招聘/团队、战略、融资五类动作的最小 C# 结算。
+- 新增多动作聚合：同一回合可同时执行融资、研发、营销等行动并汇总 `ChangedMetrics` / `ReplayBasis`。
+- 新增现金透支破产保护：结算后现金为负时状态进入 `bankruptcy`，现金归零并输出现金流断裂反馈。
+- 新增 `csharp/golden-cases/turn_engine_minimal.json`，固化当前 C# 可迁移结算切片。
+- Unity 侧新增 `PreparedActionSnapshot`，让办公室表现层可以承接结构化行动数据。
+
+**验收边界**:
+- 仍不把董事会、竞品、PMF、复杂融资拒绝、结局复盘完整迁到 C#。
+- Unity 侧继续保持适配层定位，不复制 TurnEngine 规则。
+- Web 前端继续作为规则验证台，不作为最终独立游戏表现层继续重打磨。
+
+---
+
 ## C# / Unity Migration Prep — ActionParser portable slice (2026-05-18)
 
 **性质**: C# Core 规则迁移第一刀。目标是先把自然语言指令解析迁入 `StartupSim.Core`，让 Unity 未来可以拿到结构化行动，而不是依赖 Web 前端或 Python API 做输入理解。

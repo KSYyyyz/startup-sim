@@ -109,3 +109,9 @@ def test_golden_case_seed_exists_for_csharp_port():
     parser_content = parser_golden.read_text(encoding="utf-8")
     assert '"authority": "python-action-parser-reference"' in parser_content
     assert '"command": "融资500万出让10%，花20万研发产品，花10万做营销推广"' in parser_content
+
+    turn_minimal = ROOT / "csharp" / "golden-cases" / "turn_engine_minimal.json"
+    assert turn_minimal.is_file()
+    turn_content = turn_minimal.read_text(encoding="utf-8")
+    assert '"authority": "csharp-portable-turn-slice"' in turn_content
+    assert '"name": "fundraising_plus_product_and_marketing"' in turn_content

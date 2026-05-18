@@ -36,6 +36,7 @@ unity/
 - `ScenarioDefinition`
 - `ITurnEngine`
 - `ActionParser`
+- minimal `DeterministicTurnEngine` settlement for product, marketing, team, strategy, fundraising, multi-action turns, and bankruptcy guard
 
 Unity owns only presentation and input:
 
@@ -75,10 +76,17 @@ The first parser golden fixture is:
 - commands: mixed R&D, marketing, hiring, and fundraising inputs
 - authority: `python-action-parser-reference`
 
+The first C# portable turn fixture is:
+
+- `turn_engine_minimal.json`
+- commands: product budget, marketing budget, fundraising + multi-action, and bankruptcy guard
+- authority: `csharp-portable-turn-slice`
+
 `StartupSim.Core.Tests` is the compile gate for the portable C# layer. It currently verifies:
 
 - deterministic turn execution for the first product-investment slice
 - C# `ActionParser.ParseMulti()` behavior against segmented budgets and fundraising terms
+- minimal C# turn settlement for product, marketing, team, strategy, fundraising, multi-action turns, and bankruptcy guard
 - input state immutability
 - unknown-command fallback behavior
 - golden fixtures imported from the Python reference layer
@@ -100,15 +108,16 @@ The first Unity vertical slice should contain:
 3. A prepared action presenter.
 4. A turn executor presenter.
 5. A bridge that can call the current HTTP API or later swap to `StartupSim.Core`.
+6. `PreparedActionSnapshot` for displaying parsed action type, budget, fundraising amount, and equity offered.
 
 This lets Unity validate interaction feel while the C# core catches up to the Python reference.
 
 ## 6. Near-Term Order
 
-1. Build C# contracts and skeleton engine.
-2. Add golden fixtures from Python.
-3. Add C# test project and CI compile gate.
-4. Port `ActionParser`.
-5. Port the minimum `TurnEngine` loop.
-6. Add Unity office-room vertical slice.
-7. Decide whether Unity calls local C# core directly or continues through API during transition.
+1. Build C# contracts and skeleton engine. Done.
+2. Add golden fixtures from Python. Done for parser reference and initial turn reference.
+3. Add C# test project and CI compile gate. Done.
+4. Port `ActionParser`. Done for the current `parse_multi()` slice.
+5. Port the minimum `TurnEngine` loop. In progress: product, marketing, team, strategy, fundraising, multi-action, and bankruptcy guard are covered.
+6. Add Unity office-room vertical slice. In progress: adapter scripts and structured action snapshot exist; Unity scene assembly remains.
+7. Decide whether Unity calls local C# core directly or continues through API during transition. Pending.

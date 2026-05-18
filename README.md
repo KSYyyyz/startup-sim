@@ -6,6 +6,7 @@
 
 > ⚠️ Alpha 1.9.1 是体验验证与路线收口版本。Alpha 1.9 已完成核心矛盾/竞品态势/经营洞察/危机解释等反馈增强。
 > 前端独立游戏化方向正在并行推进 Alpha 0.3：桌面端办公室经营层已可玩，AI 风格的自由 CEO 指令解释预览已接入首个切片。
+> 现阶段技术路线已切到 C# Core + Unity 表现层准备：Web 前端保留为规则验证台，核心玩法规则逐步迁移到 `csharp/StartupSim.Core/`。
 
 **前端试玩地址**: https://startup-sim-khaki.vercel.app
 
@@ -20,6 +21,7 @@
 | [docs/reference_game_analysis.md](docs/reference_game_analysis.md) | 本地参考游戏结构分析与 Startup Sim 借鉴边界 |
 | [docs/frontend_alpha_0_2_desktop_game_layer.md](docs/frontend_alpha_0_2_desktop_game_layer.md) | 前端 Alpha 0.2 桌面游戏层执行计划与进度 |
 | [docs/frontend_alpha_0_3_ai_command_layer.md](docs/frontend_alpha_0_3_ai_command_layer.md) | 前端 Alpha 0.3 AI 指令解释层计划与进度 |
+| [docs/csharp_unity_migration_plan.md](docs/csharp_unity_migration_plan.md) | C# Core + Unity 表现层迁移方案 |
 | [docs/vercel_frontend_deploy.md](docs/vercel_frontend_deploy.md) | Vercel 前端部署与线上验收说明 |
 | [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 常见问题排查
@@ -37,6 +39,15 @@
 - 验证范围：桌面 1366×768、1440×900、1920×1080 E2E；移动端只做基础 smoke。
 
 前端工程入口：`frontend/`。后端 API 包装层：`src/api/app.py`。当前前端仍复用现有 `TurnEngine`，不复制游戏规则。
+
+## 🧱 C# Core / Unity 迁移进度
+
+`csharp/StartupSim.Core/` 已开始承接可迁移玩法核心，目标是给未来 Unity 独立游戏版本复用同一套结算逻辑。
+
+- 已完成 `ActionParser.ParseMulti()` 的 C# 迁移切片，支持研发、营销、招聘、战略、融资、多动作、预算、风险词、融资额和出让比例。
+- 已完成最小 `DeterministicTurnEngine` 切片：产品、营销、团队、战略、融资、多动作聚合、现金透支破产保护。
+- 已建立 C# xUnit 测试与 GitHub CI 门禁，当前 C# Core 测试覆盖 17 个用例。
+- Unity 侧已有办公室交互适配脚本和 `PreparedActionSnapshot`，只负责展示/输入，不拥有结算规则。
 
 ## 🎮 快速开始
 
