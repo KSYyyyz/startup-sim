@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  Banknote,
   BarChart3,
   Bot,
   Boxes,
-  BriefcaseBusiness,
   CalendarDays,
   ChartNoAxesCombined,
   CircleDollarSign,
@@ -12,7 +10,6 @@ import {
   Megaphone,
   Play,
   Settings,
-  Sparkles,
   Users
 } from 'lucide-react';
 
@@ -23,7 +20,6 @@ import {
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
   buildMonthlyReport,
-  buildOfficeEventBubbles,
   buildTurnResolutionSteps,
   commandTradeoffs,
   prepareAction,
@@ -36,7 +32,7 @@ import {
 import type { OfficeAction } from './game/officeRooms';
 import { builtinScenarios } from './game/scenarios';
 import { useGameStore } from './store';
-import type { CompetitorItem, GameStateView, MetricSet } from './types';
+import type { CompetitorItem, MetricSet } from './types';
 import './styles.css';
 
 function money(value: number) {
@@ -93,27 +89,6 @@ function metricCards(metrics: MetricSet) {
       detail: `产品分 ${metrics.product_score}`,
       icon: Boxes,
       delta: signed(metrics.product_change, (v) => `${v}`)
-    },
-    {
-      label: '声誉',
-      value: `${metrics.reputation}`,
-      detail: '市场口碑',
-      icon: Sparkles,
-      delta: ''
-    },
-    {
-      label: '创始人股权',
-      value: `${metrics.founder_equity}%`,
-      detail: '持股比例',
-      icon: BriefcaseBusiness,
-      delta: ''
-    },
-    {
-      label: '估值',
-      value: money(metrics.valuation),
-      detail: '当前融资锚点',
-      icon: Banknote,
-      delta: ''
     }
   ];
 }
@@ -193,20 +168,6 @@ export default function App() {
             signalText: `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title} ${state.insight.description}`
           })
         : {},
-    [state]
-  );
-  const officeEvents = useMemo(
-    () =>
-      state
-        ? buildOfficeEventBubbles({
-            boardName: state.board[0]?.name ?? '董事会',
-            boardMessage: state.board[0]?.message ?? '等待本月经营结果。',
-            competitorName: state.competitors[0]?.name ?? '暂无竞品',
-            competitorStatus: state.competitors[0]?.status ?? '等待市场信号。',
-            insightTitle: state.insight.title,
-            insightDescription: state.insight.description
-          })
-        : [],
     [state]
   );
   const boardProfiles = useMemo(
@@ -369,18 +330,22 @@ export default function App() {
             </div>
           </div>
 
-          <article className="panel scenario-entry" aria-label="当前剧本">
-            <span>{activeScenario.menu.statusLabel}</span>
-            <h2>当前剧本</h2>
-            <strong>{activeScenario.menu.title}</strong>
+          <details className="panel scenario-entry" aria-label="当前剧本">
+            <summary>
+              <span>{activeScenario.menu.statusLabel}</span>
+              <div>
+                <h2>当前剧本</h2>
+                <strong>{activeScenario.menu.title}</strong>
+                <small>难度：{activeScenario.menu.difficulty}</small>
+              </div>
+            </summary>
             <p>{activeScenario.menu.subtitle}</p>
-            <small>难度：{activeScenario.menu.difficulty}</small>
             <div className="scenario-tags">
               {activeScenario.menu.featureTags.map((tag) => (
                 <b key={tag}>{tag}</b>
               ))}
             </div>
-          </article>
+          </details>
 
           <article className="panel">
             <h2>本月变化</h2>
@@ -407,6 +372,11 @@ export default function App() {
             <strong>{state.core_tension.title}</strong>
             <p>{state.core_tension.description}</p>
             <small>{state.core_tension.next_focus}</small>
+            <div className="insight-note">
+              <b>经营洞察</b>
+              <span>{state.insight.title}</span>
+              <p>{state.insight.description}</p>
+            </div>
           </article>
 
           {monthlyReport && (
@@ -461,19 +431,10 @@ export default function App() {
 
         <OfficeStage
           focusTitle={state.core_tension.title}
-          insightTitle={state.insight.title}
-          insightDescription={state.insight.description}
-          boardSignal={`${state.board[0]?.name ?? '董事会'}：${state.board[0]?.message ?? '等待本月经营结果。'}`}
-          competitorSignal={`${state.competitors[0]?.name ?? '暂无竞品'}：${
-            state.competitors[0]?.status ?? '本月暂无重大动作'
-          }`}
           pulseRoomId={pulse.roomId}
           pulseText={pulse.text}
           resultHighlights={lastTurn ? highlights : []}
           roomStatuses={roomStatuses}
-          officeEvents={officeEvents}
-          onBoardSignalSelect={() => setRightTab('board')}
-          onCompetitorSignalSelect={() => setRightTab('competitors')}
           onActionSelect={handleOfficeAction}
         />
 
@@ -500,16 +461,6 @@ export default function App() {
             <strong>{state.advice_entry.label}</strong>
             <span>{state.advice_entry.summary}</span>
           </button>
-
-          <article className="competitor-glance" aria-label="竞品态势">
-            <strong>竞品态势</strong>
-            <span>
-              <b>{competitorMoves[0]?.name ?? '暂无竞品'}</b>
-              {competitorMoves[0] && <em className={`trend-chip ${competitorMoves[0].trend}`}>{trendText(competitorMoves[0])}</em>}
-              <small>{competitorMoves[0]?.moveType ?? '暂无大动作'}</small>
-              <small>{competitorMoves[0]?.reason ?? '市场窗口暂时平静，适合用小步试错积累优势。'}</small>
-            </span>
-          </article>
 
           {rightTab === 'board' && (
             <article className="panel tall-panel">
@@ -543,7 +494,7 @@ export default function App() {
           )}
 
           {rightTab === 'competitors' && (
-            <article className="panel tall-panel">
+            <article className="panel tall-panel" aria-label="竞品态势">
               <h2>竞品态势</h2>
               {competitorMoves.map((item) => (
                 <div className="competitor-row" key={item.name}>

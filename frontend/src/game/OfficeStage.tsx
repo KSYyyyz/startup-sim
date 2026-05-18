@@ -1,15 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import type { OfficeEventBubble, RoomStatus } from './gameplayContent';
+import type { RoomStatus } from './gameplayContent';
 import { officeRooms, type OfficeAction, type OfficeRoom } from './officeRooms';
 import { mountOfficePixiOverlay } from './pixiOverlay';
 
 type OfficeStageProps = {
   focusTitle: string;
-  insightTitle: string;
-  insightDescription: string;
-  boardSignal: string;
-  competitorSignal: string;
   pulseRoomId: string;
   pulseText: string;
   resultHighlights: Array<{
@@ -18,25 +14,15 @@ type OfficeStageProps = {
     tone: string;
   }>;
   roomStatuses: Record<string, RoomStatus>;
-  officeEvents: OfficeEventBubble[];
-  onBoardSignalSelect: () => void;
-  onCompetitorSignalSelect: () => void;
   onActionSelect: (action: OfficeAction) => void;
 };
 
 export function OfficeStage({
   focusTitle,
-  insightTitle,
-  insightDescription,
-  boardSignal,
-  competitorSignal,
   pulseRoomId,
   pulseText,
   resultHighlights,
   roomStatuses,
-  officeEvents,
-  onBoardSignalSelect,
-  onCompetitorSignalSelect,
   onActionSelect
 }: OfficeStageProps) {
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -57,15 +43,6 @@ export function OfficeStage({
       <div className="office-bubble" aria-label="办公室提示">
         <span>本月焦点</span>
         <strong>{focusTitle}</strong>
-      </div>
-      <div className="office-feedback" aria-label="办公室动态反馈">
-        <span>动态反馈</span>
-        <button type="button" aria-label={`查看董事会信号：${boardSignal}`} onClick={onBoardSignalSelect}>
-          <strong>{boardSignal}</strong>
-        </button>
-        <button type="button" aria-label={`查看竞品信号：${competitorSignal}`} onClick={onCompetitorSignalSelect}>
-          <small>{competitorSignal}</small>
-        </button>
       </div>
       {resultHighlights.length > 0 && (
         <div className="office-result-pulses" aria-label="办公室月末变化">
@@ -104,44 +81,6 @@ export function OfficeStage({
           );
         })}
       </div>
-      <div className="office-event-layer" aria-label="办公室事件">
-        {officeEvents.map((event) => {
-          const room = officeRooms.find((item) => item.id === event.roomId) ?? officeRooms[0];
-          const handleClick =
-            event.action === 'board'
-              ? onBoardSignalSelect
-              : event.action === 'competitor'
-                ? onCompetitorSignalSelect
-                : undefined;
-          const eventNode = (
-            <>
-              <strong>{event.title}</strong>
-              <span>{event.tone === 'board' ? '董事会' : event.tone === 'competitor' ? '竞品' : '洞察'}</span>
-            </>
-          );
-          return handleClick ? (
-            <button
-              className={`office-event-bubble ${event.tone}`}
-              key={event.id}
-              style={{ left: `${room.x}%`, top: `${room.y + 10}%` }}
-              title={event.description}
-              type="button"
-              onClick={handleClick}
-            >
-              {eventNode}
-            </button>
-          ) : (
-            <span
-              className={`office-event-bubble ${event.tone}`}
-              key={event.id}
-              style={{ left: `${room.x}%`, top: `${room.y + 10}%` }}
-              title={event.description}
-            >
-              {eventNode}
-            </span>
-          );
-        })}
-      </div>
       <div className="room-action-panel" aria-label="办公室操作台" aria-live="polite">
         <span className="room-kicker">选中房间</span>
         <strong>{selectedRoom.name}</strong>
@@ -162,10 +101,6 @@ export function OfficeStage({
             </article>
           ))}
         </div>
-      </div>
-      <div className="insight-strip">
-        <strong>{insightTitle}</strong>
-        <span>{insightDescription}</span>
       </div>
     </section>
   );

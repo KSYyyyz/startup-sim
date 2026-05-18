@@ -8,12 +8,14 @@ test('creates a session and submits one turn', async ({ page }) => {
   await expect(page.getByText('难度：标准')).toBeVisible();
   await expect(page.getByText('现金流可支撑时间', { exact: true })).toBeVisible();
   await expect(page.getByText('核心矛盾')).toBeVisible();
+  await expect(page.getByText('经营洞察')).toBeVisible();
   await expect(page.getByLabel('互动办公室场景')).toBeVisible();
   await expect(page.getByLabel('办公室操作台')).toBeVisible();
-  await expect(page.getByLabel('办公室动态反馈')).toBeVisible();
+  await expect(page.getByLabel('办公室动态反馈')).not.toBeVisible();
   await expect(page.getByLabel('产品室状态')).toContainText('产品压力');
-  await page.getByRole('button', { name: /查看竞品信号/ }).click();
-  await expect(page.getByRole('button', { name: '竞品', exact: true })).toHaveClass(/active/);
+  const sideTabs = page.getByRole('tablist', { name: '右侧信息' });
+  await sideTabs.getByRole('button', { name: '竞品', exact: true }).click();
+  await expect(sideTabs.getByRole('button', { name: '竞品', exact: true })).toHaveClass(/active/);
   await page.locator('.competitor-response-button').first().click();
   await expect(page.locator('.prepared-action')).toBeVisible();
   await expect(page.locator('.prepared-action .action-tags small')).toHaveCount(2);
@@ -22,9 +24,9 @@ test('creates a session and submits one turn', async ({ page }) => {
   } else {
     await expect(page.getByLabel('本回合指令', { exact: true })).not.toHaveValue('');
   }
-  await page.getByRole('button', { name: /查看董事会信号/ }).click();
-  await expect(page.getByRole('button', { name: '董事会', exact: true }).last()).toHaveClass(/active/);
-  await expect(page.getByLabel('竞品态势')).toBeVisible();
+  await sideTabs.getByRole('button', { name: '董事会', exact: true }).click();
+  await expect(sideTabs.getByRole('button', { name: '董事会', exact: true })).toHaveClass(/active/);
+  await expect(page.getByLabel('竞品态势')).not.toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);
 
   await page.getByRole('button', { name: '产品室' }).click();
@@ -47,6 +49,7 @@ test('creates a session and submits one turn', async ({ page }) => {
   await expect(page.getByLabel('回合结算')).toBeVisible();
   await expect(page.getByLabel('办公室月末变化')).toBeVisible();
   await expect(page.getByText('董事会反馈')).toBeVisible();
+  await sideTabs.getByRole('button', { name: '竞品', exact: true }).click();
   await expect(page.getByLabel('竞品态势')).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);
 });

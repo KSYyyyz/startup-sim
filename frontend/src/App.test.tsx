@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
@@ -125,40 +125,33 @@ describe('Startup Sim frontend shell', () => {
     render(<App />);
 
     expect(await screen.findByText('NimbusAI')).toBeInTheDocument();
-    expect(screen.getByText('当前剧本')).toBeInTheDocument();
     expect(screen.getByText('AI SaaS 初创公司')).toBeInTheDocument();
-    expect(screen.getByText('难度：标准')).toBeInTheDocument();
-    expect(screen.getByText('竞品追赶')).toBeInTheDocument();
+    expect(screen.getByText('当前剧本')).toBeVisible();
+    expect(screen.getByText('难度：标准')).toBeVisible();
+    expect(screen.getByText('竞品追赶')).not.toBeVisible();
     expect(screen.getByRole('button', { name: '执行回合' })).toBeDisabled();
     expect(screen.getByText('从办公室选择行动，或直接输入 CEO 指令。')).toBeInTheDocument();
     expect(screen.getByText('第1月')).toBeInTheDocument();
-    expect(screen.getAllByText('现金').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('用户').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('产品').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('声誉').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('创始人股权').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('估值').length).toBeGreaterThan(0);
+    const hud = within(screen.getByLabelText('公司指标'));
+    expect(hud.getByText('现金')).toBeInTheDocument();
+    expect(hud.getByText('用户')).toBeInTheDocument();
+    expect(hud.getByText('产品')).toBeInTheDocument();
+    expect(hud.queryByText('声誉')).not.toBeInTheDocument();
+    expect(hud.queryByText('创始人股权')).not.toBeInTheDocument();
+    expect(hud.queryByText('估值')).not.toBeInTheDocument();
     expect(screen.getByText('现金流可支撑时间')).toBeInTheDocument();
     expect(screen.getByText('核心矛盾')).toBeInTheDocument();
+    expect(screen.getByText('经营洞察')).toBeInTheDocument();
     expect(screen.getByLabelText('办公室提示')).toHaveTextContent('早期打磨期');
-    const officeFeedback = screen.getByLabelText('办公室动态反馈');
-    expect(officeFeedback).toHaveTextContent('CFO');
-    expect(officeFeedback).toHaveTextContent('控制固定支出。');
-    expect(officeFeedback).toHaveTextContent('快答科技：本月暂无重大动作');
+    expect(screen.queryByLabelText('办公室动态反馈')).not.toBeInTheDocument();
     expect(screen.getByLabelText('产品室状态')).toHaveTextContent('产品压力');
     expect(screen.getByLabelText('产品室经营状态')).toHaveTextContent('运转中');
-    const officeEvents = within(screen.getByLabelText('办公室事件'));
-    expect(officeEvents.getByText('CFO')).toBeInTheDocument();
-    expect(officeEvents.getByText('快答科技')).toBeInTheDocument();
-    expect(officeEvents.getByText('产品仍在打磨期')).toBeInTheDocument();
-    expect(officeEvents.queryByText('控制固定支出。')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('办公室事件')).not.toBeInTheDocument();
     expect(screen.getByLabelText('办公室操作台')).toBeInTheDocument();
     expect(screen.getByText('选中房间')).toBeInTheDocument();
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
-    expect(screen.getByText('竞品态势')).toBeInTheDocument();
-    expect(screen.getByText('持平')).toBeInTheDocument();
-    expect(screen.getByText('暂无大动作')).toBeInTheDocument();
-    expect(screen.getByText('市场窗口暂时平静，适合用小步试错积累优势。')).toBeInTheDocument();
+    expect(screen.queryByLabelText('竞品态势')).not.toBeInTheDocument();
+    expect(screen.queryByText('暂无大动作')).not.toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
     expect(screen.getAllByText('现金纪律').length).toBeGreaterThan(0);
     expect(screen.getAllByText('产品护城河').length).toBeGreaterThan(0);
@@ -225,28 +218,24 @@ describe('Startup Sim frontend shell', () => {
     expect(preparedAction).toHaveTextContent('融资300万出让8%股权');
   });
 
-  test('lets office feedback signals open matching side panels', async () => {
+  test('keeps board and competitor details behind side tabs', async () => {
     installFetchMock();
     render(<App />);
 
     await screen.findByText('NimbusAI');
     const sideTabs = within(screen.getByRole('tablist', { name: '右侧信息' }));
 
-    await userEvent.click(screen.getByRole('button', { name: /查看竞品信号/ }));
+    await userEvent.click(sideTabs.getByRole('button', { name: '竞品' }));
 
     expect(sideTabs.getByRole('button', { name: '竞品' })).toHaveClass('active');
     expect(screen.getByRole('heading', { name: '竞品态势' })).toBeInTheDocument();
     expect(screen.getAllByText('快答科技').length).toBeGreaterThan(0);
 
-    await userEvent.click(screen.getByRole('button', { name: /查看董事会信号/ }));
+    await userEvent.click(sideTabs.getByRole('button', { name: '董事会' }));
 
     expect(sideTabs.getByRole('button', { name: '董事会' })).toHaveClass('active');
     expect(screen.getByRole('heading', { name: '董事会反馈' })).toBeInTheDocument();
     expect(screen.getAllByText('控制固定支出。').length).toBeGreaterThan(0);
-
-    await userEvent.click(within(screen.getByLabelText('办公室事件')).getByRole('button', { name: /CFO/ }));
-
-    expect(sideTabs.getByRole('button', { name: '董事会' })).toHaveClass('active');
   });
 
   test('lets the player turn board pressure into a command', async () => {
@@ -270,7 +259,7 @@ describe('Startup Sim frontend shell', () => {
     render(<App />);
 
     await screen.findByText('NimbusAI');
-    await userEvent.click(screen.getByRole('button', { name: /查看竞品信号/ }));
+    await userEvent.click(screen.getByRole('button', { name: '竞品' }));
     await userEvent.click(screen.getByRole('button', { name: '回应快答科技压力' }));
 
     expect(screen.getByLabelText('本回合指令')).toHaveValue('花10万做营销推广');
@@ -312,6 +301,7 @@ describe('Startup Sim frontend shell', () => {
     expect(within(screen.getByLabelText('已准备行动')).getByText('下月补救')).toBeInTheDocument();
     expect(screen.getByText('研发投入提升了产品分，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getAllByText('研发有效，但现金消耗上升。').length).toBeGreaterThan(0);
+    await userEvent.click(screen.getByRole('button', { name: '竞品' }));
     expect(screen.getAllByText('灵犀客服云').length).toBeGreaterThan(0);
     expect(screen.getByText('上升')).toBeInTheDocument();
     expect(screen.getAllByText('研发投入带来产品进展').length).toBeGreaterThan(0);

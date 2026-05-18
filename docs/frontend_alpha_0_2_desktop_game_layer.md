@@ -99,6 +99,7 @@ Completed in the first ten desktop-first implementation rounds:
 - The UI now exposes the current built-in scenario as a compact "当前剧本" entry, backed by scenario menu metadata and ready for later multi-scenario expansion.
 - Production-facing Playwright acceptance now checks the scenario entry, office operation deck, room-to-command path, turn resolution, and banned wording at desktop and mobile smoke viewports.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
+- Desktop UI has completed one information-reduction pass after screenshot review: the top HUD keeps only six essential operating metrics, the current scenario entry is collapsed by default, office feedback/event bubbles no longer cover the central scene, competitor detail is shown only inside the right-side competitor tab, and operating insight has moved into the left core-tension panel.
 
 Known follow-up:
 
