@@ -181,6 +181,7 @@ namespace StartupSim.Core.Office
                 Salary = candidate.Salary,
                 TargetZoneTypeIds = new List<string>(candidate.TargetZoneTypeIds),
                 Skills = new Dictionary<string, int>(candidate.Skills),
+                ExperienceBySkill = candidate.Skills.Keys.ToDictionary(skill => skill, _ => 0),
                 PositiveTraits = new List<string>(candidate.PositiveTraits),
                 NegativeTraits = new List<string>(candidate.NegativeTraits)
             };
@@ -206,6 +207,58 @@ namespace StartupSim.Core.Office
 
             employee.AssignedZoneId = zoneId;
             employee.RoleFitScore = 100;
+            return true;
+        }
+
+        public void AdvanceEmployeeNeeds(int hours)
+        {
+            if (hours <= 0)
+            {
+                return;
+            }
+
+            foreach (var employee in employees.Where(item => !string.IsNullOrWhiteSpace(item.AssignedZoneId)))
+            {
+                employee.Fatigue = Clamp(employee.Fatigue + hours * 4, 0, 100);
+                employee.RestNeed = Clamp(employee.RestNeed + hours * 3, 0, 100);
+                employee.ToiletNeed = Clamp(employee.ToiletNeed + hours * 2, 0, 100);
+                employee.EntertainmentNeed = Clamp(employee.EntertainmentNeed + hours, 0, 100);
+                employee.Mood = Clamp(employee.Mood - hours, 0, 100);
+                if (employee.Fatigue > 80)
+                {
+                    employee.Health = Clamp(employee.Health - 2, 0, 100);
+                }
+
+                if (employee.CurrentActivity != "培训中")
+                {
+                    employee.CurrentActivity = "工作";
+                }
+            }
+        }
+
+        public bool TrainEmployee(
+            string employeeId,
+            string skillId,
+            int experienceGain,
+            int fatigueDelta,
+            decimal outputPenalty)
+        {
+            var employee = employees.FirstOrDefault(item => item.Id == employeeId);
+            if (employee == null || string.IsNullOrWhiteSpace(skillId) || experienceGain <= 0)
+            {
+                return false;
+            }
+
+            if (!employee.ExperienceBySkill.ContainsKey(skillId))
+            {
+                employee.ExperienceBySkill[skillId] = 0;
+            }
+
+            employee.ExperienceBySkill[skillId] += experienceGain;
+            employee.Level = CalculateLevel(employee.ExperienceBySkill.Values.DefaultIfEmpty(0).Max());
+            employee.Fatigue = Clamp(employee.Fatigue + fatigueDelta, 0, 100);
+            employee.OutputPenalty = outputPenalty;
+            employee.CurrentActivity = "培训中";
             return true;
         }
 
@@ -250,6 +303,16 @@ namespace StartupSim.Core.Office
                         Salary = employee.Salary,
                         AssignedZoneId = employee.AssignedZoneId,
                         RoleFitScore = employee.RoleFitScore,
+                        Level = employee.Level,
+                        ExperienceBySkill = new Dictionary<string, int>(employee.ExperienceBySkill),
+                        Fatigue = employee.Fatigue,
+                        RestNeed = employee.RestNeed,
+                        ToiletNeed = employee.ToiletNeed,
+                        EntertainmentNeed = employee.EntertainmentNeed,
+                        Mood = employee.Mood,
+                        Health = employee.Health,
+                        CurrentActivity = employee.CurrentActivity,
+                        OutputPenalty = employee.OutputPenalty,
                         PositiveTraits = new List<string>(employee.PositiveTraits),
                         NegativeTraits = new List<string>(employee.NegativeTraits),
                         Skills = new Dictionary<string, int>(employee.Skills)
@@ -264,6 +327,26 @@ namespace StartupSim.Core.Office
                 && cell.X < zone.X + zone.Width
                 && cell.Y >= zone.Y
                 && cell.Y < zone.Y + zone.Height;
+        }
+
+        private static int CalculateLevel(int experience)
+        {
+            if (experience >= 260)
+            {
+                return 3;
+            }
+
+            return experience >= 100 ? 2 : 1;
+        }
+
+        private static int Clamp(int value, int min, int max)
+        {
+            if (value < min)
+            {
+                return min;
+            }
+
+            return value > max ? max : value;
         }
     }
 }

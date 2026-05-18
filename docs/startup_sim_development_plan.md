@@ -565,6 +565,8 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 - 已建立 Godot `FacilityPlacementController`，主场景挂载设施摆放控制器，支持选择设施、摆放和升级。
 - 已建立 C# Core 员工模型，支持候选人招聘、能力/特性/薪资记录、岗位适配校验、员工分配和快照。
 - 已建立 Godot `EmployeeManagementController`，主场景挂载员工管理控制器，支持招聘 G1 候选人并分配到匹配区域。
+- 已建立员工成长与需求字段，支持疲劳、休息需求、厕所需求、娱乐需求、情绪、健康、当前活动、经验、等级和短期产出惩罚。
+- 已建立员工培训和需求推进接口，Godot `EmployeeManagementController` 可触发培训和员工需求时间推进。
 
 验收：
 

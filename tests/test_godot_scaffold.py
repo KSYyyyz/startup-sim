@@ -130,5 +130,7 @@ def test_godot_main_scene_mounts_employee_management_controller():
     assert "res://scripts/EmployeeManagementController.cs" in scene
     assert "HireCandidate" in controller
     assert "AssignEmployeeToZone" in controller
+    assert "TrainEmployee" in controller
+    assert "AdvanceEmployeeNeeds" in controller
     assert "EmployeeCandidate" in controller
     assert "RoleFitScore" in controller

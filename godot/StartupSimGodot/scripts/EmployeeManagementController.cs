@@ -12,6 +12,12 @@ public partial class EmployeeManagementController : Node
     [Signal]
     public delegate void EmployeeAssignedEventHandler(string employeeId, string zoneId, int roleFitScore);
 
+    [Signal]
+    public delegate void EmployeeTrainedEventHandler(string employeeId, int level);
+
+    [Signal]
+    public delegate void EmployeeNeedsAdvancedEventHandler(int hours);
+
     private readonly Dictionary<string, EmployeeCandidate> candidates = new();
 
     [Export] public NodePath ZonePaintingControllerPath { get; set; } = new NodePath("");
@@ -60,6 +66,40 @@ public partial class EmployeeManagementController : Node
         var employee = FindEmployee(employeeId);
         EmitSignal(SignalName.EmployeeAssigned, employeeId, zoneId, employee?.RoleFitScore ?? 0);
         return true;
+    }
+
+    public bool TrainEmployee(string employeeId, string skillId)
+    {
+        if (ZoneController == null)
+        {
+            return false;
+        }
+
+        var trained = ZoneController.Layout.TrainEmployee(
+            employeeId,
+            skillId,
+            experienceGain: 60,
+            fatigueDelta: 5,
+            outputPenalty: 0.25m);
+        if (!trained)
+        {
+            return false;
+        }
+
+        var employee = FindEmployee(employeeId);
+        EmitSignal(SignalName.EmployeeTrained, employeeId, employee?.Level ?? 1);
+        return true;
+    }
+
+    public void AdvanceEmployeeNeeds(int hours)
+    {
+        if (ZoneController == null)
+        {
+            return;
+        }
+
+        ZoneController.Layout.AdvanceEmployeeNeeds(hours);
+        EmitSignal(SignalName.EmployeeNeedsAdvanced, hours);
     }
 
     private OfficeEmployee? FindEmployee(string employeeId)
