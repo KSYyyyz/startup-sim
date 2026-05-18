@@ -81,6 +81,33 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
+    public void TeamInvestmentAddsEmployeesAndBurn()
+    {
+        var engine = new DeterministicTurnEngine();
+        var initial = new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = 1,
+                Cash = 1_000_000m,
+                MonthlyBurn = 120_000m,
+                EmployeeCount = 10,
+                TeamMorale = 70
+            }
+        };
+
+        var result = engine.Execute(initial, new TurnCommand { RawText = "花15万招聘工程师扩团队" });
+
+        Assert.Equal(2, result.State.Metrics.Month);
+        Assert.Equal(850_000m, result.State.Metrics.Cash);
+        Assert.Equal(13, result.State.Metrics.EmployeeCount);
+        Assert.Equal(150_000m, result.State.Metrics.MonthlyBurn);
+        Assert.Equal(75, result.State.Metrics.TeamMorale);
+        Assert.Contains("团队 +3人", result.ChangedMetrics);
+        Assert.Contains("固定支出 +3万", result.ChangedMetrics);
+    }
+
+    [Fact]
     public void ExecuteDoesNotMutateInputState()
     {
         var engine = new DeterministicTurnEngine();

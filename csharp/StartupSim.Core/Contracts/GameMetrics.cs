@@ -10,6 +10,9 @@ namespace StartupSim.Core.Contracts
         public int Users { get; set; }
         public int ProductScore { get; set; } = 20;
         public int Reputation { get; set; } = 50;
+        public decimal MonthlyBurn { get; set; } = 120_000m;
+        public int EmployeeCount { get; set; } = 10;
+        public int TeamMorale { get; set; } = 70;
         public decimal FounderEquityPercent { get; set; } = 100m;
         public decimal Valuation { get; set; } = 2_640_000m;
         public decimal CashCoverageMonths { get; set; } = 8.3m;

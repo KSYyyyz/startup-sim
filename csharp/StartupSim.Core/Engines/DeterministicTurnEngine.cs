@@ -67,6 +67,33 @@ namespace StartupSim.Core.Engines
                 };
             }
 
+            var teamAction = plan.Actions.FirstOrDefault(action => action.Type == ActionType.Team);
+            if (teamAction != null)
+            {
+                var budget = teamAction.Budget > 0m ? teamAction.Budget : 100_000m;
+                var employees = Math.Max(1, (int)(budget / 50_000m));
+                var burnIncrease = employees * 10_000m;
+                next.Metrics.Cash -= budget;
+                next.Metrics.EmployeeCount += employees;
+                next.Metrics.MonthlyBurn += burnIncrease;
+                next.Metrics.TeamMorale = Math.Min(100, next.Metrics.TeamMorale + 5);
+                return new TurnResult
+                {
+                    State = next,
+                    ReplayBasis =
+                    {
+                        "招聘扩充了团队产能，但固定支出也随之上升。"
+                    },
+                    ChangedMetrics =
+                    {
+                        $"现金 -{budget / 10_000m:0}万",
+                        $"团队 +{employees}人",
+                        $"固定支出 +{burnIncrease / 10_000m:0}万"
+                    },
+                    NextPressure = "团队能力增强了，但要确保新增固定支出能转化成产品或增长。"
+                };
+            }
+
             return new TurnResult
             {
                 State = next,
