@@ -111,6 +111,20 @@ class TestGodotGameplayDocs:
         assert "EmployeeGrowthState" in contracts
         assert "成长系统必须服务于公司经营结果" in contracts
 
+    def test_core_gameplay_is_split_into_main_support_feedback_layers(self):
+        plan = (PROJECT_DIR / "docs" / "startup_sim_development_plan.md").read_text(
+            encoding="utf-8"
+        )
+        direction = (PROJECT_DIR / "docs" / "indie_game_product_direction.md").read_text(
+            encoding="utf-8"
+        )
+
+        assert "主线玩法、支撑玩法、反馈玩法" in plan
+        assert "公司阶段目标、产品经营、收益增长、成就和结局" in direction
+        assert "办公室区域和设施摆放" in direction
+        assert "员工招聘和岗位适配" in direction
+        assert "月报、竞品、董事会和复盘反馈" in direction
+
 
 class TestQuickstart:
     @pytest.fixture(autouse=True)
