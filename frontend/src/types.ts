@@ -74,6 +74,23 @@ export type SuggestionResponse = {
   recommended_focus: string;
 };
 
+export type CommandPreviewAction = {
+  type: string;
+  label: string;
+  intent: string;
+  budget: number;
+  budget_label: string;
+  risk_label: string;
+  tradeoffs: string[];
+};
+
+export type CommandPreviewResponse = {
+  status: 'ready' | 'needs_clarification';
+  summary: string;
+  guardrail: string;
+  actions: CommandPreviewAction[];
+};
+
 export type TurnResponse = {
   state: GameStateView;
   turn: {

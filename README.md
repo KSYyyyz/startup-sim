@@ -5,7 +5,7 @@
 你是AI客服SaaS创始人，种子轮100万。12个月内做产品/营销/招聘/融资决策，在董事会、竞品、客户三方博弈中活下来。
 
 > ⚠️ Alpha 1.9.1 是体验验证与路线收口版本。Alpha 1.9 已完成核心矛盾/竞品态势/经营洞察/危机解释等反馈增强。
-> 前端独立游戏化方向正在并行推进 Alpha 0.2：桌面端办公室经营层、角色压力回应、竞品压力回应和回合结果反馈已接入 Vercel 试玩页。
+> 前端独立游戏化方向正在并行推进 Alpha 0.3：桌面端办公室经营层已可玩，AI 风格的自由 CEO 指令解释预览已接入首个切片。
 
 **前端试玩地址**: https://startup-sim-khaki.vercel.app
 
@@ -19,11 +19,12 @@
 | [docs/indie_game_product_direction.md](docs/indie_game_product_direction.md) | 独立游戏化产品方向与可分发路线 |
 | [docs/reference_game_analysis.md](docs/reference_game_analysis.md) | 本地参考游戏结构分析与 Startup Sim 借鉴边界 |
 | [docs/frontend_alpha_0_2_desktop_game_layer.md](docs/frontend_alpha_0_2_desktop_game_layer.md) | 前端 Alpha 0.2 桌面游戏层执行计划与进度 |
+| [docs/frontend_alpha_0_3_ai_command_layer.md](docs/frontend_alpha_0_3_ai_command_layer.md) | 前端 Alpha 0.3 AI 指令解释层计划与进度 |
 | [docs/vercel_frontend_deploy.md](docs/vercel_frontend_deploy.md) | Vercel 前端部署与线上验收说明 |
 | [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 常见问题排查
 
-## 🖥️ 前端 Alpha 0.2 试玩进度
+## 🖥️ 前端 Alpha 0.3 试玩进度
 
 当前前端目标不是复刻 CLI 文本界面，而是把项目推进成桌面优先的独立经营游戏切片。
 
@@ -31,6 +32,7 @@
 - 主场景：办公室可点击房间，包含产品室、研发团队、销售区、董事会、服务器。
 - 行动闭环：点击房间或角色/竞品压力，可生成自然语言 CEO 指令并提交回合。
 - 反馈闭环：董事会信号、竞品信号、经营洞察、月度战报和办公室月末变化已可见。
+- AI 指令解释：输入自由 CEO 指令后，可先点“解释指令”查看系统将如何解析动作、预算、风险和取舍，再决定是否执行。
 - 决策可读性：行动卡和压力回应会显示取舍标签，如 `产品 +`、`用户 +`、`现金 -`、`现金流可支撑时间 +`。
 - 验证范围：桌面 1366×768、1440×900、1920×1080 E2E；移动端只做基础 smoke。
 
@@ -153,7 +155,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 400 passed
+pytest tests/ -v    # 402 passed
 ```
 
 测试覆盖：
@@ -432,4 +434,4 @@ startup-sim/
 
 ---
 
-*体验验证版 Alpha 1.9.1 — 399 tests passed；前端 Alpha 0.2 桌面游戏层正在并行推进并部署到 Vercel。*
+*体验验证版 Alpha 1.9.1 — 402 tests passed；前端 Alpha 0.3 AI 指令解释层正在并行推进并部署到 Vercel。*

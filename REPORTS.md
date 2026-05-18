@@ -1,6 +1,31 @@
 # Startup Sim — 版本开发报告
 
-当前路线以最新 Alpha 1.9.1 体验验证；前端并行推进 Alpha 0.2 桌面游戏层
+当前路线以最新 Alpha 1.9.1 体验验证；前端并行推进 Alpha 0.3 AI 指令解释层
+
+---
+
+## Frontend Alpha 0.3 — AI 指令解释层首个切片 (2026-05-18)
+
+**性质**: 前端独立游戏化的 AI 原生玩法切片。目标是让自由 CEO 指令不再只是文本框，而是在执行前被解释成玩家可理解、可复核的行动候选。
+
+**主要产出**:
+- `POST /api/sessions/{session_id}/command-preview` — 只读命令解释 API，复用现有 `parse_multi`，不推进月份、不修改存档。
+- `frontend/src/api.ts` / `frontend/src/store.ts` — 接入命令预览状态和 demo fallback。
+- `frontend/src/App.tsx` — 底部指令区新增“解释指令”和紧凑 `AI 指令解释` 面板。
+- `docs/frontend_alpha_0_3_ai_command_layer.md` — Alpha 0.3 执行计划。
+- `docs/frontend_api_contract.md` — 补充命令预览 API 合同。
+
+**设计边界**:
+- 当前是规则解释原型，不引入真实 LLM 依赖。
+- AI 风格反馈只解释玩家意图，不拥有数值结算权。
+- 最终状态变化仍由 TurnEngine、StateGuard 和后端规则执行。
+- 线上 Vercel 没有真实后端时仍可用 demo fallback 展示解释。
+
+**验收重点**:
+- 玩家输入自由命令后，可以先看到动作类别、预算、风险和取舍。
+- 解释面板明确提示“数值结算仍由 TurnEngine 执行”。
+- 预览 API 不会推进回合。
+- 文案继续使用“现金流可支撑时间”，不出现“跑道”或 Runway。
 
 ---
 

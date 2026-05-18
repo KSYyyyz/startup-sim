@@ -13,6 +13,7 @@ test('creates a session and submits one turn', async ({ page }) => {
   await expect(page.getByLabel('办公室操作台')).toBeVisible();
   await expect(page.getByLabel('办公室动态反馈')).not.toBeVisible();
   await expect(page.getByLabel('产品室状态')).toContainText('产品压力');
+  await expect(page.getByRole('button', { name: '解释指令' })).toBeDisabled();
   const sideTabs = page.getByRole('tablist', { name: '右侧信息' });
   await sideTabs.getByRole('button', { name: '竞品', exact: true }).click();
   await expect(sideTabs.getByRole('button', { name: '竞品', exact: true })).toHaveClass(/active/);
@@ -41,6 +42,9 @@ test('creates a session and submits one turn', async ({ page }) => {
     await page.getByRole('button', { name: '执行', exact: true }).click();
   } else {
     await expect(page.getByLabel('本回合指令', { exact: true })).toHaveValue('花10万研发产品');
+    await page.getByRole('button', { name: '解释指令' }).click();
+    await expect(page.getByLabel('AI 指令解释')).toContainText('产品研发');
+    await expect(page.getByLabel('AI 指令解释')).toContainText('TurnEngine');
     await page.getByRole('button', { name: '执行回合' }).click();
   }
 

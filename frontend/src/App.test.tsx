@@ -91,6 +91,32 @@ const suggestions = {
   recommended_focus: '产品'
 };
 
+const commandPreview = {
+  status: 'ready',
+  summary: '系统将这条 CEO 指令理解为 2 个可执行动作。',
+  guardrail: '这是执行前解释，数值结算仍由 TurnEngine 执行。',
+  actions: [
+    {
+      type: 'product',
+      label: '产品研发',
+      intent: '花10万研发产品',
+      budget: 100000,
+      budget_label: '10万',
+      risk_label: '中风险',
+      tradeoffs: ['产品 +', '现金 -']
+    },
+    {
+      type: 'marketing',
+      label: '市场营销',
+      intent: '花5万做营销',
+      budget: 50000,
+      budget_label: '5万',
+      risk_label: '中风险',
+      tradeoffs: ['用户 +', '现金 -']
+    }
+  ]
+};
+
 function installFetchMock() {
   const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
     const url = String(input);
@@ -108,6 +134,9 @@ function installFetchMock() {
     }
     if (url.endsWith('/api/sessions/7/suggestions')) {
       return new Response(JSON.stringify(suggestions), { status: 200 });
+    }
+    if (url.endsWith('/api/sessions/7/command-preview')) {
+      return new Response(JSON.stringify(commandPreview), { status: 200 });
     }
     return new Response(JSON.stringify({ message: 'not found' }), { status: 404 });
   });
@@ -216,6 +245,23 @@ describe('Startup Sim frontend shell', () => {
     expect(preparedAction).toHaveTextContent('融资');
     expect(preparedAction).toHaveTextContent('补充现金，同时稀释创始人股权。');
     expect(preparedAction).toHaveTextContent('融资300万出让8%股权');
+  });
+
+  test('explains free-form CEO commands before execution', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品，花5万做营销');
+    await userEvent.click(screen.getByRole('button', { name: '解释指令' }));
+
+    const preview = await screen.findByLabelText('AI 指令解释');
+    expect(preview).toHaveTextContent('系统将这条 CEO 指令理解为 2 个可执行动作。');
+    expect(preview).toHaveTextContent('产品研发');
+    expect(preview).toHaveTextContent('10万');
+    expect(preview).toHaveTextContent('市场营销');
+    expect(preview).toHaveTextContent('5万');
+    expect(preview).toHaveTextContent('数值结算仍由 TurnEngine 执行');
   });
 
   test('keeps board and competitor details behind side tabs', async () => {

@@ -17,8 +17,9 @@ from pydantic import BaseModel, Field
 
 from src.agents import CFO, COO, CTO
 from src.agents.competitors import KuaiDaTech, LingxiCSCloud
+from src.core.action_parser import parse_multi
 from src.core.conflict_engine import ConflictEngine
-from src.core.models import ActionPlan, CompanyState, EndingType, StateDelta
+from src.core.models import ActionPlan, ActionType, CompanyState, EndingType, RiskLevel, StateDelta
 from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.db import repository
@@ -241,6 +242,73 @@ def _suggestions_view(state: CompanyState) -> dict[str, Any]:
     return _sanitize_copy(payload)
 
 
+ACTION_LABELS = {
+    ActionType.PRODUCT: "产品研发",
+    ActionType.MARKETING: "市场营销",
+    ActionType.FUNDRAISING: "融资",
+    ActionType.TEAM: "团队招聘",
+    ActionType.STRATEGY: "战略动作",
+}
+
+RISK_LABELS = {
+    RiskLevel.LOW: "低风险",
+    RiskLevel.MEDIUM: "中风险",
+    RiskLevel.HIGH: "高风险",
+}
+
+ACTION_TRADEOFFS = {
+    ActionType.PRODUCT: ["产品 +", "现金 -"],
+    ActionType.MARKETING: ["用户 +", "现金 -"],
+    ActionType.FUNDRAISING: ["现金流可支撑时间 +", "股权 -"],
+    ActionType.TEAM: ["团队 +", "固定支出 +"],
+    ActionType.STRATEGY: ["机会 +", "不确定性 +"],
+}
+
+
+def _money_label(value: int) -> str:
+    if value <= 0:
+        return "无直接支出"
+    if value % 10_000 == 0:
+        return f"{value // 10_000}万"
+    return f"{value:,}元"
+
+
+def _command_preview_view(command: str) -> dict[str, Any]:
+    plan = parse_multi(command)
+    actions = [
+        {
+            "type": action.type.value,
+            "label": ACTION_LABELS.get(action.type, "经营动作"),
+            "intent": action.intent,
+            "budget": (
+                action.fundraise_amount if action.type == ActionType.FUNDRAISING else action.budget
+            ),
+            "budget_label": _money_label(
+                action.fundraise_amount if action.type == ActionType.FUNDRAISING else action.budget
+            ),
+            "risk_label": RISK_LABELS.get(action.risk_level, "中风险"),
+            "tradeoffs": ACTION_TRADEOFFS.get(action.type, ["影响待观察"]),
+        }
+        for action in plan.actions
+    ]
+    if not actions:
+        return _sanitize_copy(
+            {
+                "status": "needs_clarification",
+                "summary": "没有识别到可执行动作。可以尝试写明预算和方向，例如：花10万研发产品。",
+                "guardrail": "这是执行前解释，数值结算仍由 TurnEngine 执行。",
+                "actions": [],
+            }
+        )
+    payload = {
+        "status": "ready",
+        "summary": f"系统将这条 CEO 指令理解为 {len(actions)} 个可执行动作。",
+        "guardrail": "这是执行前解释，数值结算仍由 TurnEngine 执行。",
+        "actions": actions,
+    }
+    return _sanitize_copy(payload)
+
+
 def create_app() -> FastAPI:
     init_db()
     app = FastAPI(title="Startup Sim API", version="0.1.0")
@@ -324,6 +392,17 @@ def create_app() -> FastAPI:
         except RuntimeError:
             return JSONResponse(status_code=404, content={"message": "未找到这个游戏存档。"})
         return _suggestions_view(state)
+
+    @app.post("/api/sessions/{session_id}/command-preview")
+    def command_preview(session_id: int, request: TurnRequest):
+        command = request.command.strip()
+        if not command:
+            return JSONResponse(status_code=400, content={"message": "请输入要解释的 CEO 指令。"})
+        try:
+            repository.load_state(session_id)
+        except RuntimeError:
+            return JSONResponse(status_code=404, content={"message": "未找到这个游戏存档。"})
+        return _command_preview_view(command)
 
     return app
 

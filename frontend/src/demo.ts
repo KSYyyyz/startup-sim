@@ -1,4 +1,4 @@
-import type { GameStateView, SuggestionResponse, TurnResponse } from './types';
+import type { CommandPreviewResponse, GameStateView, SuggestionResponse, TurnResponse } from './types';
 
 export const demoInitialState: GameStateView = {
   session_id: 1,
@@ -99,6 +99,41 @@ export const demoSuggestions: SuggestionResponse = {
   warning: '',
   recommended_focus: '产品：先把产品分提升到40以上，再扩大获客。'
 };
+
+export function demoCommandPreview(command: string): CommandPreviewResponse {
+  const actions = [];
+  if (/研发|产品|功能|迭代/i.test(command)) {
+    actions.push({
+      type: 'product',
+      label: '产品研发',
+      intent: command,
+      budget: /(\d+)万/.test(command) ? Number(command.match(/(\d+)万/)?.[1] ?? 0) * 10000 : 0,
+      budget_label: /(\d+)万/.test(command) ? `${command.match(/(\d+)万/)?.[1]}万` : '无直接支出',
+      risk_label: '中风险',
+      tradeoffs: ['产品 +', '现金 -']
+    });
+  }
+  if (/营销|推广|获客|广告/i.test(command)) {
+    actions.push({
+      type: 'marketing',
+      label: '市场营销',
+      intent: command,
+      budget: 0,
+      budget_label: '按指令解析',
+      risk_label: '中风险',
+      tradeoffs: ['用户 +', '现金 -']
+    });
+  }
+  return {
+    status: actions.length > 0 ? 'ready' : 'needs_clarification',
+    summary:
+      actions.length > 0
+        ? `系统将这条 CEO 指令理解为 ${actions.length} 个可执行动作。`
+        : '没有识别到可执行动作。可以尝试写明预算和方向，例如：花10万研发产品。',
+    guardrail: '这是执行前解释，数值结算仍由 TurnEngine 执行。',
+    actions
+  };
+}
 
 export function demoTurn(command: string): TurnResponse {
   const productFocused = /研发|产品|build/i.test(command);

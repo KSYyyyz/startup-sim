@@ -1,5 +1,5 @@
-import { demoInitialState, demoSuggestions, demoTurn } from './demo';
-import type { GameStateView, SuggestionResponse, TurnResponse } from './types';
+import { demoCommandPreview, demoInitialState, demoSuggestions, demoTurn } from './demo';
+import type { CommandPreviewResponse, GameStateView, SuggestionResponse, TurnResponse } from './types';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
 const DEMO_FALLBACK =
@@ -47,5 +47,15 @@ export function loadSuggestions(sessionId: number): Promise<SuggestionResponse> 
   return request<SuggestionResponse>(`/api/sessions/${sessionId}/suggestions`).catch((error) => {
     if (!DEMO_FALLBACK) throw error;
     return demoSuggestions;
+  });
+}
+
+export function previewCommand(sessionId: number, command: string): Promise<CommandPreviewResponse> {
+  return request<CommandPreviewResponse>(`/api/sessions/${sessionId}/command-preview`, {
+    method: 'POST',
+    body: JSON.stringify({ command })
+  }).catch((error) => {
+    if (!DEMO_FALLBACK) throw error;
+    return demoCommandPreview(command);
   });
 }

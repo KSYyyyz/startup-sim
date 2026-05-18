@@ -132,8 +132,21 @@ function turnHighlights(metrics: MetricSet) {
 }
 
 export default function App() {
-  const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
-    useGameStore();
+  const {
+    state,
+    suggestions,
+    commandPreview,
+    lastTurn,
+    loading,
+    submitting,
+    previewing,
+    error,
+    boot,
+    runTurn,
+    explainCommand,
+    clearCommandPreview,
+    openSuggestions
+  } = useGameStore();
   const [command, setCommand] = useState('');
   const [lastCommand, setLastCommand] = useState('');
   const [preparedAction, setPreparedAction] = useState<PreparedAction | null>(null);
@@ -218,37 +231,44 @@ export default function App() {
     await runTurn(submittedCommand);
     setCommand('');
     setPreparedAction(null);
+    clearCommandPreview();
   }
 
   function handleCommandChange(value: string) {
     setCommand(value);
     setPreparedAction(null);
+    clearCommandPreview();
   }
 
   function handleQuickAction(action: QuickActionShortcut) {
     setCommand(action.command);
+    clearCommandPreview();
     setPreparedAction(prepareAction(action, { id: action.id, source: 'quick', sourceLabel: '快捷行动' }));
   }
 
   function handleOfficeAction(action: OfficeAction) {
     setCommand(action.command);
+    clearCommandPreview();
     setPreparedAction(prepareAction(action, { id: `room-${action.title}`, source: 'room', sourceLabel: '办公室行动' }));
   }
 
   function clearPreparedAction() {
     setCommand('');
     setPreparedAction(null);
+    clearCommandPreview();
   }
 
   function handleBoardResponse(member: { name: string; role: string; message: string }) {
     const response = buildBoardPressureResponse(member);
     setCommand(response.command);
+    clearCommandPreview();
     setPreparedAction(response);
   }
 
   function handleCompetitorResponse(item: CompetitorItem) {
     const response = buildCompetitorPressureResponse(item);
     setCommand(response.command);
+    clearCommandPreview();
     setPreparedAction(response);
   }
 
@@ -256,6 +276,7 @@ export default function App() {
     if (!monthlyReport) return;
     const action = monthlyReport.recoveryAction;
     setCommand(action.command);
+    clearCommandPreview();
     setPreparedAction(
       prepareAction(
         {
@@ -275,6 +296,11 @@ export default function App() {
     if (!suggestions) {
       await openSuggestions();
     }
+  }
+
+  async function handleExplainCommand() {
+    if (!command.trim()) return;
+    await explainCommand(command);
   }
 
   if (loading || !state) {
@@ -569,6 +595,28 @@ export default function App() {
               <code>{preparedAction.command}</code>
             </article>
           )}
+          {commandPreview && (
+            <article className="command-preview" aria-label="AI 指令解释">
+              <span>AI 指令解释</span>
+              <strong>{commandPreview.summary}</strong>
+              <div className="preview-action-list">
+                {commandPreview.actions.map((action) => (
+                  <div className="preview-action-row" key={`${action.type}-${action.intent}-${action.budget}`}>
+                    <b>{action.label}</b>
+                    <small>{action.budget_label}</small>
+                    <em>{action.risk_label}</em>
+                    <p>{action.intent}</p>
+                    <div className="action-tags" aria-label={`${action.label}预期取舍`}>
+                      {action.tradeoffs.map((tag) => (
+                        <small key={tag}>{tag}</small>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p>{commandPreview.guardrail}</p>
+            </article>
+          )}
           {!preparedAction && <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>}
           <form onSubmit={handleSubmit} className="command-form">
             <label htmlFor="turn-command">本回合指令</label>
@@ -578,6 +626,9 @@ export default function App() {
               onChange={(event) => handleCommandChange(event.target.value)}
               placeholder="例如：花10万研发产品"
             />
+            <button type="button" className="explain-command-button" disabled={previewing || !hasCommand} onClick={handleExplainCommand}>
+              解释指令
+            </button>
             <button type="submit" disabled={submitting || !hasCommand}>
               <Play size={20} />
               执行回合

@@ -262,6 +262,8 @@ frontend/src/game/
 
 目标：AI 成为玩法的一部分。
 
+当前首个切片已开始：自由 CEO 指令可在执行前通过 `command-preview` 解释为可执行动作候选，展示动作类型、预算、风险和取舍。该解释层只读，不推进回合，不绕过 TurnEngine。
+
 范围：
 
 - AI 命令解释器：自由命令 -> 可执行 ActionPlan 候选。

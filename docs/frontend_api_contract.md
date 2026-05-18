@@ -1,6 +1,6 @@
 # Startup Sim Frontend API Contract
 
-Status: Alpha 0.1 contract
+Status: Alpha 0.3 contract
 Date: 2026-05-18
 
 The frontend talks to a small local HTTP API. The Python simulation remains the only source of truth for game rules.
@@ -128,6 +128,41 @@ Response:
   }
 }
 ```
+
+### `POST /api/sessions/{session_id}/command-preview`
+
+Explains a free-form CEO command before execution. This endpoint is read-only: it must not advance the month or mutate saved state.
+
+Request:
+
+```json
+{
+  "command": "花10万研发产品，花5万做营销"
+}
+```
+
+Response:
+
+```json
+{
+  "status": "ready",
+  "summary": "系统将这条 CEO 指令理解为 2 个可执行动作。",
+  "guardrail": "这是执行前解释，数值结算仍由 TurnEngine 执行。",
+  "actions": [
+    {
+      "type": "product",
+      "label": "产品研发",
+      "intent": "花10万研发产品",
+      "budget": 100000,
+      "budget_label": "10万",
+      "risk_label": "中风险",
+      "tradeoffs": ["产品 +", "现金 -"]
+    }
+  ]
+}
+```
+
+If no action can be recognized, return `status: "needs_clarification"` with an empty `actions` array and a player-facing clarification summary.
 
 ### `GET /api/sessions/{session_id}/suggestions`
 

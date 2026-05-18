@@ -91,6 +91,50 @@ def test_submit_turn_returns_post_turn_feedback(client):
     assert "Runway" not in _body_text(payload)
 
 
+def test_command_preview_explains_free_text_without_advancing_turn(client):
+    created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
+    session_id = created["session_id"]
+
+    response = client.post(
+        f"/api/sessions/{session_id}/command-preview",
+        json={"command": "花10万研发产品，花5万做营销"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+
+    assert payload["summary"] == "系统将这条 CEO 指令理解为 2 个可执行动作。"
+    assert [action["type"] for action in payload["actions"]] == ["product", "marketing"]
+    assert [action["label"] for action in payload["actions"]] == ["产品研发", "市场营销"]
+    assert payload["actions"][0]["budget"] == 100_000
+    assert payload["actions"][0]["budget_label"] == "10万"
+    assert payload["actions"][0]["tradeoffs"] == ["产品 +", "现金 -"]
+    assert payload["actions"][1]["budget"] == 50_000
+    assert payload["status"] == "ready"
+    assert "数值结算仍由 TurnEngine 执行" in payload["guardrail"]
+
+    after = client.get(f"/api/sessions/{session_id}").json()
+    assert after["metrics"]["month"] == 1
+    assert "跑道" not in _body_text(payload)
+    assert "Runway" not in _body_text(payload)
+
+
+def test_command_preview_handles_unclear_input(client):
+    created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
+    session_id = created["session_id"]
+
+    response = client.post(
+        f"/api/sessions/{session_id}/command-preview",
+        json={"command": "让公司变得更厉害"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "needs_clarification"
+    assert payload["actions"] == []
+    assert "没有识别到可执行动作" in payload["summary"]
+
+
 def test_suggestions_are_loaded_on_demand(client):
     created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
     session_id = created["session_id"]
