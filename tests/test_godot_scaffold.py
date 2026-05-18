@@ -137,8 +137,9 @@ def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
 
     assert "OfficeBackdrop" in scene
-    assert "GridVisibleByDefault = false" in scene
-    assert "BuildModeGridAlpha = 0.18" in scene
+    assert "GridVisibleByDefault = true" in scene
+    assert "DefaultGridAlpha = 0.08" in scene
+    assert "BuildModeGridAlpha = 0.24" in scene
     assert 'text = "公司经营面板"' in scene
     for label in ["现金：", "现金流可支撑时间：", "MRR：", "用户：", "产品："]:
         assert label in scene
@@ -153,6 +154,24 @@ def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
 
     assert "OfficeGridView?.SetBuildMode(true)" in panel_script
     assert "OfficeGridView?.SetBuildMode(false)" in panel_script
+
+
+def test_godot_office_view_keeps_kairosoft_style_grid_interaction_readable():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+
+    assert "mouse_filter = 2" in scene
+    assert "GridVisibleByDefault = true" in scene
+    assert "DefaultGridAlpha = 0.08" in scene
+    assert "BuildModeGridAlpha = 0.24" in scene
+
+    assert "DefaultGridAlpha" in grid_script
+    assert "DrawOfficeFrame" in grid_script
+    assert "DrawTextureRectRegion(" in grid_script
+    assert "CellRect(x, y).Grow(1f)" in grid_script
+    assert "for (var x = 0; x < GridWidth; x++)" in grid_script
+    assert "for (var y = 0; y < GridHeight; y++)" in grid_script
+    assert "buildModeEnabled ? BuildModeGridAlpha : DefaultGridAlpha" in grid_script
 
 
 def test_godot_main_scene_mounts_zone_painting_controller():

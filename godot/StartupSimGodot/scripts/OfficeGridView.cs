@@ -39,9 +39,11 @@ public partial class OfficeGridView : Node2D
     [Export] public Texture2D? FacilityAtlas { get; set; }
     [Export] public Texture2D? EmployeeAtlas { get; set; }
     [Export] public Texture2D? StatusIconAtlas { get; set; }
-    [Export] public bool GridVisibleByDefault { get; set; } = false;
-    [Export] public float BuildModeGridAlpha { get; set; } = 0.18f;
+    [Export] public bool GridVisibleByDefault { get; set; } = true;
+    [Export] public float DefaultGridAlpha { get; set; } = 0.08f;
+    [Export] public float BuildModeGridAlpha { get; set; } = 0.24f;
     [Export] public Color OfficeBackdropColor { get; set; } = new(0.17f, 0.19f, 0.18f, 1f);
+    [Export] public Color FloorBaseColor { get; set; } = new(0.72f, 0.69f, 0.62f, 1f);
     [Export] public Color GridColor { get; set; } = new(0.25f, 0.42f, 0.66f, 0.55f);
     [Export] public Color HoverColor { get; set; } = new(0.2f, 0.55f, 0.95f, 0.22f);
     [Export] public Color OccupiedColor { get; set; } = new(0.95f, 0.72f, 0.25f, 0.25f);
@@ -145,6 +147,7 @@ public partial class OfficeGridView : Node2D
     public override void _Draw()
     {
         DrawOfficeBackdrop();
+        DrawOfficeFrame();
         DrawOccupiedCells();
         DrawFacilityVisuals();
         DrawEmployeeVisuals();
@@ -177,7 +180,8 @@ public partial class OfficeGridView : Node2D
     {
         var widthPixels = GridWidth * CellSize;
         var heightPixels = GridHeight * CellSize;
-        var gridColor = new Color(GridColor.R, GridColor.G, GridColor.B, BuildModeGridAlpha);
+        var alpha = buildModeEnabled ? BuildModeGridAlpha : DefaultGridAlpha;
+        var gridColor = new Color(GridColor.R, GridColor.G, GridColor.B, alpha);
 
         for (var x = 0; x <= GridWidth; x++)
         {
@@ -199,6 +203,17 @@ public partial class OfficeGridView : Node2D
         DrawFloorTiles(officeRect);
     }
 
+    private void DrawOfficeFrame()
+    {
+        var officeRect = new Rect2(0, 0, GridWidth * CellSize, GridHeight * CellSize);
+        DrawRect(officeRect.Grow(3f), new Color(0.08f, 0.09f, 0.08f, 0.8f), filled: false, width: 3f);
+        DrawLine(
+            new Vector2(0, GridHeight * CellSize),
+            new Vector2(GridWidth * CellSize, GridHeight * CellSize),
+            new Color(0.3f, 0.28f, 0.23f, 0.7f),
+            8f);
+    }
+
     private void DrawFloorTiles(Rect2 officeRect)
     {
         if (OfficeTileAtlas == null)
@@ -207,11 +222,19 @@ public partial class OfficeGridView : Node2D
         }
 
         var source = AtlasCell(OfficeTileAtlas, columns: 8, rows: 4, column: 0, row: 0);
-        DrawTextureRectRegion(
-            OfficeTileAtlas,
-            officeRect,
-            source,
-            new Color(1f, 1f, 1f, 0.9f));
+        for (var x = 0; x < GridWidth; x++)
+        {
+            for (var y = 0; y < GridHeight; y++)
+            {
+                var cell = CellRect(x, y);
+                DrawRect(cell, FloorBaseColor, filled: true);
+                DrawTextureRectRegion(
+                    OfficeTileAtlas,
+                    CellRect(x, y).Grow(1f),
+                    source,
+                    new Color(1f, 1f, 1f, 0.92f));
+            }
+        }
     }
 
     private void DrawOccupiedCells()

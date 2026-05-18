@@ -28,6 +28,7 @@ offset_left = 18.0
 offset_top = 18.0
 offset_right = 818.0
 offset_bottom = 578.0
+mouse_filter = 2
 color = Color(0.17, 0.19, 0.18, 1)
 
 [node name="OfficeGridView" type="Node2D" parent="."]
@@ -41,9 +42,11 @@ ZoneOverlayAtlas = ExtResource("12")
 FacilityAtlas = ExtResource("13")
 EmployeeAtlas = ExtResource("14")
 StatusIconAtlas = ExtResource("15")
-GridVisibleByDefault = false
-BuildModeGridAlpha = 0.18
-GridColor = Color(0.36, 0.55, 0.74, 0.18)
+GridVisibleByDefault = true
+DefaultGridAlpha = 0.08
+BuildModeGridAlpha = 0.24
+FloorBaseColor = Color(0.72, 0.69, 0.62, 1)
+GridColor = Color(0.36, 0.55, 0.74, 0.24)
 OccupiedColor = Color(0.95, 0.72, 0.25, 0.2)
 
 [node name="ZonePaintingController" type="Node" parent="."]

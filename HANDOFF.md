@@ -190,8 +190,9 @@ G2 起步轮已经建立 Godot 美术导入验证和最小操作台：
 5. 玩家可见文案继续使用“现金流可支撑时间”，Godot UI 不引用 `DeterministicTurnEngine`，月度经营仍通过 `GodotTurnBridge` 进入 C# Core。
 6. 主场景 `OfficeGridView` 已接入 office tile、zone overlay、facility、employee 和 status icon atlas，区域占用、设施摆放、员工招聘后会在网格中出现基础视觉反馈。
 7. `art_import_preview.tscn` 已扩展为完整 atlas 首格预览，覆盖 zone overlay、员工朝向、员工动画、UI core、feedback FX 和两版招聘头像。
-8. 主场景已从“默认网格测试台”调整为“办公室经营面板”：默认隐藏辅助网格，只有划区和摆设施时进入建造辅助模式。
+8. 主场景已从“默认网格测试台”调整为“办公室经营面板”：默认保留淡网格帮助点击，划区和摆设施时进入更清晰的建造辅助模式。
 9. `godot-g1-art-pack-v0.2-employee-motion` 已进入项目资产目录，包含员工动作 atlas、索引、prompt、源图、切片指南和 Godot 导入文件。
+10. 开罗式经营界面方向：办公室格子必须保持可读和可点击，网格是淡辅助线而不是编辑器主视觉；经营面板、员工状态、设施反馈应始终比格线更重要。
 
 对应关键测试：
 
