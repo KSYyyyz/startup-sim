@@ -37,6 +37,21 @@ Required fields:
 
 The `authority` field must be `backend-turn-engine`. A frontend ActionPlan can explain intent and tradeoffs, but it cannot settle numeric state.
 
+### TurnFacts
+
+`TurnFacts` describes what actually happened after settlement.
+
+Required fields:
+
+- `month`
+- `command`
+- `changes`
+- `replayBasis`
+- `nextPressure`
+- `authority`
+
+`changes` should contain player-facing labels and values that already came from settled state. `replayBasis` should cite backend reasons or deterministic replay facts. Frontend narrative can summarize these facts, but cannot add new outcomes.
+
 ## Version
 
 The current compatible contract family is `alpha-0.4-contracts.x`.

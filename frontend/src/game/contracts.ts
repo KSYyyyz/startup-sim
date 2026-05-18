@@ -40,6 +40,29 @@ export type ActionPlan = {
   authority: 'backend-turn-engine';
 };
 
+export type TurnFactChange = {
+  label: string;
+  value: string;
+  tone: string;
+};
+
+export type TurnFactsInput = {
+  month: number;
+  command: string;
+  highlights: TurnFactChange[];
+  reasons: string[];
+  nextPressure: string;
+};
+
+export type TurnFacts = {
+  month: number;
+  command: string;
+  changes: TurnFactChange[];
+  replayBasis: string[];
+  nextPressure: string;
+  authority: 'backend-turn-engine';
+};
+
 export const gameplayContractManifest: GameplayContractManifest = {
   version: 'alpha-0.4-contracts.0',
   rulesAuthority: 'backend-turn-engine',
@@ -91,6 +114,17 @@ export function toActionPlan(input: ActionPlanInput): ActionPlan {
     command: input.command,
     readableIntent: input.description,
     tradeoffs: input.tags,
+    authority: 'backend-turn-engine'
+  };
+}
+
+export function toTurnFacts(input: TurnFactsInput): TurnFacts {
+  return {
+    month: input.month,
+    command: input.command,
+    changes: input.highlights,
+    replayBasis: input.reasons,
+    nextPressure: input.nextPressure,
     authority: 'backend-turn-engine'
   };
 }

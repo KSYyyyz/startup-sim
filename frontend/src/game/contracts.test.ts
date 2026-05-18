@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { gameplayContractManifest, isContractVersionCompatible, toActionPlan } from './contracts';
+import { gameplayContractManifest, isContractVersionCompatible, toActionPlan, toTurnFacts } from './contracts';
 
 describe('engine-neutral gameplay contracts', () => {
   test('documents the shared contracts that connect frontend backend and future engines', () => {
@@ -43,6 +43,31 @@ describe('engine-neutral gameplay contracts', () => {
       command: '花10万研发产品',
       readableIntent: '投入产品打磨，提升核心体验。',
       tradeoffs: ['产品 +', '现金 -'],
+      authority: 'backend-turn-engine'
+    });
+  });
+
+  test('converts settled highlights and replay reasons into turn facts', () => {
+    const facts = toTurnFacts({
+      month: 3,
+      command: '花10万研发产品',
+      highlights: [
+        { label: '现金', value: '$-22万', tone: 'bad' },
+        { label: '产品', value: '+8 分', tone: 'good' }
+      ],
+      reasons: ['研发投入提升了产品分，但现金消耗上升。'],
+      nextPressure: '继续验证产品改善是否能转化成增长。'
+    });
+
+    expect(facts).toEqual({
+      month: 3,
+      command: '花10万研发产品',
+      changes: [
+        { label: '现金', value: '$-22万', tone: 'bad' },
+        { label: '产品', value: '+8 分', tone: 'good' }
+      ],
+      replayBasis: ['研发投入提升了产品分，但现金消耗上升。'],
+      nextPressure: '继续验证产品改善是否能转化成增长。',
       authority: 'backend-turn-engine'
     });
   });
