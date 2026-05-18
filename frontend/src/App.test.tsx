@@ -134,7 +134,7 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('估值').length).toBeGreaterThan(0);
     expect(screen.getByText('现金流可支撑时间')).toBeInTheDocument();
     expect(screen.getByText('核心矛盾')).toBeInTheDocument();
-    expect(screen.getByText('董事会')).toBeInTheDocument();
+    expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
     expect(screen.getByLabelText('移动端本回合指令')).toBeInTheDocument();
@@ -151,6 +151,23 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.click(screen.getByRole('button', { name: '建议' }));
 
     expect(await screen.findByText('稳健：均衡发展')).toBeInTheDocument();
+  });
+
+  test('lets the player click office rooms to prepare action cards', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+
+    expect(screen.getByLabelText('互动办公室场景')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: '产品室' }));
+
+    expect(screen.getByText('产品打磨')).toBeInTheDocument();
+    expect(screen.getByText('现金消耗中等，产品体验提升。')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: '采用行动：产品打磨' }));
+
+    expect(screen.getByLabelText('本回合指令')).toHaveValue('花10万研发产品');
   });
 
   test('submits a turn and refreshes post-turn board competitor and insight feedback', async () => {

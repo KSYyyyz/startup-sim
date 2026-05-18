@@ -4,16 +4,21 @@ test('creates a session and submits one turn', async ({ page }) => {
   await page.goto('/');
 
   await expect(page.getByText('NimbusAI')).toBeVisible();
-  await expect(page.getByText('现金流可支撑时间')).toBeVisible();
+  await expect(page.getByText('现金流可支撑时间', { exact: true })).toBeVisible();
   await expect(page.getByText('核心矛盾')).toBeVisible();
+  await expect(page.getByLabel('互动办公室场景')).toBeVisible();
   await expect(page.getByLabel('竞品态势')).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);
 
+  await page.getByRole('button', { name: '产品室' }).click();
+  await expect(page.getByText('产品打磨', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '采用行动：产品打磨' }).click();
+
   if ((page.viewportSize()?.width ?? 0) <= 640) {
-    await page.getByLabel('移动端本回合指令').fill('花10万研发产品');
+    await expect(page.getByLabel('移动端本回合指令')).toHaveValue('花10万研发产品');
     await page.getByRole('button', { name: '执行', exact: true }).click();
   } else {
-    await page.getByLabel('本回合指令', { exact: true }).fill('花10万研发产品');
+    await expect(page.getByLabel('本回合指令', { exact: true })).toHaveValue('花10万研发产品');
     await page.getByRole('button', { name: '执行回合' }).click();
   }
 

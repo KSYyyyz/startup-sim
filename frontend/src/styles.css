@@ -237,10 +237,30 @@ h2 {
   transform-origin: center center;
 }
 
-.stage-badge {
+.office-pixi-canvas {
   position: absolute;
-  min-width: 86px;
-  text-align: center;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.room-hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.room-hotspot {
+  position: absolute;
+  scroll-margin-top: 150px;
+  min-width: 104px;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   border: 1px solid rgba(255, 255, 255, 0.68);
   border-radius: 6px;
   padding: 8px 10px;
@@ -248,26 +268,90 @@ h2 {
   color: #fff;
   font-weight: 800;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(12, 24, 43, 0.24);
 }
 
-.stage-badge.product {
-  top: 8%;
-  left: 46%;
+.room-hotspot:hover,
+.room-hotspot.active {
+  border-color: #fff;
+  background: rgba(26, 95, 174, 0.94);
+  transform: translate(-50%, -50%) translateY(-2px);
 }
 
-.stage-badge.team {
-  top: 12%;
-  left: 18%;
+.room-hotspot.sales {
+  background: rgba(33, 118, 86, 0.9);
 }
 
-.stage-badge.sales {
-  bottom: 31%;
-  left: 48%;
+.room-hotspot.board {
+  background: rgba(132, 74, 28, 0.9);
 }
 
-.stage-badge.server {
-  right: 18%;
-  bottom: 21%;
+.room-hotspot.server {
+  background: rgba(45, 65, 88, 0.9);
+}
+
+.room-action-panel {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  right: 14px;
+  width: min(312px, calc(100% - 28px));
+  border: 1px solid rgba(124, 141, 164, 0.9);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 34px rgba(24, 36, 56, 0.22);
+}
+
+.room-action-panel > strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #153b68;
+  font-size: 1rem;
+}
+
+.action-card-list {
+  display: grid;
+  gap: 8px;
+}
+
+.room-action-card {
+  border: 1px solid #d6dee8;
+  border-radius: 6px;
+  padding: 9px;
+  background: #f8fafc;
+}
+
+.room-action-card b,
+.room-action-card p,
+.room-action-card small {
+  display: block;
+}
+
+.room-action-card p {
+  margin-top: 4px;
+  color: #33475f;
+  line-height: 1.4;
+}
+
+.room-action-card small {
+  margin-top: 5px;
+  color: #607189;
+  line-height: 1.35;
+}
+
+.room-action-card button {
+  width: 100%;
+  min-height: 36px;
+  margin-top: 8px;
+  border: 1px solid #8c9aae;
+  border-radius: 6px;
+  background: #245a9d;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .insight-strip {
@@ -642,17 +726,64 @@ h2 {
 
   .office-stage,
   .office-stage img {
-    min-height: 360px;
-    height: 360px;
+    min-height: 320px;
   }
 
-  .stage-badge {
+  .office-stage {
+    height: auto;
+    overflow: visible;
+  }
+
+  .office-stage img {
+    height: 320px;
+    transform: none;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .room-hotspots {
+    inset: 0 0 auto;
+    height: 320px;
+  }
+
+  .room-hotspot {
+    min-width: 72px;
+    min-height: 34px;
+    gap: 4px;
+    padding: 6px 7px;
+    font-size: 0.72rem;
+  }
+
+  .room-hotspot svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .room-action-panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    margin: 8px;
+    padding: 9px;
+  }
+
+  .room-action-panel > strong {
+    margin-bottom: 6px;
+  }
+
+  .room-action-card small {
     display: none;
   }
 
   .insight-strip {
-    position: static;
-    border-radius: 0;
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 0 8px 8px;
+    padding: 9px 10px;
   }
 
   .command-form {

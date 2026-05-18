@@ -16,6 +16,7 @@ import {
   Users
 } from 'lucide-react';
 
+import { OfficeStage } from './game/OfficeStage';
 import { useGameStore } from './store';
 import type { CompetitorItem, MetricSet } from './types';
 import './styles.css';
@@ -254,17 +255,11 @@ export default function App() {
           )}
         </aside>
 
-        <section className="office-stage" aria-label="办公室场景">
-          <img src="/assets/scenes/office-command-center-v0.1.jpg" alt="NimbusAI office command center" />
-          <div className="stage-badge product">产品室</div>
-          <div className="stage-badge team">研发团队</div>
-          <div className="stage-badge sales">销售</div>
-          <div className="stage-badge server">服务器</div>
-          <div className="insight-strip">
-            <strong>{state.insight.title}</strong>
-            <span>{state.insight.description}</span>
-          </div>
-        </section>
+        <OfficeStage
+          insightTitle={state.insight.title}
+          insightDescription={state.insight.description}
+          onCommandSelect={setCommand}
+        />
 
         <aside className="right-stack">
           <div className="tabs" role="tablist" aria-label="右侧信息">
