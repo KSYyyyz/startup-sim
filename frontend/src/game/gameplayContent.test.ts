@@ -9,6 +9,7 @@ import {
   buildCurrentMonthGoal,
   buildCommandReadiness,
   buildSidePanelBrief,
+  buildPlaystyleRoute,
   buildNewPlayerGuidance,
   buildPreparedActionPreview,
   buildMonthlyReport,
@@ -535,5 +536,36 @@ describe('gameplay content definitions', () => {
       summary: '3 个竞品动态，1 个高优先级。',
       focus: '高威胁'
     });
+  });
+
+  test('recognizes the current playstyle route from actions and settled changes', () => {
+    expect(
+      buildPlaystyleRoute({
+        command: '花10万研发产品',
+        productChange: 8,
+        usersChange: 0,
+        cashChange: -220000
+      })
+    ).toEqual({
+      title: '产品信仰路线',
+      tone: 'product',
+      summary: '你正在用产品突破换取未来验证空间。',
+      risk: '注意别把所有回合都花在闭门打磨上。'
+    });
+
+    expect(
+      buildPlaystyleRoute({
+        command: '融资300万出让8%股权',
+        productChange: 0,
+        usersChange: 0,
+        cashChange: 3000000
+      })
+    ).toMatchObject({
+      title: '资本狂飙路线',
+      tone: 'capital'
+    });
+    expect(JSON.stringify(buildPlaystyleRoute({ command: '花10万研发产品', productChange: 8, usersChange: 0, cashChange: -1 }))).not.toContain(
+      '一键'
+    );
   });
 });

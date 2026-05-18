@@ -476,6 +476,11 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
 
     expect(await screen.findByText('第2月')).toBeInTheDocument();
+    const route = screen.getByLabelText('本局路线');
+    expect(route).toHaveTextContent('产品信仰路线');
+    expect(route).toHaveTextContent('你正在用产品突破换取未来验证空间。');
+    expect(route).toHaveTextContent('注意别把所有回合都花在闭门打磨上。');
+    expect(route).not.toHaveTextContent('一键');
     expect(screen.getByText('月度战报')).toBeInTheDocument();
     expect(screen.getByText('回合结算')).toBeInTheDocument();
     expect(screen.getAllByText('执行指令').length).toBeGreaterThan(0);

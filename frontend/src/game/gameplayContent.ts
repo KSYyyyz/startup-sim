@@ -260,6 +260,20 @@ export type SidePanelBrief = {
   focus: string;
 };
 
+export type PlaystyleRouteInput = {
+  command: string;
+  productChange: number;
+  usersChange: number;
+  cashChange: number;
+};
+
+export type PlaystyleRoute = {
+  title: string;
+  tone: 'product' | 'capital' | 'growth' | 'lean' | 'balanced';
+  summary: string;
+  risk: string;
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -1115,6 +1129,51 @@ export function buildSidePanelBrief(input: SidePanelBriefInput): SidePanelBrief 
     title: '关键信号',
     summary: `${input.total} 个${totalLabel}，${input.hotCount} 个${hotLabel}。`,
     focus: input.focus
+  };
+}
+
+export function buildPlaystyleRoute(input: PlaystyleRouteInput): PlaystyleRoute {
+  if (/融资|股权|资本/.test(input.command)) {
+    return {
+      title: '资本狂飙路线',
+      tone: 'capital',
+      summary: '你正在用融资换取更长的行动窗口。',
+      risk: '估值、稀释和董事会压力会变成后续主线。'
+    };
+  }
+
+  if (/营销|推广|获客|销售/.test(input.command) || input.usersChange > 0) {
+    return {
+      title: '增长试验路线',
+      tone: 'growth',
+      summary: '你正在用市场反馈寻找可重复增长。',
+      risk: '如果产品承接不足，增长可能只留下现金消耗。'
+    };
+  }
+
+  if (/最低运转|削减|控制/.test(input.command) || (input.cashChange >= -10000 && input.productChange <= 0)) {
+    return {
+      title: '精益创业路线',
+      tone: 'lean',
+      summary: '你正在用低消耗换取更多试错回合。',
+      risk: '增长和估值可能会来得更慢。'
+    };
+  }
+
+  if (/研发|产品|功能/.test(input.command) || input.productChange > 0) {
+    return {
+      title: '产品信仰路线',
+      tone: 'product',
+      summary: '你正在用产品突破换取未来验证空间。',
+      risk: '注意别把所有回合都花在闭门打磨上。'
+    };
+  }
+
+  return {
+    title: '均衡探索路线',
+    tone: 'balanced',
+    summary: '你还在寻找本局最有效的创业节奏。',
+    risk: '如果每月方向都变，复盘会变得困难。'
   };
 }
 

@@ -26,6 +26,7 @@ import {
   buildPreparedActionPreview,
   buildMonthlyReport,
   buildMonthlyRecoveryAction,
+  buildPlaystyleRoute,
   buildSidePanelBrief,
   buildTurnResolutionSteps,
   buildTurnVerdict,
@@ -355,6 +356,18 @@ export default function App() {
         : null,
     [lastTurn, state]
   );
+  const playstyleRoute = useMemo(
+    () =>
+      state && lastTurn
+        ? buildPlaystyleRoute({
+            command: monthlyFacts?.command ?? lastCommand,
+            productChange: state.metrics.product_change,
+            usersChange: state.metrics.users_change,
+            cashChange: state.metrics.cash_change
+          })
+        : null,
+    [lastCommand, lastTurn, monthlyFacts, state]
+  );
   const executionPreview = useMemo(
     () => commandPreview ?? (preparedAction ? buildPreparedActionPreview(preparedAction) : null),
     [commandPreview, preparedAction]
@@ -627,6 +640,15 @@ export default function App() {
                 ))}
               </ul>
               <small>{currentMonthGoal.riskHint}</small>
+            </article>
+          )}
+
+          {playstyleRoute && (
+            <article className={`panel route-panel ${playstyleRoute.tone}`} aria-label="本局路线">
+              <span>本局路线</span>
+              <h2>{playstyleRoute.title}</h2>
+              <p>{playstyleRoute.summary}</p>
+              <small>{playstyleRoute.risk}</small>
             </article>
           )}
 

@@ -474,6 +474,42 @@ h2 {
   line-height: 1.35;
 }
 
+.route-panel {
+  display: grid;
+  gap: 6px;
+}
+
+.route-panel span {
+  color: #607189;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.route-panel h2 {
+  margin: 0;
+}
+
+.route-panel p,
+.route-panel small {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.route-panel.product {
+  border-color: #bdd2eb;
+  background: #f7fbff;
+}
+
+.route-panel.capital {
+  border-color: #d8cfa9;
+  background: #fffaf0;
+}
+
+.route-panel.growth {
+  border-color: #b8d8c1;
+  background: #f4fbf6;
+}
+
 .onboarding-panel .direction-tags b,
 .month-goal-panel .direction-tags b {
   border-radius: 999px;
