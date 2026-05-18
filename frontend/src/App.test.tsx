@@ -138,6 +138,7 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('核心矛盾')).toBeInTheDocument();
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
+    expect(screen.getByText('持平')).toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
     expect(screen.getByText('现金纪律')).toBeInTheDocument();
     expect(screen.getByText('产品护城河')).toBeInTheDocument();
@@ -205,6 +206,7 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('研发投入提升了产品分，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getByText('研发有效，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getByText('灵犀客服云')).toBeInTheDocument();
+    expect(screen.getByText('上升')).toBeInTheDocument();
     expect(screen.getByText('研发投入带来产品进展')).toBeInTheDocument();
   });
 });

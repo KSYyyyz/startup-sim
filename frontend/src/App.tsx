@@ -107,6 +107,12 @@ function trendLabel(item: CompetitorItem) {
   return '→';
 }
 
+function trendText(item: CompetitorItem) {
+  if (item.trend === 'up') return '上升';
+  if (item.trend === 'down') return '下降';
+  return '持平';
+}
+
 function turnHighlights(metrics: MetricSet) {
   return [
     { label: '现金', value: signed(metrics.cash_change) || '稳定', tone: metrics.cash_change >= 0 ? 'good' : 'bad' },
@@ -332,6 +338,7 @@ export default function App() {
             <strong>竞品态势</strong>
             <span>
               <b>{state.competitors[0]?.name ?? '暂无竞品'}</b>
+              {state.competitors[0] && <em className={`trend-chip ${state.competitors[0].trend}`}>{trendText(state.competitors[0])}</em>}
               <small>{state.competitors[0]?.status ?? '本月暂无重大动作'}</small>
             </span>
           </article>
@@ -362,6 +369,7 @@ export default function App() {
                   <strong>{item.name}</strong>
                   <span>{money(item.mrr)} 月经常收入</span>
                   <em className={item.trend}>{trendLabel(item)}</em>
+                  <small className={`trend-chip ${item.trend}`}>{trendText(item)}</small>
                   <p>{item.status}</p>
                 </div>
               ))}
