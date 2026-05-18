@@ -9,13 +9,24 @@ namespace StartupSim.Unity
         [SerializeField] private Text commandText;
 
         public string CurrentCommand { get; private set; } = string.Empty;
+        public PreparedActionSnapshot CurrentSnapshot { get; private set; } = new PreparedActionSnapshot();
 
         public void ShowPreparedAction(string roomName, string command)
         {
-            CurrentCommand = command ?? string.Empty;
+            ShowPreparedAction(new PreparedActionSnapshot
+            {
+                RoomName = roomName,
+                Command = command
+            });
+        }
+
+        public void ShowPreparedAction(PreparedActionSnapshot snapshot)
+        {
+            CurrentSnapshot = snapshot ?? new PreparedActionSnapshot();
+            CurrentCommand = CurrentSnapshot.Command ?? string.Empty;
             if (titleText != null)
             {
-                titleText.text = roomName;
+                titleText.text = CurrentSnapshot.RoomName;
             }
             if (commandText != null)
             {
@@ -26,6 +37,7 @@ namespace StartupSim.Unity
         public void Clear()
         {
             CurrentCommand = string.Empty;
+            CurrentSnapshot = new PreparedActionSnapshot();
             if (titleText != null)
             {
                 titleText.text = string.Empty;

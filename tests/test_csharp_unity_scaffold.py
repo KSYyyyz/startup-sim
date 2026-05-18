@@ -76,6 +76,7 @@ def test_unity_component_scaffold_is_adapter_only():
     required = [
         UNITY / "OfficeRoomHotspot.cs",
         UNITY / "PreparedActionPresenter.cs",
+        UNITY / "PreparedActionSnapshot.cs",
         UNITY / "TurnExecutorPresenter.cs",
         UNITY / "StartupSimUnityApiClient.cs",
         UNITY / "README.md",
@@ -87,6 +88,12 @@ def test_unity_component_scaffold_is_adapter_only():
     for path in required:
         content = path.read_text(encoding="utf-8")
         assert "TurnEngine" not in content or "does not settle" in content
+
+    snapshot = (UNITY / "PreparedActionSnapshot.cs").read_text(encoding="utf-8")
+    assert "ActionType" in snapshot
+    assert "Budget" in snapshot
+    assert "FundraiseAmount" in snapshot
+    assert "EquityOffered" in snapshot
 
 
 def test_golden_case_seed_exists_for_csharp_port():
