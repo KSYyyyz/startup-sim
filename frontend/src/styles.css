@@ -687,6 +687,24 @@ h2 {
   line-height: 1.42;
 }
 
+.board-response-button {
+  margin-top: 7px;
+  border: 1px solid #b9c6d7;
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: #fff;
+  color: #245a9d;
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.board-response-button:hover,
+.board-response-button:focus-visible {
+  outline: 2px solid rgba(36, 90, 157, 0.25);
+  background: #edf4fc;
+}
+
 .board-row em {
   font-style: normal;
   color: #1f8f4d;

@@ -139,6 +139,15 @@ function boardStance(member: { name: string; role: string }) {
   return '公司治理';
 }
 
+function boardResponseCommand(member: { name: string; role: string; message: string }) {
+  const identity = `${member.name} ${member.role} ${member.message}`;
+  if (/CFO|财务|现金|支出/.test(identity)) return '花1万研发产品保持最低运转';
+  if (/CTO|技术|产品/.test(identity)) return '花10万研发产品';
+  if (/COO|运营|交付|团队/.test(identity)) return '花5万招聘人才';
+  if (/增长|Growth|用户|获客/.test(identity)) return '花10万做营销推广';
+  return '花10万研发产品';
+}
+
 function officePulseRoom(state: GameStateView) {
   const signal = `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title}`;
   if (/现金|融资|股权/.test(signal)) return { roomId: 'board', text: '现金压力' };
@@ -188,6 +197,11 @@ export default function App() {
 
   function clearPreparedAction() {
     setCommand('');
+    setPreparedAction(null);
+  }
+
+  function handleBoardResponse(member: { name: string; role: string; message: string }) {
+    setCommand(boardResponseCommand(member));
     setPreparedAction(null);
   }
 
@@ -373,6 +387,9 @@ export default function App() {
                     <small className="stance-chip">{boardStance(member)}</small>
                     <span>{member.role}</span>
                     <p>{member.message}</p>
+                    <button type="button" className="board-response-button" onClick={() => handleBoardResponse(member)}>
+                      回应 {member.name} 压力
+                    </button>
                   </div>
                   <em>{member.confidence}</em>
                 </div>

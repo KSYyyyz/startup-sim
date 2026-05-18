@@ -215,6 +215,17 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('控制固定支出。')).toBeInTheDocument();
   });
 
+  test('lets the player turn board pressure into a command', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.click(screen.getByRole('button', { name: '回应 CFO 压力' }));
+
+    expect(screen.getByLabelText('本回合指令')).toHaveValue('花1万研发产品保持最低运转');
+    expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
+  });
+
   test('submits a turn and refreshes post-turn board competitor and insight feedback', async () => {
     installFetchMock();
     render(<App />);

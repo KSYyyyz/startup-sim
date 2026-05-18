@@ -74,6 +74,7 @@ Completed in the first ten desktop-first implementation rounds:
 - The execute button is disabled until a command exists.
 - Monthly result feedback is structured as "月度战报" with changes, reasons, and next-month pressure.
 - Board rows show role stances such as "现金纪律" and "产品护城河".
+- Board feedback rows can now turn role pressure into a prepared CEO command through a compact response button.
 - Competitor rows and the competitor glance include readable trend labels such as "持平" and "上升".
 - The office scene has a non-blocking "办公室提示" bubble for the current focus.
 - Office dynamic feedback signals are clickable: board signals open the board panel, and competitor signals open the competitor panel.
