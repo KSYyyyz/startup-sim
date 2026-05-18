@@ -9,7 +9,7 @@ Startup Sim 的最终独立游戏表现层切换为 Godot。
 
 Unity 路线停止作为新增开发目标。此前已经创建的 Unity 适配脚本只作为历史探索材料保留；后续新增工程、场景、交互原型和桌面端可分发路线都以 Godot 为准。
 
-Web 前端继续作为规则验证台：它负责快速验证 API、文本反馈和玩法规则，不再作为最终独立游戏表现层打磨。
+Web 前端路线已放弃。Godot 是唯一新增前端和最终独立游戏表现层。
 
 ## 2. Engine Version
 
@@ -54,24 +54,29 @@ godot/
 
 Godot owns:
 
-- office scene
-- room hotspots
-- prepared action display
-- command submission
+- top-down office scene
+- large-pixel office grid
+- zone selection and area painting
+- facility placement, movement, sale, and upgrades
+- employee hiring, assignment, traits, and team management
+- prepared action / intent display
+- optional command submission
 - animation, sound, layout, feedback timing
 
-Godot scripts must not duplicate gameplay settlement rules. They can display structured action snapshots and call the local C# bridge. API access is optional and should only be added for remote AI or cloud-save features.
+Godot scripts must not duplicate gameplay settlement rules. They can turn office layout, facilities, and employees into structured intent snapshots and call the local C# bridge. API access is optional and should only be added for remote AI or cloud-save features.
 
 ## 5. First Godot Slice
 
 The first Godot slice should contain:
 
 1. A bootable main scene.
-2. Office room hotspots.
-3. A prepared action snapshot model.
-4. A controller that can prepare and clear actions.
-5. A local bridge that calls `StartupSim.Core` directly.
-6. A turn result snapshot that Godot UI can display.
+2. A top-down office grid.
+3. Zone selection and area painting.
+4. Facility placement and upgrade data.
+5. An employee management entry.
+6. A prepared intent snapshot model derived from zones, facilities, and employees.
+7. A local bridge that calls `StartupSim.Core` directly.
+8. A turn result snapshot that Godot UI can display.
 
 Current bridge:
 
@@ -115,8 +120,8 @@ Near-term C# priorities:
 ## 8. Near-Term Order
 
 1. Keep migrating gameplay rules into `StartupSim.Core`.
-2. Build Godot office shell around structured actions.
-3. Use `GodotTurnBridge` for local desktop playtests.
+2. Build Godot office construction shell around zones, facilities, and employees.
+3. Convert office layout into structured intent snapshots through `GodotTurnBridge`.
 4. Add optional API bridge only if remote AI or cloud-save features require it.
 5. Do not restore the deleted Vercel/Web frontend route; new presentation work belongs in Godot.
 
