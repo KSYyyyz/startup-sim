@@ -4,6 +4,16 @@
 
 ---
 
+## Reference Game Scan — 本地参考游戏结构分析 (2026-05-18)
+
+本轮对三个本地安装目录做了只读结构扫描，产出文档：[docs/reference_game_analysis.md](docs/reference_game_analysis.md)。
+
+- `Mad Games Tycoon 2`：确认 Unity 经营游戏的公司空间、房间、设施、图标和文本资源组织方向，只作为办公室经营形态参考，不复制资源。
+- `STONKS-9800`：确认公开 mod/localization/data-like 目录价值，作为 Startup Sim 后续原始数据层、场景包、文本本地化和未来 mod 边界的参考。
+- `历史模拟器：崇祯`：确认 Electron/Chromium 桌面分发形态，支持当前 Web 先行、桌面打包预留的技术路线。
+
+结论：继续保持 Vite/React/PixiJS 桌面 Web 试玩路线，不切 Unity；下一步优先把房间、行动、压力响应、竞品反馈、办公室信号等前端玩法定义逐步数据化，并为未来 Tauri/Electron 分发留空间。
+
 ## Frontend Alpha 0.2 — 桌面游戏层连续推进 (2026-05-18)
 
 **性质**: 前端独立游戏化切片。目标是把 Web 入口从状态面板推进为可点击、可操作、可反馈的办公室经营场景。

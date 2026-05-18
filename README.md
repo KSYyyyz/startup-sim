@@ -17,6 +17,7 @@
 | [examples/sample_run_balanced.md](examples/sample_run_balanced.md) | 官方样例局：均衡策略→A轮成功 |
 | [examples/sample_run_marketing_failure.md](examples/sample_run_marketing_failure.md) | 官方失败样例：全营销→慢性死亡 |
 | [docs/indie_game_product_direction.md](docs/indie_game_product_direction.md) | 独立游戏化产品方向与可分发路线 |
+| [docs/reference_game_analysis.md](docs/reference_game_analysis.md) | 本地参考游戏结构分析与 Startup Sim 借鉴边界 |
 | [docs/frontend_alpha_0_2_desktop_game_layer.md](docs/frontend_alpha_0_2_desktop_game_layer.md) | 前端 Alpha 0.2 桌面游戏层执行计划与进度 |
 | [docs/vercel_frontend_deploy.md](docs/vercel_frontend_deploy.md) | Vercel 前端部署与线上验收说明 |
 | [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |

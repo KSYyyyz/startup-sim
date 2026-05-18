@@ -19,12 +19,14 @@ DOC_FILES = [
     "docs/playtest_feedback_template.md",
     "docs/troubleshooting.md",
     "docs/playtest_observation.md",
+    "docs/reference_game_analysis.md",
 ]
 
 README_NAV_KEYWORDS = [
     "QUICKSTART.md",
     "examples/sample_run_balanced.md",
     "docs/troubleshooting.md",
+    "docs/reference_game_analysis.md",
     "docs/frontend_alpha_0_2_desktop_game_layer.md",
     "https://startup-sim-khaki.vercel.app",
 ]
