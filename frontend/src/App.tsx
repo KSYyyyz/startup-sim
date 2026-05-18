@@ -34,65 +34,65 @@ function signed(value: number, formatter = money) {
 function metricCards(metrics: MetricSet) {
   return [
     {
-      label: 'Month',
-      value: `Month ${metrics.month}`,
-      detail: 'Week rhythm',
+      label: '月份',
+      value: `第${metrics.month}月`,
+      detail: '本轮节奏',
       icon: CalendarDays,
       delta: ''
     },
     {
-      label: 'Cash',
+      label: '现金',
       value: money(metrics.cash),
-      detail: '现金',
+      detail: '账上现金',
       icon: CircleDollarSign,
       delta: signed(metrics.cash_change)
     },
     {
       label: metrics.cash_coverage_label,
-      value: `${metrics.cash_coverage_months.toFixed(1)} months`,
+      value: `${metrics.cash_coverage_months.toFixed(1)}个月`,
       detail: '固定支出覆盖',
       icon: ChartNoAxesCombined,
       delta: ''
     },
     {
-      label: 'MRR',
+      label: '月经常收入',
       value: money(metrics.mrr),
-      detail: '经常性收入',
+      detail: '订阅收入',
       icon: BarChart3,
       delta: signed(metrics.mrr_change)
     },
     {
-      label: 'Users',
+      label: '用户',
       value: metrics.users.toLocaleString(),
       detail: '用户数',
       icon: Users,
       delta: signed(metrics.users_change, (v) => v.toLocaleString())
     },
     {
-      label: 'Product',
+      label: '产品',
       value: `v0.${Math.max(1, Math.floor(metrics.product_score / 10))}.${metrics.product_score % 10}`,
       detail: `产品分 ${metrics.product_score}`,
       icon: Boxes,
       delta: signed(metrics.product_change, (v) => `${v}`)
     },
     {
-      label: 'Reputation',
+      label: '声誉',
       value: `${metrics.reputation}`,
-      detail: '声誉',
+      detail: '市场口碑',
       icon: Sparkles,
       delta: ''
     },
     {
-      label: 'Equity',
+      label: '创始人股权',
       value: `${metrics.founder_equity}%`,
-      detail: '创始人股权',
+      detail: '持股比例',
       icon: BriefcaseBusiness,
       delta: ''
     },
     {
-      label: 'Valuation',
+      label: '估值',
       value: money(metrics.valuation),
-      detail: '估值',
+      detail: '当前融资锚点',
       icon: Banknote,
       delta: ''
     }
@@ -105,8 +105,25 @@ function trendLabel(item: CompetitorItem) {
   return '→';
 }
 
+function turnHighlights(metrics: MetricSet) {
+  return [
+    { label: '现金', value: signed(metrics.cash_change) || '稳定', tone: metrics.cash_change >= 0 ? 'good' : 'bad' },
+    {
+      label: '产品',
+      value: signed(metrics.product_change, (v) => `${v} 分`) || '观察中',
+      tone: metrics.product_change >= 0 ? 'good' : 'bad'
+    },
+    {
+      label: '用户',
+      value: signed(metrics.users_change, (v) => `${v.toLocaleString()} 人`) || '观察中',
+      tone: metrics.users_change >= 0 ? 'good' : 'bad'
+    },
+    { label: '月经常收入', value: signed(metrics.mrr_change) || '观察中', tone: metrics.mrr_change >= 0 ? 'good' : 'bad' }
+  ];
+}
+
 export default function App() {
-  const { state, suggestions, loading, submitting, error, boot, runTurn, openSuggestions } =
+  const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
     useGameStore();
   const [command, setCommand] = useState('');
   const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'log'>('board');
@@ -116,6 +133,7 @@ export default function App() {
   }, [boot]);
 
   const cards = useMemo(() => (state ? metricCards(state.metrics) : []), [state]);
+  const highlights = useMemo(() => (state ? turnHighlights(state.metrics) : []), [state]);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -160,6 +178,20 @@ export default function App() {
         </button>
       </section>
 
+      <form onSubmit={handleSubmit} className="mobile-command-strip" aria-label="移动端快捷动作">
+        <label htmlFor="mobile-turn-command">移动端本回合指令</label>
+        <input
+          id="mobile-turn-command"
+          value={command}
+          onChange={(event) => setCommand(event.target.value)}
+          placeholder="例如：花10万研发产品"
+        />
+        <button type="submit" disabled={submitting}>
+          <Play size={18} />
+          执行
+        </button>
+      </form>
+
       <section className="workspace">
         <aside className="left-stack">
           <div className="brand-panel">
@@ -174,17 +206,17 @@ export default function App() {
             <h2>本月变化</h2>
             <dl className="change-list">
               <div>
-                <dt>Cash</dt>
+                <dt>现金</dt>
                 <dd className={state.metrics.cash_change >= 0 ? 'good' : 'bad'}>
                   {signed(state.metrics.cash_change) || '稳定'}
                 </dd>
               </div>
               <div>
-                <dt>MRR</dt>
+                <dt>月经常收入</dt>
                 <dd>{signed(state.metrics.mrr_change) || '观察中'}</dd>
               </div>
               <div>
-                <dt>Users</dt>
+                <dt>用户</dt>
                 <dd>{signed(state.metrics.users_change, (v) => v.toLocaleString()) || '观察中'}</dd>
               </div>
             </dl>
@@ -196,14 +228,38 @@ export default function App() {
             <p>{state.core_tension.description}</p>
             <small>{state.core_tension.next_focus}</small>
           </article>
+
+          {lastTurn && (
+            <article className="panel result-panel">
+              <h2>回合结果</h2>
+              <strong>第{lastTurn.month}月执行结果</strong>
+              <div className="result-grid">
+                {highlights.map((item) => (
+                  <span key={item.label}>
+                    <b>{item.label}</b>
+                    <em className={item.tone}>{item.value}</em>
+                  </span>
+                ))}
+              </div>
+              {lastTurn.delta_reasons?.length ? (
+                <ul className="result-list">
+                  {lastTurn.delta_reasons.slice(0, 3).map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>本回合已结算，董事会、竞品态势和经营洞察已更新。</p>
+              )}
+            </article>
+          )}
         </aside>
 
         <section className="office-stage" aria-label="办公室场景">
           <img src="/office-preview.jpg" alt="NimbusAI office command center" />
-          <div className="stage-badge product">Product Room</div>
-          <div className="stage-badge team">Dev Team</div>
-          <div className="stage-badge sales">Sales</div>
-          <div className="stage-badge server">Servers</div>
+          <div className="stage-badge product">产品室</div>
+          <div className="stage-badge team">研发团队</div>
+          <div className="stage-badge sales">销售</div>
+          <div className="stage-badge server">服务器</div>
           <div className="insight-strip">
             <strong>{state.insight.title}</strong>
             <span>{state.insight.description}</span>
@@ -265,7 +321,7 @@ export default function App() {
               {state.competitors.map((item) => (
                 <div className="competitor-row" key={item.name}>
                   <strong>{item.name}</strong>
-                  <span>{money(item.mrr)} MRR</span>
+                  <span>{money(item.mrr)} 月经常收入</span>
                   <em className={item.trend}>{trendLabel(item)}</em>
                   <p>{item.status}</p>
                 </div>
@@ -300,16 +356,16 @@ export default function App() {
 
       <section className="action-dock" aria-label="本回合动作">
         <button type="button" onClick={() => setCommand('花10万研发产品')}>
-          <Boxes size={22} /> Build
+          <Boxes size={22} /> 研发
         </button>
         <button type="button" onClick={() => setCommand('花8万招聘人才')}>
-          <Users size={22} /> Hire
+          <Users size={22} /> 招聘
         </button>
         <button type="button" onClick={() => setCommand('融资300万出让8%股权')}>
-          <HandCoins size={22} /> Fundraise
+          <HandCoins size={22} /> 融资
         </button>
         <button type="button" onClick={() => setCommand('花10万做营销推广')}>
-          <Megaphone size={22} /> Marketing
+          <Megaphone size={22} /> 营销
         </button>
         <form onSubmit={handleSubmit} className="command-form">
           <label htmlFor="turn-command">本回合指令</label>

@@ -9,10 +9,16 @@ test('creates a session and submits one turn', async ({ page }) => {
   await expect(page.getByLabel('竞品态势')).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);
 
-  await page.getByLabel('本回合指令').fill('花10万研发产品');
-  await page.getByRole('button', { name: '执行回合' }).click();
+  if ((page.viewportSize()?.width ?? 0) <= 640) {
+    await page.getByLabel('移动端本回合指令').fill('花10万研发产品');
+    await page.getByRole('button', { name: '执行', exact: true }).click();
+  } else {
+    await page.getByLabel('本回合指令', { exact: true }).fill('花10万研发产品');
+    await page.getByRole('button', { name: '执行回合' }).click();
+  }
 
-  await expect(page.getByText('Month 2')).toBeVisible();
+  await expect(page.getByText('第2月', { exact: true })).toBeVisible();
+  await expect(page.getByText('回合结果')).toBeVisible();
   await expect(page.getByText('董事会反馈')).toBeVisible();
   await expect(page.getByLabel('竞品态势')).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);

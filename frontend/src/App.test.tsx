@@ -98,9 +98,13 @@ function installFetchMock() {
       return new Response(JSON.stringify(initialState), { status: 200 });
     }
     if (url.endsWith('/api/sessions/7/turns')) {
-      return new Response(JSON.stringify({ state: nextState, turn: { month: 1 } }), {
-        status: 200
-      });
+      return new Response(
+        JSON.stringify({
+          state: nextState,
+          turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
+        }),
+        { status: 200 }
+      );
     }
     if (url.endsWith('/api/sessions/7/suggestions')) {
       return new Response(JSON.stringify(suggestions), { status: 200 });
@@ -121,11 +125,19 @@ describe('Startup Sim frontend shell', () => {
     render(<App />);
 
     expect(await screen.findByText('NimbusAI')).toBeInTheDocument();
+    expect(screen.getByText('第1月')).toBeInTheDocument();
+    expect(screen.getAllByText('现金').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('用户').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('产品').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('声誉').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('创始人股权').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('估值').length).toBeGreaterThan(0);
     expect(screen.getByText('现金流可支撑时间')).toBeInTheDocument();
     expect(screen.getByText('核心矛盾')).toBeInTheDocument();
     expect(screen.getByText('董事会')).toBeInTheDocument();
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
+    expect(screen.getByLabelText('移动端本回合指令')).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/跑道|Runway/);
   });
 
@@ -149,7 +161,10 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
     await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
 
-    expect(await screen.findByText('Month 2')).toBeInTheDocument();
+    expect(await screen.findByText('第2月')).toBeInTheDocument();
+    expect(screen.getByText('回合结果')).toBeInTheDocument();
+    expect(screen.getByText('第1月执行结果')).toBeInTheDocument();
+    expect(screen.getByText('研发投入提升了产品分，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getByText('研发有效，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getByText('灵犀客服云')).toBeInTheDocument();
     expect(screen.getByText('研发投入带来产品进展')).toBeInTheDocument();

@@ -60,6 +60,7 @@ input {
 .icon-button,
 .panel,
 .brand-panel,
+.mobile-command-strip,
 .action-dock {
   border: 1px solid #8c9aae;
   background: linear-gradient(180deg, #ffffff 0%, #eef3f8 100%);
@@ -447,6 +448,10 @@ h2 {
   padding: 10px;
 }
 
+.mobile-command-strip {
+  display: none;
+}
+
 .action-dock > button,
 .command-form button {
   min-height: 52px;
@@ -463,11 +468,13 @@ h2 {
   align-items: center;
 }
 
-.command-form label {
+.command-form label,
+.mobile-command-strip label {
   font-weight: 800;
 }
 
-.command-form input {
+.command-form input,
+.mobile-command-strip input {
   min-height: 48px;
   border: 1px solid #8c9aae;
   border-radius: 6px;
@@ -475,13 +482,50 @@ h2 {
   background: #fff;
 }
 
-.command-form button {
+.command-form button,
+.mobile-command-strip button {
   background: #245a9d;
   color: #fff;
 }
 
-.command-form button:disabled {
+.command-form button:disabled,
+.mobile-command-strip button:disabled {
   opacity: 0.6;
+}
+
+.result-panel strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.result-grid span {
+  border: 1px solid #d6dee8;
+  border-radius: 6px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.result-grid b,
+.result-grid em {
+  display: block;
+}
+
+.result-grid em {
+  font-style: normal;
+  font-weight: 900;
+}
+
+.result-list {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: #4c5e76;
+  line-height: 1.45;
 }
 
 .toast {
@@ -536,6 +580,7 @@ h2 {
 @media (max-width: 640px) {
   .app-shell {
     padding: 8px;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
   }
 
   .hud,
@@ -544,6 +589,55 @@ h2 {
   .action-dock,
   .command-form {
     grid-template-columns: 1fr;
+  }
+
+  .hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .hud-card {
+    min-height: 54px;
+    padding: 7px 8px;
+  }
+
+  .hud-card strong {
+    font-size: 0.94rem;
+  }
+
+  .hud-card span {
+    font-size: 0.7rem;
+  }
+
+  .icon-button {
+    min-height: 48px;
+  }
+
+  .mobile-command-strip {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  .mobile-command-strip label {
+    grid-column: 1 / -1;
+  }
+
+  .mobile-command-strip button {
+    min-height: 48px;
+    border: 1px solid #8c9aae;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
   }
 
   .office-stage,

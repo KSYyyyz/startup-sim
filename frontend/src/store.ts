@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 
 import { createSession, loadSuggestions, submitTurn } from './api';
-import type { GameStateView, SuggestionResponse } from './types';
+import type { GameStateView, SuggestionResponse, TurnResponse } from './types';
 
 type GameStore = {
   state: GameStateView | null;
   suggestions: SuggestionResponse | null;
+  lastTurn: TurnResponse['turn'] | null;
   loading: boolean;
   submitting: boolean;
   error: string;
@@ -17,6 +18,7 @@ type GameStore = {
 export const useGameStore = create<GameStore>((set, get) => ({
   state: null,
   suggestions: null,
+  lastTurn: null,
   loading: false,
   submitting: false,
   error: '',
@@ -25,7 +27,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ loading: true, error: '' });
     try {
       const state = await createSession();
-      set({ state, loading: false });
+      set({ state, lastTurn: null, loading: false });
     } catch (error) {
       set({ error: error instanceof Error ? error.message : '启动失败', loading: false });
     }
@@ -36,7 +38,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ submitting: true, error: '' });
     try {
       const result = await submitTurn(current.session_id, command);
-      set({ state: result.state, submitting: false });
+      set({ state: result.state, lastTurn: result.turn, suggestions: null, submitting: false });
     } catch (error) {
       set({ error: error instanceof Error ? error.message : '执行失败', submitting: false });
     }
