@@ -45,9 +45,13 @@ describe('gameplay content definitions', () => {
       role: '财务负责人',
       message: '现金压力明显，需要控制支出。'
     });
-    expect(cfoResponse).toEqual({
+    expect(cfoResponse).toMatchObject({
+      source: 'board',
+      sourceLabel: 'CFO',
+      title: '回应 CFO 压力',
+      description: '现金压力明显，需要控制支出。',
       command: '花1万研发产品保持最低运转',
-      tradeoffs: ['现金流可支撑时间 +', '增长 -']
+      tags: ['现金流可支撑时间 +', '增长 -']
     });
 
     const competitorResponse = buildCompetitorPressureResponse({
@@ -56,9 +60,13 @@ describe('gameplay content definitions', () => {
       mrr: 41000,
       trend: 'up'
     });
-    expect(competitorResponse).toEqual({
+    expect(competitorResponse).toMatchObject({
+      source: 'competitor',
+      sourceLabel: '灵犀客服云',
+      title: '回应灵犀客服云压力',
+      description: '升级企业功能',
       command: '花25万研发产品提升竞争力',
-      tradeoffs: ['产品 ++', '现金 --']
+      tags: ['产品 ++', '现金 --']
     });
 
     expect(commandTradeoffs('融资300万出让8%股权')).toEqual(['现金 +', '股权 -']);

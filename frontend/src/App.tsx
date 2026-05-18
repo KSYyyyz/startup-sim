@@ -20,7 +20,9 @@ import { OfficeStage } from './game/OfficeStage';
 import {
   buildBoardPressureResponse,
   buildCompetitorPressureResponse,
+  prepareAction,
   quickActionShortcuts,
+  type PreparedAction,
   resolveOfficePulse,
   type QuickActionShortcut
 } from './game/gameplayContent';
@@ -157,12 +159,7 @@ export default function App() {
   const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
     useGameStore();
   const [command, setCommand] = useState('');
-  const [preparedAction, setPreparedAction] = useState<OfficeAction | null>(null);
-  const [pressureResponse, setPressureResponse] = useState<{
-    source: string;
-    message: string;
-    tradeoffs: string[];
-  } | null>(null);
+  const [preparedAction, setPreparedAction] = useState<PreparedAction | null>(null);
   const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'log'>('board');
 
   useEffect(() => {
@@ -190,45 +187,38 @@ export default function App() {
     await runTurn(command);
     setCommand('');
     setPreparedAction(null);
-    setPressureResponse(null);
   }
 
   function handleCommandChange(value: string) {
     setCommand(value);
     setPreparedAction(null);
-    setPressureResponse(null);
   }
 
   function handleQuickAction(action: QuickActionShortcut) {
     setCommand(action.command);
-    setPreparedAction(action);
-    setPressureResponse(null);
+    setPreparedAction(prepareAction(action, { id: action.id, source: 'quick', sourceLabel: '快捷行动' }));
   }
 
   function handleOfficeAction(action: OfficeAction) {
     setCommand(action.command);
-    setPreparedAction(action);
-    setPressureResponse(null);
+    setPreparedAction(prepareAction(action, { id: `room-${action.title}`, source: 'room', sourceLabel: '办公室行动' }));
   }
 
   function clearPreparedAction() {
     setCommand('');
     setPreparedAction(null);
-    setPressureResponse(null);
   }
 
   function handleBoardResponse(member: { name: string; role: string; message: string }) {
     const response = buildBoardPressureResponse(member);
     setCommand(response.command);
-    setPreparedAction(null);
-    setPressureResponse({ source: member.name, message: member.message, tradeoffs: response.tradeoffs });
+    setPreparedAction(response);
   }
 
   function handleCompetitorResponse(item: CompetitorItem) {
     const response = buildCompetitorPressureResponse(item);
     setCommand(response.command);
-    setPreparedAction(null);
-    setPressureResponse({ source: item.name, message: item.status, tradeoffs: response.tradeoffs });
+    setPreparedAction(response);
   }
 
   async function handleAdvice() {
@@ -488,24 +478,15 @@ export default function App() {
                 取消
               </button>
               <p>{preparedAction.description}</p>
-              <code>{preparedAction.command}</code>
-            </article>
-          )}
-          {!preparedAction && pressureResponse && (
-            <article className="pressure-response" aria-label="已生成回应指令">
-              <span>已生成回应指令</span>
-              <strong>{pressureResponse.source}</strong>
-              <p>{pressureResponse.message}</p>
-              <div className="action-tags pressure-tags" aria-label="回应指令取舍">
-                {pressureResponse.tradeoffs.map((tag) => (
+              <div className="action-tags" aria-label="已准备行动取舍">
+                {preparedAction.tags.map((tag) => (
                   <small key={tag}>{tag}</small>
                 ))}
               </div>
+              <code>{preparedAction.command}</code>
             </article>
           )}
-          {!preparedAction && !pressureResponse && (
-            <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>
-          )}
+          {!preparedAction && <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>}
           <form onSubmit={handleSubmit} className="command-form">
             <label htmlFor="turn-command">本回合指令</label>
             <input

@@ -11,6 +11,12 @@ export type QuickActionShortcut = GameplayActionDefinition & {
   iconKey: 'boxes' | 'users' | 'hand-coins' | 'megaphone';
 };
 
+export type PreparedAction = GameplayActionDefinition & {
+  id: string;
+  source: 'room' | 'quick' | 'board' | 'competitor';
+  sourceLabel: string;
+};
+
 export type GameplayRoomDefinition = {
   id: string;
   name: string;
@@ -41,10 +47,7 @@ export type PressureResponseTemplate = {
   command: string;
 };
 
-export type PressureResponsePlan = {
-  command: string;
-  tradeoffs: string[];
-};
+export type PressureResponsePlan = PreparedAction;
 
 export type OfficePulseInput = {
   title: string;
@@ -279,14 +282,58 @@ function responseFromTemplates(templates: PressureResponseTemplate[], signal: st
   };
 }
 
+export function prepareAction(
+  action: GameplayActionDefinition,
+  options: {
+    id: string;
+    source: PreparedAction['source'];
+    sourceLabel: string;
+  }
+): PreparedAction {
+  return {
+    ...action,
+    id: options.id,
+    source: options.source,
+    sourceLabel: options.sourceLabel
+  };
+}
+
 export function buildBoardPressureResponse(member: BoardPressureInput): PressureResponsePlan {
   const signal = `${member.name} ${member.role} ${member.message}`;
-  return responseFromTemplates(pressureResponseTemplates.board, signal, '花10万研发产品');
+  const response = responseFromTemplates(pressureResponseTemplates.board, signal, '花10万研发产品');
+  return prepareAction(
+    {
+      title: `回应 ${member.name} 压力`,
+      description: member.message,
+      command: response.command,
+      impact: '根据董事会压力生成的 CEO 回应。',
+      tags: response.tradeoffs
+    },
+    {
+      id: `board-${member.name}`,
+      source: 'board',
+      sourceLabel: member.name
+    }
+  );
 }
 
 export function buildCompetitorPressureResponse(item: CompetitorPressureInput): PressureResponsePlan {
   const signal = `${item.name} ${item.status} trend:${item.trend}`;
-  return responseFromTemplates(pressureResponseTemplates.competitor, signal, '花10万做营销推广');
+  const response = responseFromTemplates(pressureResponseTemplates.competitor, signal, '花10万做营销推广');
+  return prepareAction(
+    {
+      title: `回应${item.name}压力`,
+      description: item.status,
+      command: response.command,
+      impact: '根据竞品态势生成的 CEO 回应。',
+      tags: response.tradeoffs
+    },
+    {
+      id: `competitor-${item.name}`,
+      source: 'competitor',
+      sourceLabel: item.name
+    }
+  );
 }
 
 export function resolveOfficePulse(input: OfficePulseInput): OfficePulseSignal {

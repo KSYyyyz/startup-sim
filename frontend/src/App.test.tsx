@@ -237,11 +237,12 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.click(screen.getByRole('button', { name: '回应 CFO 压力' }));
 
     expect(screen.getByLabelText('本回合指令')).toHaveValue('花1万研发产品保持最低运转');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('CFO');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('控制固定支出。');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('现金流可支撑时间 +');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('增长 -');
-    expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('已生成回应指令')).not.toBeInTheDocument();
+    const preparedAction = screen.getByLabelText('已准备行动');
+    expect(preparedAction).toHaveTextContent('回应 CFO 压力');
+    expect(preparedAction).toHaveTextContent('控制固定支出。');
+    expect(preparedAction).toHaveTextContent('现金流可支撑时间 +');
+    expect(preparedAction).toHaveTextContent('增长 -');
   });
 
   test('lets the player turn competitor pressure into a command', async () => {
@@ -253,11 +254,12 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.click(screen.getByRole('button', { name: '回应快答科技压力' }));
 
     expect(screen.getByLabelText('本回合指令')).toHaveValue('花10万做营销推广');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('快答科技');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('本月暂无重大动作');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('用户 +');
-    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('现金 -');
-    expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('已生成回应指令')).not.toBeInTheDocument();
+    const preparedAction = screen.getByLabelText('已准备行动');
+    expect(preparedAction).toHaveTextContent('回应快答科技压力');
+    expect(preparedAction).toHaveTextContent('本月暂无重大动作');
+    expect(preparedAction).toHaveTextContent('用户 +');
+    expect(preparedAction).toHaveTextContent('现金 -');
   });
 
   test('submits a turn and refreshes post-turn board competitor and insight feedback', async () => {
