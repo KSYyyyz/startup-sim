@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/StartupSimController.cs" id="1"]
 [ext_resource type="Script" path="res://scripts/OfficeGridView.cs" id="2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/TimeProgressController.cs" id="7"]
 [ext_resource type="Script" path="res://scripts/GodotTurnBridge.cs" id="8"]
 [ext_resource type="Script" path="res://scripts/MonthlyReportController.cs" id="9"]
+[ext_resource type="Script" path="res://scripts/G2OperationsPanelController.cs" id="10"]
 
 [node name="StartupSimMain" type="Node"]
 script = ExtResource("1")
@@ -50,3 +51,133 @@ MonthIndex = 1
 
 [node name="MonthlyReportController" type="Node" parent="."]
 script = ExtResource("9")
+
+[node name="G2OperationsPanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 840.0
+offset_top = 32.0
+offset_right = 1240.0
+offset_bottom = 680.0
+script = ExtResource("10")
+ZonePaintingControllerPath = NodePath("../ZonePaintingController")
+FacilityPlacementControllerPath = NodePath("../FacilityPlacementController")
+EmployeeManagementControllerPath = NodePath("../EmployeeManagementController")
+CapacityPreviewControllerPath = NodePath("../CapacityPreviewController")
+TimeProgressControllerPath = NodePath("../TimeProgressController")
+MonthlyReportControllerPath = NodePath("../MonthlyReportController")
+OfficeGridViewPath = NodePath("../OfficeGridView")
+
+[node name="TitleLabel" type="Label" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_right = 360.0
+offset_bottom = 28.0
+text = "G2 最小操作台"
+
+[node name="StatusLabel" type="Label" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 36.0
+offset_right = 360.0
+offset_bottom = 96.0
+autowrap_mode = 3
+text = "选择区域、设施或员工操作，现金流可支撑时间由 C# Core 月结结果解释。"
+
+[node name="ZoneButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 112.0
+offset_right = 360.0
+offset_bottom = 148.0
+
+[node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons"]
+layout_mode = 2
+text = "研发区"
+
+[node name="SalesZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons"]
+layout_mode = 2
+text = "销售区"
+
+[node name="ServerZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons"]
+layout_mode = 2
+text = "服务器区"
+
+[node name="FacilityButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 160.0
+offset_right = 360.0
+offset_bottom = 196.0
+
+[node name="DeskButton" type="Button" parent="G2OperationsPanel/FacilityButtons"]
+layout_mode = 2
+text = "办公桌"
+
+[node name="WhiteboardButton" type="Button" parent="G2OperationsPanel/FacilityButtons"]
+layout_mode = 2
+text = "白板"
+
+[node name="ServerRackButton" type="Button" parent="G2OperationsPanel/FacilityButtons"]
+layout_mode = 2
+text = "机柜"
+
+[node name="EmployeeButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 208.0
+offset_right = 360.0
+offset_bottom = 244.0
+
+[node name="HireProductButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+layout_mode = 2
+text = "招研发"
+
+[node name="HireSalesButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+layout_mode = 2
+text = "招销售"
+
+[node name="HireOpsButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+layout_mode = 2
+text = "招运维"
+
+[node name="TrainButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+layout_mode = 2
+text = "训练"
+
+[node name="TimeButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 256.0
+offset_right = 360.0
+offset_bottom = 292.0
+
+[node name="PauseButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+layout_mode = 2
+text = "暂停"
+
+[node name="NormalSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+layout_mode = 2
+text = "1x"
+
+[node name="DoubleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+layout_mode = 2
+text = "2x"
+
+[node name="TripleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+layout_mode = 2
+text = "3x"
+
+[node name="AdvanceMonthButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+layout_mode = 2
+text = "推进月份"
+
+[node name="CapacityLabel" type="Label" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 312.0
+offset_right = 360.0
+offset_bottom = 392.0
+autowrap_mode = 3
+text = "产能预览：等待区域、设施和员工。"
+
+[node name="ReportLabel" type="Label" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 408.0
+offset_right = 360.0
+offset_bottom = 620.0
+autowrap_mode = 3
+text = "月报将在推进月份后出现。"

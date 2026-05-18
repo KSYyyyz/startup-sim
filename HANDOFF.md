@@ -179,6 +179,21 @@ G1 当前具备代码级纵向切片：
 - `csharp/StartupSim.Core.Tests/OfficeG1VerticalSliceTests.cs`
 - `tests/test_godot_scaffold.py::test_godot_g1_acceptance_report_exists`
 
+## 6.1 G2-0 当前新增能力
+
+G2 起步轮已经建立 Godot 美术导入验证和最小操作台：
+
+1. `godot/StartupSimGodot/scenes/art_import_preview.tscn` 引用核心 atlas，用于测试办公室地块、设施、员工、状态图标和招聘头像在 100%、75%、50% 缩放下的可读性。
+2. `godot/StartupSimGodot/scripts/ArtImportPreviewController.cs` 提供 atlas 切片预览校验，使用 `Texture2D` 和 `AtlasTexture`，不接触经营规则。
+3. `godot/StartupSimGodot/scripts/G2OperationsPanelController.cs` 挂到主场景，连接现有区域、设施、员工、产能、时间和月报控制器。
+4. 主场景新增 `G2OperationsPanel`，玩家可以从按钮入口选择区域工具、设施工具、招聘、训练、暂停、速度和推进月份。
+5. 玩家可见文案继续使用“现金流可支撑时间”，Godot UI 不引用 `DeterministicTurnEngine`，月度经营仍通过 `GodotTurnBridge` 进入 C# Core。
+
+对应关键测试：
+
+- `tests/test_godot_scaffold.py::test_godot_main_scene_mounts_g2_minimal_operations_ui`
+- `tests/test_godot_scaffold.py::test_godot_art_import_preview_scene_references_core_atlases`
+
 ## 7. 下一步建议
 
 下一阶段应该进入 G2：Godot 可操作 UI 与 C# Core 经营规则对齐。

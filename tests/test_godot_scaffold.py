@@ -40,6 +40,9 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "CapacityPreviewController.cs",
         SCRIPTS / "TimeProgressController.cs",
         SCRIPTS / "MonthlyReportController.cs",
+        SCRIPTS / "G2OperationsPanelController.cs",
+        SCRIPTS / "ArtImportPreviewController.cs",
+        SCENES / "art_import_preview.tscn",
     ]
 
     for path in required:
@@ -176,6 +179,61 @@ def test_godot_main_scene_mounts_monthly_report_controller():
     assert "BuildCompetitorSignal" in controller
     assert "BuildBusinessInsight" in controller
     assert "TurnResultSnapshot" in controller
+
+
+def test_godot_main_scene_mounts_g2_minimal_operations_ui():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "G2OperationsPanel" in scene
+    assert "res://scripts/G2OperationsPanelController.cs" in scene
+    assert 'ZonePaintingControllerPath = NodePath("../ZonePaintingController")' in scene
+    assert 'FacilityPlacementControllerPath = NodePath("../FacilityPlacementController")' in scene
+    assert 'EmployeeManagementControllerPath = NodePath("../EmployeeManagementController")' in scene
+    assert 'TimeProgressControllerPath = NodePath("../TimeProgressController")' in scene
+    assert 'CapacityPreviewControllerPath = NodePath("../CapacityPreviewController")' in scene
+    assert 'MonthlyReportControllerPath = NodePath("../MonthlyReportController")' in scene
+    assert 'OfficeGridViewPath = NodePath("../OfficeGridView")' in scene
+
+    assert "SelectProductZoneTool" in controller
+    assert "SelectSalesZoneTool" in controller
+    assert "SelectServerZoneTool" in controller
+    assert "SelectDeskFacilityTool" in controller
+    assert "SelectWhiteboardFacilityTool" in controller
+    assert "SelectServerFacilityTool" in controller
+    assert "HireProductEmployee" in controller
+    assert "TrainSelectedEmployee" in controller
+    assert "AdvanceMonth" in controller
+    assert "SetTripleSpeed" in controller
+    assert "GridCellSelected" in controller
+    assert "现金流可支撑时间" in controller
+    assert "Runway" not in controller
+    assert "跑道" not in controller
+    assert "DeterministicTurnEngine" not in controller
+
+
+def test_godot_art_import_preview_scene_references_core_atlases():
+    scene = (SCENES / "art_import_preview.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "ArtImportPreviewController.cs").read_text(encoding="utf-8")
+
+    assert "ArtImportPreview" in scene
+    assert "res://scripts/ArtImportPreviewController.cs" in scene
+    for atlas in [
+        "office-tile-atlas-v0.1.png",
+        "facility-upgrade-atlas-v0.1.png",
+        "employee-sprite-atlas-v0.1.png",
+        "status-icon-atlas-v0.1.png",
+        "recruitment-portrait-sheet-v0.2-angle-balanced.png",
+    ]:
+        assert atlas in scene
+
+    assert "Scale100Percent" in scene
+    assert "Scale75Percent" in scene
+    assert "Scale50Percent" in scene
+    assert "ValidateAtlasPreview" in controller
+    assert "AtlasTexture" in controller
+    assert "Texture2D" in controller
+    assert "DeterministicTurnEngine" not in controller
 
 
 def test_godot_g1_acceptance_report_exists():

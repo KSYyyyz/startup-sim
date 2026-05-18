@@ -1,0 +1,112 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/ArtImportPreviewController.cs" id="1"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/office-tile-atlas-v0.1.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/facility-upgrade-atlas-v0.1.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/employee-sprite-atlas-v0.1.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/status-icon-atlas-v0.1.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/recruitment-portrait-sheet-v0.2-angle-balanced.png" id="6"]
+
+[node name="ArtImportPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+script = ExtResource("1")
+OfficeTileAtlas = ExtResource("2")
+FacilityAtlas = ExtResource("3")
+EmployeeAtlas = ExtResource("4")
+StatusIconAtlas = ExtResource("5")
+RecruitmentPortraitAtlas = ExtResource("6")
+
+[node name="Scale100Percent" type="Control" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 48.0
+offset_right = 420.0
+offset_bottom = 280.0
+
+[node name="OfficeTiles100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Facility100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 112.0
+offset_right = 208.0
+offset_bottom = 96.0
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Employee100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 224.0
+offset_right = 320.0
+offset_bottom = 96.0
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Scale75Percent" type="Control" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 320.0
+offset_right = 420.0
+offset_bottom = 500.0
+scale = Vector2(0.75, 0.75)
+
+[node name="StatusIcon75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 112.0
+offset_right = 208.0
+offset_bottom = 96.0
+texture = ExtResource("6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Scale50Percent" type="Control" parent="."]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 48.0
+offset_right = 920.0
+offset_bottom = 260.0
+scale = Vector2(0.5, 0.5)
+
+[node name="OfficeTiles50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Facility50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 112.0
+offset_right = 208.0
+offset_bottom = 96.0
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Employee50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 224.0
+offset_right = 320.0
+offset_bottom = 96.0
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
