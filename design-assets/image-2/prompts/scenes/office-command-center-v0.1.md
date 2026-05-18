@@ -2,7 +2,7 @@
 
 Asset id: `scene-office-command-center-v0-1`
 Required model: `image-2`
-Frontend export: `/assets/scenes/office-command-center-v0.1.jpg`
+Godot export: `godot/StartupSimGodot/assets/scenes/office-command-center-v0.1.jpg`
 
 ## Prompt
 
@@ -14,6 +14,6 @@ Avoid: embedded text labels, brand logos other than generic NimbusAI-style signa
 
 ## Usage Notes
 
-- Keep important text as frontend overlays instead of baking it into the image.
+- Keep important text as Godot UI overlays instead of baking it into the image.
 - Future versions should preserve the same room layout vocabulary so player orientation remains stable across releases.
 - If UI density increases, regenerate a cleaner version with larger empty areas near room boundaries.

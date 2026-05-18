@@ -26,9 +26,7 @@ Startup Sim 的目标是一款 AI 原生创业经营模拟独立游戏。
 
 完整参考实现：`src/core/`
 
-线上规则验证台：`frontend/` + <https://startup-sim-khaki.vercel.app>
-
-Godot 是后续主要开发目标。Web/Vercel 保留为远程试玩和规则验证，不再作为最终独立游戏外壳继续大规模打磨。
+Godot 是后续唯一前端和主要表现层。Web/Vercel 路线已放弃，后续不再维护 React/Vite 前端。
 
 ## 3. 产品支柱
 

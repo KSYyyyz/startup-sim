@@ -5,9 +5,7 @@
 你是AI客服SaaS创始人，种子轮100万。12个月内做产品/营销/招聘/融资决策，在董事会、竞品、客户三方博弈中活下来。
 
 > ⚠️ Alpha 1.9.1 是体验验证与路线收口版本。Alpha 1.9 已完成核心矛盾/竞品态势/经营洞察/危机解释等反馈增强。
-> 后续开发以 C# Core + Godot 表现层为主。Web 前端保留为规则验证台和远程试玩入口，不再作为最终独立游戏外壳继续大规模打磨。
-
-**Web 规则验证台**: https://startup-sim-khaki.vercel.app
+> 后续开发以 C# Core + Godot 表现层为主。Vercel/Web 前端路线已放弃，后续只做 Godot 前端。
 
 ### 🔗 快速导航
 
@@ -20,7 +18,6 @@
 | [docs/reference_game_analysis.md](docs/reference_game_analysis.md) | 本地参考游戏结构分析与 Startup Sim 借鉴边界 |
 | [docs/godot_migration_plan.md](docs/godot_migration_plan.md) | Godot 独立游戏表现层迁移方案 |
 | [docs/csharp_core_migration_plan.md](docs/csharp_core_migration_plan.md) | C# Core 规则迁移方案 |
-| [docs/web_validation_bench.md](docs/web_validation_bench.md) | Web 规则验证台说明 |
 | [docs/project_layout.md](docs/project_layout.md) | 本地与云端项目布局标准 |
 | [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 常见问题排查
@@ -32,9 +29,7 @@
 - Godot 工程：`godot/StartupSimGodot/`
 - 规则核心：`csharp/StartupSim.Core/`
 - 完整参考实现：`src/core/`
-- Web 规则验证台：`frontend/`，线上地址 <https://startup-sim-khaki.vercel.app>
-
-Web 前端仍可用于远程试玩、API 验证和文案回归，但不再承接最终桌面产品的主要 UI 打磨。
+- 旧 Web/Vercel 前端已删除，后续前端只在 Godot 中实现。
 
 ## 🧱 C# Core / Godot 迁移进度
 
@@ -373,7 +368,6 @@ pytest tests/ -v    # 402 passed
 startup-sim/
 ├── app.py                  # CLI入口
 ├── feishu_play.py          # 飞书薄适配层：命令识别 + session映射 + TurnEngine调用 + 格式化输出
-├── frontend/               # React + Vite Web 规则验证台
 ├── godot/StartupSimGodot/  # Godot 4.6.x .NET 表现层
 ├── csharp/StartupSim.Core/ # 可迁移 C# 规则核心
 ├── config.py               # 配置
@@ -417,7 +411,6 @@ startup-sim/
 │   ├── indie_game_product_direction.md          # 独立游戏化产品方向
 │   ├── godot_migration_plan.md                  # Godot 表现层迁移方案
 │   ├── csharp_core_migration_plan.md            # C# Core 规则迁移方案
-│   ├── web_validation_bench.md                  # Web 规则验证台说明
 │   ├── project_layout.md                        # 本地与云端布局标准
 │   ├── playtest_feedback_template.md # 玩家试玩反馈模板
 │   ├── playtest_observation.md       # 试玩观察记录模板
@@ -443,7 +436,6 @@ startup-sim/
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
 - Godot: Godot 4.6.x .NET + C# presentation scripts
 - Portable core: .NET 8 tests + `StartupSim.Core`
-- Web validation bench: React + Vite + TypeScript + Zustand + Playwright
 - Alpha 1.8：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help + 融资估值引擎/声誉系统/状态面板/反馈强制 + 试玩文档体系
 - 零API消耗，全规则引擎驱动
 

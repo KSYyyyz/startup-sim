@@ -2,7 +2,7 @@
   "schema_version": 1,
   "policy": {
     "required_generation_model": "image-2",
-    "frontend_exports_root": "frontend/public/assets",
+    "godot_exports_root": "godot/StartupSimGodot/assets",
     "prompt_records_root": "design-assets/image-2/prompts",
     "library_exports_root": "design-assets/image-2/exports",
     "usage_contract": {
@@ -10,7 +10,7 @@
       "used_by_files_must_exist": true,
       "used_by_files_must_reference_public_url": true
     },
-    "notes": "Generated frontend visual assets must be registered here before React code references them. Every active image-2 asset must declare used_by, and each used_by file must directly reference the asset public_url."
+    "notes": "Generated visual assets must be registered here before Godot references them. Every active image-2 asset must declare used_by."
   },
   "assets": [
     {
@@ -20,12 +20,11 @@
       "generation_model": "image-2",
       "source_prompt_path": "design-assets/image-2/prompts/scenes/office-command-center-v0.1.md",
       "library_path": "design-assets/image-2/exports/scenes/office-command-center-v0.1.jpg",
-      "frontend_path": "frontend/public/assets/scenes/office-command-center-v0.1.jpg",
-      "public_url": "/assets/scenes/office-command-center-v0.1.jpg",
+      "godot_path": "godot/StartupSimGodot/assets/scenes/office-command-center-v0.1.jpg",
       "used_by": [
-        "frontend/src/game/OfficeStage.tsx"
+        "godot/StartupSimGodot/scenes/main.tscn"
       ],
-      "notes": "Alpha 0.1 office command center scene registered as the reusable frontend stage asset. Regenerate with image-2 before major style changes."
+      "notes": "Office command center scene registered as the reusable Godot stage asset. Regenerate with image-2 before major style changes."
     }
   ]
 }

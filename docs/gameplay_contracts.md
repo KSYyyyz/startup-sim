@@ -1,31 +1,39 @@
 # Startup Sim Gameplay Contracts
 
-Status: Alpha 0.4 contract baseline
+Status: Godot contract baseline
 Date: 2026-05-18
 
-This document defines the shared contract layer between the Godot presentation layer, Web validation bench, and backend/rules layer.
+This document defines the shared contract layer between the Godot presentation layer and the backend/rules layer.
 
 ## Principle
 
-The backend rules layer owns facts. The frontend owns presentation. The contract layer describes the data that can move between them.
+The rules layer owns facts. Godot owns presentation. The contract layer describes data that can move between them.
 
 ## Contracts
 
 | Contract | Owner | Purpose |
 | --- | --- | --- |
 | `ActionPlan` | Shared | A prepared player action before deterministic settlement. |
-| `TurnFacts` | Backend/rules Agent | What actually happened after TurnEngine settlement. |
-| `RoleMemory` | Backend/rules Agent | Role memory derived from historical facts. |
-| `OfficeSignal` | Shared | Room-level signals that Godot and the Web validation bench can render differently. |
-| `StoryEvent` | Backend/rules Agent | Short replayable events derived from rule events, competitors, and insight facts. |
-| `PhaseGoal` | Backend/rules Agent | Current stage objectives, direction tags, and risk hints. |
-| `ObjectiveUpdate` | Backend/rules Agent | Post-settlement progress against stage objectives. |
+| `TurnFacts` | Rules | What actually happened after deterministic settlement. |
+| `RoleMemory` | Rules | Role memory derived from historical facts. |
+| `OfficeSignal` | Shared | Room-level signals that Godot can render as room animation, character speech, or icons. |
+| `StoryEvent` | Rules | Short replayable events derived from rule events, competitors, and insight facts. |
+| `PhaseGoal` | Rules | Current stage objectives, direction tags, and risk hints. |
+| `ObjectiveUpdate` | Rules | Post-settlement progress against stage objectives. |
 | `ScenarioDefinition` | Shared | Scenario rooms, roles, competitors, and market framing. |
-| `AssetManifest` | Frontend/art Agent | image-2 visual assets and stable references. |
+| `AssetManifest` | Godot/art | image-2 visual assets and stable references. |
 
-### ActionPlan
+## Required Boundaries
 
-`ActionPlan` describes a command before settlement. It can come from a room, quick action, board response, competitor response, or monthly recovery.
+- Godot may prepare actions, display previews, and submit commands.
+- Godot must not settle cash, users, product score, valuation, equity, board state, competitor state, or endings.
+- C# Core remains pure rules code and must not depend on Godot APIs.
+- Python remains the complete reference implementation until C# Core parity gates are complete.
+- New contract fields must be added to tests and docs before Godot UI depends on them.
+
+## ActionPlan
+
+`ActionPlan` describes a command before settlement.
 
 Required fields:
 
@@ -38,9 +46,9 @@ Required fields:
 - `tradeoffs`
 - `authority`
 
-The `authority` field must be `backend-turn-engine`. A frontend ActionPlan can explain intent and tradeoffs, but it cannot settle numeric state.
+The `authority` field must be `backend-turn-engine` or `csharp-core`. A presentation ActionPlan can explain intent and tradeoffs, but it cannot settle numeric state.
 
-### TurnFacts
+## TurnFacts
 
 `TurnFacts` describes what actually happened after settlement.
 
@@ -53,9 +61,9 @@ Required fields:
 - `next_pressure`
 - `authority`
 
-`changes` should contain metric facts, short labels, and values that already came from settled state. `replay_basis` should cite backend reasons or deterministic replay facts. `next_pressure` should come from post-settlement rule outputs, such as the settled conflict summary. Frontend narrative can summarize these facts, but cannot add new outcomes.
+`changes` should contain metric facts, short labels, and values that already came from settled state. `replay_basis` should cite deterministic replay facts. `next_pressure` should come from post-settlement rule outputs.
 
-### RoleMemory
+## RoleMemory
 
 `RoleMemory` describes what a character remembers from settled facts.
 
@@ -68,11 +76,11 @@ Required fields:
 - `implication`
 - `source`
 
-The `source` field must be `settled-turn-facts`. Role memory cannot be generated from UI hover state, unsent commands, or speculative previews. Persisted history lives in SQLite `role_memory_history`; the turn response exposes the current turn as `role_memory` and recent persisted rows as `memory_history` / `recent_role_memory`.
+The `source` field must be `settled-turn-facts`. Role memory cannot be generated from hover state, unsent commands, or speculative previews.
 
-### OfficeSignal
+## OfficeSignal
 
-`OfficeSignal` describes a room-level signal that can be rendered by Godot or Web.
+`OfficeSignal` describes a room-level signal that Godot can render.
 
 Required fields:
 
@@ -84,9 +92,9 @@ Required fields:
 - `source`
 - `visual_intent`
 
-`visual_intent` is currently `surface-in-office`. Godot may render it as room animation, character speech, or icon; React may render it as a badge or bubble in the Web validation bench. Neither renderer should infer business rules from raw text.
+`visual_intent` is currently `surface-in-office`. Godot may render it as room animation, character speech, or icon. Godot should not infer business rules from raw text.
 
-### StoryEvent
+## StoryEvent
 
 `StoryEvent` describes one compact event for monthly reports and future post-game replay.
 
@@ -98,9 +106,9 @@ Required fields:
 - `tone`
 - `source`
 
-The `source` field must be one of `rule-event`, `competitor-fact`, or `business-insight`. Story events are narrative surfaces over settled facts. They cannot change metrics, advance turns, or introduce outcomes that are not already present in `TurnResult`.
+The `source` field must be one of `rule-event`, `competitor-fact`, or `business-insight`. Story events cannot change metrics, advance turns, or introduce outcomes that are not already present in settled facts.
 
-### PhaseGoal
+## PhaseGoal
 
 `PhaseGoal` describes stage objectives and player-facing directions.
 
@@ -111,9 +119,9 @@ Required fields:
 - `summary`
 - `objectives`
 
-Each objective may include `id`, `title`, `status`, `progress_label`, `action_directions`, and `risk_hint`. It must not include `command`, `example_input`, prepared action ids, or one-click execution metadata. The goal system can guide player thinking, but the player must still compose the CEO command.
+Each objective may include `id`, `title`, `status`, `progress_label`, `action_directions`, and `risk_hint`. It must not include one-click execution metadata. The goal system can guide player thinking, but the player must still compose or choose the CEO command.
 
-### ObjectiveUpdate
+## ObjectiveUpdate
 
 `ObjectiveUpdate` describes how settled turn results affected stage objectives.
 
@@ -124,40 +132,8 @@ Required fields:
 - `status`
 - `summary`
 
-It is derived only after settlement from `TurnResult`, `StateDelta`, and post-turn `CompanyState`. It must not recommend or execute the next action.
-
-## Backend Migration Notes
-
-Current backend coverage:
-
-- `ActionPlan` already exists as `src.core.models.ActionPlan`. The HTTP command preview exposes a read-only action explanation, while TurnEngine remains the only numeric settlement authority.
-- `TurnFacts` first slice is exposed through `POST /api/sessions/{session_id}/turns` as `turn.turn_facts`. It is serialized from `src.core.models.TurnResult`, especially `month`, `action_plan.raw_input`, `delta`, `delta.reasons`, post-turn `CompanyState`, and `conflict_summary.next_focus`.
-- `RoleMemory` is persisted in `role_memory_history` after each settled turn. The same turn response exposes `turn.role_memory` for current memories and `turn.memory_history` / `turn.recent_role_memory` for recent persisted memories; it must not derive from hover state, unsent commands, or command previews.
-- `OfficeSignal` first slice is exposed through the same turn response as `turn.office_signals`. It is serialized from settled state, `conflict_summary`, and `insight`, with short fact text plus renderer-neutral room and visual intent fields.
-- `StoryEvent` first slice is exposed through the same turn response as `turn.story_events`. It is serialized from settled rule events, competitor moves, or business insight fallback, then rendered by the frontend as a compact monthly event list.
-- `PhaseGoal` is exposed through `GameStateView.phase_goals`. It is derived from current state thresholds and only provides direction tags and risk hints, not executable commands.
-- `ObjectiveUpdate` is exposed through `turn.objective_updates` after settlement. It reports progress against stage objectives without generating a next command or mutating rules.
-- A read-only `GET /api/sessions/{session_id}/review` endpoint wraps existing `ReviewEngine` and `AchievementEngine` outputs without mutating state or changing TurnEngine settlement. The backend review serializer may add compact display fields such as `review_phase`, `status_copy`, `key_moments[*].display_*`, `achievement_cards`, and `next_run_suggestions`, but those fields must be derived from review output, unlocked achievements, and final state facts. Archive projection fields (`archive_summary`, `archive_timeline`, `archive_badges`) are also read-only and derive from review output, action logs, event logs, snapshots, achievements, and final state.
-
-Migration sequence:
-
-1. Keep the `TurnResult` to `TurnFacts` serializer thin; it must not change TurnEngine settlement behavior.
-2. Broaden `TurnFacts` only with fields that can be proven from settled state, `delta.reasons`, events, or deterministic replay facts.
-3. Keep `RoleMemory` persistence append-only and derived from settled turn facts; do not backfill from frontend text.
-4. Broaden `OfficeSignal` only with fields derived from settled state, conflict, and insight facts; keep it renderer-neutral and limited to facts plus short display text.
-5. Use `StoryEvent` for replay and monthly reporting only; it must remain downstream from settled events, competitor facts, and insight facts.
-6. Keep `PhaseGoal` and `ObjectiveUpdate` non-executable. They can explain direction, tradeoffs, and progress, but cannot include full CEO commands, auto-fill instructions, or one-click action metadata.
-7. Keep review-page helpers read-only. They can repackage `ReviewEngine` / `AchievementEngine` outputs, historical logs, snapshots, and final metrics into short text, but they cannot update session state, advance months, or introduce new numeric conclusions.
-8. Keep archive timeline projections bounded and factual: no more than 5 timeline items, no more than 3 archive badges, and no frontend layout assumptions in backend fields.
-9. Extend `docs/frontend_api_contract.md` only when additional fields are actually exposed through HTTP.
+It is derived only after settlement from turn result facts and post-turn state. It must not recommend or execute the next action.
 
 ## Version
 
-The current compatible contract family is `alpha-0.4-contracts.x`.
-
-Breaking contract changes must:
-
-1. Update `frontend/src/game/contracts.ts`.
-2. Update this document.
-3. Update frontend and backend tests before implementation.
-4. Keep TurnEngine as the numeric authority.
+The current compatible contract family is `godot-contracts.g1`.

@@ -7,7 +7,7 @@
 3. README 包含测试通过数量
 4. 事件池数量与代码一致
 5. REPORTS 顶部"当前路线"指向最新版本
-6. README 暴露 Godot 主线、C# Core、Web 验证台和参考游戏分析入口
+6. README 暴露 Godot 主线、C# Core 和参考游戏分析入口
 7. 文本文件健康检查（NUL/编码/行数/行长）
 
 exit 0 = 全部通过, exit 1 = 有失败项
@@ -23,10 +23,8 @@ README_PATH = PROJECT_ROOT / "README.md"
 REPORTS_PATH = PROJECT_ROOT / "REPORTS.md"
 GODOT_PLAN_PATH = PROJECT_ROOT / "docs" / "godot_migration_plan.md"
 CSHARP_CORE_PLAN_PATH = PROJECT_ROOT / "docs" / "csharp_core_migration_plan.md"
-WEB_VALIDATION_BENCH_PATH = PROJECT_ROOT / "docs" / "web_validation_bench.md"
 PROJECT_LAYOUT_PATH = PROJECT_ROOT / "docs" / "project_layout.md"
 REFERENCE_GAME_ANALYSIS_PATH = PROJECT_ROOT / "docs" / "reference_game_analysis.md"
-VERCEL_FRONTEND_URL = "https://startup-sim-khaki.vercel.app"
 
 FAILURES: list[str] = []
 
@@ -218,7 +216,7 @@ def check_event_pool_counts() -> None:
 
 
 def check_current_direction_docs_visible() -> None:
-    safe_print("\n[检查 5] README 暴露 Godot 主线与验证台入口")
+    safe_print("\n[检查 5] README 暴露 Godot 主线入口")
     try:
         readme = read_text(README_PATH)
     except FileNotFoundError:
@@ -229,12 +227,11 @@ def check_current_direction_docs_visible() -> None:
     required_markers = [
         "docs/godot_migration_plan.md",
         "docs/csharp_core_migration_plan.md",
-        "docs/web_validation_bench.md",
         "docs/project_layout.md",
         "docs/indie_game_product_direction.md",
         "docs/reference_game_analysis.md",
-        VERCEL_FRONTEND_URL,
         "后续开发以 C# Core + Godot",
+        "后续前端只在 Godot 中实现",
     ]
     for marker in required_markers:
         if marker not in readme:
@@ -244,17 +241,15 @@ def check_current_direction_docs_visible() -> None:
         missing.append(str(GODOT_PLAN_PATH.relative_to(PROJECT_ROOT)))
     if not CSHARP_CORE_PLAN_PATH.exists():
         missing.append(str(CSHARP_CORE_PLAN_PATH.relative_to(PROJECT_ROOT)))
-    if not WEB_VALIDATION_BENCH_PATH.exists():
-        missing.append(str(WEB_VALIDATION_BENCH_PATH.relative_to(PROJECT_ROOT)))
     if not PROJECT_LAYOUT_PATH.exists():
         missing.append(str(PROJECT_LAYOUT_PATH.relative_to(PROJECT_ROOT)))
     if not REFERENCE_GAME_ANALYSIS_PATH.exists():
         missing.append(str(REFERENCE_GAME_ANALYSIS_PATH.relative_to(PROJECT_ROOT)))
 
     if missing:
-        fail("README 缺少 Godot 主线、C# Core、Web 验证台或参考分析入口: " + ", ".join(missing))
+        fail("README 缺少 Godot 主线、C# Core 或参考分析入口: " + ", ".join(missing))
     else:
-        ok("README 已暴露 Godot 主线、C# Core、产品方向、参考分析和 Web 验证台入口")
+        ok("README 已暴露 Godot 主线、C# Core、产品方向和参考分析入口")
 
 
 # ── 检查 6: 文本文件健康检查 ───────────────────────────────
@@ -266,7 +261,6 @@ HEALTH_FILES = [
     (PROJECT_ROOT / "REPORTS.md", 120),
     (PROJECT_ROOT / "docs" / "godot_migration_plan.md", 80),
     (PROJECT_ROOT / "docs" / "csharp_core_migration_plan.md", 60),
-    (PROJECT_ROOT / "docs" / "web_validation_bench.md", 50),
     (PROJECT_ROOT / "docs" / "project_layout.md", 50),
     (PROJECT_ROOT / "docs" / "reference_game_analysis.md", 80),
     (PROJECT_ROOT / "tests" / "test_docs_and_demo.py", 80),

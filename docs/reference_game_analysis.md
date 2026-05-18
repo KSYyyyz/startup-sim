@@ -62,7 +62,7 @@ Startup Sim 应该构建自己的办公室层，让每个房间都代表一种�
 
 Startup Sim 应该逐步把原创游戏数据与运行时代码分离：
 
-- `frontend/src/game` 存放运行时玩法 UI。
+- `godot/StartupSimGodot` 存放运行时玩法 UI。
 - `design-assets/` 存放生成资产的 prompt、导出和登记信息，Godot 使用稳定导出。
 - `data/gameplay` 或等价目录存放原创房间、行动、事件、投资人、竞品和角色定义。
 - `data/locales` 在文本表面稳定后承载本地化内容。
@@ -86,9 +86,8 @@ Startup Sim 应该逐步把原创游戏数据与运行时代码分离：
 
 安全借鉴结论：
 
-Startup Sim 应保持 Godot 桌面主线，同时保留 Web 规则验证台：
+Startup Sim 应保持 Godot 桌面主线：
 
-- 浏览器 Demo 继续作为规则验证和远程试玩渠道。
 - Godot 桌面端信息密度继续作为主要设计目标。
 - 后续通过 Godot 导出桌面包，不再以 Tauri 或 Electron 为主线。
 - Steamworks、成就、云存档等集成应推迟到核心办公室循环足够好玩之后。
@@ -173,7 +172,7 @@ Startup Sim 后续不再切换到 Unity 或继续把 Web 作为最终外壳。�
 1. 先让 Godot 本地版本完成办公室到回合结算的可玩闭环。
 2. 保持 C# Core 与 Godot 表现层边界清晰。
 3. 增加本地存档和导出路径。
-4. Web/Vercel 只保留为规则验证台和远程试玩入口。
+4. 不再恢复 Web/Vercel 前端主线。
 
 ## 4. 路线调整建议
 

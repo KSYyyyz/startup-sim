@@ -20,4 +20,4 @@ $env:PATH = "D:\Startup-sim\.work\dotnet;$env:PATH"
 dotnet build godot\StartupSimGodot\StartupSimGodot.csproj
 ```
 
-The existing Web frontend remains a rule validation bench and remote demo surface.
+The old Web/Vercel frontend route has been removed. New presentation work belongs in this Godot project.

@@ -1,6 +1,25 @@
-# Startup Sim — 版本开发报告
+﻿# Startup Sim — 版本开发报告
 
-当前路线以最新 Alpha 1.9.1 体验验证；后续开发以 C# Core + Godot 表现层为主，Web 仅保留规则验证台
+当前路线以最新 Alpha 1.9.1 体验验证；后续开发以 C# Core + Godot 表现层为主，Vercel/Web 前端已放弃
+
+---
+
+## Frontend Route Cleanup — 放弃 Vercel/Web 前端 (2026-05-18)
+
+**性质**: 表现层路线最终收口。目标是删除 React/Vite/Vercel 前端和 Web API 包装层，后续前端只做 Godot。
+
+**主要产出**:
+- 删除 `frontend/` React/Vite 工程和 `frontend/vercel.json`。
+- 删除 `src/api/` Web 前端 API 包装层和 `tests/test_frontend_api.py`。
+- 删除 `旧 Web 规则验证文档（已删除）` 和 `旧 Web API 合同文档（已删除）`。
+- 将办公室 image-2 场景图从 `frontend/public/assets/` 移到 `godot/StartupSimGodot/assets/`。
+- 更新 `design-assets/` 资产库合同，从 frontend usage 改为 Godot usage。
+- 更新项目布局、Godot 文档、产品方向和回归测试，防止 Web/Vercel 前端重新进入主线。
+
+**验收边界**:
+- Python `src/core/` 继续保留为完整规则参考实现。
+- C# Core 继续作为 Godot 长期规则核心。
+- 后续所有新 UI、HUD、行动卡、月报、角色反馈都进入 Godot。
 
 ---
 
@@ -11,12 +30,12 @@
 **主要产出**:
 - 删除旧 `frontend_alpha_*` 计划、旧 Unity 迁移/探针文档和 WIP 计划文档。
 - 新增 `docs/csharp_core_migration_plan.md`，沉淀 C# Core、黄金样例、迁移顺序和规则边界。
-- 新增 `docs/web_validation_bench.md`，明确 Web/Vercel 只作为规则验证台和远程试玩入口。
+- 旧 Web/Vercel 规则验证台文档已在后续路线收口中删除。
 - 更新 README、Godot 迁移方案、产品方向、参考游戏分析、合同文档和工作目录规则。
 
 **验收边界**:
 - 后续新增工程、场景、交互原型和桌面端可分发路线都以 Godot 为准。
-- Web 前端不再承接最终产品外壳的大规模打磨。
+- Web 前端不再作为项目主线。
 - C# Core 继续保持纯规则层，不依赖 Godot。
 
 ---
@@ -28,7 +47,7 @@
 **核心判断**:
 - Godot 适配已经完成第一阶段：`StartupSimGodot.csproj` 引用 C# Core，`GodotTurnBridge` 可本地执行 `DeterministicTurnEngine`。
 - 完整玩法迁移尚未完成：Python `src/core/` 仍是完整规则参考实现，不能删除。
-- Web 前端仍是规则验证台，不能删除。
+- 旧 Web 前端已按新路线删除；Python 规则参考和 Godot/C# 主线保留。
 
 **主要产出**:
 - 删除 `unity/StartupSimUnity/` 旧探索适配代码。
@@ -38,7 +57,7 @@
 - 新增布局回归测试，防止 Unity 主线文件和旧 Word 方案重新进入仓库。
 
 **验收边界**:
-- 仓库云端只保留 Godot、C# Core、Python 参考实现、Web 规则验证台和设计资产库。
+- 仓库云端只保留 Godot、C# Core、Python 参考实现和设计资产库。
 - 后续删除必须先满足：不被 Godot/C# 主线依赖、CI 不依赖、核心内容已迁入当前文档或测试。
 
 ---
@@ -56,7 +75,7 @@
 
 **验收边界**:
 - Godot 可以使用 C# Core，但不复制现金、产品、用户、估值、股权或结局规则。
-- Godot 4 C# 不作为 Web 导出方案；Web 前端仍是 Vercel 规则验证台。
+- Godot 4 C# 是后续唯一前端路线，不再维护 Vercel/Web 前端。
 
 ---
 
@@ -328,7 +347,7 @@
 - `frontend/src/buildChunks.ts` 新增 Vite/Rollup 分包规则，将 `pixi.js` 和 `@pixi/*` 统一命名到 `pixi-overlay` chunk。
 - `frontend/vite.config.ts` 接入分包规则，并把当前发布预算调整到适合“主入口轻、Pixi 可选异步加载”的边界。
 - `frontend/src/buildConfig.test.ts` 锁定分包规则，防止未来改动把 Pixi 重新吸回主包。
-- 旧 Web 桌面计划更新过性能结论；当前有效内容已收口到 `docs/web_validation_bench.md`，Web 只保留规则验证台职责。
+- 旧 Web 桌面计划更新过性能结论；当前有效内容已收口到 `旧 Web 规则验证文档（已删除）`，Web 只保留规则验证台职责。
 
 **验证重点**:
 - `npm run build` 输出主入口约 243KB，`pixi-overlay` 约 853KB，且不再出现大 chunk 警告。
@@ -344,7 +363,7 @@
 - `src/api/app.py` 新增 `turn.turn_facts`，从 settled `TurnResult` 序列化 `month`、`command`、`changes`、`replay_basis`、`next_pressure`、`authority`。
 - `tests/test_frontend_api.py` 覆盖 `turn_facts` 来自后端结算结果、`delta.reasons` 和结算后压力。
 - `frontend/src/types.ts`、`frontend/src/store.ts`、`frontend/src/App.tsx` 兼容可选 `turn_facts`；有新事实时月报优先使用它，旧响应仍走 `delta_reasons`。
-- `docs/frontend_api_contract.md` 和 `docs/gameplay_contracts.md` 更新为当前 HTTP 合同。
+- `旧 Web API 合同文档（已删除）` 和 `docs/gameplay_contracts.md` 更新为当前 HTTP 合同。
 
 **Agent 参与方式**:
 - 后端/规则 Agent 实现 serializer、后端测试和合同文档。
@@ -368,7 +387,7 @@
 - `frontend/src/game/contracts.ts` 建立前端可引用的引擎无关合同 manifest 和转换函数。
 - 早期引擎探针确认了表现层不能重写 TurnEngine；当前有效边界已收口到 Godot 方案。
 - `design-assets/` 规范强化：image-2 资产必须登记 `used_by`，且引用文件必须存在并直接引用 `public_url`。
-- `docs/frontend_api_contract.md` 对齐当前 API 字段，减少文档与实现漂移。
+- `旧 Web API 合同文档（已删除）` 对齐当前 API 字段，减少文档与实现漂移。
 
 **Agent 参与方式**:
 - 前端/美术 Agent 已真实修改 `design-assets/README.md` 和 `design-assets/manifest.json`，补强资产 usage contract。
@@ -426,14 +445,14 @@
 - `POST /api/sessions/{session_id}/command-preview` — 只读命令解释 API，复用现有 `parse_multi`，不推进月份、不修改存档。
 - `frontend/src/api.ts` / `frontend/src/store.ts` — 接入命令预览状态和 demo fallback。
 - `frontend/src/App.tsx` — 底部指令区新增“解释指令”和紧凑 `AI 指令解释` 面板。
-- AI 指令解释层的有效边界已收口到 `docs/web_validation_bench.md` 和 `docs/gameplay_contracts.md`。
-- `docs/frontend_api_contract.md` — 补充命令预览 API 合同。
+- AI 指令解释层的有效边界已收口到 `旧 Web 规则验证文档（已删除）` 和 `docs/gameplay_contracts.md`。
+- `旧 Web API 合同文档（已删除）` — 补充命令预览 API 合同。
 
 **设计边界**:
 - 当前是规则解释原型，不引入真实 LLM 依赖。
 - AI 风格反馈只解释玩家意图，不拥有数值结算权。
 - 最终状态变化仍由 TurnEngine、StateGuard 和后端规则执行。
-- 线上 Vercel 没有真实后端时仍可用 demo fallback 展示解释。
+- 旧线上 Web 没有真实后端时仍可用 demo fallback 展示解释。
 
 **验收重点**:
 - 玩家输入自由命令后，可以先看到动作类别、预算、风险和取舍。
@@ -445,10 +464,10 @@
 
 ## Frontend Alpha 0.3 — 线上试玩 Bug 修复 (2026-05-18)
 
-**来源**: 人工试玩 Vercel 当前版本后发现的问题。主流程可用，但 demo fallback、移动端快捷条和解释面板密度仍影响试玩质量。
+**来源**: 人工试玩 旧 Web 当前版本后发现的问题。主流程可用，但 demo fallback、移动端快捷条和解释面板密度仍影响试玩质量。
 
 **修复内容**:
-- Vercel 静态前端在未配置真实 API 时直接进入 demo fallback，不再先请求 `/api/*` 产生 405 控制台错误。
+- 旧 Web 静态前端在未配置真实 API 时直接进入 demo fallback，不再先请求 `/api/*` 产生 405 控制台错误。
 - `demoCommandPreview()` 改为按分句解析自由命令，`花10万研发产品，花5万做营销` 会正确显示产品研发 10 万、市场营销 5 万。
 - 移动端快捷指令条增加“解释”按钮，并在空指令时禁用“解释/执行”。
 - `AI 指令解释` 面板改为紧凑样式，隐藏重复 intent 文本，减少底部区域重新变重的问题。
@@ -477,14 +496,14 @@
 
 **性质**: 前端独立游戏化切片。目标是把 Web 入口从状态面板推进为可点击、可操作、可反馈的办公室经营场景。
 
-**线上入口**: https://startup-sim-khaki.vercel.app
+**线上入口**: 旧 Web 入口已删除
 
 **主要产出**:
 - `frontend/src/game/gameplayContent.ts` — UI 无关的房间/行动/取舍标签数据层，作为后续剧本包和内容数据化的起点。
 - `frontend/src/game/OfficeStage.tsx` — 办公室主场景、房间热点、动态反馈、月末变化。
 - `frontend/src/App.tsx` — 董事会/竞品/建议/记录面板与底部 CEO 指令闭环。
 - `frontend/e2e/startup-sim.spec.ts` — 桌面 1366×768、1440×900、1920×1080 与移动 smoke 覆盖。
-- 旧 Web 桌面执行计划已删除，核心结论收口到 `docs/web_validation_bench.md`。
+- 旧 Web 桌面执行计划已删除，核心结论收口到 `旧 Web 规则验证文档（已删除）`。
 
 **已完成的可玩闭环**:
 1. 办公室房间可点击，行动卡可生成自然语言 CEO 指令。
@@ -505,7 +524,7 @@
 - Frontend: `npm test -- --run` → 15 passed
 - Frontend E2E: `npm run test:e2e` → 8 passed
 - GitHub CI: latest pushed frontend slices passed
-- Vercel smoke: `https://startup-sim-khaki.vercel.app` verified after push
+- 旧 Web smoke: `旧 Web 入口已删除` verified after push
 
 **下一步**:
 - 将普通办公室行动卡、底部快捷按钮与压力回应统一为同一套执行前预期系统。
@@ -1368,10 +1387,10 @@ Alpha 1.5 建议方向：
 - 第 6 轮：后端新增 `turn.story_events`，从规则事件、竞品事实或经营洞察生成紧凑月度事件。
 - 第 7 轮：前端月度战报新增“本月事件”区，只展示少量可复盘事件，保持游戏性反馈而不是日志堆叠。
 - 第 8 轮：`frontend/src/types.ts`、store 和 API fallback 测试同步扩展新契约，兼容 nested turn 字段和 top-level fallback 字段。
-- 第 9 轮：`docs/frontend_api_contract.md` 和 `docs/gameplay_contracts.md` 同步补充 `RoleMemory`、`OfficeSignal`、`StoryEvent` 边界。
+- 第 9 轮：`旧 Web API 合同文档（已删除）` 和 `docs/gameplay_contracts.md` 同步补充 `RoleMemory`、`OfficeSignal`、`StoryEvent` 边界。
 - 第 10 轮：本轮保持 TurnEngine 数值结算不变，所有新增层都是事实展示、角色反馈和月报表现层。
 
-状态：Alpha 0.5 第一组十轮推进完成，下一步进入完整验证、Vercel smoke 和发布硬化。
+状态：Alpha 0.5 第一组十轮推进完成，下一步进入完整验证、旧 Web smoke 和发布硬化。
 
 ---
 
@@ -1389,9 +1408,9 @@ Alpha 1.5 建议方向：
 - 第 7 轮：新增只读 `GET /api/sessions/{session_id}/review`，包装现有 `ReviewEngine` 与 `AchievementEngine`，不推进月份、不修改状态。
 - 第 8 轮：前端新增 `loadReview()` 和 `openReview()`，把复盘作为按需入口，而不是默认铺满页面。
 - 第 9 轮：月度战报新增紧凑“轻量复盘”入口，展示标题、摘要、一个关键时刻和下局建议。
-- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充持久记忆、复盘接口和表现层边界。
+- 第 10 轮：`旧 Web API 合同文档（已删除）` 与 `docs/gameplay_contracts.md` 同步补充持久记忆、复盘接口和表现层边界。
 
-状态：Alpha 0.5 第二组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。
+状态：Alpha 0.5 第二组十轮推进进入完整验证、发布检查和 CI/旧 Web smoke。
 
 ---
 
@@ -1409,9 +1428,9 @@ Alpha 1.5 建议方向：
 - 第 7 轮：月度战报内的“轻量复盘”展示升级为紧凑区域：标题、状态标签、摘要、关键时刻、成就徽章和短建议。
 - 第 8 轮：成就和建议展示都限制最多 3 条，避免复盘区重新变成信息堆叠。
 - 第 9 轮：前端测试覆盖复盘接口缺失时的兜底提示、成就/建议数量限制、后端阶段文案优先级和禁用词。
-- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充复盘展示契约和只读边界。
+- 第 10 轮：`旧 Web API 合同文档（已删除）` 与 `docs/gameplay_contracts.md` 同步补充复盘展示契约和只读边界。
 
-状态：Alpha 0.5 第三组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。
+状态：Alpha 0.5 第三组十轮推进进入完整验证、发布检查和 CI/旧 Web smoke。
 
 ---
 
@@ -1429,9 +1448,9 @@ Alpha 1.5 建议方向：
 - 第 7 轮：右侧信息区用“档案”替代原“记录”，保持 4 个 tab，不增加额外拥挤入口。
 - 第 8 轮：档案 tab 按需加载 review，展示局势摘要、最多 5 条时间线、最多 3 个徽章，并保留状态/估值记录。
 - 第 9 轮：前端兼容后端暂未返回 `archive_*` 的情况，回退到 `ending_summary`、`key_moments` 和 `achievement_cards`。
-- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充档案投影契约和只读边界。
+- 第 10 轮：`旧 Web API 合同文档（已删除）` 与 `docs/gameplay_contracts.md` 同步补充档案投影契约和只读边界。
 
-状态：Alpha 0.5 第四组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。
+状态：Alpha 0.5 第四组十轮推进进入完整验证、发布检查和 CI/旧 Web smoke。
 
 ---
 
@@ -1449,6 +1468,6 @@ Alpha 1.5 建议方向：
 - 第 7 轮：月度战报新增“目标进展”区，展示完成、推进中或承压的结果反馈。
 - 第 8 轮：前端测试覆盖目标面板无按钮、无完整指令、无自动填入行为。
 - 第 9 轮：后端测试覆盖目标契约无 executable command 字段，并继续检查禁用词。
-- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充目标/任务非执行契约。
+- 第 10 轮：`旧 Web API 合同文档（已删除）` 与 `docs/gameplay_contracts.md` 同步补充目标/任务非执行契约。
 
-状态：Alpha 0.6 第一组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。
+状态：Alpha 0.6 第一组十轮推进进入完整验证、发布检查和 CI/旧 Web smoke。

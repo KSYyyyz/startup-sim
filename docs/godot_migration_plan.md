@@ -41,8 +41,6 @@ godot/
     scenes/main.tscn                First boot scene
     scripts/                        Godot presentation adapters
 
-frontend/
-  Rule validation bench only
 ```
 
 ## 4. Rules Boundary
@@ -120,7 +118,7 @@ Near-term C# priorities:
 2. Build Godot office shell around structured actions.
 3. Use `GodotTurnBridge` for local desktop playtests.
 4. Add optional API bridge only if remote AI or cloud-save features require it.
-5. Keep Vercel frontend available for rule QA and quick remote demos.
+5. Do not restore the deleted Vercel/Web frontend route; new presentation work belongs in Godot.
 
 ## 9. Adaptation Status
 

@@ -27,7 +27,6 @@ godot/
 src/                            Python 完整规则参考实现和当前 CLI/API 规则来源
 tests/                          Python 回归测试
 
-frontend/                       Web 规则验证台，不是最终产品外壳
 design-assets/                  image-2 资产 prompt、规格和复用库
 assets/                         项目静态素材
 data/                           剧本、配置和未来内容数据
@@ -41,7 +40,8 @@ scripts/                        本地检查、playtest、后续 Godot CLI 包�
 以下内容不再保留为仓库主线：
 
 - `unity/`：旧 Unity 探索适配代码已删除。
-- 旧 `frontend_alpha_*` 计划文档：核心结论已收口到 `docs/web_validation_bench.md`。
+- `frontend/`：旧 React/Vite/Vercel 前端已删除，后续前端只做 Godot。
+- 旧 `frontend_alpha_*` 计划文档：后续不再作为执行依据。
 - 旧 C# / Unity 迁移文档：核心结论已收口到 `docs/csharp_core_migration_plan.md`。
 - 旧 WIP 计划目录：后续以当前 Godot/C# 文档为准。
 - 旧 Word 版前端方案：已被当前 Markdown 文档替代。
@@ -50,10 +50,10 @@ scripts/                        本地检查、playtest、后续 Godot CLI 包�
 
 GitHub 仓库应只展示当前有效路线：
 
-1. README 的快速导航必须指向 Godot、C# Core、Web 规则验证台和产品方向文档。
+1. README 的快速导航必须指向 Godot、C# Core、项目布局和产品方向文档。
 2. CI 必须同时验证 Python 规则参考、C# Core 测试、Godot C# build 和文档一致性。
 3. 不允许重新加入 Unity 主线文件。
-4. Web/Vercel 文件可以保留，但只能作为规则验证台和远程试玩入口。
+4. 不允许重新加入 Vercel/Web 前端主线文件。
 
 ## 5. 删除判断
 
