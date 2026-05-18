@@ -4,10 +4,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "design-assets" / "manifest.json"
-GODOT_ART_PACK = ROOT / "godot" / "StartupSimGodot" / "assets" / "art" / "godot-g1-art-pack-v0.1"
-GODOT_EMPLOYEE_MOTION_PACK = (
-    ROOT / "godot" / "StartupSimGodot" / "assets" / "art" / "godot-g1-art-pack-v0.2-employee-motion"
-)
+GODOT_ART_ROOT = ROOT / "godot" / "StartupSimGodot" / "assets" / "art"
+GODOT_ART_PACK = GODOT_ART_ROOT / "godot-g1-art-pack-v0.1"
+GODOT_EMPLOYEE_MOTION_PACK = GODOT_ART_ROOT / "godot-g1-art-pack-v0.2-employee-motion"
 
 
 def test_design_asset_manifest_uses_image_2_policy():
@@ -127,6 +126,121 @@ def test_godot_employee_motion_pack_is_tracked_and_import_ready():
     width, height = read_png_size(export_path)
     assert width == 2304
     assert height == 1152
+
+
+def test_godot_followup_art_packs_are_tracked_and_import_ready():
+    expected_packs = [
+        (
+            "godot-g1-art-pack-v0.3-facility-placements",
+            "facility-placement-atlas-v0.3",
+            {"columns": 6, "rows": 3},
+            {"cell_width_px": 256, "cell_height_px": 342},
+            (1536, 1026),
+        ),
+        (
+            "godot-g1-art-pack-v0.4-office-tiles",
+            "office-tile-expansion-atlas-v0.4",
+            {"columns": 8, "rows": 5},
+            {"cell_width_px": 200, "cell_height_px": 200},
+            (1600, 1000),
+        ),
+        (
+            "godot-g1-art-pack-v0.5-employee-status-icons",
+            "employee-status-icon-atlas-v0.5",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 896),
+        ),
+        (
+            "godot-g1-art-pack-v0.6-zone-state-overlays",
+            "zone-state-overlay-atlas-v0.6",
+            {"columns": 6, "rows": 5},
+            {"cell_width_px": 230, "cell_height_px": 230},
+            (1380, 1150),
+        ),
+        (
+            "godot-g1-art-pack-v0.7-feedback-portraits",
+            "feedback-portrait-sheet-v0.7",
+            {"columns": 4, "rows": 3},
+            {"cell_width_px": 384, "cell_height_px": 384},
+            (1536, 1152),
+        ),
+    ]
+
+    for pack_name, asset_id, grid, slice_size, image_size in expected_packs:
+        pack = GODOT_ART_ROOT / pack_name
+        index_path = pack / "asset-index.json"
+        assert index_path.is_file(), f"missing index for {pack_name}"
+        assert (pack / "ART_PACK_SPEC.md").is_file()
+        assert (pack / "GODOT_IMPORT_NOTES.md").is_file()
+
+        index = json.loads(index_path.read_text(encoding="utf-8"))
+        assert index["pack_id"] == f"startup-sim-{pack_name}"
+        assert "backup only" in index["storage_policy"]
+
+        assert [asset["id"] for asset in index["assets"]] == [asset_id]
+        asset = index["assets"][0]
+        export_path = pack / asset["file"]
+        import_path = export_path.with_name(f"{export_path.name}.import")
+        source_path = pack / asset["source"]
+        raw_source_path = pack / asset["raw_source"]
+        prompt_path = pack / asset["prompt"]
+        slice_guide_path = pack / asset["slice_guide"]
+        preview_path = pack / asset["preview"]
+
+        assert export_path.is_file(), f"missing export for {asset_id}"
+        assert import_path.is_file(), f"missing Godot import metadata for {asset_id}"
+        assert source_path.is_file(), f"missing source for {asset_id}"
+        assert raw_source_path.is_file(), f"missing raw source for {asset_id}"
+        assert prompt_path.is_file(), f"missing prompt for {asset_id}"
+        assert slice_guide_path.is_file(), f"missing slice guide for {asset_id}"
+        assert preview_path.is_file(), f"missing preview for {asset_id}"
+        assert asset["grid"] == grid
+        assert asset["slice"] == slice_size
+
+        width, height = read_png_size(export_path)
+        assert (width, height) == image_size
+
+
+def test_godot_company_main_scene_background_pack_is_import_ready():
+    pack_name = "godot-g1-art-pack-v0.7.1-company-main-scene-background"
+    pack = GODOT_ART_ROOT / pack_name
+    index_path = pack / "asset-index.json"
+
+    assert index_path.is_file()
+    assert (pack / "ART_PACK_SPEC.md").is_file()
+    assert (pack / "GODOT_IMPORT_NOTES.md").is_file()
+
+    index = json.loads(index_path.read_text(encoding="utf-8"))
+    assert index["pack_id"] == f"startup-sim-{pack_name}"
+    assert "backup only" in index["storage_policy"]
+    assert index["source_tooling"]["transparency"] == (
+        "opaque background image retained as RGBA for Godot compatibility"
+    )
+
+    assert [asset["id"] for asset in index["assets"]] == ["company-main-scene-background-v0.7.1"]
+    asset = index["assets"][0]
+    export_path = pack / asset["file"]
+    import_path = export_path.with_name(f"{export_path.name}.import")
+    source_path = pack / asset["source"]
+    raw_source_path = pack / asset["raw_source"]
+    prompt_path = pack / asset["prompt"]
+    layout_guide_path = pack / asset["layout_guide"]
+    preview_path = pack / asset["preview"]
+
+    assert export_path.is_file()
+    assert import_path.is_file()
+    assert source_path.is_file()
+    assert raw_source_path.is_file()
+    assert prompt_path.is_file()
+    assert layout_guide_path.is_file()
+    assert preview_path.is_file()
+    assert asset["dimensions"] == {"width_px": 1920, "height_px": 1080}
+    assert asset["grid_intent"]["role"].startswith("full-scene background")
+    assert asset["grid_intent"]["safe_ui_edges"] == ["right", "bottom"]
+
+    width, height = read_png_size(export_path)
+    assert (width, height) == (1920, 1080)
 
 
 def read_png_size(path: Path) -> tuple[int, int]:

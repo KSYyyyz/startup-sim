@@ -75,6 +75,7 @@ public partial class ZonePaintingController : Node
         }
 
         GridView?.TryOccupyRect(zone.X, zone.Y, zone.Width, zone.Height, zone.Id);
+        GridView?.RegisterZoneVisual(zone.Id, zone.ZoneTypeId);
         EmitSignal(SignalName.ZoneCreated, zone.Id, zone.ZoneTypeId, zone.DisplayName);
         return zone.Id;
     }
@@ -105,6 +106,7 @@ public partial class ZonePaintingController : Node
         }
 
         GridView?.ReleaseRect(zone.X, zone.Y, zone.Width, zone.Height);
+        GridView?.ClearZoneVisual(zoneId);
         EmitSignal(SignalName.ZoneRemoved, zoneId);
         return true;
     }

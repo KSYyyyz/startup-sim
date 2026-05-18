@@ -1,0 +1,23 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.3-facility-placements",
+  "created_at_local": "2026-05-19T00:00:00",
+  "storage_policy": "Tracked under godot/StartupSimGodot/assets/art. External D:\\美术资源 copy is a backup only.",
+  "assets": [
+    {
+      "id": "facility-placement-atlas-v0.3",
+      "category": "facility_placements",
+      "file": "exports/facility-placement-atlas-v0.3.png",
+      "source": "sources/facility-placement-atlas-v0.3-source.png",
+      "raw_source": "sources/facility-placement-atlas-v0.3-raw-generated.png",
+      "prompt": "prompts/facility-placement-atlas-v0.3.prompt.md",
+      "slice_guide": "slice-guides/facility-placement-atlas-v0.3.md",
+      "preview": "previews/facility-placement-atlas-v0.3-contact-sheet.jpg",
+      "grid": { "columns": 6, "rows": 3 },
+      "image": { "width": 1536, "height": 1026, "mode": "RGBA" },
+      "slice": { "cell_width_px": 256, "cell_height_px": 342 },
+      "column_labels": ["desk_workstation", "product_whiteboard", "server_rack", "sales_call_booth", "meeting_table", "coffee_rest_corner"],
+      "row_labels": ["level_1", "level_2", "level_3"],
+      "godot_use": ["Texture2D", "AtlasTexture", "Sprite2D region"]
+    }
+  ]
+}

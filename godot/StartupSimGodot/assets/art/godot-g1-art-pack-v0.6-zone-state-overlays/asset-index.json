@@ -1,0 +1,23 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.6-zone-state-overlays",
+  "created_at_local": "2026-05-19T00:00:00",
+  "storage_policy": "Tracked under godot/StartupSimGodot/assets/art. External D:\\美术资源 copy is a backup only.",
+  "assets": [
+    {
+      "id": "zone-state-overlay-atlas-v0.6",
+      "category": "zone_state_overlays",
+      "file": "exports/zone-state-overlay-atlas-v0.6.png",
+      "source": "sources/zone-state-overlay-atlas-v0.6-source.png",
+      "raw_source": "sources/zone-state-overlay-atlas-v0.6-raw-generated.png",
+      "prompt": "prompts/zone-state-overlay-atlas-v0.6.prompt.md",
+      "slice_guide": "slice-guides/zone-state-overlay-atlas-v0.6.md",
+      "preview": "previews/zone-state-overlay-atlas-v0.6-contact-sheet.jpg",
+      "grid": { "columns": 6, "rows": 5 },
+      "image": { "width": 1380, "height": 1150, "mode": "RGBA" },
+      "slice": { "cell_width_px": 230, "cell_height_px": 230 },
+      "column_labels": ["product", "sales", "server", "meeting", "recruiting", "rest"],
+      "row_labels": ["normal", "risk", "opportunity", "blocked", "improving"],
+      "godot_use": ["Texture2D", "AtlasTexture", "Sprite2D overlay", "Control icon texture"]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.7.1-company-main-scene-background",
+  "version": "0.7.1",
+  "created_for": "Startup Sim Godot G1/G3 main office scene",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in image_gen",
+    "post_processing": "Pillow resize/crop to 1920x1080 RGBA",
+    "transparency": "opaque background image retained as RGBA for Godot compatibility"
+  },
+  "assets": [
+    {
+      "id": "company-main-scene-background-v0.7.1",
+      "category": "main_scene_backgrounds",
+      "file": "exports/company-main-scene-background-v0.7.1.png",
+      "source": "sources/company-main-scene-background-v0.7.1-source.png",
+      "raw_source": "sources/company-main-scene-background-v0.7.1-raw-generated.png",
+      "prompt": "prompts/company-main-scene-background-v0.7.1-prompt.md",
+      "layout_guide": "slice-guides/company-main-scene-background-v0.7.1-layout-guide.md",
+      "preview": "previews/company-main-scene-background-v0.7.1-preview.jpg",
+      "dimensions": {
+        "width_px": 1920,
+        "height_px": 1080
+      },
+      "grid_intent": {
+        "role": "full-scene background under office grid, zones, facilities, employees, overlays, and HUD",
+        "buildable_area_hint": "central open office floor; walls and exterior detail are decorative boundaries",
+        "safe_ui_edges": ["right", "bottom"]
+      },
+      "godot_import": {
+        "resource_type": "Texture2D",
+        "suggested_usage": "Sprite2D/TextureRect background layer below interactive office objects",
+        "filter": "nearest or linear depending on final camera scale; avoid mipmapped blur for pixel-readable UI overlays"
+      },
+      "notes": [
+        "No baked text, logos, people, UI, or fixed central furniture.",
+        "The background is intentionally mostly empty so the integration session can place zones and facilities on top.",
+        "This is not a transparent cutout asset; corner alpha is expected to be opaque."
+      ]
+    }
+  ]
+}

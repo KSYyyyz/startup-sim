@@ -29,6 +29,7 @@ public partial class OfficeGridView : Node2D
     private OfficeGrid grid = new(12, 8, 64);
     private OfficeCell hoveredCell = new(-1, -1);
     private OfficeCell selectedCell = new(-1, -1);
+    private readonly Dictionary<string, string> zoneTypeByZoneId = new();
     private readonly Dictionary<string, FacilityVisual> facilityVisuals = new();
     private readonly Dictionary<string, EmployeeVisual> employeeVisuals = new();
 
@@ -103,6 +104,25 @@ public partial class OfficeGridView : Node2D
     {
         grid.Release(new OfficeRect(x, y, width, height));
         QueueRedraw();
+    }
+
+    public void RegisterZoneVisual(string zoneId, string zoneTypeId)
+    {
+        if (string.IsNullOrWhiteSpace(zoneId) || string.IsNullOrWhiteSpace(zoneTypeId))
+        {
+            return;
+        }
+
+        zoneTypeByZoneId[zoneId] = zoneTypeId;
+        QueueRedraw();
+    }
+
+    public void ClearZoneVisual(string zoneId)
+    {
+        if (zoneTypeByZoneId.Remove(zoneId))
+        {
+            QueueRedraw();
+        }
     }
 
     public void ShowFacilityVisual(string facilityId, string facilityTypeId, int x, int y)
@@ -226,17 +246,18 @@ public partial class OfficeGridView : Node2D
             return;
         }
 
-        var source = AtlasCell(OfficeTileAtlas, columns: 8, rows: 4, column: 0, row: 0);
         for (var x = 0; x < GridWidth; x++)
         {
             for (var y = 0; y < GridHeight; y++)
             {
+                var sourceColumn = (x + y) % 4;
+                var sourceRow = x == 0 || y == 0 ? 0 : 1;
                 var cell = CellRect(x, y);
                 DrawRect(cell, FloorBaseColor, filled: true);
                 DrawTextureRectRegion(
                     OfficeTileAtlas,
                     CellRect(x, y).Grow(1f),
-                    source,
+                    AtlasCell(OfficeTileAtlas, columns: 8, rows: 5, column: sourceColumn, row: sourceRow),
                     new Color(1f, 1f, 1f, 0.92f));
             }
         }
@@ -249,10 +270,19 @@ public partial class OfficeGridView : Node2D
             var rect = CellRect(cell.X, cell.Y);
             if (ZoneOverlayAtlas != null)
             {
+                var sourceColumn = zoneTypeByZoneId.TryGetValue(cell.OccupantId, out var zoneTypeId)
+                    ? zoneTypeId switch
+                    {
+                        "product_zone" => 0,
+                        "sales_zone" => 1,
+                        "server_zone" => 2,
+                        _ => 0
+                    }
+                    : 0;
                 DrawTextureRectRegion(
                     ZoneOverlayAtlas,
                     rect,
-                    AtlasCell(ZoneOverlayAtlas, columns: 8, rows: 5, column: 0, row: 0),
+                    AtlasCell(ZoneOverlayAtlas, columns: 6, rows: 5, column: sourceColumn, row: 0),
                     new Color(1f, 1f, 1f, 0.46f));
             }
             else
@@ -273,8 +303,9 @@ public partial class OfficeGridView : Node2D
         {
             var sourceColumn = visual.FacilityTypeId switch
             {
+                "basic_desk" => 0,
                 "product_whiteboard" => 1,
-                "starter_server_rack" => 3,
+                "starter_server_rack" => 2,
                 _ => 0
             };
             DrawTextureRectRegion(
@@ -295,18 +326,20 @@ public partial class OfficeGridView : Node2D
         var offset = 0;
         foreach (var visual in employeeVisuals.Values)
         {
-            var sourceColumn = visual.RoleId switch
+            var sourceRow = visual.RoleId switch
             {
-                "sales_specialist" => 1,
-                "ops_engineer" => 3,
+                "product_engineer" => 0,
+                "sales_specialist" => 2,
+                "ops_engineer" => 4,
                 _ => 0
             };
+            var sourceColumn = 9;
             var destination = CellRect(visual.X, visual.Y).Grow(-10);
             destination.Position += new Vector2(offset * 4, -offset * 3);
             DrawTextureRectRegion(
                 EmployeeAtlas,
                 destination,
-                AtlasCell(EmployeeAtlas, columns: 6, rows: 5, sourceColumn, row: 1),
+                AtlasCell(EmployeeAtlas, columns: 12, rows: 6, sourceColumn, row: sourceRow),
                 Colors.White);
 
             DrawStatusIcon(visual.X, visual.Y, offset);
@@ -330,7 +363,7 @@ public partial class OfficeGridView : Node2D
         DrawTextureRectRegion(
             StatusIconAtlas,
             destination,
-            AtlasCell(StatusIconAtlas, columns: 8, rows: 4, column: 0, row: 0),
+            AtlasCell(StatusIconAtlas, columns: 8, rows: 4, column: 12 % 8, row: 12 / 8),
             Colors.White);
     }
 

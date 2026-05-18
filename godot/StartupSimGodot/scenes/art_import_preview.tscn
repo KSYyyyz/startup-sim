@@ -12,6 +12,12 @@
 [ext_resource type="Texture2D" uid="uid://c26o5lkfp0nv5" path="res://assets/art/godot-g1-art-pack-v0.1/exports/feedback-fx-atlas-v0.1.png" id="10"]
 [ext_resource type="Texture2D" uid="uid://n5d3tamont0i" path="res://assets/art/godot-g1-art-pack-v0.1/exports/recruitment-portrait-sheet-v0.1.png" id="11"]
 [ext_resource type="Texture2D" uid="uid://djatpucuiveq0" path="res://assets/art/godot-g1-art-pack-v0.1/exports/recruitment-portrait-sheet-v0.2-angle-balanced.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.4-office-tiles/exports/office-tile-expansion-atlas-v0.4.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.3-facility-placements/exports/facility-placement-atlas-v0.3.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.5-employee-status-icons/exports/employee-status-icon-atlas-v0.5.png" id="15"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.6-zone-state-overlays/exports/zone-state-overlay-atlas-v0.6.png" id="16"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.7-feedback-portraits/exports/feedback-portrait-sheet-v0.7.png" id="17"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.7.1-company-main-scene-background/exports/company-main-scene-background-v0.7.1.png" id="18"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_office_tile"]
 atlas = ExtResource("2")
@@ -57,6 +63,26 @@ region = Rect2(0, 0, 384, 341.33)
 atlas = ExtResource("12")
 region = Rect2(0, 0, 384, 341.33)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_office_tile_v04"]
+atlas = ExtResource("13")
+region = Rect2(0, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_facility_v03"]
+atlas = ExtResource("14")
+region = Rect2(0, 0, 256, 342)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_status_icon_v05"]
+atlas = ExtResource("15")
+region = Rect2(0, 0, 224, 224)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_zone_overlay_v06"]
+atlas = ExtResource("16")
+region = Rect2(0, 0, 230, 230)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_feedback_portrait_v07"]
+atlas = ExtResource("17")
+region = Rect2(0, 0, 384, 384)
+
 [node name="ArtImportPreview" type="Control" unique_id=1559451354]
 layout_mode = 3
 anchors_preset = 0
@@ -74,6 +100,12 @@ UiCoreAtlas = ExtResource("9")
 FeedbackFxAtlas = ExtResource("10")
 RecruitmentPortraitAtlasV1 = ExtResource("11")
 RecruitmentPortraitAtlas = ExtResource("12")
+OfficeTileExpansionAtlas = ExtResource("13")
+FacilityPlacementAtlas = ExtResource("14")
+EmployeeStatusIconAtlas = ExtResource("15")
+ZoneStateOverlayAtlasV06 = ExtResource("16")
+FeedbackPortraitAtlasV07 = ExtResource("17")
+MainSceneBackground = ExtResource("18")
 
 [node name="TitleLabel" type="Label" parent="." unique_id=1857880417]
 layout_mode = 0
@@ -259,6 +291,15 @@ texture = SubResource("AtlasTexture_portrait_v1")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="OfficeTileV0475" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 1152.0
+offset_right = 1264.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_office_tile_v04")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Scale50Percent" type="Control" parent="." unique_id=1204343374]
 anchors_preset = 0
 offset_left = 32.0
@@ -353,5 +394,50 @@ offset_left = 1152.0
 offset_right = 1264.0
 offset_bottom = 112.0
 texture = SubResource("AtlasTexture_portrait_v2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FacilityV0350" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 1280.0
+offset_right = 1392.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_facility_v03")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusIconV0550" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 1408.0
+offset_right = 1520.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_status_icon_v05")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ZoneOverlayV0650" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 1536.0
+offset_right = 1648.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_zone_overlay_v06")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FeedbackPortraitV0750" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 1664.0
+offset_right = 1776.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_feedback_portrait_v07")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MainSceneBackground50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 1792.0
+offset_right = 1984.0
+offset_bottom = 108.0
+texture = ExtResource("18")
 expand_mode = 1
 stretch_mode = 5

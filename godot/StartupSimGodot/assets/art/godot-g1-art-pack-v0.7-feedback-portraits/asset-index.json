@@ -1,0 +1,21 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.7-feedback-portraits",
+  "created_at_local": "2026-05-19T00:00:00",
+  "storage_policy": "Tracked under godot/StartupSimGodot/assets/art. External D:\\美术资源 copy is a backup only.",
+  "assets": [
+    {
+      "id": "feedback-portrait-sheet-v0.7",
+      "category": "feedback_portraits",
+      "file": "exports/feedback-portrait-sheet-v0.7.png",
+      "source": "sources/feedback-portrait-sheet-v0.7-source.png",
+      "raw_source": "sources/feedback-portrait-sheet-v0.7-raw-generated.png",
+      "prompt": "prompts/feedback-portrait-sheet-v0.7.prompt.md",
+      "slice_guide": "slice-guides/feedback-portrait-sheet-v0.7.md",
+      "preview": "previews/feedback-portrait-sheet-v0.7-contact-sheet.jpg",
+      "grid": { "columns": 4, "rows": 3 },
+      "image": { "width": 1536, "height": 1152, "mode": "RGBA" },
+      "slice": { "cell_width_px": 384, "cell_height_px": 384 },
+      "godot_use": ["Texture2D", "AtlasTexture", "Recruitment/report UI portraits"]
+    }
+  ]
+}

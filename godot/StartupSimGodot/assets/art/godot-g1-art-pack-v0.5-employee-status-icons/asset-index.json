@@ -1,0 +1,21 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.5-employee-status-icons",
+  "created_at_local": "2026-05-19T00:00:00",
+  "storage_policy": "Tracked under godot/StartupSimGodot/assets/art. External D:\\美术资源 copy is a backup only.",
+  "assets": [
+    {
+      "id": "employee-status-icon-atlas-v0.5",
+      "category": "employee_status_icons",
+      "file": "exports/employee-status-icon-atlas-v0.5.png",
+      "source": "sources/employee-status-icon-atlas-v0.5-source.png",
+      "raw_source": "sources/employee-status-icon-atlas-v0.5-raw-generated.png",
+      "prompt": "prompts/employee-status-icon-atlas-v0.5.prompt.md",
+      "slice_guide": "slice-guides/employee-status-icon-atlas-v0.5.md",
+      "preview": "previews/employee-status-icon-atlas-v0.5-contact-sheet.jpg",
+      "grid": { "columns": 8, "rows": 4 },
+      "image": { "width": 1792, "height": 896, "mode": "RGBA" },
+      "slice": { "cell_width_px": 224, "cell_height_px": 224 },
+      "godot_use": ["Texture2D", "AtlasTexture", "Control icon texture"]
+    }
+  ]
+}

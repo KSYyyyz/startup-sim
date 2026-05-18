@@ -15,6 +15,12 @@ public partial class ArtImportPreviewController : Control
     [Export] public Texture2D? FeedbackFxAtlas { get; set; }
     [Export] public Texture2D? RecruitmentPortraitAtlasV1 { get; set; }
     [Export] public Texture2D? RecruitmentPortraitAtlas { get; set; }
+    [Export] public Texture2D? OfficeTileExpansionAtlas { get; set; }
+    [Export] public Texture2D? FacilityPlacementAtlas { get; set; }
+    [Export] public Texture2D? EmployeeStatusIconAtlas { get; set; }
+    [Export] public Texture2D? ZoneStateOverlayAtlasV06 { get; set; }
+    [Export] public Texture2D? FeedbackPortraitAtlasV07 { get; set; }
+    [Export] public Texture2D? MainSceneBackground { get; set; }
 
     public bool ValidateAtlasPreview()
     {
@@ -28,7 +34,13 @@ public partial class ArtImportPreviewController : Control
             && ValidateAtlas(UiCoreAtlas, 6, 4)
             && ValidateAtlas(FeedbackFxAtlas, 8, 4)
             && ValidateAtlas(RecruitmentPortraitAtlasV1, 4, 3)
-            && ValidateAtlas(RecruitmentPortraitAtlas, 4, 3);
+            && ValidateAtlas(RecruitmentPortraitAtlas, 4, 3)
+            && ValidateAtlas(OfficeTileExpansionAtlas, 8, 5)
+            && ValidateAtlas(FacilityPlacementAtlas, 6, 3)
+            && ValidateAtlas(EmployeeStatusIconAtlas, 8, 4)
+            && ValidateAtlas(ZoneStateOverlayAtlasV06, 6, 5)
+            && ValidateAtlas(FeedbackPortraitAtlasV07, 4, 3)
+            && ValidateTexture(MainSceneBackground);
     }
 
     public string[] ValidateAtlasPreviewReport()
@@ -45,7 +57,13 @@ public partial class ArtImportPreviewController : Control
             BuildValidationLine("ui-core-atlas-v0.1", UiCoreAtlas, 6, 4),
             BuildValidationLine("feedback-fx-atlas-v0.1", FeedbackFxAtlas, 8, 4),
             BuildValidationLine("recruitment-portrait-sheet-v0.1", RecruitmentPortraitAtlasV1, 4, 3),
-            BuildValidationLine("recruitment-portrait-sheet-v0.2-angle-balanced", RecruitmentPortraitAtlas, 4, 3)
+            BuildValidationLine("recruitment-portrait-sheet-v0.2-angle-balanced", RecruitmentPortraitAtlas, 4, 3),
+            BuildValidationLine("office-tile-expansion-atlas-v0.4", OfficeTileExpansionAtlas, 8, 5),
+            BuildValidationLine("facility-placement-atlas-v0.3", FacilityPlacementAtlas, 6, 3),
+            BuildValidationLine("employee-status-icon-atlas-v0.5", EmployeeStatusIconAtlas, 8, 4),
+            BuildValidationLine("zone-state-overlay-atlas-v0.6", ZoneStateOverlayAtlasV06, 6, 5),
+            BuildValidationLine("feedback-portrait-sheet-v0.7", FeedbackPortraitAtlasV07, 4, 3),
+            BuildTextureValidationLine("company-main-scene-background-v0.7.1", MainSceneBackground)
         };
     }
 
@@ -71,6 +89,11 @@ public partial class ArtImportPreviewController : Control
         return firstCell != null && firstCell.Region.Size.X > 0 && firstCell.Region.Size.Y > 0;
     }
 
+    private bool ValidateTexture(Texture2D? texture)
+    {
+        return texture != null && texture.GetSize().X > 0 && texture.GetSize().Y > 0;
+    }
+
     private string BuildValidationLine(string atlasName, Texture2D? atlas, int columns, int rows)
     {
         var firstCell = BuildFirstCellPreview(atlas, columns, rows);
@@ -82,5 +105,16 @@ public partial class ArtImportPreviewController : Control
         var textureSize = atlas.GetSize();
         var cellSize = firstCell.Region.Size;
         return $"{atlasName}: {textureSize.X:0}x{textureSize.Y:0}, {columns}x{rows}, cell {cellSize.X:0.##}x{cellSize.Y:0.##}";
+    }
+
+    private string BuildTextureValidationLine(string textureName, Texture2D? texture)
+    {
+        if (texture == null)
+        {
+            return $"{textureName}: missing";
+        }
+
+        var textureSize = texture.GetSize();
+        return $"{textureName}: {textureSize.X:0}x{textureSize.Y:0}";
     }
 }

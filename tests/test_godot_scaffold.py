@@ -108,11 +108,11 @@ def test_godot_main_scene_uses_art_atlases_for_office_visuals():
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
 
     for atlas in [
-        "office-tile-atlas-v0.1.png",
-        "zone-state-overlay-atlas-v0.1.png",
-        "facility-upgrade-atlas-v0.1.png",
-        "employee-sprite-atlas-v0.1.png",
-        "status-icon-atlas-v0.1.png",
+        "office-tile-expansion-atlas-v0.4.png",
+        "zone-state-overlay-atlas-v0.6.png",
+        "facility-placement-atlas-v0.3.png",
+        "employee-motion-atlas-v0.2.png",
+        "employee-status-icon-atlas-v0.5.png",
     ]:
         assert atlas in scene
 
@@ -129,6 +129,47 @@ def test_godot_main_scene_uses_art_atlases_for_office_visuals():
     assert "DrawEmployeeVisuals" in grid_script
     assert "ShowFacilityVisual" in panel_script
     assert "ShowEmployeeVisual" in panel_script
+
+
+def test_godot_main_scene_links_named_art_packs_by_function_and_use():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+    zone_script = (SCRIPTS / "ZonePaintingController.cs").read_text(encoding="utf-8")
+
+    for asset_path in [
+        "company-main-scene-background-v0.7.1.png",
+        "office-tile-expansion-atlas-v0.4.png",
+        "zone-state-overlay-atlas-v0.6.png",
+        "facility-placement-atlas-v0.3.png",
+        "employee-motion-atlas-v0.2.png",
+        "employee-status-icon-atlas-v0.5.png",
+        "feedback-portrait-sheet-v0.7.png",
+    ]:
+        assert asset_path in scene
+
+    assert 'texture = ExtResource("16")' in scene
+    assert 'texture = SubResource("AtlasTexture_feedback_portrait")' in scene
+
+    assert "RegisterZoneVisual" in grid_script
+    assert "ClearZoneVisual" in grid_script
+    assert '"product_zone" => 0' in grid_script
+    assert '"sales_zone" => 1' in grid_script
+    assert '"server_zone" => 2' in grid_script
+    assert "columns: 6, rows: 5, column: sourceColumn, row: 0" in grid_script
+
+    assert '"basic_desk" => 0' in grid_script
+    assert '"product_whiteboard" => 1' in grid_script
+    assert '"starter_server_rack" => 2' in grid_script
+    assert "columns: 6, rows: 3, sourceColumn, row: 0" in grid_script
+
+    assert '"product_engineer" => 0' in grid_script
+    assert '"sales_specialist" => 2' in grid_script
+    assert '"ops_engineer" => 4' in grid_script
+    assert "columns: 12, rows: 6, sourceColumn, row: sourceRow" in grid_script
+    assert "columns: 8, rows: 4, column: 12 % 8, row: 12 / 8" in grid_script
+
+    assert "GridView?.RegisterZoneVisual(zone.Id, zone.ZoneTypeId);" in zone_script
+    assert "GridView?.ClearZoneVisual(zoneId);" in zone_script
 
 
 def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
@@ -318,6 +359,12 @@ def test_godot_art_import_preview_scene_references_core_atlases():
         "feedback-fx-atlas-v0.1.png",
         "recruitment-portrait-sheet-v0.1.png",
         "recruitment-portrait-sheet-v0.2-angle-balanced.png",
+        "office-tile-expansion-atlas-v0.4.png",
+        "facility-placement-atlas-v0.3.png",
+        "employee-status-icon-atlas-v0.5.png",
+        "zone-state-overlay-atlas-v0.6.png",
+        "feedback-portrait-sheet-v0.7.png",
+        "company-main-scene-background-v0.7.1.png",
     ]:
         assert atlas in scene
 
@@ -333,6 +380,13 @@ def test_godot_art_import_preview_scene_references_core_atlases():
     assert "EmployeeAnimationAtlas" in controller
     assert "UiCoreAtlas" in controller
     assert "FeedbackFxAtlas" in controller
+    assert "OfficeTileExpansionAtlas" in controller
+    assert "FacilityPlacementAtlas" in controller
+    assert "EmployeeStatusIconAtlas" in controller
+    assert "ZoneStateOverlayAtlasV06" in controller
+    assert "FeedbackPortraitAtlasV07" in controller
+    assert "MainSceneBackground" in controller
+    assert "ValidateTexture(MainSceneBackground" in controller
     assert "DeterministicTurnEngine" not in controller
 
 
