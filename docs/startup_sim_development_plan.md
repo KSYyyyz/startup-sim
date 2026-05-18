@@ -1045,3 +1045,21 @@ D:\Godot\godot.cmd --headless --path D:\Startup-sim\godot\StartupSimGodot --impo
 10. 继续迁移 C# Core 规则，直到支撑 12 个月离线局。
 
 完成上述内容后，Startup Sim 才真正从 CLI 规则原型进入 Godot 独立游戏工程阶段。
+
+## 22. G1 可玩切片验收记录
+
+2026-05-18 已补充 `docs/godot_g1_acceptance_report.md`，作为 Godot G1 阶段的代码级纵向切片验收记录。
+
+G1 已验收的核心闭环：
+
+1. 办公室网格。
+2. 区域框定。
+3. 设施摆放与升级。
+4. 员工招聘与岗位适配。
+5. 员工成长与需求。
+6. 产能快照。
+7. 时间推进与月度结算。
+8. 月报与反馈。
+9. G1 纵向切片自动化测试。
+
+G1 之后不再继续扩展旧 Web/Vercel 前端，后续 UI 和可玩体验都以 Godot 为唯一正式前端推进。

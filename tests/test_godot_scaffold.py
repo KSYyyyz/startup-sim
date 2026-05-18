@@ -176,3 +176,19 @@ def test_godot_main_scene_mounts_monthly_report_controller():
     assert "BuildCompetitorSignal" in controller
     assert "BuildBusinessInsight" in controller
     assert "TurnResultSnapshot" in controller
+
+
+def test_godot_g1_acceptance_report_exists():
+    report = ROOT / "docs" / "godot_g1_acceptance_report.md"
+
+    assert report.exists()
+    text = report.read_text(encoding="utf-8")
+    assert "Godot G1 可玩切片验收报告" in text
+    assert "办公室网格" in text
+    assert "区域框定" in text
+    assert "设施摆放与升级" in text
+    assert "员工招聘与岗位适配" in text
+    assert "员工成长与需求" in text
+    assert "时间推进与月度结算" in text
+    assert "月报与反馈" in text
+    assert "G1 纵向切片" in text
