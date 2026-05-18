@@ -4,6 +4,7 @@ import {
   gameplayContractManifest,
   isContractVersionCompatible,
   toActionPlan,
+  toOfficeSignal,
   toRoleMemory,
   toTurnFacts
 } from './contracts';
@@ -92,6 +93,27 @@ describe('engine-neutral gameplay contracts', () => {
       fact: '上月现金减少',
       implication: '会继续盯预算',
       source: 'settled-turn-facts'
+    });
+  });
+
+  test('converts room signal copy into engine-neutral office signals', () => {
+    expect(
+      toOfficeSignal({
+        id: 'cash-pressure',
+        roomId: 'board',
+        title: '现金压力',
+        description: '现金流可支撑时间正在缩短。',
+        severity: 'warning',
+        source: 'turn-facts'
+      })
+    ).toEqual({
+      id: 'cash-pressure',
+      roomId: 'board',
+      title: '现金压力',
+      description: '现金流可支撑时间正在缩短。',
+      severity: 'warning',
+      source: 'turn-facts',
+      visualIntent: 'surface-in-office'
     });
   });
 });

@@ -74,6 +74,19 @@ export type RoleMemory = RoleMemoryInput & {
   source: 'settled-turn-facts';
 };
 
+export type OfficeSignalInput = {
+  id: string;
+  roomId: string;
+  title: string;
+  description: string;
+  severity: 'info' | 'warning' | 'critical' | 'opportunity';
+  source: 'turn-facts' | 'role-memory' | 'competitor-facts' | 'scenario';
+};
+
+export type OfficeSignal = OfficeSignalInput & {
+  visualIntent: 'surface-in-office';
+};
+
 export const gameplayContractManifest: GameplayContractManifest = {
   version: 'alpha-0.4-contracts.0',
   rulesAuthority: 'backend-turn-engine',
@@ -144,5 +157,12 @@ export function toRoleMemory(input: RoleMemoryInput): RoleMemory {
   return {
     ...input,
     source: 'settled-turn-facts'
+  };
+}
+
+export function toOfficeSignal(input: OfficeSignalInput): OfficeSignal {
+  return {
+    ...input,
+    visualIntent: 'surface-in-office'
   };
 }

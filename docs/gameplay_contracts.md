@@ -66,6 +66,22 @@ Required fields:
 
 The `source` field must be `settled-turn-facts`. Role memory cannot be generated from UI hover state, unsent commands, or speculative previews.
 
+### OfficeSignal
+
+`OfficeSignal` describes a room-level signal that can be rendered by Web, Tauri, or Unity.
+
+Required fields:
+
+- `id`
+- `roomId`
+- `title`
+- `description`
+- `severity`
+- `source`
+- `visualIntent`
+
+`visualIntent` is currently `surface-in-office`. React may render it as a badge or bubble; Unity may render it as room animation, character speech, or icon. Neither renderer should infer business rules from raw text.
+
 ## Version
 
 The current compatible contract family is `alpha-0.4-contracts.x`.
