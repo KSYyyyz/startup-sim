@@ -63,6 +63,26 @@ Implemented first:
 
 This is intentionally a thin vertical slice. It proves the control loop before adding animations, employees, room upgrades, or richer AI characters.
 
+## 4.1 Desktop Iteration Progress
+
+Completed in the first ten desktop-first implementation rounds:
+
+- Selected office room is explicit through visual state, "当前房间", and `aria-pressed`.
+- Prepared actions can be cancelled without manually editing the command input.
+- Action cards show compact tradeoff tags such as "产品 +" and "现金 -".
+- Empty command state explains that the player can choose an office action or type a CEO instruction.
+- The execute button is disabled until a command exists.
+- Monthly result feedback is structured as "月度战报" with changes, reasons, and next-month pressure.
+- Board rows show role stances such as "现金纪律" and "产品护城河".
+- Competitor rows and the competitor glance include readable trend labels such as "持平" and "上升".
+- The office scene has a non-blocking "办公室提示" bubble for the current focus.
+- Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
+
+Known follow-up:
+
+- PixiJS currently creates a large production chunk. This is acceptable for Alpha 0.2, but the next performance pass should lazy-load or split the game canvas layer.
+- The mobile path is intentionally smoke-level only. Desktop layout remains the primary acceptance target until the office-management loop feels complete.
+
 ## 5. Next Desktop Tasks
 
 ### M1 Interaction Polish
