@@ -94,6 +94,31 @@ namespace StartupSim.Core.Engines
                 };
             }
 
+            var strategyAction = plan.Actions.FirstOrDefault(action => action.Type == ActionType.Strategy);
+            if (strategyAction != null)
+            {
+                var budget = strategyAction.Budget > 0m ? strategyAction.Budget : 100_000m;
+                var reputationGain = Math.Max(1, (int)(budget / 33_333m));
+                next.Metrics.Cash -= budget;
+                next.Metrics.Reputation = Math.Min(100, next.Metrics.Reputation + reputationGain);
+                next.Metrics.Valuation += budget;
+                return new TurnResult
+                {
+                    State = next,
+                    ReplayBasis =
+                    {
+                        "战略试点提升了外部想象空间，但短期收入仍需要经营动作验证。"
+                    },
+                    ChangedMetrics =
+                    {
+                        $"现金 -{budget / 10_000m:0}万",
+                        $"声誉 +{reputationGain}",
+                        $"估值 +{budget / 10_000m:0}万"
+                    },
+                    NextPressure = "战略故事变强了，下一步要用产品、收入或合作结果证明它。"
+                };
+            }
+
             return new TurnResult
             {
                 State = next,

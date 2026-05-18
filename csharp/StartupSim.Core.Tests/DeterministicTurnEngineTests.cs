@@ -108,6 +108,31 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
+    public void StrategyInvestmentImprovesReputationAndValuation()
+    {
+        var engine = new DeterministicTurnEngine();
+        var initial = new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = 1,
+                Cash = 1_000_000m,
+                Reputation = 50,
+                Valuation = 2_640_000m
+            }
+        };
+
+        var result = engine.Execute(initial, new TurnCommand { RawText = "花20万做出海战略试点" });
+
+        Assert.Equal(2, result.State.Metrics.Month);
+        Assert.Equal(800_000m, result.State.Metrics.Cash);
+        Assert.Equal(56, result.State.Metrics.Reputation);
+        Assert.Equal(2_840_000m, result.State.Metrics.Valuation);
+        Assert.Contains("声誉 +6", result.ChangedMetrics);
+        Assert.Contains("估值 +20万", result.ChangedMetrics);
+    }
+
+    [Fact]
     public void ExecuteDoesNotMutateInputState()
     {
         var engine = new DeterministicTurnEngine();
