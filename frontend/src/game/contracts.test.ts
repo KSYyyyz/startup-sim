@@ -1,6 +1,12 @@
 import { describe, expect, test } from 'vitest';
 
-import { gameplayContractManifest, isContractVersionCompatible, toActionPlan, toTurnFacts } from './contracts';
+import {
+  gameplayContractManifest,
+  isContractVersionCompatible,
+  toActionPlan,
+  toRoleMemory,
+  toTurnFacts
+} from './contracts';
 
 describe('engine-neutral gameplay contracts', () => {
   test('documents the shared contracts that connect frontend backend and future engines', () => {
@@ -69,6 +75,23 @@ describe('engine-neutral gameplay contracts', () => {
       replayBasis: ['研发投入提升了产品分，但现金消耗上升。'],
       nextPressure: '继续验证产品改善是否能转化成增长。',
       authority: 'backend-turn-engine'
+    });
+  });
+
+  test('converts role memory copy into engine-neutral role memory facts', () => {
+    expect(
+      toRoleMemory({
+        roleId: 'cfo',
+        roleName: 'CFO',
+        fact: '上月现金减少',
+        implication: '会继续盯预算'
+      })
+    ).toEqual({
+      roleId: 'cfo',
+      roleName: 'CFO',
+      fact: '上月现金减少',
+      implication: '会继续盯预算',
+      source: 'settled-turn-facts'
     });
   });
 });

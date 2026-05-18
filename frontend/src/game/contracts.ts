@@ -63,6 +63,17 @@ export type TurnFacts = {
   authority: 'backend-turn-engine';
 };
 
+export type RoleMemoryInput = {
+  roleId: string;
+  roleName: string;
+  fact: string;
+  implication: string;
+};
+
+export type RoleMemory = RoleMemoryInput & {
+  source: 'settled-turn-facts';
+};
+
 export const gameplayContractManifest: GameplayContractManifest = {
   version: 'alpha-0.4-contracts.0',
   rulesAuthority: 'backend-turn-engine',
@@ -126,5 +137,12 @@ export function toTurnFacts(input: TurnFactsInput): TurnFacts {
     replayBasis: input.reasons,
     nextPressure: input.nextPressure,
     authority: 'backend-turn-engine'
+  };
+}
+
+export function toRoleMemory(input: RoleMemoryInput): RoleMemory {
+  return {
+    ...input,
+    source: 'settled-turn-facts'
   };
 }

@@ -52,6 +52,20 @@ Required fields:
 
 `changes` should contain player-facing labels and values that already came from settled state. `replayBasis` should cite backend reasons or deterministic replay facts. Frontend narrative can summarize these facts, but cannot add new outcomes.
 
+### RoleMemory
+
+`RoleMemory` describes what a character remembers from settled facts.
+
+Required fields:
+
+- `roleId`
+- `roleName`
+- `fact`
+- `implication`
+- `source`
+
+The `source` field must be `settled-turn-facts`. Role memory cannot be generated from UI hover state, unsent commands, or speculative previews.
+
 ## Version
 
 The current compatible contract family is `alpha-0.4-contracts.x`.
