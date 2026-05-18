@@ -4,6 +4,23 @@
 
 ---
 
+## Godot Migration Prep — Engine pivot and project scaffold (2026-05-18)
+
+**性质**: 独立游戏表现层技术路线调整。目标是从 Unity 探索切换到 Godot 4.6.x .NET，并保留已完成的 C# Core 规则迁移成果。
+
+**主要产出**:
+- 新增 `docs/godot_migration_plan.md`，明确 Godot 成为后续桌面端独立游戏表现层，Unity 路线暂停。
+- 新增 `godot/StartupSimGodot/` 工程骨架，包含 `project.godot`、`scenes/main.tscn`、`scripts/StartupSimController.cs`、`PreparedActionSnapshot.cs`、`OfficeRoomHotspot.cs`。
+- 新增 `tests/test_godot_scaffold.py`，锁定 Godot 工程存在、主场景入口存在、Godot 脚本只做表现层适配。
+- 更新 README、工作目录规则和旧 C# / Unity 迁移方案，避免 GitHub 页面继续展示 Unity 为当前最终方向。
+
+**验收边界**:
+- Godot 脚本不拥有玩法结算规则。
+- `StartupSim.Core` 继续作为可迁移规则核心。
+- Web 前端继续作为规则验证台和远程试玩入口。
+
+---
+
 ## C# / Unity Migration Prep — Python-aligned base turn rules (2026-05-18)
 
 **性质**: C# Core 规则对齐切片。目标是把上一轮临时 C# 公式改向 Python `TurnEngine` 的基础回合语义。

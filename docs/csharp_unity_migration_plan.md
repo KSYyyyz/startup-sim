@@ -1,7 +1,9 @@
 # C# / Unity 迁移方案
 
-Status: active migration preparation
+Status: superseded by `docs/godot_migration_plan.md`
 Date: 2026-05-18
+
+Note: Unity 路线已暂停。新的独立游戏表现层方向是 Godot；本文件保留为历史迁移记录和 C# Core 边界参考。
 
 ## 1. Direction
 
@@ -9,7 +11,7 @@ Startup Sim will shift from frontend polish to portable gameplay-core preparatio
 
 The Web frontend is now downgraded to a rule validation bench: it should keep opening sessions, submitting turns, and displaying settled facts, but it is no longer the target presentation layer.
 
-The long-term presentation layer is Unity. The long-term rule layer is `StartupSim.Core`.
+The historical presentation target was Unity. The current presentation target is Godot. The long-term rule layer remains `StartupSim.Core`.
 
 ## 2. Architecture
 
