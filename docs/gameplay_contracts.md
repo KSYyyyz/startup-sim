@@ -20,6 +20,23 @@ The backend rules layer owns facts. The frontend owns presentation. The contract
 | `ScenarioDefinition` | Shared | Scenario rooms, roles, competitors, and market framing. |
 | `AssetManifest` | Frontend/art Agent | image-2 visual assets and stable references. |
 
+### ActionPlan
+
+`ActionPlan` describes a command before settlement. It can come from a room, quick action, board response, competitor response, or monthly recovery.
+
+Required fields:
+
+- `id`
+- `source`
+- `sourceLabel`
+- `title`
+- `command`
+- `readableIntent`
+- `tradeoffs`
+- `authority`
+
+The `authority` field must be `backend-turn-engine`. A frontend ActionPlan can explain intent and tradeoffs, but it cannot settle numeric state.
+
 ## Version
 
 The current compatible contract family is `alpha-0.4-contracts.x`.

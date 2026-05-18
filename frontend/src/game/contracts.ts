@@ -17,6 +17,29 @@ export type GameplayContractManifest = {
   }>;
 };
 
+export type ActionPlanSource = 'room' | 'quick' | 'board' | 'competitor' | 'monthly';
+
+export type ActionPlanInput = {
+  id: string;
+  source: ActionPlanSource;
+  sourceLabel: string;
+  title: string;
+  command: string;
+  description: string;
+  tags: string[];
+};
+
+export type ActionPlan = {
+  id: string;
+  source: ActionPlanSource;
+  sourceLabel: string;
+  title: string;
+  command: string;
+  readableIntent: string;
+  tradeoffs: string[];
+  authority: 'backend-turn-engine';
+};
+
 export const gameplayContractManifest: GameplayContractManifest = {
   version: 'alpha-0.4-contracts.0',
   rulesAuthority: 'backend-turn-engine',
@@ -57,4 +80,17 @@ export const gameplayContractManifest: GameplayContractManifest = {
 
 export function isContractVersionCompatible(version: string) {
   return /^alpha-0\.4-contracts\.\d+$/.test(version);
+}
+
+export function toActionPlan(input: ActionPlanInput): ActionPlan {
+  return {
+    id: input.id,
+    source: input.source,
+    sourceLabel: input.sourceLabel,
+    title: input.title,
+    command: input.command,
+    readableIntent: input.description,
+    tradeoffs: input.tags,
+    authority: 'backend-turn-engine'
+  };
 }
