@@ -6,7 +6,7 @@ SCRIPTS = GODOT / "scripts"
 SCENES = GODOT / "scenes"
 
 
-def test_godot_migration_plan_exists_and_pauses_unity_route():
+def test_godot_migration_plan_exists_and_sets_godot_only_frontend_route():
     doc = ROOT / "docs" / "godot_migration_plan.md"
 
     assert doc.is_file()
@@ -14,7 +14,11 @@ def test_godot_migration_plan_exists_and_pauses_unity_route():
     assert "Godot 4.6.x" in content
     assert "C# Core" in content
     assert "Unity 路线停止作为新增开发目标" in content
-    assert "Web 前端继续作为规则验证台" in content
+    assert "Web 前端路线已放弃" in content
+    assert "top-down office scene" in content
+    assert "zone selection and area painting" in content
+    assert "facility placement" in content
+    assert "employee hiring" in content
 
 
 def test_godot_project_scaffold_exists():
