@@ -195,8 +195,11 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
 
     expect(await screen.findByText('第2月')).toBeInTheDocument();
-    expect(screen.getByText('回合结果')).toBeInTheDocument();
+    expect(screen.getByText('月度战报')).toBeInTheDocument();
     expect(screen.getByText('第1月执行结果')).toBeInTheDocument();
+    expect(screen.getAllByText('本月变化').length).toBeGreaterThan(1);
+    expect(screen.getByText('原因复盘')).toBeInTheDocument();
+    expect(screen.getByText('下月压力')).toBeInTheDocument();
     expect(screen.getByText('研发投入提升了产品分，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getByText('研发有效，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getByText('灵犀客服云')).toBeInTheDocument();

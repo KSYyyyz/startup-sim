@@ -685,6 +685,28 @@ h2 {
   margin-bottom: 10px;
 }
 
+.monthly-report {
+  display: grid;
+  gap: 10px;
+}
+
+.report-block {
+  border: 1px solid #d6dee8;
+  border-radius: 6px;
+  padding: 9px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.report-block h3 {
+  margin: 0 0 8px;
+  color: #153b68;
+  font-size: 0.84rem;
+}
+
+.report-block p {
+  line-height: 1.42;
+}
+
 .result-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

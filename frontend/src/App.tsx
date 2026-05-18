@@ -255,26 +255,36 @@ export default function App() {
           </article>
 
           {lastTurn && (
-            <article className="panel result-panel">
-              <h2>回合结果</h2>
+            <article className="panel result-panel monthly-report">
+              <h2>月度战报</h2>
               <strong>第{lastTurn.month}月执行结果</strong>
-              <div className="result-grid">
-                {highlights.map((item) => (
-                  <span key={item.label}>
-                    <b>{item.label}</b>
-                    <em className={item.tone}>{item.value}</em>
-                  </span>
-                ))}
-              </div>
-              {lastTurn.delta_reasons?.length ? (
-                <ul className="result-list">
-                  {lastTurn.delta_reasons.slice(0, 3).map((reason) => (
-                    <li key={reason}>{reason}</li>
+              <section className="report-block">
+                <h3>本月变化</h3>
+                <div className="result-grid">
+                  {highlights.map((item) => (
+                    <span key={item.label}>
+                      <b>{item.label}</b>
+                      <em className={item.tone}>{item.value}</em>
+                    </span>
                   ))}
-                </ul>
-              ) : (
-                <p>本回合已结算，董事会、竞品态势和经营洞察已更新。</p>
-              )}
+                </div>
+              </section>
+              <section className="report-block">
+                <h3>原因复盘</h3>
+                {lastTurn.delta_reasons?.length ? (
+                  <ul className="result-list">
+                    {lastTurn.delta_reasons.slice(0, 3).map((reason) => (
+                      <li key={reason}>{reason}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>本回合已结算，董事会、竞品态势和经营洞察已更新。</p>
+                )}
+              </section>
+              <section className="report-block">
+                <h3>下月压力</h3>
+                <p>{state.core_tension.next_focus}</p>
+              </section>
             </article>
           )}
         </aside>
