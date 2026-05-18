@@ -31,6 +31,29 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
+    public void ProductInvestmentUsesParsedActionBudget()
+    {
+        var engine = new DeterministicTurnEngine();
+        var initial = new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = 1,
+                Cash = 1_000_000m,
+                ProductScore = 20
+            }
+        };
+
+        var result = engine.Execute(initial, new TurnCommand { RawText = "花20万研发产品" });
+
+        Assert.Equal(2, result.State.Metrics.Month);
+        Assert.Equal(800_000m, result.State.Metrics.Cash);
+        Assert.Equal(36, result.State.Metrics.ProductScore);
+        Assert.Contains("现金 -20万", result.ChangedMetrics);
+        Assert.Contains("产品 +16", result.ChangedMetrics);
+    }
+
+    [Fact]
     public void ExecuteDoesNotMutateInputState()
     {
         var engine = new DeterministicTurnEngine();

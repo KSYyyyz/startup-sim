@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using StartupSim.Core.Contracts;
+using StartupSim.Core.Parsing;
 
 namespace StartupSim.Core.Engines
 {
@@ -15,11 +17,14 @@ namespace StartupSim.Core.Engines
             var next = currentState.Clone();
             next.Metrics.Month += 1;
 
-            var text = command?.RawText ?? string.Empty;
-            if (text.Contains("研发") || text.Contains("产品"))
+            var plan = ActionParser.ParseMulti(command?.RawText ?? string.Empty);
+            var productAction = plan.Actions.FirstOrDefault(action => action.Type == ActionType.Product);
+            if (productAction != null)
             {
-                next.Metrics.Cash -= 100_000m;
-                next.Metrics.ProductScore += 8;
+                var budget = productAction.Budget > 0m ? productAction.Budget : 100_000m;
+                var productGain = Math.Max(1, (int)(budget / 12_500m));
+                next.Metrics.Cash -= budget;
+                next.Metrics.ProductScore += productGain;
                 return new TurnResult
                 {
                     State = next,
@@ -29,8 +34,8 @@ namespace StartupSim.Core.Engines
                     },
                     ChangedMetrics =
                     {
-                        "现金 -10万",
-                        "产品 +8"
+                        $"现金 -{budget / 10_000m:0}万",
+                        $"产品 +{productGain}"
                     },
                     NextPressure = "产品有进展，但要验证能否转化为用户或收入。"
                 };
