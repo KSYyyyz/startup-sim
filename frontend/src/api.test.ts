@@ -31,6 +31,26 @@ describe('Vercel demo fallback', () => {
     expect(result.state.metrics.month).toBe(2);
   });
 
+  test('keeps phase goals and objective progress in deployed static demo mode', async () => {
+    const fetchMock = vi.fn(async () => new Response('method not allowed', { status: 405 }));
+    vi.stubGlobal('fetch', fetchMock);
+    vi.stubGlobal('location', { hostname: 'startup-sim-khaki.vercel.app' });
+
+    const state = await createSession();
+    const result = await submitTurn(1, '花10万研发产品');
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(state.phase_goals?.title).toBe('早期生存目标');
+    expect(state.phase_goals?.objectives[0].action_directions).toContain('研发投入');
+    expect(JSON.stringify(state.phase_goals)).not.toContain('花10万研发产品');
+    expect(JSON.stringify(state.phase_goals)).not.toContain('一键');
+    expect(result.turn.objective_updates?.[0]).toMatchObject({
+      id: 'product-readiness',
+      title: '提升产品成熟度'
+    });
+    expect(JSON.stringify(result.turn.objective_updates)).not.toContain('花10万研发产品');
+  });
+
   test('simulates a turn and suggestions in demo mode', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => Promise.reject(new Error('network down'))));
 

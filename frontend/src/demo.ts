@@ -34,6 +34,29 @@ export const demoInitialState: GameStateView = {
     title: '产品仍在打磨期',
     description: '现阶段优先把产品体验做稳，再考虑更大规模获客。'
   },
+  phase_goals: {
+    phase_label: '0-12个月',
+    title: '早期生存目标',
+    summary: '先让产品、现金和客户验证进入可复盘的节奏。',
+    objectives: [
+      {
+        id: 'product-readiness',
+        title: '提升产品成熟度',
+        status: '进行中',
+        progress_label: '产品 20/35',
+        action_directions: ['研发投入', '客户访谈', '小范围试点'],
+        risk_hint: '不要在客户验证不足时一次性加大投放。'
+      },
+      {
+        id: 'cash-discipline',
+        title: '保持现金纪律',
+        status: '进行中',
+        progress_label: '现金流可支撑时间 8.3个月',
+        action_directions: ['控制固定支出', '小额试验', '融资准备'],
+        risk_hint: '现金流可支撑时间低于4个月时先收缩预算。'
+      }
+    ]
+  },
   board: [
     {
       name: 'CFO',
@@ -218,7 +241,26 @@ export function demoTurn(command: string): TurnResponse {
     },
     turn: {
       month: 1,
-      delta_reasons: ['Vercel demo mode: simulated one turn']
+      delta_reasons: ['Vercel demo mode: simulated one turn'],
+      objective_updates: [
+        {
+          id: 'product-readiness',
+          title: '提升产品成熟度',
+          status: productFocused ? '推进中' : '承压',
+          summary: productFocused
+            ? '本月研发投入让产品成熟度继续上升，可以开始准备更小范围的客户验证。'
+            : '本月产品目标推进有限，下月需要重新安排产品和客户验证节奏。'
+        },
+        {
+          id: 'cash-discipline',
+          title: '保持现金纪律',
+          status: cashChange <= -200000 ? '承压' : '推进中',
+          summary:
+            cashChange <= -200000
+              ? '现金消耗明显上升，下一回合要控制单月预算，避免现金流可支撑时间过快下降。'
+              : '现金消耗仍在可控范围，继续用小步试验换取验证结果。'
+        }
+      ]
     }
   };
 }
