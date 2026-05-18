@@ -1,6 +1,6 @@
 # Startup Sim 项目交接文档
 
-更新时间：2026-05-18  
+更新时间：2026-05-19
 固定工作目录：`D:\Startup-sim`  
 GitHub 仓库：`https://github.com/KSYyyyz/startup-sim`  
 当前主线：Godot 桌面端独立游戏  
@@ -190,12 +190,16 @@ G2 起步轮已经建立 Godot 美术导入验证和最小操作台：
 5. 玩家可见文案继续使用“现金流可支撑时间”，Godot UI 不引用 `DeterministicTurnEngine`，月度经营仍通过 `GodotTurnBridge` 进入 C# Core。
 6. 主场景 `OfficeGridView` 已接入 office tile、zone overlay、facility、employee 和 status icon atlas，区域占用、设施摆放、员工招聘后会在网格中出现基础视觉反馈。
 7. `art_import_preview.tscn` 已扩展为完整 atlas 首格预览，覆盖 zone overlay、员工朝向、员工动画、UI core、feedback FX 和两版招聘头像。
+8. 主场景已从“默认网格测试台”调整为“办公室经营面板”：默认隐藏辅助网格，只有划区和摆设施时进入建造辅助模式。
+9. `godot-g1-art-pack-v0.2-employee-motion` 已进入项目资产目录，包含员工动作 atlas、索引、prompt、源图、切片指南和 Godot 导入文件。
 
 对应关键测试：
 
 - `tests/test_godot_scaffold.py::test_godot_main_scene_mounts_g2_minimal_operations_ui`
 - `tests/test_godot_scaffold.py::test_godot_art_import_preview_scene_references_core_atlases`
 - `tests/test_godot_scaffold.py::test_godot_main_scene_uses_art_atlases_for_office_visuals`
+- `tests/test_godot_scaffold.py::test_godot_main_scene_looks_like_office_management_scene_not_grid_editor`
+- `tests/test_design_assets.py::test_godot_employee_motion_pack_is_tracked_and_import_ready`
 
 ## 7. 下一步建议
 

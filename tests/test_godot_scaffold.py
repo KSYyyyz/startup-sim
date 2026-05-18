@@ -131,6 +131,30 @@ def test_godot_main_scene_uses_art_atlases_for_office_visuals():
     assert "ShowEmployeeVisual" in panel_script
 
 
+def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "OfficeBackdrop" in scene
+    assert "GridVisibleByDefault = false" in scene
+    assert "BuildModeGridAlpha = 0.18" in scene
+    assert 'text = "公司经营面板"' in scene
+    for label in ["现金：", "现金流可支撑时间：", "MRR：", "用户：", "产品："]:
+        assert label in scene
+    assert "G2 最小操作台" not in scene
+
+    assert "GridVisibleByDefault" in grid_script
+    assert "BuildModeGridAlpha" in grid_script
+    assert "SetBuildMode" in grid_script
+    assert "DrawOfficeBackdrop" in grid_script
+    assert "ShouldDrawGrid" in grid_script
+    assert "if (ShouldDrawGrid())" in grid_script
+
+    assert "OfficeGridView?.SetBuildMode(true)" in panel_script
+    assert "OfficeGridView?.SetBuildMode(false)" in panel_script
+
+
 def test_godot_main_scene_mounts_zone_painting_controller():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     controller = (SCRIPTS / "ZonePaintingController.cs").read_text(encoding="utf-8")

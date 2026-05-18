@@ -22,6 +22,14 @@ script = ExtResource("1")
 [node name="GodotTurnBridge" type="Node" parent="."]
 script = ExtResource("8")
 
+[node name="OfficeBackdrop" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 818.0
+offset_bottom = 578.0
+color = Color(0.17, 0.19, 0.18, 1)
+
 [node name="OfficeGridView" type="Node2D" parent="."]
 script = ExtResource("2")
 position = Vector2(32, 32)
@@ -33,6 +41,10 @@ ZoneOverlayAtlas = ExtResource("12")
 FacilityAtlas = ExtResource("13")
 EmployeeAtlas = ExtResource("14")
 StatusIconAtlas = ExtResource("15")
+GridVisibleByDefault = false
+BuildModeGridAlpha = 0.18
+GridColor = Color(0.36, 0.55, 0.74, 0.18)
+OccupiedColor = Color(0.95, 0.72, 0.25, 0.2)
 
 [node name="ZonePaintingController" type="Node" parent="."]
 script = ExtResource("3")
@@ -82,7 +94,7 @@ OfficeGridViewPath = NodePath("../OfficeGridView")
 layout_mode = 0
 offset_right = 360.0
 offset_bottom = 28.0
-text = "G2 最小操作台"
+text = "公司经营面板"
 
 [node name="StatusLabel" type="Label" parent="G2OperationsPanel"]
 layout_mode = 0
@@ -90,13 +102,25 @@ offset_top = 36.0
 offset_right = 360.0
 offset_bottom = 96.0
 autowrap_mode = 3
-text = "选择区域、设施或员工操作，现金流可支撑时间由 C# Core 月结结果解释。"
+text = "围绕产品、用户、收入和现金流安排办公室。建造辅助网格只在划区和摆设施时显示。"
+
+[node name="MetricsLabel" type="Label" parent="G2OperationsPanel"]
+layout_mode = 0
+offset_top = 108.0
+offset_right = 360.0
+offset_bottom = 208.0
+autowrap_mode = 3
+text = "现金：等待月结
+现金流可支撑时间：等待月结
+MRR：等待月结
+用户：等待月结
+产品：等待月结"
 
 [node name="ZoneButtons" type="HBoxContainer" parent="G2OperationsPanel"]
 layout_mode = 0
-offset_top = 112.0
+offset_top = 224.0
 offset_right = 360.0
-offset_bottom = 148.0
+offset_bottom = 260.0
 
 [node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons"]
 layout_mode = 2
@@ -112,9 +136,9 @@ text = "服务器区"
 
 [node name="FacilityButtons" type="HBoxContainer" parent="G2OperationsPanel"]
 layout_mode = 0
-offset_top = 160.0
+offset_top = 272.0
 offset_right = 360.0
-offset_bottom = 196.0
+offset_bottom = 308.0
 
 [node name="DeskButton" type="Button" parent="G2OperationsPanel/FacilityButtons"]
 layout_mode = 2
@@ -130,9 +154,9 @@ text = "机柜"
 
 [node name="EmployeeButtons" type="HBoxContainer" parent="G2OperationsPanel"]
 layout_mode = 0
-offset_top = 208.0
+offset_top = 320.0
 offset_right = 360.0
-offset_bottom = 244.0
+offset_bottom = 356.0
 
 [node name="HireProductButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
 layout_mode = 2
@@ -152,9 +176,9 @@ text = "训练"
 
 [node name="TimeButtons" type="HBoxContainer" parent="G2OperationsPanel"]
 layout_mode = 0
-offset_top = 256.0
+offset_top = 368.0
 offset_right = 360.0
-offset_bottom = 292.0
+offset_bottom = 404.0
 
 [node name="PauseButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
 layout_mode = 2
@@ -178,15 +202,15 @@ text = "推进月份"
 
 [node name="CapacityLabel" type="Label" parent="G2OperationsPanel"]
 layout_mode = 0
-offset_top = 312.0
+offset_top = 424.0
 offset_right = 360.0
-offset_bottom = 392.0
+offset_bottom = 504.0
 autowrap_mode = 3
 text = "产能预览：等待区域、设施和员工。"
 
 [node name="ReportLabel" type="Label" parent="G2OperationsPanel"]
 layout_mode = 0
-offset_top = 408.0
+offset_top = 520.0
 offset_right = 360.0
 offset_bottom = 620.0
 autowrap_mode = 3

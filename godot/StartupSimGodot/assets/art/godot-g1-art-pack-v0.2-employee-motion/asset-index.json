@@ -1,0 +1,64 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.2-employee-motion",
+  "created_at_local": "2026-05-18T23:56:02",
+  "storage_policy": "Generated employee motion art pack is tracked in this repository under godot/StartupSimGodot/assets/art. External D:\\美术资源 copy is a backup only.",
+  "project_context": {
+    "engine_direction": "Godot 4.x .NET presentation layer with C# Core gameplay facts",
+    "art_priority": "Godot playable office prototype: employee movement, facing, work, tired, and rest states."
+  },
+  "assets": [
+    {
+      "id": "employee-motion-atlas-v0.2",
+      "category": "employee_motion",
+      "file": "exports/employee-motion-atlas-v0.2.png",
+      "source": "sources/employee-motion-atlas-v0.2-source.png",
+      "raw_source": "sources/employee-motion-atlas-v0.2-raw-generated.png",
+      "prompt": "prompts/employee-motion-atlas-v0.2.prompt.md",
+      "slice_guide": "slice-guides/employee-motion-atlas-v0.2.md",
+      "preview": "previews/employee-motion-atlas-v0.2-contact-sheet.jpg",
+      "grid": {
+        "columns": 12,
+        "rows": 6
+      },
+      "godot_use": [
+        "Texture2D",
+        "AtlasTexture",
+        "Sprite2D region",
+        "AnimatedSprite2D source candidate"
+      ],
+      "notes": "Six employee archetypes with front/back/left/right walk slots plus idle, work, tired, and rest states. Column right_walk_b_placeholder duplicates right_walk_a because the generation pass missed the second side-walk frame.",
+      "image": {
+        "width": 2304,
+        "height": 1152,
+        "mode": "RGBA"
+      },
+      "slice": {
+        "cell_width_px": 192,
+        "cell_height_px": 192,
+        "godot_region_hint": "12 columns x 6 rows; use 192 x 192 regions from the full atlas"
+      },
+      "row_labels": [
+        "developer",
+        "senior_architect",
+        "sales_lead",
+        "operations_coordinator",
+        "server_engineer",
+        "hr_recruiter"
+      ],
+      "column_labels": [
+        "front_walk_a",
+        "front_walk_b",
+        "back_walk_a",
+        "back_walk_b",
+        "left_walk_a",
+        "left_walk_b",
+        "right_walk_a",
+        "right_walk_b_placeholder",
+        "idle",
+        "work",
+        "tired",
+        "rest"
+      ]
+    }
+  ]
+}

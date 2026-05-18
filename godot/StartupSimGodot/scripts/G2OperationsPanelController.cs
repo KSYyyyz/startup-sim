@@ -136,6 +136,8 @@ public partial class G2OperationsPanelController : Control
 
     public void TrainSelectedEmployee()
     {
+        OfficeGridView?.SetBuildMode(false);
+
         if (EmployeeManagementController == null || ZonePaintingController == null)
         {
             UpdateStatus("员工控制器未就绪。");
@@ -170,30 +172,36 @@ public partial class G2OperationsPanelController : Control
 
     public void SetPaused()
     {
+        OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetPaused();
         UpdateStatus("已暂停。");
     }
 
     public void SetNormalSpeed()
     {
+        OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetNormalSpeed();
         UpdateStatus("正常速度推进。");
     }
 
     public void SetDoubleSpeed()
     {
+        OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetDoubleSpeed();
         UpdateStatus("二倍速推进。");
     }
 
     public void SetTripleSpeed()
     {
+        OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetTripleSpeed();
         UpdateStatus("三倍速推进。");
     }
 
     public void AdvanceMonth()
     {
+        OfficeGridView?.SetBuildMode(false);
+
         if (TimeProgressController == null)
         {
             UpdateStatus("时间控制器未就绪。");
@@ -240,6 +248,7 @@ public partial class G2OperationsPanelController : Control
 
         activeMode = PaintZoneMode;
         hasZoneStart = false;
+        OfficeGridView?.SetBuildMode(true);
         UpdateStatus($"正在划分{displayName}：点击起点，再点击终点。");
     }
 
@@ -253,6 +262,7 @@ public partial class G2OperationsPanelController : Control
         }
 
         activeMode = PlaceFacilityMode;
+        OfficeGridView?.SetBuildMode(true);
         UpdateStatus($"正在摆放{displayName}：点击匹配区域内的格子。");
     }
 
@@ -276,6 +286,11 @@ public partial class G2OperationsPanelController : Control
 
         var zoneId = ZonePaintingController.CommitSelection(x, y);
         hasZoneStart = false;
+        if (!string.IsNullOrWhiteSpace(zoneId))
+        {
+            OfficeGridView?.SetBuildMode(false);
+        }
+
         RefreshCapacity();
         UpdateStatus(string.IsNullOrWhiteSpace(zoneId)
             ? "区域创建失败，请避开已有区域或边界。"
@@ -305,6 +320,7 @@ public partial class G2OperationsPanelController : Control
         }
 
         selectedFacilityId = facilityId;
+        OfficeGridView?.SetBuildMode(false);
         OfficeGridView?.ShowFacilityVisual(
             facilityId,
             FacilityPlacementController.SelectedFacilityTypeId,
@@ -320,6 +336,8 @@ public partial class G2OperationsPanelController : Control
         string skillId,
         string displayName)
     {
+        OfficeGridView?.SetBuildMode(false);
+
         if (EmployeeManagementController == null || ZonePaintingController == null)
         {
             UpdateStatus("员工控制器未就绪。");

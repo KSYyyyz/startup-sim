@@ -5,6 +5,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "design-assets" / "manifest.json"
 GODOT_ART_PACK = ROOT / "godot" / "StartupSimGodot" / "assets" / "art" / "godot-g1-art-pack-v0.1"
+GODOT_EMPLOYEE_MOTION_PACK = (
+    ROOT / "godot" / "StartupSimGodot" / "assets" / "art" / "godot-g1-art-pack-v0.2-employee-motion"
+)
 
 
 def test_design_asset_manifest_uses_image_2_policy():
@@ -77,6 +80,53 @@ def test_godot_art_pack_is_tracked_and_import_ready():
         width, height = read_png_size(export_path)
         assert width == asset["image"]["width"]
         assert height == asset["image"]["height"]
+
+
+def test_godot_employee_motion_pack_is_tracked_and_import_ready():
+    index_path = GODOT_EMPLOYEE_MOTION_PACK / "asset-index.json"
+    import_notes_path = GODOT_EMPLOYEE_MOTION_PACK / "GODOT_IMPORT_NOTES.md"
+    spec_path = GODOT_EMPLOYEE_MOTION_PACK / "ART_PACK_SPEC.md"
+
+    assert index_path.is_file()
+    assert import_notes_path.is_file()
+    assert spec_path.is_file()
+
+    index = json.loads(index_path.read_text(encoding="utf-8"))
+    assert index["pack_id"] == "startup-sim-godot-g1-art-pack-v0.2-employee-motion"
+    assert "backup only" in index["storage_policy"]
+
+    assets = index["assets"]
+    assert [asset["id"] for asset in assets] == ["employee-motion-atlas-v0.2"]
+
+    asset = assets[0]
+    export_path = GODOT_EMPLOYEE_MOTION_PACK / asset["file"]
+    import_path = export_path.with_name(f"{export_path.name}.import")
+    source_path = GODOT_EMPLOYEE_MOTION_PACK / asset["source"]
+    raw_source_path = GODOT_EMPLOYEE_MOTION_PACK / asset["raw_source"]
+    prompt_path = GODOT_EMPLOYEE_MOTION_PACK / asset["prompt"]
+    slice_guide_path = GODOT_EMPLOYEE_MOTION_PACK / asset["slice_guide"]
+    preview_path = GODOT_EMPLOYEE_MOTION_PACK / asset["preview"]
+
+    assert export_path.is_file()
+    assert import_path.is_file()
+    assert source_path.is_file()
+    assert raw_source_path.is_file()
+    assert prompt_path.is_file()
+    assert slice_guide_path.is_file()
+    assert preview_path.is_file()
+    assert asset["grid"] == {"columns": 12, "rows": 6}
+    assert asset["slice"] == {
+        "cell_width_px": 192,
+        "cell_height_px": 192,
+        "godot_region_hint": "12 columns x 6 rows; use 192 x 192 regions from the full atlas",
+    }
+    assert len(asset["row_labels"]) == 6
+    assert len(asset["column_labels"]) == 12
+    assert "right_walk_b_placeholder" in asset["column_labels"]
+
+    width, height = read_png_size(export_path)
+    assert width == 2304
+    assert height == 1152
 
 
 def read_png_size(path: Path) -> tuple[int, int]:
