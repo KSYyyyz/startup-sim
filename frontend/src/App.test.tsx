@@ -304,6 +304,15 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('产品 +').length).toBeGreaterThan(0);
     expect(screen.getAllByText('现金 -').length).toBeGreaterThan(0);
     expect(screen.getByText('现金消耗中等，产品体验提升。')).toBeInTheDocument();
+    const productExpectation = screen.getByLabelText('产品打磨行动预期');
+    expect(productExpectation).toHaveTextContent('收益');
+    expect(productExpectation).toHaveTextContent('产品体验更完整，后续客户验证更有底气。');
+    expect(productExpectation).toHaveTextContent('代价');
+    expect(productExpectation).toHaveTextContent('本月现金会减少，其他动作空间变小。');
+    expect(productExpectation).toHaveTextContent('适合时机');
+    expect(productExpectation).toHaveTextContent('产品还没到可验证区间，但现金流可支撑时间仍安全。');
+    expect(productExpectation).toHaveTextContent('风险');
+    expect(productExpectation).toHaveTextContent('如果不尽快接触客户，可能继续陷入闭门打磨。');
 
     await userEvent.click(screen.getByRole('button', { name: '采用行动：产品打磨' }));
 

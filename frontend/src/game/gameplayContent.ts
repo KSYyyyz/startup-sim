@@ -6,6 +6,12 @@ export type GameplayActionDefinition = {
   command: string;
   impact: string;
   tags: string[];
+  expectation?: {
+    benefit: string;
+    cost: string;
+    bestWhen: string;
+    risk: string;
+  };
 };
 
 export type QuickActionShortcut = GameplayActionDefinition & {
@@ -228,14 +234,26 @@ export const gameplayRooms: GameplayRoomDefinition[] = [
         description: '现金消耗中等，产品体验提升。',
         command: '花10万研发产品',
         impact: '适合早期补齐核心体验，降低技术孤岛风险。',
-        tags: ['产品 +', '现金 -']
+        tags: ['产品 +', '现金 -'],
+        expectation: {
+          benefit: '产品体验更完整，后续客户验证更有底气。',
+          cost: '本月现金会减少，其他动作空间变小。',
+          bestWhen: '产品还没到可验证区间，但现金流可支撑时间仍安全。',
+          risk: '如果不尽快接触客户，可能继续陷入闭门打磨。'
+        }
       },
       {
         title: '研发冲刺',
         description: '现金消耗较高，产品提升更快。',
         command: '花25万研发产品提升竞争力',
         impact: '适合抢窗口，但会缩短现金流可支撑时间。',
-        tags: ['产品 ++', '现金 --']
+        tags: ['产品 ++', '现金 --'],
+        expectation: {
+          benefit: '短期产品竞争力明显提升，更容易回应竞品压力。',
+          cost: '现金消耗较大，会压缩后续试错空间。',
+          bestWhen: '窗口期很短，且产品已经接近可验证状态。',
+          risk: '如果市场反馈不足，投入可能只换来更贵的打磨。'
+        }
       }
     ]
   },
@@ -250,7 +268,13 @@ export const gameplayRooms: GameplayRoomDefinition[] = [
         description: '固定支出上升，团队产能提升。',
         command: '花8万招聘人才',
         impact: '适合产品和交付都开始吃紧的时候。',
-        tags: ['团队 +', '固定支出 +']
+        tags: ['团队 +', '固定支出 +'],
+        expectation: {
+          benefit: '团队能承接更多研发和交付压力。',
+          cost: '固定支出会上升，现金压力会变得更持久。',
+          bestWhen: '已有明确需求，现有团队开始成为瓶颈。',
+          risk: '太早扩编会让公司在收入出现前背上长期成本。'
+        }
       }
     ]
   },
@@ -265,7 +289,13 @@ export const gameplayRooms: GameplayRoomDefinition[] = [
         description: '获客变快，但需要产品承接。',
         command: '花10万做营销推广',
         impact: '适合产品已有基本体验后扩大市场信号。',
-        tags: ['用户 +', '现金 -']
+        tags: ['用户 +', '现金 -'],
+        expectation: {
+          benefit: '更快获得用户反馈，市场声量开始抬头。',
+          cost: '现金会被投放消耗，获客质量需要复盘。',
+          bestWhen: '产品体验已经基本可用，需要验证真实需求。',
+          risk: '产品承接不足时，增长可能变成流失和差评。'
+        }
       }
     ]
   },
@@ -280,7 +310,13 @@ export const gameplayRooms: GameplayRoomDefinition[] = [
         description: '补充现金，但会稀释股权。',
         command: '融资300万出让8%股权',
         impact: '适合现金流紧张或准备加速扩张时。',
-        tags: ['现金 +', '股权 -']
+        tags: ['现金 +', '股权 -'],
+        expectation: {
+          benefit: '现金流可支撑时间拉长，可以继续争取下一阶段。',
+          cost: '创始人股权被稀释，董事会压力也会上升。',
+          bestWhen: '现金紧张，或者已经有足够信号支撑加速。',
+          risk: '估值和故事不匹配时，融资可能失败或代价过高。'
+        }
       }
     ]
   },
@@ -295,7 +331,13 @@ export const gameplayRooms: GameplayRoomDefinition[] = [
         description: '短期不拉增长，但减少交付风险。',
         command: '花6万优化服务器稳定性',
         impact: '适合用户增长后控制故障和口碑损失。',
-        tags: ['稳定性 +', '现金 -']
+        tags: ['稳定性 +', '现金 -'],
+        expectation: {
+          benefit: '服务更稳定，交付和口碑风险下降。',
+          cost: '短期不会直接带来用户增长。',
+          bestWhen: '用户变多、故障变频繁，或大客户开始关注稳定性。',
+          risk: '如果还没有真实使用量，可能把钱花在过早优化上。'
+        }
       }
     ]
   }

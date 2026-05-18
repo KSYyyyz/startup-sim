@@ -42,6 +42,13 @@ describe('gameplay content definitions', () => {
       for (const action of room.actions) {
         expect(action.command).toMatch(/花|融资/);
         expect(action.tags.length).toBeGreaterThan(0);
+        expect(action.expectation).toEqual({
+          benefit: expect.any(String),
+          cost: expect.any(String),
+          bestWhen: expect.any(String),
+          risk: expect.any(String)
+        });
+        expect(JSON.stringify(action.expectation)).not.toMatch(/LTV|CAC|ARR|公式|一键/);
       }
     }
   });

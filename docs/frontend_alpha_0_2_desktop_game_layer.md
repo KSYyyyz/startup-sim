@@ -103,6 +103,7 @@ Completed in the first ten desktop-first implementation rounds:
 - The first three months now surface a lightweight "新手经营节奏" panel: month 1 teaches reading the situation, month 2 teaches reading settlement feedback, and month 3 nudges the player to form a route. It only shows direction tags and check hints, not executable commands.
 - A "本月小目标" panel translates the phase goal into the current month focus such as product readiness, cash discipline, or market validation. It is intentionally advisory so players do not become dependent on generated one-click instructions.
 - The month goal now has a game-like progress track and checkpoints. These are derived from current metrics such as product score, cash coverage, users, and recurring revenue, but they remain presentation metadata and never settle outcomes.
+- Room action cards now include a compact expectation readout: benefit, cost, best timing, and risk. This keeps the decision understandable without exposing formulas or turning the card into an auto-command recommendation.
 
 Known follow-up:
 

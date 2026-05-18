@@ -107,6 +107,26 @@ export function OfficeStage({
                 ))}
               </div>
               <p>{action.description}</p>
+              {action.expectation && (
+                <dl className="action-expectation-grid" aria-label={`${action.title}行动预期`}>
+                  <div>
+                    <dt>收益</dt>
+                    <dd>{action.expectation.benefit}</dd>
+                  </div>
+                  <div>
+                    <dt>代价</dt>
+                    <dd>{action.expectation.cost}</dd>
+                  </div>
+                  <div>
+                    <dt>适合时机</dt>
+                    <dd>{action.expectation.bestWhen}</dd>
+                  </div>
+                  <div>
+                    <dt>风险</dt>
+                    <dd>{action.expectation.risk}</dd>
+                  </div>
+                </dl>
+              )}
               <small>{action.impact}</small>
               <button type="button" onClick={() => onActionSelect(action)}>
                 采用行动：{action.title}

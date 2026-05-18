@@ -1040,6 +1040,39 @@ h2 {
   line-height: 1.4;
 }
 
+.action-expectation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 8px 0 0;
+}
+
+.action-expectation-grid div {
+  min-width: 0;
+  border: 1px solid #d7e2ef;
+  border-radius: 6px;
+  padding: 6px;
+  background: #fff;
+}
+
+.action-expectation-grid dt,
+.action-expectation-grid dd {
+  margin: 0;
+}
+
+.action-expectation-grid dt {
+  color: #245a9d;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.action-expectation-grid dd {
+  margin-top: 3px;
+  color: #33475f;
+  font-size: 0.74rem;
+  line-height: 1.32;
+}
+
 .room-action-card small {
   margin-top: 5px;
   color: #607189;
@@ -1892,6 +1925,10 @@ h2 {
 
   .room-action-card small {
     display: none;
+  }
+
+  .action-expectation-grid {
+    grid-template-columns: 1fr;
   }
 
   .command-form {
