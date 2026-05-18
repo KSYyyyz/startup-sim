@@ -341,6 +341,23 @@ h2 {
   display: block;
 }
 
+.action-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.action-tags span {
+  border: 1px solid #ccd7e6;
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: #edf4fc;
+  color: #245a9d;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
 .room-action-card p {
   margin-top: 4px;
   color: #33475f;

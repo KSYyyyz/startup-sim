@@ -166,6 +166,8 @@ describe('Startup Sim frontend shell', () => {
     expect(productRoom).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByText('当前房间')).toBeInTheDocument();
     expect(screen.getByText('产品打磨')).toBeInTheDocument();
+    expect(screen.getAllByText('产品 +').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('现金 -').length).toBeGreaterThan(0);
     expect(screen.getByText('现金消耗中等，产品体验提升。')).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: '采用行动：产品打磨' }));

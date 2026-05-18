@@ -103,6 +103,11 @@ export function OfficeStage({ insightTitle, insightDescription, onActionSelect }
           {selectedRoom.actions.map((action) => (
             <article className="room-action-card" key={action.title}>
               <b>{action.title}</b>
+              <div className="action-tags" aria-label={`${action.title}取舍`}>
+                {action.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
               <p>{action.description}</p>
               <small>{action.impact}</small>
               <button type="button" onClick={() => onActionSelect(action)}>
