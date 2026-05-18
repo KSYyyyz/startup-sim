@@ -255,7 +255,7 @@ export default function App() {
         </aside>
 
         <section className="office-stage" aria-label="办公室场景">
-          <img src="/office-preview.jpg" alt="NimbusAI office command center" />
+          <img src="/assets/scenes/office-command-center-v0.1.jpg" alt="NimbusAI office command center" />
           <div className="stage-badge product">产品室</div>
           <div className="stage-badge team">研发团队</div>
           <div className="stage-badge sales">销售</div>

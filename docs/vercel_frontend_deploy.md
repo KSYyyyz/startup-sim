@@ -2,6 +2,14 @@
 
 The Vercel deployment unit is `frontend/`.
 
+Production frontend:
+
+```text
+https://startup-sim-khaki.vercel.app
+```
+
+Use this URL as the post-push smoke target for frontend changes.
+
 ## Build Settings
 
 - Framework: Vite
@@ -46,3 +54,13 @@ npx vercel login
 ```
 
 Then rerun the production deploy command.
+
+## Production Smoke
+
+After a frontend commit is pushed and Vercel finishes deployment, verify:
+
+- The page opens at `https://startup-sim-khaki.vercel.app`.
+- The first screen shows the playable command center.
+- The page uses "现金流可支撑时间" and does not show "跑道" or "Runway".
+- Suggestions stay behind the advice entry until opened.
+- A player can submit one turn and see "回合结果".

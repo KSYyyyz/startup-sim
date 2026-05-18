@@ -28,6 +28,18 @@ Alpha 0.1 does not include:
 - Account login, cloud saves, multiplayer, payments, or production deployment.
 - New financial systems such as bank loans, PMF scoring, or IPO board selection.
 
+## Design Asset Library
+
+The project keeps reusable generated visual assets under `design-assets/`. The frontend should reference only registered exports from `frontend/public/assets/`, and every generated image, model concept, UI texture, scene background, portrait, or reusable visual must be recorded in `design-assets/manifest.json`.
+
+Generation policy:
+
+- Required image generation model: image-2.
+- Save final prompts under `design-assets/image-2/prompts/`.
+- Save reusable exports under `design-assets/image-2/exports/`.
+- Avoid baking important UI text into generated images; render player-facing labels in React/CSS.
+- Version generated assets instead of overwriting them in place.
+
 ## Experience Principles
 
 | Principle | Requirement |
@@ -37,6 +49,7 @@ Alpha 0.1 does not include:
 | One-turn clarity | After each action, the player sees what changed, why it changed, and what pressure now matters. |
 | Progressive detail | Advice, board details, competitor details, and logs live behind tabs or drawers. |
 | Visual orientation | The office scene is the stage; panels explain the business state around it. |
+| Reusable asset pipeline | Generated frontend visual assets are created with image-2, registered in `design-assets/manifest.json`, and exported through `frontend/public/assets/`. |
 
 ## Main Screen
 
