@@ -6,6 +6,8 @@ namespace StartupSim.Core.Office
     {
         public OfficeGridSnapshot Grid { get; set; } = new OfficeGridSnapshot();
         public List<OfficeZoneSnapshot> Zones { get; set; } = new List<OfficeZoneSnapshot>();
+        public List<OfficeFacilitySnapshot> Facilities { get; set; } =
+            new List<OfficeFacilitySnapshot>();
     }
 
     public sealed class OfficeZoneSnapshot
@@ -17,5 +19,19 @@ namespace StartupSim.Core.Office
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+    }
+
+    public sealed class OfficeFacilitySnapshot
+    {
+        public string Id { get; set; } = string.Empty;
+        public string FacilityTypeId { get; set; } = string.Empty;
+        public string ZoneId { get; set; } = string.Empty;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int Level { get; set; }
+        public int TotalCost { get; set; }
+        public int MonthlyCost { get; set; }
     }
 }

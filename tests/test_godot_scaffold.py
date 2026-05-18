@@ -35,6 +35,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "OfficeRoomHotspot.cs",
         SCRIPTS / "OfficeGridView.cs",
         SCRIPTS / "ZonePaintingController.cs",
+        SCRIPTS / "FacilityPlacementController.cs",
     ]
 
     for path in required:
@@ -106,3 +107,15 @@ def test_godot_main_scene_mounts_zone_painting_controller():
     assert "RenameZone" in controller
     assert "RemoveZone" in controller
     assert "OfficeLayout" in controller
+
+
+def test_godot_main_scene_mounts_facility_placement_controller():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")
+
+    assert "FacilityPlacementController" in scene
+    assert "res://scripts/FacilityPlacementController.cs" in scene
+    assert "SelectFacilityType" in controller
+    assert "PlaceFacility" in controller
+    assert "UpgradeFacility" in controller
+    assert "OfficeFacilityDefinition" in controller
