@@ -82,6 +82,23 @@ Required fields:
 
 `visualIntent` is currently `surface-in-office`. React may render it as a badge or bubble; Unity may render it as room animation, character speech, or icon. Neither renderer should infer business rules from raw text.
 
+## Backend Migration Notes
+
+Current backend coverage:
+
+- `ActionPlan` already exists as `src.core.models.ActionPlan`. The HTTP command preview exposes a read-only action explanation, while TurnEngine remains the only numeric settlement authority.
+- `TurnFacts` is not a separate backend model yet. The current source of truth is `src.core.models.TurnResult`, especially `month`, `action_plan`, `delta.reasons`, `events`, `customer_response`, `competitor_moves`, and the post-turn `CompanyState`.
+- `RoleMemory` is not persisted yet. It should be derived only from settled turn records, future `TurnFacts`, and saved role feedback; it must not derive from hover state, unsent commands, or command previews.
+- `OfficeSignal` is not persisted yet. The current semantic inputs are settled state plus rule outputs such as `ConflictEngine.identify(...)` and post-turn business insight. Future API fields should expose short facts like title, description, severity, source, and visualIntent, leaving layout and animation to the frontend or Unity layer.
+
+Migration sequence:
+
+1. Add backend serializers that convert `TurnResult` into `TurnFacts` without changing TurnEngine settlement behavior.
+2. Add focused tests that prove `TurnFacts` values come from settled state and `delta.reasons`, not frontend text.
+3. Derive `RoleMemory` from saved `TurnFacts` history after the `TurnFacts` serializer is stable.
+4. Derive `OfficeSignal` from settled state, conflict, and insight facts; keep it renderer-neutral and limited to facts plus short display text.
+5. Extend `docs/frontend_api_contract.md` only when these fields are actually exposed through HTTP.
+
 ## Version
 
 The current compatible contract family is `alpha-0.4-contracts.x`.

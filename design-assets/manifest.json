@@ -5,7 +5,12 @@
     "frontend_exports_root": "frontend/public/assets",
     "prompt_records_root": "design-assets/image-2/prompts",
     "library_exports_root": "design-assets/image-2/exports",
-    "notes": "Generated frontend visual assets must be registered here before React code references them."
+    "usage_contract": {
+      "used_by_required": true,
+      "used_by_files_must_exist": true,
+      "used_by_files_must_reference_public_url": true
+    },
+    "notes": "Generated frontend visual assets must be registered here before React code references them. Every active image-2 asset must declare used_by, and each used_by file must directly reference the asset public_url."
   },
   "assets": [
     {

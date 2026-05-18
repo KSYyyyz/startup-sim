@@ -4,6 +4,31 @@
 
 ---
 
+## Alpha 0.4 Contract & Agent Workflow Prep (2026-05-18)
+
+**性质**: 为后续 Web/Tauri/Unity 可迁移路线做的工作流和合同层收口。
+
+**主要产出**:
+- `docs/workspace_rules.md` 新增双 Agent 并行工作流：前端/美术 Agent、后端/规则 Agent、共同合同层的写权限和边界。
+- `docs/gameplay_contracts.md` 新增合同基线，覆盖 `ActionPlan`、`TurnFacts`、`RoleMemory`、`OfficeSignal`、`ScenarioDefinition`、`AssetManifest`。
+- `frontend/src/game/contracts.ts` 建立前端可引用的引擎无关合同 manifest 和转换函数。
+- `docs/unity_migration_probe.md` 固定未来 Unity 最小验证边界：只做办公室房间到 `ActionPlan`，不重写 TurnEngine。
+- `design-assets/` 规范强化：image-2 资产必须登记 `used_by`，且引用文件必须存在并直接引用 `public_url`。
+- `docs/frontend_api_contract.md` 对齐当前 API 字段，减少文档与实现漂移。
+
+**Agent 参与方式**:
+- 前端/美术 Agent 已真实修改 `design-assets/README.md` 和 `design-assets/manifest.json`，补强资产 usage contract。
+- 后端/规则 Agent 已真实修改 `docs/gameplay_contracts.md`，补充后端迁移 notes。
+- 主控负责合同基线、测试、提交、推送、CI 和线上验证。
+
+**验收边界**:
+- 本阶段不切 Unity，只保留可迁移路径。
+- 前端仍不能结算数值。
+- 后端仍不输出布局结构。
+- 新合同字段在 HTTP 暴露前必须先补 serializer 和测试。
+
+---
+
 ## Frontend Alpha 0.3 — 月度叙事事实引用切片 (2026-05-18)
 
 **性质**: Alpha 0.3 AI 叙事层的事实约束切片。目标是让月度战报更像复盘故事，同时明确告诉玩家每段判断来自哪些已发生事实。

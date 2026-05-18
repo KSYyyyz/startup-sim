@@ -36,6 +36,13 @@ design-assets/manifest.json
 
 Do not add generated images directly to `frontend/public/` without a manifest entry and prompt record.
 
+Every image-2 asset that is exported for frontend use must also declare where it is used:
+
+- `used_by` is required for each active image-2 asset.
+- Every `used_by` path must point to an existing frontend file.
+- Every `used_by` file must directly reference the asset `public_url`.
+- If a frontend reference moves, update `used_by` in the same change that moves the reference.
+
 ## Generation Policy
 
 - Required model: `image-2`.
@@ -53,4 +60,6 @@ Before a new visual asset is used by the frontend:
 - The exported asset is saved under `image-2/exports/`.
 - A frontend copy exists under `frontend/public/assets/`.
 - `manifest.json` records the asset id, type, model, prompt path, library path, frontend path, and usage.
+- `used_by` lists every frontend file that references the asset.
+- Each listed `used_by` file exists and contains the asset `public_url`.
 - The frontend still passes local tests, build, and Vercel smoke checks.
