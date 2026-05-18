@@ -5,10 +5,9 @@
 你是AI客服SaaS创始人，种子轮100万。12个月内做产品/营销/招聘/融资决策，在董事会、竞品、客户三方博弈中活下来。
 
 > ⚠️ Alpha 1.9.1 是体验验证与路线收口版本。Alpha 1.9 已完成核心矛盾/竞品态势/经营洞察/危机解释等反馈增强。
-> 前端独立游戏化方向正在并行推进 Alpha 0.3：桌面端办公室经营层已可玩，AI 风格的自由 CEO 指令解释预览已接入首个切片。
-> 现阶段技术路线已切到 C# Core + Godot 表现层准备：Web 前端保留为规则验证台，核心玩法规则逐步迁移到 `csharp/StartupSim.Core/`。
+> 后续开发以 C# Core + Godot 表现层为主。Web 前端保留为规则验证台和远程试玩入口，不再作为最终独立游戏外壳继续大规模打磨。
 
-**前端试玩地址**: https://startup-sim-khaki.vercel.app
+**Web 规则验证台**: https://startup-sim-khaki.vercel.app
 
 ### 🔗 快速导航
 
@@ -19,27 +18,22 @@
 | [examples/sample_run_marketing_failure.md](examples/sample_run_marketing_failure.md) | 官方失败样例：全营销→慢性死亡 |
 | [docs/indie_game_product_direction.md](docs/indie_game_product_direction.md) | 独立游戏化产品方向与可分发路线 |
 | [docs/reference_game_analysis.md](docs/reference_game_analysis.md) | 本地参考游戏结构分析与 Startup Sim 借鉴边界 |
-| [docs/frontend_alpha_0_2_desktop_game_layer.md](docs/frontend_alpha_0_2_desktop_game_layer.md) | 前端 Alpha 0.2 桌面游戏层执行计划与进度 |
-| [docs/frontend_alpha_0_3_ai_command_layer.md](docs/frontend_alpha_0_3_ai_command_layer.md) | 前端 Alpha 0.3 AI 指令解释层计划与进度 |
 | [docs/godot_migration_plan.md](docs/godot_migration_plan.md) | Godot 独立游戏表现层迁移方案 |
-| [docs/csharp_unity_migration_plan.md](docs/csharp_unity_migration_plan.md) | C# Core + Unity 历史迁移方案 |
-| [docs/vercel_frontend_deploy.md](docs/vercel_frontend_deploy.md) | Vercel 前端部署与线上验收说明 |
+| [docs/csharp_core_migration_plan.md](docs/csharp_core_migration_plan.md) | C# Core 规则迁移方案 |
+| [docs/web_validation_bench.md](docs/web_validation_bench.md) | Web 规则验证台说明 |
 | [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 常见问题排查
 
-## 🖥️ 前端 Alpha 0.3 试玩进度
+## 🧭 当前主线
 
-当前前端目标不是复刻 CLI 文本界面，而是把项目推进成桌面优先的独立经营游戏切片。
+后续新增工程、场景、交互原型和桌面端可分发路线都以 Godot 为准。
 
-- Vercel 试玩页：<https://startup-sim-khaki.vercel.app>
-- 主场景：办公室可点击房间，包含产品室、研发团队、销售区、董事会、服务器。
-- 行动闭环：点击房间或角色/竞品压力，可生成自然语言 CEO 指令并提交回合。
-- 反馈闭环：董事会信号、竞品信号、经营洞察、月度战报和办公室月末变化已可见。
-- AI 指令解释：输入自由 CEO 指令后，可先点“解释指令”查看系统将如何解析动作、预算、风险和取舍，再决定是否执行。
-- 决策可读性：行动卡和压力回应会显示取舍标签，如 `产品 +`、`用户 +`、`现金 -`、`现金流可支撑时间 +`。
-- 验证范围：桌面 1366×768、1440×900、1920×1080 E2E；移动端只做基础 smoke。
+- Godot 工程：`godot/StartupSimGodot/`
+- 规则核心：`csharp/StartupSim.Core/`
+- 完整参考实现：`src/core/`
+- Web 规则验证台：`frontend/`，线上地址 <https://startup-sim-khaki.vercel.app>
 
-前端工程入口：`frontend/`。后端 API 包装层：`src/api/app.py`。当前前端仍复用现有 `TurnEngine`，不复制游戏规则。
+Web 前端仍可用于远程试玩、API 验证和文案回归，但不再承接最终桌面产品的主要 UI 打磨。
 
 ## 🧱 C# Core / Godot 迁移进度
 
@@ -50,7 +44,7 @@
 - 已建立 C# xUnit 测试与 GitHub CI 门禁，当前 C# Core 测试覆盖 17 个用例。
 - Godot 侧已有 `godot/StartupSimGodot/` 工程骨架、主场景、办公室热点脚本、`PreparedActionSnapshot`、`TurnResultSnapshot` 和 `GodotTurnBridge`。
 - `StartupSimGodot.csproj` 已引用 `csharp/StartupSim.Core`，Godot 可以通过本地 C# Core 执行回合结算。
-- Unity 路线暂停，旧适配脚本仅作为历史探索材料保留。
+- Unity 路线停止作为新增开发目标。
 
 ## 🎮 快速开始
 
@@ -378,7 +372,9 @@ pytest tests/ -v    # 402 passed
 startup-sim/
 ├── app.py                  # CLI入口
 ├── feishu_play.py          # 飞书薄适配层：命令识别 + session映射 + TurnEngine调用 + 格式化输出
-├── frontend/               # React + Vite 前端桌面游戏层
+├── frontend/               # React + Vite Web 规则验证台
+├── godot/StartupSimGodot/  # Godot 4.6.x .NET 表现层
+├── csharp/StartupSim.Core/ # 可迁移 C# 规则核心
 ├── config.py               # 配置
 ├── QUICKSTART.md           # 3分钟快速启动指南
 ├── data/scenarios.yaml     # 剧本
@@ -417,9 +413,10 @@ startup-sim/
 │   └── db/
 │       ├── connection.py / schema.sql / repository.py
 ├── docs/
-│   ├── frontend_alpha_0_2_desktop_game_layer.md # 前端桌面游戏层计划与进度
 │   ├── indie_game_product_direction.md          # 独立游戏化产品方向
-│   ├── vercel_frontend_deploy.md                # Vercel 部署说明
+│   ├── godot_migration_plan.md                  # Godot 表现层迁移方案
+│   ├── csharp_core_migration_plan.md            # C# Core 规则迁移方案
+│   ├── web_validation_bench.md                  # Web 规则验证台说明
 │   ├── playtest_feedback_template.md # 玩家试玩反馈模板
 │   ├── playtest_observation.md       # 试玩观察记录模板
 │   └── troubleshooting.md            # 常见问题排查
@@ -442,10 +439,12 @@ startup-sim/
 ## 🛠️ 技术栈
 
 - Python 3.9+ · Pydantic · SQLite · PyYAML · pytest
-- Frontend: React + Vite + TypeScript + Zustand + PixiJS + Playwright
+- Godot: Godot 4.6.x .NET + C# presentation scripts
+- Portable core: .NET 8 tests + `StartupSim.Core`
+- Web validation bench: React + Vite + TypeScript + Zustand + Playwright
 - Alpha 1.8：规则解析器 + Mock Agent + 复盘/回放/成就/策略对比 + 新手引导/建议引擎/状态解读/Help + 融资估值引擎/声誉系统/状态面板/反馈强制 + 试玩文档体系
 - 零API消耗，全规则引擎驱动
 
 ---
 
-*体验验证版 Alpha 1.9.1 — 402 tests passed；前端 Alpha 0.3 AI 指令解释层正在并行推进并部署到 Vercel。*
+*体验验证版 Alpha 1.9.1 — 402 tests passed；后续开发以 Godot 表现层和 C# Core 规则迁移为主。*

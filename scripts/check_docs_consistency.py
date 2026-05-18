@@ -7,7 +7,7 @@
 3. README 包含测试通过数量
 4. 事件池数量与代码一致
 5. REPORTS 顶部"当前路线"指向最新版本
-6. README 暴露前端 Alpha 0.2、参考游戏分析和 Vercel 入口
+6. README 暴露 Godot 主线、C# Core、Web 验证台和参考游戏分析入口
 7. 文本文件健康检查（NUL/编码/行数/行长）
 
 exit 0 = 全部通过, exit 1 = 有失败项
@@ -21,7 +21,9 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 VERSION_PATH = PROJECT_ROOT / "VERSION"
 README_PATH = PROJECT_ROOT / "README.md"
 REPORTS_PATH = PROJECT_ROOT / "REPORTS.md"
-FRONTEND_PLAN_PATH = PROJECT_ROOT / "docs" / "frontend_alpha_0_2_desktop_game_layer.md"
+GODOT_PLAN_PATH = PROJECT_ROOT / "docs" / "godot_migration_plan.md"
+CSHARP_CORE_PLAN_PATH = PROJECT_ROOT / "docs" / "csharp_core_migration_plan.md"
+WEB_VALIDATION_BENCH_PATH = PROJECT_ROOT / "docs" / "web_validation_bench.md"
 REFERENCE_GAME_ANALYSIS_PATH = PROJECT_ROOT / "docs" / "reference_game_analysis.md"
 VERCEL_FRONTEND_URL = "https://startup-sim-khaki.vercel.app"
 
@@ -214,8 +216,8 @@ def check_event_pool_counts() -> None:
 # ── 检查 5: 文本文件健康检查 ───────────────────────────────
 
 
-def check_frontend_docs_visible() -> None:
-    safe_print("\n[检查 5] README 暴露前端 Alpha 0.2 与参考分析入口")
+def check_current_direction_docs_visible() -> None:
+    safe_print("\n[检查 5] README 暴露 Godot 主线与验证台入口")
     try:
         readme = read_text(README_PATH)
     except FileNotFoundError:
@@ -224,26 +226,31 @@ def check_frontend_docs_visible() -> None:
 
     missing = []
     required_markers = [
-        "docs/frontend_alpha_0_2_desktop_game_layer.md",
+        "docs/godot_migration_plan.md",
+        "docs/csharp_core_migration_plan.md",
+        "docs/web_validation_bench.md",
         "docs/indie_game_product_direction.md",
         "docs/reference_game_analysis.md",
-        "docs/vercel_frontend_deploy.md",
         VERCEL_FRONTEND_URL,
-        "前端 Alpha 0.2",
+        "后续开发以 C# Core + Godot",
     ]
     for marker in required_markers:
         if marker not in readme:
             missing.append(marker)
 
-    if not FRONTEND_PLAN_PATH.exists():
-        missing.append(str(FRONTEND_PLAN_PATH.relative_to(PROJECT_ROOT)))
+    if not GODOT_PLAN_PATH.exists():
+        missing.append(str(GODOT_PLAN_PATH.relative_to(PROJECT_ROOT)))
+    if not CSHARP_CORE_PLAN_PATH.exists():
+        missing.append(str(CSHARP_CORE_PLAN_PATH.relative_to(PROJECT_ROOT)))
+    if not WEB_VALIDATION_BENCH_PATH.exists():
+        missing.append(str(WEB_VALIDATION_BENCH_PATH.relative_to(PROJECT_ROOT)))
     if not REFERENCE_GAME_ANALYSIS_PATH.exists():
         missing.append(str(REFERENCE_GAME_ANALYSIS_PATH.relative_to(PROJECT_ROOT)))
 
     if missing:
-        fail("README 缺少前端入口、参考分析或计划引用: " + ", ".join(missing))
+        fail("README 缺少 Godot 主线、C# Core、Web 验证台或参考分析入口: " + ", ".join(missing))
     else:
-        ok("README 已暴露前端计划、参考分析、产品方向、部署说明和 Vercel 入口")
+        ok("README 已暴露 Godot 主线、C# Core、产品方向、参考分析和 Web 验证台入口")
 
 
 # ── 检查 6: 文本文件健康检查 ───────────────────────────────
@@ -253,6 +260,9 @@ HEALTH_FILES = [
     (PROJECT_ROOT / "QUICKSTART.md", 40),
     (PROJECT_ROOT / "README.md", 80),
     (PROJECT_ROOT / "REPORTS.md", 120),
+    (PROJECT_ROOT / "docs" / "godot_migration_plan.md", 80),
+    (PROJECT_ROOT / "docs" / "csharp_core_migration_plan.md", 60),
+    (PROJECT_ROOT / "docs" / "web_validation_bench.md", 50),
     (PROJECT_ROOT / "docs" / "reference_game_analysis.md", 80),
     (PROJECT_ROOT / "tests" / "test_docs_and_demo.py", 80),
     (PROJECT_ROOT / "scripts" / "check_docs_consistency.py", 150),
@@ -306,7 +316,7 @@ def main() -> int:
     check_no_stale_versions()
     check_test_count_mentioned()
     check_event_pool_counts()
-    check_frontend_docs_visible()
+    check_current_direction_docs_visible()
     check_text_file_health()
 
     safe_print("\n" + "=" * 60)

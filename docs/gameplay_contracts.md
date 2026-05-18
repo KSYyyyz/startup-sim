@@ -3,7 +3,7 @@
 Status: Alpha 0.4 contract baseline
 Date: 2026-05-18
 
-This document defines the shared contract layer between the frontend/art agent, backend/rules agent, and future desktop or Unity prototype.
+This document defines the shared contract layer between the Godot presentation layer, Web validation bench, and backend/rules layer.
 
 ## Principle
 
@@ -16,7 +16,7 @@ The backend rules layer owns facts. The frontend owns presentation. The contract
 | `ActionPlan` | Shared | A prepared player action before deterministic settlement. |
 | `TurnFacts` | Backend/rules Agent | What actually happened after TurnEngine settlement. |
 | `RoleMemory` | Backend/rules Agent | Role memory derived from historical facts. |
-| `OfficeSignal` | Shared | Room-level signals that Web, Tauri, or Unity can render differently. |
+| `OfficeSignal` | Shared | Room-level signals that Godot and the Web validation bench can render differently. |
 | `StoryEvent` | Backend/rules Agent | Short replayable events derived from rule events, competitors, and insight facts. |
 | `PhaseGoal` | Backend/rules Agent | Current stage objectives, direction tags, and risk hints. |
 | `ObjectiveUpdate` | Backend/rules Agent | Post-settlement progress against stage objectives. |
@@ -72,7 +72,7 @@ The `source` field must be `settled-turn-facts`. Role memory cannot be generated
 
 ### OfficeSignal
 
-`OfficeSignal` describes a room-level signal that can be rendered by Web, Tauri, or Unity.
+`OfficeSignal` describes a room-level signal that can be rendered by Godot or Web.
 
 Required fields:
 
@@ -84,7 +84,7 @@ Required fields:
 - `source`
 - `visual_intent`
 
-`visual_intent` is currently `surface-in-office`. React may render it as a badge or bubble; Unity may render it as room animation, character speech, or icon. Neither renderer should infer business rules from raw text.
+`visual_intent` is currently `surface-in-office`. Godot may render it as room animation, character speech, or icon; React may render it as a badge or bubble in the Web validation bench. Neither renderer should infer business rules from raw text.
 
 ### StoryEvent
 

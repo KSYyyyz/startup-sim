@@ -1,9 +1,9 @@
 # Startup Sim Frontend API Contract
 
-Status: Alpha 0.3 contract
+Status: Web validation bench API contract
 Date: 2026-05-18
 
-The frontend talks to a small local HTTP API. The Python simulation remains the only source of truth for game rules.
+The Web validation bench talks to a small local HTTP API. The Python simulation remains the complete reference implementation for game rules while C# Core gradually becomes the Godot runtime rules layer.
 
 ## Data Shape
 

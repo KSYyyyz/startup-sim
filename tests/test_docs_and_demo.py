@@ -27,7 +27,9 @@ README_NAV_KEYWORDS = [
     "examples/sample_run_balanced.md",
     "docs/troubleshooting.md",
     "docs/reference_game_analysis.md",
-    "docs/frontend_alpha_0_2_desktop_game_layer.md",
+    "docs/godot_migration_plan.md",
+    "docs/csharp_core_migration_plan.md",
+    "docs/web_validation_bench.md",
     "https://startup-sim-khaki.vercel.app",
 ]
 

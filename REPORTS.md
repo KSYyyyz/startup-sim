@@ -1,6 +1,23 @@
 # Startup Sim — 版本开发报告
 
-当前路线以最新 Alpha 1.9.1 体验验证；前端并行推进 Alpha 0.3 AI 指令解释层
+当前路线以最新 Alpha 1.9.1 体验验证；后续开发以 C# Core + Godot 表现层为主，Web 仅保留规则验证台
+
+---
+
+## Documentation Cleanup — Godot 主线收口 (2026-05-18)
+
+**性质**: 文档路线收口。目标是删除过时的 Unity 和旧 Web 主路线计划，只保留对 Godot 后续开发有价值的核心内容。
+
+**主要产出**:
+- 删除旧 `frontend_alpha_*` 计划、旧 Unity 迁移/探针文档和 WIP 计划文档。
+- 新增 `docs/csharp_core_migration_plan.md`，沉淀 C# Core、黄金样例、迁移顺序和规则边界。
+- 新增 `docs/web_validation_bench.md`，明确 Web/Vercel 只作为规则验证台和远程试玩入口。
+- 更新 README、Godot 迁移方案、产品方向、参考游戏分析、合同文档和工作目录规则。
+
+**验收边界**:
+- 后续新增工程、场景、交互原型和桌面端可分发路线都以 Godot 为准。
+- Web 前端不再承接最终产品外壳的大规模打磨。
+- C# Core 继续保持纯规则层，不依赖 Godot。
 
 ---
 
@@ -26,7 +43,7 @@
 **性质**: 独立游戏表现层技术路线调整。目标是从 Unity 探索切换到 Godot 4.6.x .NET，并保留已完成的 C# Core 规则迁移成果。
 
 **主要产出**:
-- 新增 `docs/godot_migration_plan.md`，明确 Godot 成为后续桌面端独立游戏表现层，Unity 路线暂停。
+- 新增 `docs/godot_migration_plan.md`，明确 Godot 成为后续桌面端独立游戏表现层，Unity 停止作为新增开发目标。
 - 新增 `godot/StartupSimGodot/` 工程骨架，包含 `project.godot`、`scenes/main.tscn`、`scripts/StartupSimController.cs`、`PreparedActionSnapshot.cs`、`OfficeRoomHotspot.cs`。
 - 新增 `tests/test_godot_scaffold.py`，锁定 Godot 工程存在、主场景入口存在、Godot 脚本只做表现层适配。
 - 更新 README、工作目录规则和旧 C# / Unity 迁移方案，避免 GitHub 页面继续展示 Unity 为当前最终方向。
@@ -98,7 +115,7 @@
 - 新增 `csharp/StartupSim.Core.Tests/` xUnit 测试工程，覆盖首个产品投入切片、输入状态不可变、未知指令兜底，以及 Python 参考黄金样例读取。
 - CI 新增 `.NET 8` 安装与 `dotnet test csharp/StartupSim.Core.Tests/StartupSim.Core.Tests.csproj --configuration Release`，后续 C# 规则迁移会被自动编译验证。
 - `.gitignore` 新增 `csharp/**/bin/` 和 `csharp/**/obj/`，避免把本地编译产物推入仓库。
-- `docs/csharp_unity_migration_plan.md` 补充 C# 测试门禁、CI 命令、本地 `.work/dotnet` SDK 使用边界。
+- C# Core 迁移边界已收口到 `docs/csharp_core_migration_plan.md`，包含测试门禁、CI 命令和本地 SDK 使用边界。
 
 **验收边界**:
 - C# Core 仍保持 `UnityEngine` 零依赖。
@@ -112,7 +129,7 @@
 **性质**: 技术路线切换准备。目标是把项目从 Web 前端打磨主线，转向 C# Core + Unity 表现层的可迁移架构。
 
 **主要产出**:
-- 新增 `docs/csharp_unity_migration_plan.md`，明确 Web 前端降级为规则验证台，`StartupSim.Core` 成为未来规则层。
+- 新增早期 C# 迁移文档；当前有效内容已收口到 `docs/csharp_core_migration_plan.md`。
 - 新增 `csharp/StartupSim.Core/` 纯 C# 核心库骨架，包含 `GameState`、`GameMetrics`、`TurnCommand`、`TurnResult`、`ScenarioDefinition`、`ITurnEngine`、`DeterministicTurnEngine`。
 - 新增 `csharp/golden-cases/month01_product_investment.json`，作为 Python 参考实现到 C# 迁移的第一条黄金样例。
 - 新增 `unity/StartupSimUnity/Assets/Scripts/StartupSim/` Unity 适配组件：房间热点、行动展示、回合提交、API 桥接。
@@ -289,7 +306,7 @@
 - `frontend/src/buildChunks.ts` 新增 Vite/Rollup 分包规则，将 `pixi.js` 和 `@pixi/*` 统一命名到 `pixi-overlay` chunk。
 - `frontend/vite.config.ts` 接入分包规则，并把当前发布预算调整到适合“主入口轻、Pixi 可选异步加载”的边界。
 - `frontend/src/buildConfig.test.ts` 锁定分包规则，防止未来改动把 Pixi 重新吸回主包。
-- `docs/frontend_alpha_0_2_desktop_game_layer.md` 更新性能结论：当前路线继续保留 Pixi 可选层，未来只有在低端设备或桌面包冷启动变差时才替换更轻 renderer。
+- 旧 Web 桌面计划更新过性能结论；当前有效内容已收口到 `docs/web_validation_bench.md`，Web 只保留规则验证台职责。
 
 **验证重点**:
 - `npm run build` 输出主入口约 243KB，`pixi-overlay` 约 853KB，且不再出现大 chunk 警告。
@@ -321,13 +338,13 @@
 
 ## Alpha 0.4 Contract & Agent Workflow Prep (2026-05-18)
 
-**性质**: 为后续 Web/Tauri/Unity 可迁移路线做的工作流和合同层收口。
+**性质**: 为后续可迁移路线做的工作流和合同层收口；当前有效方向已切到 Godot。
 
 **主要产出**:
 - `docs/workspace_rules.md` 新增双 Agent 并行工作流：前端/美术 Agent、后端/规则 Agent、共同合同层的写权限和边界。
 - `docs/gameplay_contracts.md` 新增合同基线，覆盖 `ActionPlan`、`TurnFacts`、`RoleMemory`、`OfficeSignal`、`ScenarioDefinition`、`AssetManifest`。
 - `frontend/src/game/contracts.ts` 建立前端可引用的引擎无关合同 manifest 和转换函数。
-- `docs/unity_migration_probe.md` 固定未来 Unity 最小验证边界：只做办公室房间到 `ActionPlan`，不重写 TurnEngine。
+- 早期引擎探针确认了表现层不能重写 TurnEngine；当前有效边界已收口到 Godot 方案。
 - `design-assets/` 规范强化：image-2 资产必须登记 `used_by`，且引用文件必须存在并直接引用 `public_url`。
 - `docs/frontend_api_contract.md` 对齐当前 API 字段，减少文档与实现漂移。
 
@@ -337,7 +354,7 @@
 - 主控负责合同基线、测试、提交、推送、CI 和线上验证。
 
 **验收边界**:
-- 本阶段不切 Unity，只保留可迁移路径。
+- 当前已停止 Unity 新增开发，只保留 C# Core 可迁移路径。
 - 前端仍不能结算数值。
 - 后端仍不输出布局结构。
 - 新合同字段在 HTTP 暴露前必须先补 serializer 和测试。
@@ -387,7 +404,7 @@
 - `POST /api/sessions/{session_id}/command-preview` — 只读命令解释 API，复用现有 `parse_multi`，不推进月份、不修改存档。
 - `frontend/src/api.ts` / `frontend/src/store.ts` — 接入命令预览状态和 demo fallback。
 - `frontend/src/App.tsx` — 底部指令区新增“解释指令”和紧凑 `AI 指令解释` 面板。
-- `docs/frontend_alpha_0_3_ai_command_layer.md` — Alpha 0.3 执行计划。
+- AI 指令解释层的有效边界已收口到 `docs/web_validation_bench.md` 和 `docs/gameplay_contracts.md`。
 - `docs/frontend_api_contract.md` — 补充命令预览 API 合同。
 
 **设计边界**:
@@ -428,11 +445,11 @@
 
 - `Mad Games Tycoon 2`：确认 Unity 经营游戏的公司空间、房间、设施、图标和文本资源组织方向，只作为办公室经营形态参考，不复制资源。
 - `STONKS-9800`：确认公开 mod/localization/data-like 目录价值，作为 Startup Sim 后续原始数据层、场景包、文本本地化和未来 mod 边界的参考。
-- `历史模拟器：崇祯`：确认 Electron/Chromium 桌面分发形态，支持当前 Web 先行、桌面打包预留的技术路线。
+- `历史模拟器：崇祯`：确认自由指令与角色反馈的玩法价值；桌面分发路线后续以 Godot 导出为主。
 - `Game Dev Story / 游戏开发物语`：确认小屏、快节奏、渐进复杂度的经营循环价值，提醒 Startup Sim 早期回合必须轻巧。
 - `Game Dev Tycoon`：确认 NW.js/Web 技术桌面分发、i18n、mods、公开 mod API 目录价值，进一步支持 Web 先行、桌面包装、数据扩展路线。
 
-结论：继续保持 Vite/React/PixiJS 桌面 Web 试玩路线，不切 Unity；下一步优先把房间、行动、压力响应、竞品反馈、办公室信号等前端玩法定义逐步数据化，并为未来 Tauri/Electron/NW.js 类桌面分发留空间。
+结论：旧 Web 试玩路线已经降级为规则验证台；下一步优先把房间、行动、压力响应、竞品反馈、办公室信号等玩法定义迁向 Godot + C# Core。
 
 ## Frontend Alpha 0.2 — 桌面游戏层连续推进 (2026-05-18)
 
@@ -445,7 +462,7 @@
 - `frontend/src/game/OfficeStage.tsx` — 办公室主场景、房间热点、动态反馈、月末变化。
 - `frontend/src/App.tsx` — 董事会/竞品/建议/记录面板与底部 CEO 指令闭环。
 - `frontend/e2e/startup-sim.spec.ts` — 桌面 1366×768、1440×900、1920×1080 与移动 smoke 覆盖。
-- `docs/frontend_alpha_0_2_desktop_game_layer.md` — 前端 Alpha 0.2 执行计划与迭代进度。
+- 旧 Web 桌面执行计划已删除，核心结论收口到 `docs/web_validation_bench.md`。
 
 **已完成的可玩闭环**:
 1. 办公室房间可点击，行动卡可生成自然语言 CEO 指令。

@@ -13,7 +13,7 @@ def test_godot_migration_plan_exists_and_pauses_unity_route():
     content = doc.read_text(encoding="utf-8")
     assert "Godot 4.6.x" in content
     assert "C# Core" in content
-    assert "Unity 路线暂停" in content
+    assert "Unity 路线停止作为新增开发目标" in content
     assert "Web 前端继续作为规则验证台" in content
 
 

@@ -7,7 +7,7 @@ Date: 2026-05-18
 
 Startup Sim 的最终独立游戏表现层切换为 Godot。
 
-Unity 路线暂停。此前已经创建的 Unity 适配脚本保留为历史探索材料，但后续新增工程、场景、交互原型和桌面端可分发路线都以 Godot 为准。
+Unity 路线停止作为新增开发目标。此前已经创建的 Unity 适配脚本只作为历史探索材料保留；后续新增工程、场景、交互原型和桌面端可分发路线都以 Godot 为准。
 
 Web 前端继续作为规则验证台：它负责快速验证 API、文本反馈和玩法规则，不再作为最终独立游戏表现层打磨。
 
@@ -62,7 +62,7 @@ Godot owns:
 - command submission
 - animation, sound, layout, feedback timing
 
-Godot scripts must not duplicate gameplay settlement rules. They can display structured action snapshots and call either the current API or a future local C# bridge.
+Godot scripts must not duplicate gameplay settlement rules. They can display structured action snapshots and call the local C# bridge. API access is optional and should only be added for remote AI or cloud-save features.
 
 ## 5. First Godot Slice
 
@@ -88,10 +88,36 @@ $env:PATH = "D:\Startup-sim\.work\dotnet;$env:PATH"
 dotnet build godot\StartupSimGodot\StartupSimGodot.csproj
 ```
 
-## 6. Near-Term Order
+## 6. Godot CLI Workflow
+
+Godot can be operated through the editor and the CLI.
+
+Local commands:
+
+```powershell
+D:\Godot\godot.cmd --version
+D:\Godot\godot.cmd --editor --path D:\Startup-sim\godot\StartupSimGodot
+D:\Godot\godot.cmd --headless --path D:\Startup-sim\godot\StartupSimGodot --import
+dotnet build godot\StartupSimGodot\StartupSimGodot.csproj --configuration Debug
+```
+
+The project should add repo-local wrappers under `scripts/` before Godot build/export work becomes frequent.
+
+## 7. C# Core Migration Link
+
+The detailed rules migration plan lives in `docs/csharp_core_migration_plan.md`.
+
+Near-term C# priorities:
+
+1. Expand `GameState` / `GameMetrics` toward Python parity.
+2. Port StateGuard cash and budget checks.
+3. Port fundraising valuation and rejection logic.
+4. Expose board, competitor, customer, insight, ending, and review facts as renderer-neutral snapshots.
+
+## 8. Near-Term Order
 
 1. Keep migrating gameplay rules into `StartupSim.Core`.
 2. Build Godot office shell around structured actions.
 3. Use `GodotTurnBridge` for local desktop playtests.
-4. Add optional API bridge only if a remote service is needed for AI features.
+4. Add optional API bridge only if remote AI or cloud-save features require it.
 5. Keep Vercel frontend available for rule QA and quick remote demos.
