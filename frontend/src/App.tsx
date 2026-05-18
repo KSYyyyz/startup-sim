@@ -17,6 +17,7 @@ import { OfficeStage } from './game/OfficeStage';
 import {
   buildBoardPressureResponse,
   buildBoardNpcProfiles,
+  buildBoardRoomMood,
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
   buildCurrentMonthGoal,
@@ -278,6 +279,7 @@ export default function App() {
     },
     [lastCommand, lastTurn, roleMemory, state]
   );
+  const boardRoomMood = useMemo(() => buildBoardRoomMood(boardProfiles), [boardProfiles]);
   const competitorMoves = useMemo(() => (state ? buildCompetitorMoves(state.competitors) : []), [state]);
   const monthlyFacts = lastTurn?.turn_facts;
   const monthlyHighlights = useMemo(
@@ -805,6 +807,11 @@ export default function App() {
           {rightTab === 'board' && (
             <article className="panel tall-panel">
               <h2>董事会反馈</h2>
+              <section className={`board-mood ${boardRoomMood.tone}`} aria-label="董事会氛围">
+                <span>{boardRoomMood.label}</span>
+                <p>{boardRoomMood.summary}</p>
+                <small>当前焦点：{boardRoomMood.focus}</small>
+              </section>
               {boardProfiles.map((member) => (
                 <div className="board-row" key={member.name}>
                   <div className="avatar">{member.name.slice(0, 1)}</div>

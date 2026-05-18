@@ -1184,6 +1184,42 @@ h2 {
   border-bottom: 1px solid #d7e0eb;
 }
 
+.board-mood {
+  display: grid;
+  gap: 4px;
+  border: 1px solid #d7e2ef;
+  border-radius: 6px;
+  padding: 9px;
+  background: #f8fbff;
+}
+
+.board-mood span {
+  color: #102032;
+  font-weight: 900;
+}
+
+.board-mood p,
+.board-mood small {
+  margin: 0;
+  color: #4c5e76;
+  line-height: 1.35;
+}
+
+.board-mood.mixed {
+  border-color: #d8cfa9;
+  background: #fffaf0;
+}
+
+.board-mood.bad {
+  border-color: #e1b2b2;
+  background: #fff6f6;
+}
+
+.board-mood.good {
+  border-color: #a9d8b4;
+  background: #f3fbf5;
+}
+
 .avatar {
   width: 36px;
   height: 36px;

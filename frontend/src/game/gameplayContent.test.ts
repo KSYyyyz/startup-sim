@@ -3,6 +3,7 @@
 import {
   buildBoardPressureResponse,
   buildBoardNpcProfiles,
+  buildBoardRoomMood,
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
   buildCurrentMonthGoal,
@@ -273,6 +274,38 @@ describe('gameplay content definitions', () => {
         memoryFact: '记忆：上月产品有改善，CTO 更愿意支持继续验证。'
       }
     ]);
+  });
+
+  test('summarizes board room mood without inventing investors', () => {
+    const mood = buildBoardRoomMood([
+      {
+        name: 'CFO',
+        role: '财务负责人',
+        message: '现金消耗上升。',
+        confidence: 72,
+        stance: '现金纪律',
+        trustTrend: '信任承压',
+        pressureTags: ['现金压力'],
+        memoryFact: '记忆：上月现金减少，CFO 会继续盯预算。'
+      },
+      {
+        name: 'CTO',
+        role: '技术负责人',
+        message: '产品体验改善。',
+        confidence: 88,
+        stance: '产品护城河',
+        trustTrend: '信任上升',
+        pressureTags: ['产品进展']
+      }
+    ]);
+
+    expect(mood).toEqual({
+      label: '董事会有分歧',
+      tone: 'mixed',
+      summary: '有人认可进展，也有人担心风险。CEO 需要解释取舍。',
+      focus: '现金压力'
+    });
+    expect(JSON.stringify(mood)).not.toContain('投资方');
   });
 
   test('builds a unified read-only preview for prepared actions', () => {

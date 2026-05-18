@@ -484,6 +484,11 @@ describe('Startup Sim frontend shell', () => {
     expect(within(screen.getByLabelText('已准备行动')).getByText('下月补救')).toBeInTheDocument();
     expect(screen.getAllByText('研发投入提升了产品分，但现金消耗上升。').length).toBeGreaterThan(1);
     expect(screen.getAllByText('研发有效，但现金消耗上升。').length).toBeGreaterThan(0);
+    const boardMood = screen.getByLabelText('董事会氛围');
+    expect(boardMood).toHaveTextContent('董事会承压');
+    expect(boardMood).toHaveTextContent('董事会正在盯风险，下一步需要给出更清楚的节奏。');
+    expect(boardMood).toHaveTextContent('现金压力');
+    expect(boardMood).not.toHaveTextContent('投资方');
     expect(screen.getByText('记忆：上月现金减少，CFO 会继续盯预算。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '竞品' }));
     expect(screen.getAllByText('灵犀客服云').length).toBeGreaterThan(0);

@@ -200,6 +200,13 @@ export type BoardNpcProfile = BoardNpcMember & {
   memoryFact?: string;
 };
 
+export type BoardRoomMood = {
+  label: string;
+  tone: 'good' | 'mixed' | 'bad' | 'neutral';
+  summary: string;
+  focus: string;
+};
+
 export type NewPlayerGuidanceInput = {
   month: number;
   cashCoverageMonths: number;
@@ -721,7 +728,7 @@ function boardStanceFromIdentity(member: BoardNpcMember) {
 
 function boardTrustTrend(member: BoardNpcMember, input: BoardNpcProfileInput): BoardNpcProfile['trustTrend'] {
   const stance = boardStanceFromIdentity(member);
-  if (stance === '现金纪律' && input.cashCoverageMonths < 3) return '信任承压';
+  if (stance === '现金纪律' && (input.cashCoverageMonths < 3 || (input.cashChange ?? 0) < 0)) return '信任承压';
   if (stance === '产品护城河' && input.productChange > 0) return '信任上升';
   if (stance === '增长效率' && input.usersChange > 0) return '信任上升';
   if (member.confidence >= 86) return '信任上升';
@@ -731,7 +738,9 @@ function boardTrustTrend(member: BoardNpcMember, input: BoardNpcProfileInput): B
 
 function boardPressureTags(member: BoardNpcMember, input: BoardNpcProfileInput) {
   const stance = boardStanceFromIdentity(member);
-  if (stance === '现金纪律' && input.cashCoverageMonths < 3) return ['现金压力', '控制支出'];
+  if (stance === '现金纪律' && (input.cashCoverageMonths < 3 || (input.cashChange ?? 0) < 0)) {
+    return ['现金压力', '控制支出'];
+  }
   if (stance === '产品护城河' && input.productChange > 0) return ['产品进展', '继续验证'];
   if (stance === '增长效率' && input.usersChange > 0) return ['用户增长', '渠道复盘'];
   if (stance === '交付质量') return ['交付节奏', '组织压力'];
@@ -767,6 +776,47 @@ export function buildBoardNpcProfiles(input: BoardNpcProfileInput): BoardNpcProf
     pressureTags: boardPressureTags(member, input),
     memoryFact: boardMemoryFact(member, input)
   }));
+}
+
+export function buildBoardRoomMood(profiles: BoardNpcProfile[]): BoardRoomMood {
+  const strained = profiles.filter((member) => member.trustTrend === '信任承压');
+  const improved = profiles.filter((member) => member.trustTrend === '信任上升');
+  const focus =
+    strained[0]?.pressureTags[0] ?? profiles.flatMap((member) => member.pressureTags)[0] ?? '持续观察';
+
+  if (strained.length > 0 && improved.length > 0) {
+    return {
+      label: '董事会有分歧',
+      tone: 'mixed',
+      summary: '有人认可进展，也有人担心风险。CEO 需要解释取舍。',
+      focus
+    };
+  }
+
+  if (strained.length > 0) {
+    return {
+      label: '董事会承压',
+      tone: 'bad',
+      summary: '董事会正在盯风险，下一步需要给出更清楚的节奏。',
+      focus
+    };
+  }
+
+  if (improved.length > 0) {
+    return {
+      label: '董事会认可',
+      tone: 'good',
+      summary: '关键角色看到了进展，可以继续推进但要保留复盘。',
+      focus
+    };
+  }
+
+  return {
+    label: '董事会观望',
+    tone: 'neutral',
+    summary: '董事会暂时没有强烈倾向，CEO 需要用下一步行动打开局面。',
+    focus
+  };
 }
 
 function competitorMoveCopy(item: CompetitorPressureInput): Pick<CompetitorMove, 'moveType' | 'reason'> {

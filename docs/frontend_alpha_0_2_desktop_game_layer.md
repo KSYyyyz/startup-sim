@@ -105,6 +105,7 @@ Completed in the first ten desktop-first implementation rounds:
 - The month goal now has a game-like progress track and checkpoints. These are derived from current metrics such as product score, cash coverage, users, and recurring revenue, but they remain presentation metadata and never settle outcomes.
 - Room action cards now include a compact expectation readout: benefit, cost, best timing, and risk. This keeps the decision understandable without exposing formulas or turning the card into an auto-command recommendation.
 - Monthly reports now start with a compact "本月判定" such as "有进展" or "危险", derived from settled metric changes so the player gets a quick outcome read before the detailed review.
+- Board feedback now starts with a "董事会氛围" summary derived from the current board roles, trust trends, and pressure tags. It highlights pressure without inventing external investors.
 
 Known follow-up:
 
