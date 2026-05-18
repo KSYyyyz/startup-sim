@@ -90,6 +90,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Room operating states now resolve from gameplay data and render labels such as "运转中" and "产品改善" on the office scene.
 - Office event bubbles now resolve from board, competitor, and operating insight facts, with clickable board and competitor bubbles opening the matching side panel.
 - Monthly reports now resolve from gameplay data into a headline, highlight cards, review lines, next pressure, and one executable recovery action.
+- `frontend/src/game/scenarios.ts` now defines the built-in AI SaaS seed scenario metadata, keeping scenario content separate from backend settlement rules.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:
@@ -135,6 +136,7 @@ Known follow-up:
 - Keep frontend gameplay definitions UI-independent where possible.
 - Move room metadata, action commands, tradeoff tags, pressure response templates, and later scenario metadata into data modules before adding more UI complexity.
 - Keep the deterministic API/TurnEngine as the only authority for state changes; data definitions may prepare player commands but must not settle numeric outcomes.
+- Scenario modules may describe rooms, board roles, competitors, market tags, and future content-pack affordances, but should continue to point numeric authority to the backend TurnEngine.
 
 ## 6. Verification
 
