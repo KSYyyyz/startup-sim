@@ -1,0 +1,61 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v0.8-business-feedback-fx",
+  "version": "0.8",
+  "created_for": "Startup Sim Godot G3 office business feedback",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in image_gen",
+    "post_processing": "Pillow resize/crop to 1792x896, local chroma-key removal",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "business-feedback-fx-atlas-v0.8",
+      "category": "business_feedback_fx",
+      "file": "exports/business-feedback-fx-atlas-v0.8.png",
+      "source": "sources/business-feedback-fx-atlas-v0.8-source.png",
+      "raw_source": "sources/business-feedback-fx-atlas-v0.8-raw-generated.png",
+      "prompt": "prompts/business-feedback-fx-atlas-v0.8-prompt.md",
+      "slice_guide": "slice-guides/business-feedback-fx-atlas-v0.8-slice-guide.md",
+      "preview": "previews/business-feedback-fx-atlas-v0.8-contact-sheet.jpg",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 896
+      },
+      "column_labels": [
+        "product_progress",
+        "sales_lead",
+        "cash_pressure",
+        "customer_feedback",
+        "morale_shift",
+        "server_stability",
+        "upgrade_complete",
+        "training_growth"
+      ],
+      "row_labels": [
+        "small_pop",
+        "rising_float",
+        "pulse_ring",
+        "burst_trail"
+      ],
+      "godot_import": {
+        "resource_type": "Texture2D",
+        "suggested_usage": "AnimatedSprite2D/Sprite2D regions above office cells, facilities, or employees",
+        "region_size": "224x224"
+      },
+      "notes": [
+        "No readable text, numbers, or UI labels are intended.",
+        "Use Godot-rendered text for any numeric deltas or localized messages.",
+        "Rows describe animation roles; columns describe business signal families."
+      ]
+    }
+  ]
+}

@@ -165,6 +165,13 @@ def test_godot_followup_art_packs_are_tracked_and_import_ready():
             {"cell_width_px": 384, "cell_height_px": 384},
             (1536, 1152),
         ),
+        (
+            "godot-g1-art-pack-v0.8-business-feedback-fx",
+            "business-feedback-fx-atlas-v0.8",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 896),
+        ),
     ]
 
     for pack_name, asset_id, grid, slice_size, image_size in expected_packs:

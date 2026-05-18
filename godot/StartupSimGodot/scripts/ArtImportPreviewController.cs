@@ -21,6 +21,7 @@ public partial class ArtImportPreviewController : Control
     [Export] public Texture2D? ZoneStateOverlayAtlasV06 { get; set; }
     [Export] public Texture2D? FeedbackPortraitAtlasV07 { get; set; }
     [Export] public Texture2D? MainSceneBackground { get; set; }
+    [Export] public Texture2D? BusinessFeedbackFxAtlas { get; set; }
 
     public bool ValidateAtlasPreview()
     {
@@ -40,7 +41,8 @@ public partial class ArtImportPreviewController : Control
             && ValidateAtlas(EmployeeStatusIconAtlas, 8, 4)
             && ValidateAtlas(ZoneStateOverlayAtlasV06, 6, 5)
             && ValidateAtlas(FeedbackPortraitAtlasV07, 4, 3)
-            && ValidateTexture(MainSceneBackground);
+            && ValidateTexture(MainSceneBackground)
+            && ValidateAtlas(BusinessFeedbackFxAtlas, 8, 4);
     }
 
     public string[] ValidateAtlasPreviewReport()
@@ -63,7 +65,8 @@ public partial class ArtImportPreviewController : Control
             BuildValidationLine("employee-status-icon-atlas-v0.5", EmployeeStatusIconAtlas, 8, 4),
             BuildValidationLine("zone-state-overlay-atlas-v0.6", ZoneStateOverlayAtlasV06, 6, 5),
             BuildValidationLine("feedback-portrait-sheet-v0.7", FeedbackPortraitAtlasV07, 4, 3),
-            BuildTextureValidationLine("company-main-scene-background-v0.7.1", MainSceneBackground)
+            BuildTextureValidationLine("company-main-scene-background-v0.7.1", MainSceneBackground),
+            BuildValidationLine("business-feedback-fx-atlas-v0.8", BusinessFeedbackFxAtlas, 8, 4)
         };
     }
 

@@ -365,6 +365,7 @@ def test_godot_art_import_preview_scene_references_core_atlases():
         "zone-state-overlay-atlas-v0.6.png",
         "feedback-portrait-sheet-v0.7.png",
         "company-main-scene-background-v0.7.1.png",
+        "business-feedback-fx-atlas-v0.8.png",
     ]:
         assert atlas in scene
 
@@ -386,6 +387,7 @@ def test_godot_art_import_preview_scene_references_core_atlases():
     assert "ZoneStateOverlayAtlasV06" in controller
     assert "FeedbackPortraitAtlasV07" in controller
     assert "MainSceneBackground" in controller
+    assert "BusinessFeedbackFxAtlas" in controller
     assert "ValidateTexture(MainSceneBackground" in controller
     assert "DeterministicTurnEngine" not in controller
 
