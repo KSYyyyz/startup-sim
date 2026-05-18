@@ -5,7 +5,7 @@ Three fixed event types:
 - board_coup_risk: equity < 34, board < 50, MRR growth < 5%
 - product_breakthrough: product_score crosses 75 threshold upward
 
-Alpha 1.3: 25 random pool events (opportunity/crisis/neutral) with small deltas,
+Alpha 1.3: 27 random pool events (opportunity/crisis/neutral) with small deltas,
 sampled at ~20% per turn → ~2.4 events per 12 turns.
 
 Phase 1C enhancements:

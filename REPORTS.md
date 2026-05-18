@@ -21,6 +21,28 @@
 
 ---
 
+## Project Layout Cleanup — 删除旧 Unity 与前端方案文件 (2026-05-18)
+
+**性质**: 本地与云端项目布局收口。目标是在确认 Godot 可调用 C# Core 后，删除已经过时且会误导后续开发的代码和文件。
+
+**核心判断**:
+- Godot 适配已经完成第一阶段：`StartupSimGodot.csproj` 引用 C# Core，`GodotTurnBridge` 可本地执行 `DeterministicTurnEngine`。
+- 完整玩法迁移尚未完成：Python `src/core/` 仍是完整规则参考实现，不能删除。
+- Web 前端仍是规则验证台，不能删除。
+
+**主要产出**:
+- 删除 `unity/StartupSimUnity/` 旧探索适配代码。
+- 删除旧 Word 版前端 Alpha 0.1 方案文件。
+- 新增 `docs/project_layout.md`，固定本地与云端有效目录。
+- 更新 Godot/C# 文档，明确“已完成 Godot 可调用，不等于完整玩法已迁完”。
+- 新增布局回归测试，防止 Unity 主线文件和旧 Word 方案重新进入仓库。
+
+**验收边界**:
+- 仓库云端只保留 Godot、C# Core、Python 参考实现、Web 规则验证台和设计资产库。
+- 后续删除必须先满足：不被 Godot/C# 主线依赖、CI 不依赖、核心内容已迁入当前文档或测试。
+
+---
+
 ## Godot Migration Prep — Local C# Core bridge (2026-05-18)
 
 **性质**: Godot 可用性收口。目标是让 Godot 工程不只是展示骨架，而是可以直接引用并调用 `StartupSim.Core` 的本地规则代码。
@@ -90,9 +112,9 @@
 
 ---
 
-## C# / Unity Migration Prep — ActionParser portable slice (2026-05-18)
+## C# Core Migration Prep — ActionParser portable slice (2026-05-18)
 
-**性质**: C# Core 规则迁移第一刀。目标是先把自然语言指令解析迁入 `StartupSim.Core`，让 Unity 未来可以拿到结构化行动，而不是依赖 Web 前端或 Python API 做输入理解。
+**性质**: C# Core 规则迁移第一刀。目标是先把自然语言指令解析迁入 `StartupSim.Core`，让 Godot 未来可以拿到结构化行动，而不是依赖 Web 前端或 Python API 做输入理解。
 
 **主要产出**:
 - 新增 C# 合同：`ActionPlan`、`PlayerAction`、`ActionType`、`RiskLevel`。
@@ -102,12 +124,12 @@
 
 **验收边界**:
 - 本轮只迁移解析层，不迁移现金、产品、用户、董事会、竞品或结局结算。
-- C# 解析器继续保持 `UnityEngine` 零依赖。
+- C# 解析器继续保持表现层引擎零依赖。
 - Python 仍是完整玩法参考实现，C# 只承接已被黄金样例覆盖的输入解析切片。
 
 ---
 
-## C# / Unity Migration Prep — Compile gate and CI coverage (2026-05-18)
+## C# Core Migration Prep — Compile gate and CI coverage (2026-05-18)
 
 **性质**: C# Core 迁移基础设施收口。目标是让 `StartupSim.Core` 不再只是文件骨架，而是进入可编译、可测试、可在 GitHub CI 上守门的状态。
 
@@ -118,26 +140,26 @@
 - C# Core 迁移边界已收口到 `docs/csharp_core_migration_plan.md`，包含测试门禁、CI 命令和本地 SDK 使用边界。
 
 **验收边界**:
-- C# Core 仍保持 `UnityEngine` 零依赖。
-- Unity 侧仍只是适配层，不拥有现金、产品、估值、董事会或竞品结算规则。
+- C# Core 仍保持表现层引擎零依赖。
+- 表现层只负责适配和展示，不拥有现金、产品、估值、董事会或竞品结算规则。
 - Python TurnEngine 仍是完整规则参考实现，C# 只迁移已纳入黄金样例的切片。
 
 ---
 
-## C# / Unity Migration Prep — Core and adapter scaffold (2026-05-18)
+## C# Core Migration Prep — Core scaffold (2026-05-18)
 
-**性质**: 技术路线切换准备。目标是把项目从 Web 前端打磨主线，转向 C# Core + Unity 表现层的可迁移架构。
+**性质**: 技术路线切换准备。目标是把项目从 Web 前端打磨主线，转向 C# Core + Godot 表现层的可迁移架构。
 
 **主要产出**:
 - 新增早期 C# 迁移文档；当前有效内容已收口到 `docs/csharp_core_migration_plan.md`。
 - 新增 `csharp/StartupSim.Core/` 纯 C# 核心库骨架，包含 `GameState`、`GameMetrics`、`TurnCommand`、`TurnResult`、`ScenarioDefinition`、`ITurnEngine`、`DeterministicTurnEngine`。
 - 新增 `csharp/golden-cases/month01_product_investment.json`，作为 Python 参考实现到 C# 迁移的第一条黄金样例。
-- 新增 `unity/StartupSimUnity/Assets/Scripts/StartupSim/` Unity 适配组件：房间热点、行动展示、回合提交、API 桥接。
-- 新增 `tests/test_csharp_unity_scaffold.py`，锁定 C# Core 不依赖 `UnityEngine`，Unity 侧不拥有结算规则。
+- 早期曾新增表现层适配组件验证边界；当前旧适配代码已删除，Godot 工程成为唯一新增表现层目标。
+- 当前测试已收口到 `tests/test_csharp_core_scaffold.py` 与 `tests/test_godot_scaffold.py`。
 
 **当前限制**:
 - 本机只有 .NET Runtime，没有 .NET SDK，因此本轮先用仓库测试验证结构边界；后续安装 SDK 后再补 C# 编译与单元测试。
-- Unity 组件目前是竖切准备脚本，还不是完整 Unity 工程。
+- 当前 Godot 组件仍是竖切准备脚本，还不是完整游戏场景。
 
 ---
 
@@ -519,7 +541,7 @@
 **背景**: Alpha 1.9 完成了5项核心反馈增强（核心矛盾、竞品态势、经营洞察、危机解释、StateGuard进复盘）。Alpha 1.9.1 的目标是在真人试玩验证之前，把文档、规划、反馈模板和版本一致性全部收口。
 
 **主要产出**:
-- `plans/20260517-gameplay-first-roadmap.md` — 游戏性优先后续路线规划（Alpha 2.0/2.1/2.2/3.0）
+- 旧游戏性路线规划已删除，当前有效方向收口到 `docs/indie_game_product_direction.md`。
 - `docs/playtest_alpha_1_9_1_plan.md` — Alpha 1.9.1 试玩验证计划（3-5次真人试玩，7个核心问题，4类反馈归类）
 - `docs/playtest_feedback_log.md` — 补充创业风格自评字段
 - `docs/playtest_observation.md` — 补充 Alpha 1.9.1 专项观察字段（核心矛盾理解、竞品感知、洞察作用、危机处理、复盘清晰度）

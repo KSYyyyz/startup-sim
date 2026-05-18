@@ -121,3 +121,12 @@ Near-term C# priorities:
 3. Use `GodotTurnBridge` for local desktop playtests.
 4. Add optional API bridge only if remote AI or cloud-save features require it.
 5. Keep Vercel frontend available for rule QA and quick remote demos.
+
+## 9. Adaptation Status
+
+High-value core code is partially adapted for Godot:
+
+- Completed: portable `ActionParser`, minimal deterministic C# turn engine, golden-case tests, Godot C# project, local `GodotTurnBridge`, and CI build gate.
+- Not yet complete: full Python `TurnEngine` parity, StateGuard cash/budget rejection, fundraising valuation/rejection parity, board/competitor/customer/insight fact snapshots, ending/review parity, and a full 12-month Godot offline run.
+
+Because of that, Python `src/core/` remains the complete reference implementation and must not be deleted until the C# Core parity gates are complete.

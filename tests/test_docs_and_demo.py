@@ -30,6 +30,7 @@ README_NAV_KEYWORDS = [
     "docs/godot_migration_plan.md",
     "docs/csharp_core_migration_plan.md",
     "docs/web_validation_bench.md",
+    "docs/project_layout.md",
     "https://startup-sim-khaki.vercel.app",
 ]
 

@@ -60,7 +60,26 @@ dotnet build godot\StartupSimGodot\StartupSimGodot.csproj --configuration Debug
 5. 迁移结局与复盘事实，使 Godot 可以离线跑完 12 个月。
 6. 用黄金样例覆盖一局 12 回合标准路线。
 
-## 7. 不做
+## 7. Godot 适配完成度
+
+当前高价值核心代码已经完成“Godot 可调用”的第一阶段适配，但还没有完成“完整玩法迁移”。
+
+已完成：
+
+- C# Core 可编译、可测试。
+- Godot 工程可引用 C# Core。
+- `GodotTurnBridge` 可以本地执行准备好的行动。
+- CI 已包含 C# Core tests 和 Godot C# build。
+
+未完成：
+
+- Python TurnEngine 全量规则 parity。
+- StateGuard 预算拦截 parity。
+- 融资估值和拒绝模型 parity。
+- 董事会、竞品、客户、洞察和复盘事实 parity。
+- 12 个月完整离线 Godot 流程。
+
+## 8. 不做
 
 - 不把 Godot UI 文案写回 C# Core。
 - 不在 Godot 中重新实现 TurnEngine。

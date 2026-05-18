@@ -24,6 +24,7 @@ REPORTS_PATH = PROJECT_ROOT / "REPORTS.md"
 GODOT_PLAN_PATH = PROJECT_ROOT / "docs" / "godot_migration_plan.md"
 CSHARP_CORE_PLAN_PATH = PROJECT_ROOT / "docs" / "csharp_core_migration_plan.md"
 WEB_VALIDATION_BENCH_PATH = PROJECT_ROOT / "docs" / "web_validation_bench.md"
+PROJECT_LAYOUT_PATH = PROJECT_ROOT / "docs" / "project_layout.md"
 REFERENCE_GAME_ANALYSIS_PATH = PROJECT_ROOT / "docs" / "reference_game_analysis.md"
 VERCEL_FRONTEND_URL = "https://startup-sim-khaki.vercel.app"
 
@@ -229,6 +230,7 @@ def check_current_direction_docs_visible() -> None:
         "docs/godot_migration_plan.md",
         "docs/csharp_core_migration_plan.md",
         "docs/web_validation_bench.md",
+        "docs/project_layout.md",
         "docs/indie_game_product_direction.md",
         "docs/reference_game_analysis.md",
         VERCEL_FRONTEND_URL,
@@ -244,6 +246,8 @@ def check_current_direction_docs_visible() -> None:
         missing.append(str(CSHARP_CORE_PLAN_PATH.relative_to(PROJECT_ROOT)))
     if not WEB_VALIDATION_BENCH_PATH.exists():
         missing.append(str(WEB_VALIDATION_BENCH_PATH.relative_to(PROJECT_ROOT)))
+    if not PROJECT_LAYOUT_PATH.exists():
+        missing.append(str(PROJECT_LAYOUT_PATH.relative_to(PROJECT_ROOT)))
     if not REFERENCE_GAME_ANALYSIS_PATH.exists():
         missing.append(str(REFERENCE_GAME_ANALYSIS_PATH.relative_to(PROJECT_ROOT)))
 
@@ -263,6 +267,7 @@ HEALTH_FILES = [
     (PROJECT_ROOT / "docs" / "godot_migration_plan.md", 80),
     (PROJECT_ROOT / "docs" / "csharp_core_migration_plan.md", 60),
     (PROJECT_ROOT / "docs" / "web_validation_bench.md", 50),
+    (PROJECT_ROOT / "docs" / "project_layout.md", 50),
     (PROJECT_ROOT / "docs" / "reference_game_analysis.md", 80),
     (PROJECT_ROOT / "tests" / "test_docs_and_demo.py", 80),
     (PROJECT_ROOT / "scripts" / "check_docs_consistency.py", 150),

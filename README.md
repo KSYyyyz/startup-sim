@@ -21,6 +21,7 @@
 | [docs/godot_migration_plan.md](docs/godot_migration_plan.md) | Godot 独立游戏表现层迁移方案 |
 | [docs/csharp_core_migration_plan.md](docs/csharp_core_migration_plan.md) | C# Core 规则迁移方案 |
 | [docs/web_validation_bench.md](docs/web_validation_bench.md) | Web 规则验证台说明 |
+| [docs/project_layout.md](docs/project_layout.md) | 本地与云端项目布局标准 |
 | [docs/playtest_feedback_template.md](docs/playtest_feedback_template.md) | 玩家试玩反馈模板 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 常见问题排查
 
@@ -417,6 +418,7 @@ startup-sim/
 │   ├── godot_migration_plan.md                  # Godot 表现层迁移方案
 │   ├── csharp_core_migration_plan.md            # C# Core 规则迁移方案
 │   ├── web_validation_bench.md                  # Web 规则验证台说明
+│   ├── project_layout.md                        # 本地与云端布局标准
 │   ├── playtest_feedback_template.md # 玩家试玩反馈模板
 │   ├── playtest_observation.md       # 试玩观察记录模板
 │   └── troubleshooting.md            # 常见问题排查
