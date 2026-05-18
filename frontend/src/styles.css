@@ -1243,6 +1243,28 @@ h2 {
   line-height: 1.45;
 }
 
+.fact-citations {
+  display: grid;
+  gap: 6px;
+}
+
+.fact-citations span {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 8px;
+  align-items: start;
+  color: #4c5e76;
+  font-size: 0.78rem;
+}
+
+.fact-citations b {
+  color: #153b68;
+}
+
+.fact-citations em {
+  font-style: normal;
+}
+
 .report-recovery {
   background: #eef6f3;
   border-color: #b9d7ca;

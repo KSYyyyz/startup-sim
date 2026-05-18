@@ -175,6 +175,7 @@ describe('gameplay content definitions', () => {
       ],
       reasons: ['研发投入提升了产品分，但现金消耗上升。'],
       nextPressure: '研发有效，但现金消耗上升。',
+      command: '花10万研发产品',
       cashChange: -220000,
       productChange: 8,
       usersChange: 160
@@ -189,6 +190,11 @@ describe('gameplay content definitions', () => {
         { label: '用户', value: '+160', tone: 'good' }
       ],
       reviewLines: ['研发投入提升了产品分，但现金消耗上升。'],
+      factCitations: [
+        { label: '执行指令', value: '花10万研发产品' },
+        { label: '结算变化', value: '现金 $-22万 · 产品 +8 分 · 用户 +160' },
+        { label: '复盘依据', value: '研发投入提升了产品分，但现金消耗上升。' }
+      ],
       nextPressure: '研发有效，但现金消耗上升。',
       recoveryAction: {
         label: '下月补救',

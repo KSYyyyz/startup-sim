@@ -119,9 +119,15 @@ export type MonthlyReportInput = {
   highlights: MonthlyReportHighlight[];
   reasons?: string[];
   nextPressure: string;
+  command?: string;
   cashChange: number;
   productChange: number;
   usersChange: number;
+};
+
+export type MonthlyReportFactCitation = {
+  label: '执行指令' | '结算变化' | '复盘依据';
+  value: string;
 };
 
 export type MonthlyReport = {
@@ -129,6 +135,7 @@ export type MonthlyReport = {
   headline: string;
   highlightCards: MonthlyReportHighlight[];
   reviewLines: string[];
+  factCitations: MonthlyReportFactCitation[];
   nextPressure: string;
   recoveryAction: {
     label: string;
@@ -548,6 +555,17 @@ export function buildMonthlyReport(input: MonthlyReportInput): MonthlyReport {
     input.reasons && input.reasons.length
       ? input.reasons.slice(0, 3)
       : ['本回合已结算，董事会、竞品态势和经营洞察已更新。'];
+  const changedHighlights = input.highlights.filter((item) => item.value !== '稳定' && item.value !== '观察中');
+  const factCitations: MonthlyReportFactCitation[] = [
+    ...(input.command ? [{ label: '执行指令' as const, value: input.command }] : []),
+    {
+      label: '结算变化',
+      value: changedHighlights.length
+        ? changedHighlights.map((item) => `${item.label} ${item.value}`).join(' · ')
+        : '本月指标保持观察'
+    },
+    { label: '复盘依据', value: reviewLines[0] }
+  ];
 
   let headline = '公司继续向前推进';
   let recoveryAction = {
@@ -584,6 +602,7 @@ export function buildMonthlyReport(input: MonthlyReportInput): MonthlyReport {
     headline,
     highlightCards: input.highlights,
     reviewLines,
+    factCitations,
     nextPressure: input.nextPressure,
     recoveryAction
   };

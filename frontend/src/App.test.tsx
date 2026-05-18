@@ -350,7 +350,7 @@ describe('Startup Sim frontend shell', () => {
     expect(await screen.findByText('第2月')).toBeInTheDocument();
     expect(screen.getByText('月度战报')).toBeInTheDocument();
     expect(screen.getByText('回合结算')).toBeInTheDocument();
-    expect(screen.getByText('执行指令')).toBeInTheDocument();
+    expect(screen.getAllByText('执行指令').length).toBeGreaterThan(0);
     expect(screen.getAllByText('月末变化').length).toBeGreaterThan(0);
     expect(screen.getByText('战报复盘')).toBeInTheDocument();
     expect(screen.getAllByText('花10万研发产品').length).toBeGreaterThan(0);
@@ -361,13 +361,17 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('产品有进展，但现金在承压').length).toBeGreaterThan(0);
     expect(screen.getAllByText('本月变化').length).toBeGreaterThan(1);
     expect(screen.getByText('原因复盘')).toBeInTheDocument();
+    expect(screen.getByText('事实依据')).toBeInTheDocument();
+    expect(screen.getAllByText('执行指令').length).toBeGreaterThan(1);
+    expect(screen.getAllByText('花10万研发产品').length).toBeGreaterThan(1);
+    expect(screen.getByText('结算变化')).toBeInTheDocument();
     expect(screen.getByText('下月压力')).toBeInTheDocument();
     expect(screen.getByText('下月补救')).toBeInTheDocument();
     expect(screen.getByText('先压住现金消耗，再继续验证产品改进是否能转成增长。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '采用补救行动' }));
     expect(screen.getAllByDisplayValue('花1万研发产品保持最低运转').length).toBeGreaterThan(0);
     expect(within(screen.getByLabelText('已准备行动')).getByText('下月补救')).toBeInTheDocument();
-    expect(screen.getByText('研发投入提升了产品分，但现金消耗上升。')).toBeInTheDocument();
+    expect(screen.getAllByText('研发投入提升了产品分，但现金消耗上升。').length).toBeGreaterThan(1);
     expect(screen.getAllByText('研发有效，但现金消耗上升。').length).toBeGreaterThan(0);
     expect(screen.getByText('记忆：上月现金减少，CFO 会继续盯预算。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '竞品' }));

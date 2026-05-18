@@ -207,6 +207,7 @@ export default function App() {
             highlights,
             reasons: lastTurn.delta_reasons,
             nextPressure: state.core_tension.next_focus,
+            command: lastCommand,
             cashChange: state.metrics.cash_change,
             productChange: state.metrics.product_change,
             usersChange: state.metrics.users_change
@@ -454,6 +455,15 @@ export default function App() {
                     <li key={reason}>{reason}</li>
                   ))}
                 </ul>
+              </section>
+              <section className="report-block fact-citations" aria-label="月报事实依据">
+                <h3>事实依据</h3>
+                {monthlyReport.factCitations.map((fact) => (
+                  <span key={fact.label}>
+                    <b>{fact.label}</b>
+                    <em>{fact.value}</em>
+                  </span>
+                ))}
               </section>
               <section className="report-block">
                 <h3>下月压力</h3>
