@@ -51,6 +51,8 @@ export type CompetitorPressureInput = {
 
 export type CompetitorMove = CompetitorPressureInput & {
   moveType: '功能升级' | '渠道抢量' | '价格压力' | '客户绑定' | '暂无大动作';
+  threatLevel: '高威胁' | '中威胁' | '低威胁';
+  suggestedRead: string;
   reason: string;
   responseCommand: string;
 };
@@ -850,12 +852,39 @@ function competitorMoveCopy(item: CompetitorPressureInput): Pick<CompetitorMove,
   };
 }
 
+function competitorThreatReadout(item: CompetitorPressureInput, moveType: CompetitorMove['moveType']) {
+  if (moveType === '暂无大动作' && item.trend === 'flat') {
+    return {
+      threatLevel: '低威胁' as const,
+      suggestedRead: '适合趁窗口平静推进自己的主线。'
+    };
+  }
+  if (item.trend === 'up' || moveType === '功能升级' || moveType === '客户绑定') {
+    return {
+      threatLevel: '高威胁' as const,
+      suggestedRead: '优先判断是否会影响你的核心客户。'
+    };
+  }
+  if (moveType === '价格压力' || moveType === '渠道抢量') {
+    return {
+      threatLevel: '中威胁' as const,
+      suggestedRead: '先看它是否会抬高获客成本，再决定回应强度。'
+    };
+  }
+  return {
+    threatLevel: '低威胁' as const,
+    suggestedRead: '暂时不必追着对手跑，保持自己的验证节奏。'
+  };
+}
+
 export function buildCompetitorMoves(items: CompetitorPressureInput[]): CompetitorMove[] {
   return items.map((item) => {
     const copy = competitorMoveCopy(item);
+    const readout = competitorThreatReadout(item, copy.moveType);
     return {
       ...item,
       ...copy,
+      ...readout,
       responseCommand: buildCompetitorPressureResponse(item).command
     };
   });

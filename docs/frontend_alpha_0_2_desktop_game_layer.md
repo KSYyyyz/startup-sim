@@ -106,6 +106,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Room action cards now include a compact expectation readout: benefit, cost, best timing, and risk. This keeps the decision understandable without exposing formulas or turning the card into an auto-command recommendation.
 - Monthly reports now start with a compact "本月判定" such as "有进展" or "危险", derived from settled metric changes so the player gets a quick outcome read before the detailed review.
 - Board feedback now starts with a "董事会氛围" summary derived from the current board roles, trust trends, and pressure tags. It highlights pressure without inventing external investors.
+- Competitor rows now include a threat readout such as "高威胁" plus a short interpretation sentence, helping players decide priority without auto-selecting a response.
 
 Known follow-up:
 

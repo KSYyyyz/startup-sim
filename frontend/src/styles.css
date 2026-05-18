@@ -1300,6 +1300,25 @@ h2 {
   color: #4c5e76;
 }
 
+.competitor-threat {
+  justify-self: start;
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: #f2f5f8;
+  color: #4c5e76;
+  font-weight: 900;
+}
+
+.competitor-threat.high {
+  background: #fff0f0;
+  color: #9b2f2f;
+}
+
+.competitor-readout {
+  color: #244d7b;
+  font-weight: 800;
+}
+
 .competitor-command {
   display: inline-block;
   margin-top: 6px;

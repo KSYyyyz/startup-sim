@@ -348,6 +348,8 @@ describe('gameplay content definitions', () => {
         mrr: 41000,
         trend: 'up',
         moveType: '功能升级',
+        threatLevel: '高威胁',
+        suggestedRead: '优先判断是否会影响你的核心客户。',
         reason: '正在强化产品能力，可能抢走重视功能完整度的客户。',
         responseCommand: '花25万研发产品提升竞争力'
       },
@@ -357,6 +359,8 @@ describe('gameplay content definitions', () => {
         mrr: 33000,
         trend: 'flat',
         moveType: '暂无大动作',
+        threatLevel: '低威胁',
+        suggestedRead: '适合趁窗口平静推进自己的主线。',
         reason: '市场窗口暂时平静，适合用小步试错积累优势。',
         responseCommand: '花10万做营销推广'
       }

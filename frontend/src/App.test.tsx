@@ -492,6 +492,8 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('记忆：上月现金减少，CFO 会继续盯预算。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '竞品' }));
     expect(screen.getAllByText('灵犀客服云').length).toBeGreaterThan(0);
+    expect(screen.getByText('高威胁')).toBeInTheDocument();
+    expect(screen.getByText('优先判断是否会影响你的核心客户。')).toBeInTheDocument();
     expect(screen.getByText('上升')).toBeInTheDocument();
     expect(screen.getAllByText('研发投入带来产品进展').length).toBeGreaterThan(0);
   });

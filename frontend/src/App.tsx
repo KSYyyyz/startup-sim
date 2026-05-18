@@ -848,10 +848,14 @@ export default function App() {
                 <div className="competitor-row" key={item.name}>
                   <strong>{item.name}</strong>
                   <small className="competitor-move-chip">{item.moveType}</small>
+                  <small className={`competitor-threat ${item.threatLevel === '高威胁' ? 'high' : ''}`}>
+                    {item.threatLevel}
+                  </small>
                   <span>{money(item.mrr)} 月经常收入</span>
                   <em className={item.trend}>{trendLabel(item)}</em>
                   <small className={`trend-chip ${item.trend}`}>{trendText(item)}</small>
                   <p>{item.status}</p>
+                  <p className="competitor-readout">{item.suggestedRead}</p>
                   <p className="competitor-move-reason">{item.reason}</p>
                   <code className="competitor-command">{item.responseCommand}</code>
                   <button
