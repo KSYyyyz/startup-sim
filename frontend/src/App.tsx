@@ -207,6 +207,7 @@ export default function App() {
   ];
   const officeSignals = lastTurn?.office_signals ?? [];
   const storyEvents = lastTurn?.story_events ?? [];
+  const objectiveUpdates = lastTurn?.objective_updates ?? [];
   const primaryOfficeSignal = officeSignals[0];
   const hasCommand = command.trim().length > 0;
   const pulse = useMemo(
@@ -485,6 +486,33 @@ export default function App() {
             </div>
           </details>
 
+          {state.phase_goals && (
+            <article className="panel goal-panel" aria-label="阶段目标">
+              <div className="goal-panel-heading">
+                <span>{state.phase_goals.phase_label}</span>
+                <h2>{state.phase_goals.title}</h2>
+              </div>
+              <p>{state.phase_goals.summary}</p>
+              <div className="objective-list">
+                {state.phase_goals.objectives.map((objective) => (
+                  <section className="objective-card" key={objective.id}>
+                    <div>
+                      <strong>{objective.title}</strong>
+                      <small>{objective.status}</small>
+                    </div>
+                    <em>{objective.progress_label}</em>
+                    <div className="direction-tags" aria-label={`${objective.title}行动方向`}>
+                      {objective.action_directions.map((direction) => (
+                        <span key={direction}>{direction}</span>
+                      ))}
+                    </div>
+                    <p>{objective.risk_hint}</p>
+                  </section>
+                ))}
+              </div>
+            </article>
+          )}
+
           <article className="panel">
             <h2>本月变化</h2>
             <dl className="change-list">
@@ -561,6 +589,20 @@ export default function App() {
                   </span>
                 ))}
               </section>
+              {objectiveUpdates.length > 0 && (
+                <section className="report-block objective-progress" aria-label="目标进展">
+                  <h3>目标进展</h3>
+                  {objectiveUpdates.map((objective) => (
+                    <article key={objective.id}>
+                      <div>
+                        <b>{objective.title}</b>
+                        <span>{objective.status}</span>
+                      </div>
+                      <p>{objective.summary}</p>
+                    </article>
+                  ))}
+                </section>
+              )}
               <section className="report-block review-entry" aria-label="轻量复盘入口">
                 <h3>轻量复盘</h3>
                 <button type="button" onClick={handleReview} disabled={reviewing}>

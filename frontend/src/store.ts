@@ -60,7 +60,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
           recent_role_memory: result.turn.recent_role_memory ?? result.recent_role_memory,
           memory_history: result.turn.memory_history ?? result.memory_history,
           office_signals: result.turn.office_signals ?? result.office_signals,
-          story_events: result.turn.story_events ?? result.story_events
+          story_events: result.turn.story_events ?? result.story_events,
+          objective_updates: result.turn.objective_updates ?? result.objective_updates
         },
         suggestions: null,
         commandPreview: null,

@@ -44,6 +44,21 @@ The frontend talks to a small local HTTP API. The Python simulation remains the 
     "title": "本月经营洞察",
     "description": "产品还在早期，建议先用小预算验证客户需求。"
   },
+  "phase_goals": {
+    "phase_label": "0-12个月",
+    "title": "早期生存目标",
+    "summary": "先让产品、现金流和用户反馈进入可验证节奏。",
+    "objectives": [
+      {
+        "id": "product-readiness",
+        "title": "提升产品成熟度",
+        "status": "进行中",
+        "progress_label": "产品 20/35",
+        "action_directions": ["研发投入", "客户访谈", "小范围试点"],
+        "risk_hint": "不要在客户验证不足时一次性加大投放。"
+      }
+    ]
+  },
   "board": [
     {
       "name": "CFO",
@@ -195,6 +210,14 @@ Response:
         "tone": "neutral",
         "source": "business-insight"
       }
+    ],
+    "objective_updates": [
+      {
+        "id": "product-readiness",
+        "title": "提升产品成熟度",
+        "status": "推进中",
+        "summary": "产品成熟度目标有推进。"
+      }
     ]
   }
 }
@@ -202,7 +225,9 @@ Response:
 
 `turn.turn_facts` is the first backend TurnFacts serializer slice. It is derived from the settled `TurnResult`, not from frontend UI state or command preview text. `changes` contains backend metric facts and short labels; frontend renderers decide layout, animation, and emphasis.
 
-`turn.role_memory` is derived from settled TurnFacts plus post-turn role feedback in `TurnResult`. `turn.memory_history` and `turn.recent_role_memory` are read from persisted SQLite `role_memory_history` rows after the current turn is saved; newest memories are returned first. `turn.office_signals` is derived from settled state, core tension, and business insight. `turn.story_events` is derived from settled rule events, competitor moves, or business insight fallback. These fields are renderer-neutral: the backend supplies facts and short text, while frontend renderers decide placement, animation, and visual treatment.
+`phase_goals` is a renderer-neutral objective guide for the current stage. It may provide short action directions and risk hints, but it must not include executable `command`, `example_input`, or one-click action fields. The player still chooses the actual CEO command.
+
+`turn.role_memory` is derived from settled TurnFacts plus post-turn role feedback in `TurnResult`. `turn.memory_history` and `turn.recent_role_memory` are read from persisted SQLite `role_memory_history` rows after the current turn is saved; newest memories are returned first. `turn.office_signals` is derived from settled state, core tension, and business insight. `turn.story_events` is derived from settled rule events, competitor moves, or business insight fallback. `turn.objective_updates` is derived from settled state and delta after the turn; it reports objective progress only and must not include executable command text. These fields are renderer-neutral: the backend supplies facts and short text, while frontend renderers decide placement, animation, and visual treatment.
 
 ### `GET /api/sessions/{session_id}/review`
 

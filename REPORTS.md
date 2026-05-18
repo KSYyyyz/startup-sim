@@ -1100,3 +1100,23 @@ Alpha 1.5 建议方向：
 - 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充档案投影契约和只读边界。
 
 状态：Alpha 0.5 第四组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。
+
+---
+
+## Alpha 0.6 十轮推进 — 阶段目标与任务方向闭环 (2026-05-18)
+
+主题：让玩家知道当前阶段要达成什么，同时避免系统替玩家生成完整 CEO 指令。
+
+内容：
+- 第 1 轮：`GameStateView` 新增 `phase_goals`，描述当前阶段目标、摘要和 2-3 个轻量目标。
+- 第 2 轮：每个目标只提供 `action_directions` 和 `risk_hint`，不提供 `command`、`example_input` 或一键执行元数据。
+- 第 3 轮：阶段目标覆盖产品成熟度、现金纪律和真实用户反馈三条早期创业主线。
+- 第 4 轮：`POST /api/sessions/{session_id}/turns` 新增 `turn.objective_updates`，回合后只反馈目标进展。
+- 第 5 轮：目标进展由 settled `TurnResult`、`StateDelta` 和 post-turn `CompanyState` 派生，不改变 TurnEngine。
+- 第 6 轮：左侧新增“阶段目标”紧凑面板，展示方向标签和风险提醒，不放按钮。
+- 第 7 轮：月度战报新增“目标进展”区，展示完成、推进中或承压的结果反馈。
+- 第 8 轮：前端测试覆盖目标面板无按钮、无完整指令、无自动填入行为。
+- 第 9 轮：后端测试覆盖目标契约无 executable command 字段，并继续检查禁用词。
+- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充目标/任务非执行契约。
+
+状态：Alpha 0.6 第一组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。

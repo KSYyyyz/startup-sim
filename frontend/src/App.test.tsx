@@ -40,6 +40,29 @@ const initialState = {
     title: '产品仍在打磨期',
     description: '先用小预算验证客户需求。'
   },
+  phase_goals: {
+    phase_label: '0-12个月',
+    title: '早期生存目标',
+    summary: '先让产品和现金流进入可验证节奏。',
+    objectives: [
+      {
+        id: 'product-readiness',
+        title: '提升产品成熟度',
+        status: '进行中',
+        progress_label: '产品 20/35',
+        action_directions: ['研发投入', '客户访谈', '小范围试点'],
+        risk_hint: '不要在客户验证不足时一次性加大投放。'
+      },
+      {
+        id: 'cash-discipline',
+        title: '保持现金纪律',
+        status: '进行中',
+        progress_label: '现金流可支撑时间 8.3个月',
+        action_directions: ['控制固定支出', '小额试验', '融资准备'],
+        risk_hint: '现金流可支撑时间低于4个月时先收缩预算。'
+      }
+    ]
+  },
   board: [
     { name: 'CFO', role: '财务负责人', message: '控制固定支出。', confidence: 84 },
     { name: 'CTO', role: '技术负责人', message: '产品体验仍需提升。', confidence: 80 }
@@ -219,6 +242,15 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.queryByLabelText('竞品态势')).not.toBeInTheDocument();
     expect(screen.queryByText('暂无大动作')).not.toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
+    const goalPanel = screen.getByLabelText('阶段目标');
+    expect(goalPanel).toHaveTextContent('早期生存目标');
+    expect(goalPanel).toHaveTextContent('提升产品成熟度');
+    expect(goalPanel).toHaveTextContent('产品 20/35');
+    expect(goalPanel).toHaveTextContent('研发投入');
+    expect(goalPanel).toHaveTextContent('客户访谈');
+    expect(goalPanel).toHaveTextContent('不要在客户验证不足时一次性加大投放。');
+    expect(within(goalPanel).queryByRole('button')).not.toBeInTheDocument();
+    expect(goalPanel).not.toHaveTextContent('花10万研发产品');
     expect(screen.getAllByText('现金纪律').length).toBeGreaterThan(0);
     expect(screen.getAllByText('产品护城河').length).toBeGreaterThan(0);
     expect(screen.getAllByText('信任稳定').length).toBeGreaterThan(0);
@@ -442,6 +474,43 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('TurnFacts 复盘依据：研发效率高于预期。').length).toBeGreaterThan(1);
     expect(screen.getByText('TurnFacts 下月压力：控制燃烧率。')).toBeInTheDocument();
     expect(screen.queryByText('旧版 delta_reasons 不应进入 TurnFacts 月报。')).not.toBeInTheDocument();
+  });
+
+  test('shows objective progress after a turn without executable objective commands', async () => {
+    installFetchMock({
+      turn: {
+        month: 1,
+        delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'],
+        objective_updates: [
+          {
+            id: 'product-readiness',
+            title: '提升产品成熟度',
+            status: '完成',
+            summary: '产品成熟度目标推进明显。'
+          },
+          {
+            id: 'cash-discipline',
+            title: '保持现金纪律',
+            status: '承压',
+            summary: '现金消耗上升，需要控制下月预算。'
+          }
+        ]
+      }
+    });
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+
+    const objectiveProgress = await screen.findByLabelText('目标进展');
+    expect(objectiveProgress).toHaveTextContent('提升产品成熟度');
+    expect(objectiveProgress).toHaveTextContent('完成');
+    expect(objectiveProgress).toHaveTextContent('保持现金纪律');
+    expect(objectiveProgress).toHaveTextContent('承压');
+    expect(within(objectiveProgress).queryByRole('button')).not.toBeInTheDocument();
+    expect(objectiveProgress).not.toHaveTextContent('花10万研发产品');
+    expect(screen.queryByRole('button', { name: '采用目标行动' })).not.toBeInTheDocument();
   });
 
   test('uses backend role memory and office signals before deterministic fallbacks', async () => {

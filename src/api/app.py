@@ -220,6 +220,7 @@ def _state_view(
             "next_focus": conflict.next_focus,
         },
         "insight": insight_view,
+        "phase_goals": _phase_goals_view(state),
         "board": _board_view(board_feedback or _default_board_feedback(state)),
         "competitors": _competitor_view_from_moves(competitor_moves),
         "advice_entry": {
@@ -232,6 +233,100 @@ def _state_view(
         },
     }
     return _sanitize_copy(payload)
+
+
+def _phase_goal_status(done: bool, pressured: bool = False) -> str:
+    if done:
+        return "已完成"
+    if pressured:
+        return "承压"
+    return "进行中"
+
+
+def _phase_goals_view(state: CompanyState) -> dict[str, Any]:
+    cash_coverage = _safe_months(state.runway_months)
+    product_target = 35
+    user_target = 50
+    objectives = [
+        {
+            "id": "product-readiness",
+            "title": "提升产品成熟度",
+            "status": _phase_goal_status(state.product_score >= product_target),
+            "progress_label": f"产品 {state.product_score}/{product_target}",
+            "action_directions": ["研发投入", "客户访谈", "小范围试点"],
+            "risk_hint": "不要在客户验证不足时一次性加大投放。",
+        },
+        {
+            "id": "cash-discipline",
+            "title": "保持现金纪律",
+            "status": _phase_goal_status(cash_coverage >= 6, cash_coverage < 4),
+            "progress_label": f"现金流可支撑时间 {cash_coverage:.1f}个月",
+            "action_directions": ["控制固定支出", "小额试验", "融资准备"],
+            "risk_hint": "现金流可支撑时间低于4个月时先收缩预算。",
+        },
+        {
+            "id": "user-validation",
+            "title": "获得真实用户反馈",
+            "status": _phase_goal_status(state.users >= user_target),
+            "progress_label": f"用户 {state.users}/{user_target}",
+            "action_directions": ["种子用户访谈", "低成本获客", "试点客户验证"],
+            "risk_hint": "增长动作要服务于验证，不要只追求表面用户数。",
+        },
+    ]
+    return {
+        "phase_label": "0-12个月",
+        "title": "早期生存目标",
+        "summary": "先让产品、现金流和用户反馈进入可验证节奏。",
+        "objectives": objectives,
+    }
+
+
+def _objective_status(done: bool, pressured: bool = False, progressed: bool = False) -> str:
+    if done:
+        return "完成"
+    if pressured:
+        return "承压"
+    if progressed:
+        return "推进中"
+    return "推进中"
+
+
+def _objective_updates_view(result: TurnResult) -> list[dict[str, Any]]:
+    state = result.state_after
+    delta = result.delta
+    cash_coverage = _safe_months(state.runway_months)
+    return _sanitize_copy(
+        [
+            {
+                "id": "product-readiness",
+                "title": "提升产品成熟度",
+                "status": _objective_status(
+                    state.product_score >= 35, progressed=delta.product_score > 0
+                ),
+                "summary": (
+                    "产品成熟度目标有推进。"
+                    if delta.product_score > 0
+                    else "产品目标本月仍需继续验证。"
+                ),
+            },
+            {
+                "id": "cash-discipline",
+                "title": "保持现金纪律",
+                "status": _objective_status(
+                    cash_coverage >= 6, pressured=delta.cash < 0 or cash_coverage < 4
+                ),
+                "summary": (
+                    "现金消耗上升，需要控制下月预算。" if delta.cash < 0 else "现金纪律保持稳定。"
+                ),
+            },
+            {
+                "id": "user-validation",
+                "title": "获得真实用户反馈",
+                "status": _objective_status(state.users >= 50, progressed=delta.users > 0),
+                "summary": "用户验证有进展。" if delta.users > 0 else "用户反馈仍需要继续积累。",
+            },
+        ]
+    )
 
 
 def _suggestions_view(state: CompanyState) -> dict[str, Any]:
@@ -859,6 +954,7 @@ def create_app() -> FastAPI:
                 "recent_role_memory": memory_history,
                 "office_signals": _office_signals_view(result),
                 "story_events": _story_events_view(result),
+                "objective_updates": _objective_updates_view(result),
             },
         }
         return _sanitize_copy(payload)

@@ -56,6 +56,19 @@ export type GameStateView = {
     title: string;
     description: string;
   };
+  phase_goals?: {
+    phase_label: string;
+    title: string;
+    summary: string;
+    objectives: Array<{
+      id: string;
+      title: string;
+      status: string;
+      progress_label: string;
+      action_directions: string[];
+      risk_hint: string;
+    }>;
+  };
   board: BoardItem[];
   competitors: CompetitorItem[];
   advice_entry: {
@@ -142,6 +155,13 @@ export type StoryEventPayload = {
   source: 'rule-event' | 'competitor-fact' | 'business-insight';
 };
 
+export type ObjectiveUpdatePayload = {
+  id: string;
+  title: string;
+  status: '完成' | '推进中' | '承压' | string;
+  summary: string;
+};
+
 export type GameReviewResponse = {
   session_id?: number;
   ending_status?: string;
@@ -202,6 +222,7 @@ export type TurnResponse = {
     memory_history?: RoleMemoryPayload[];
     office_signals?: OfficeSignalPayload[];
     story_events?: StoryEventPayload[];
+    objective_updates?: ObjectiveUpdatePayload[];
   };
   turn_facts?: TurnFacts;
   role_memory?: RoleMemoryPayload[];
@@ -209,4 +230,5 @@ export type TurnResponse = {
   memory_history?: RoleMemoryPayload[];
   office_signals?: OfficeSignalPayload[];
   story_events?: StoryEventPayload[];
+  objective_updates?: ObjectiveUpdatePayload[];
 };

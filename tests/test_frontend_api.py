@@ -35,6 +35,18 @@ def _body_text(payload) -> str:
     return str(payload)
 
 
+def _assert_no_executable_objective_command(value):
+    if isinstance(value, dict):
+        assert "command" not in value
+        assert "example_input" not in value
+        assert "prepared_action" not in value
+        for child in value.values():
+            _assert_no_executable_objective_command(child)
+    elif isinstance(value, list):
+        for child in value:
+            _assert_no_executable_objective_command(child)
+
+
 def test_health_endpoint(client):
     response = client.get("/api/health")
 
@@ -59,6 +71,17 @@ def test_create_session_returns_frontend_state_contract(client):
     assert payload["stage"]["company_name"] == "NimbusAI"
     assert payload["core_tension"]["title"]
     assert payload["insight"]["title"]
+    goals = payload["phase_goals"]
+    assert goals["title"]
+    assert goals["summary"]
+    assert 2 <= len(goals["objectives"]) <= 3
+    first_objective = goals["objectives"][0]
+    assert first_objective["title"]
+    assert first_objective["status"] in {"进行中", "已完成", "承压"}
+    assert first_objective["progress_label"]
+    assert 2 <= len(first_objective["action_directions"]) <= 3
+    assert first_objective["risk_hint"]
+    _assert_no_executable_objective_command(goals)
     assert payload["advice_entry"]["summary"] == "输入「建议」查看详情"
     assert "suggestions" not in payload["advice_entry"]
     assert "现金流可支撑时间" in payload["metrics"]["cash_coverage_label"]
@@ -153,6 +176,11 @@ def test_submit_turn_returns_post_turn_feedback(client):
         "opportunity",
     }
     assert product_change["label"] == "产品"
+    objective_updates = turn["objective_updates"]
+    assert objective_updates
+    assert all(item["title"] and item["status"] for item in objective_updates)
+    assert {item["status"] for item in objective_updates} <= {"完成", "推进中", "承压"}
+    _assert_no_executable_objective_command(objective_updates)
     assert "跑道" not in _body_text(payload)
     assert "Runway" not in _body_text(payload)
 
