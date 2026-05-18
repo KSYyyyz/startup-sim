@@ -384,6 +384,23 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByLabelText('AI 指令解释')).toHaveClass('compact');
   });
 
+  test('shows command readiness without generating a dependency command', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    const readiness = screen.getByLabelText('指令完整度');
+    expect(readiness).toHaveTextContent('等待指令');
+    expect(readiness).toHaveTextContent('选择一个办公室行动，或自己输入动作。');
+
+    await userEvent.type(screen.getByLabelText('本回合指令'), '研发');
+    expect(readiness).toHaveTextContent('需要更具体');
+    expect(readiness).toHaveTextContent('写清楚预算或规模。');
+    expect(readiness).toHaveTextContent('写清楚行动对象。');
+    expect(readiness).not.toHaveTextContent('花10万研发产品');
+    expect(readiness).not.toHaveTextContent('一键');
+  });
+
   test('lets the mobile command strip explain commands before execution', async () => {
     installFetchMock();
     render(<App />);

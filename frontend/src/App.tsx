@@ -18,6 +18,7 @@ import {
   buildBoardPressureResponse,
   buildBoardNpcProfiles,
   buildBoardRoomMood,
+  buildCommandReadiness,
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
   buildCurrentMonthGoal,
@@ -365,6 +366,7 @@ export default function App() {
         : null,
     [lastTurn, state]
   );
+  const commandReadiness = useMemo(() => buildCommandReadiness(command), [command]);
   const reviewAchievements = useMemo(() => (review?.achievement_cards ?? review?.achievements ?? []).slice(0, 3), [review]);
   const reviewSuggestions = useMemo(() => review?.next_run_suggestions?.slice(0, 3) ?? [], [review]);
   const archiveSummary = review?.archive_summary ?? review?.ending_summary ?? '';
@@ -982,6 +984,12 @@ export default function App() {
             </article>
           )}
           {!preparedAction && <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>}
+          <article className={`command-readiness ${commandReadiness.tone}`} aria-label="指令完整度">
+            <strong>{commandReadiness.label}</strong>
+            {commandReadiness.hints.map((hint) => (
+              <span key={hint}>{hint}</span>
+            ))}
+          </article>
           <form onSubmit={handleSubmit} className="command-form">
             <label htmlFor="turn-command">本回合指令</label>
             <input

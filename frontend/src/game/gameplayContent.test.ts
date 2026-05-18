@@ -7,6 +7,7 @@ import {
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
   buildCurrentMonthGoal,
+  buildCommandReadiness,
   buildNewPlayerGuidance,
   buildPreparedActionPreview,
   buildMonthlyReport,
@@ -486,5 +487,25 @@ describe('gameplay content definitions', () => {
     expect(cashGoal.checkpoints).toContainEqual({ label: '现金流可支撑时间回到4个月以上', status: '进行中' });
     expect(JSON.stringify(cashGoal)).not.toContain('花1万');
     expect(JSON.stringify(cashGoal)).not.toContain('融资300万');
+  });
+
+  test('builds command readiness hints without generating commands', () => {
+    expect(buildCommandReadiness('')).toEqual({
+      label: '等待指令',
+      tone: 'neutral',
+      hints: ['选择一个办公室行动，或自己输入动作。']
+    });
+    expect(buildCommandReadiness('研发')).toEqual({
+      label: '需要更具体',
+      tone: 'warning',
+      hints: ['写清楚预算或规模。', '写清楚行动对象。']
+    });
+    expect(buildCommandReadiness('花10万研发产品')).toEqual({
+      label: '可以执行',
+      tone: 'ready',
+      hints: ['已包含动作、预算和对象，执行后由 TurnEngine 结算。']
+    });
+    expect(JSON.stringify(buildCommandReadiness('研发'))).not.toContain('花10万研发产品');
+    expect(JSON.stringify(buildCommandReadiness('研发'))).not.toContain('一键');
   });
 });

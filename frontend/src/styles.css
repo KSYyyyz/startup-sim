@@ -1433,6 +1433,40 @@ h2 {
   font-weight: 800;
 }
 
+.command-readiness {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  border: 1px solid #d7e2ef;
+  border-radius: 6px;
+  padding: 7px 9px;
+  background: #f8fbff;
+}
+
+.command-readiness strong {
+  color: #102032;
+}
+
+.command-readiness span {
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: #edf4fc;
+  color: #245a9d;
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.command-readiness.warning {
+  border-color: #d8cfa9;
+  background: #fffaf0;
+}
+
+.command-readiness.ready {
+  border-color: #a9d8b4;
+  background: #f3fbf5;
+}
+
 .prepared-action {
   display: grid;
   grid-template-columns: auto 1fr auto;

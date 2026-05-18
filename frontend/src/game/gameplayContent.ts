@@ -241,6 +241,12 @@ export type CurrentMonthGoal = {
   riskHint: string;
 };
 
+export type CommandReadiness = {
+  label: string;
+  tone: 'neutral' | 'warning' | 'ready';
+  hints: string[];
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -1052,6 +1058,40 @@ export function buildCurrentMonthGoal(input: NewPlayerGuidanceInput): CurrentMon
       { label: '准备下一阶段目标', status: '未开始' }
     ],
     riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
+  };
+}
+
+export function buildCommandReadiness(command: string): CommandReadiness {
+  const value = command.trim();
+  if (!value) {
+    return {
+      label: '等待指令',
+      tone: 'neutral',
+      hints: ['选择一个办公室行动，或自己输入动作。']
+    };
+  }
+
+  const hasBudget = /(\d+\s*万|\d+\s*元|融资|预算|最低运转)/.test(value);
+  const hasAction = /(研发|招聘|融资|营销|推广|优化|削减|控制|拜访|销售|稳定)/.test(value);
+  const hasObject = /(产品|人才|团队|股权|服务器|客户|用户|现金|预算|市场|功能|交付)/.test(value);
+  const hints: string[] = [];
+
+  if (!hasBudget) hints.push('写清楚预算或规模。');
+  if (!hasObject) hints.push('写清楚行动对象。');
+  if (!hasAction) hints.push('写清楚要做的动作。');
+
+  if (hints.length > 0) {
+    return {
+      label: '需要更具体',
+      tone: 'warning',
+      hints
+    };
+  }
+
+  return {
+    label: '可以执行',
+    tone: 'ready',
+    hints: ['已包含动作、预算和对象，执行后由 TurnEngine 结算。']
   };
 }
 
