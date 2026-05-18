@@ -32,4 +32,14 @@ describe('scenario metadata', () => {
   test('exposes builtin scenarios as a reusable catalog', () => {
     expect(builtinScenarios).toEqual([aiSaasSeedScenario]);
   });
+
+  test('exposes scenario menu presentation metadata', () => {
+    expect(aiSaasSeedScenario.menu).toEqual({
+      title: 'AI SaaS 初创公司',
+      subtitle: '从 100 万启动现金开始验证 PMF',
+      difficulty: '标准',
+      statusLabel: '当前可玩',
+      featureTags: ['办公室经营', '董事会压力', '竞品追赶']
+    });
+  });
 });

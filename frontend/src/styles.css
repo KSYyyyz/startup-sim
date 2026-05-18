@@ -181,6 +181,55 @@ h2 {
   padding: 12px;
 }
 
+.scenario-entry {
+  display: grid;
+  gap: 6px;
+}
+
+.scenario-entry > span,
+.scenario-entry small,
+.scenario-tags b {
+  border-radius: 999px;
+  padding: 3px 7px;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.scenario-entry > span {
+  width: fit-content;
+  background: #e7f6ed;
+  color: #1f8f4d;
+}
+
+.scenario-entry h2 {
+  margin: 0;
+}
+
+.scenario-entry strong {
+  color: #153b68;
+}
+
+.scenario-entry p {
+  line-height: 1.42;
+}
+
+.scenario-entry small {
+  width: fit-content;
+  background: #edf4fc;
+  color: #245a9d;
+}
+
+.scenario-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.scenario-tags b {
+  background: #f2f5f8;
+  color: #4c5e76;
+}
+
 .change-list {
   display: grid;
   gap: 8px;

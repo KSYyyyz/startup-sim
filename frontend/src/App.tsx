@@ -34,6 +34,7 @@ import {
   type QuickActionShortcut
 } from './game/gameplayContent';
 import type { OfficeAction } from './game/officeRooms';
+import { builtinScenarios } from './game/scenarios';
 import { useGameStore } from './store';
 import type { CompetitorItem, GameStateView, MetricSet } from './types';
 import './styles.css';
@@ -135,6 +136,8 @@ const quickActionIcons = {
   'hand-coins': HandCoins,
   megaphone: Megaphone
 } satisfies Record<QuickActionShortcut['iconKey'], typeof Boxes>;
+
+const activeScenario = builtinScenarios[0];
 
 function turnHighlights(metrics: MetricSet) {
   return [
@@ -365,6 +368,19 @@ export default function App() {
               <p>{state.stage.focus}</p>
             </div>
           </div>
+
+          <article className="panel scenario-entry" aria-label="当前剧本">
+            <span>{activeScenario.menu.statusLabel}</span>
+            <h2>当前剧本</h2>
+            <strong>{activeScenario.menu.title}</strong>
+            <p>{activeScenario.menu.subtitle}</p>
+            <small>难度：{activeScenario.menu.difficulty}</small>
+            <div className="scenario-tags">
+              {activeScenario.menu.featureTags.map((tag) => (
+                <b key={tag}>{tag}</b>
+              ))}
+            </div>
+          </article>
 
           <article className="panel">
             <h2>本月变化</h2>

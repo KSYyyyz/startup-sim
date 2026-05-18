@@ -125,6 +125,10 @@ describe('Startup Sim frontend shell', () => {
     render(<App />);
 
     expect(await screen.findByText('NimbusAI')).toBeInTheDocument();
+    expect(screen.getByText('当前剧本')).toBeInTheDocument();
+    expect(screen.getByText('AI SaaS 初创公司')).toBeInTheDocument();
+    expect(screen.getByText('难度：标准')).toBeInTheDocument();
+    expect(screen.getByText('竞品追赶')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '执行回合' })).toBeDisabled();
     expect(screen.getByText('从办公室选择行动，或直接输入 CEO 指令。')).toBeInTheDocument();
     expect(screen.getByText('第1月')).toBeInTheDocument();

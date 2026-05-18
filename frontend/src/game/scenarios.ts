@@ -23,6 +23,13 @@ export type GameScenario = {
   name: string;
   version: string;
   pitch: string;
+  menu: {
+    title: string;
+    subtitle: string;
+    difficulty: string;
+    statusLabel: string;
+    featureTags: string[];
+  };
   startingCompany: {
     displayName: string;
     cashLabel: string;
@@ -44,6 +51,13 @@ export const aiSaasSeedScenario: GameScenario = {
   name: 'AI SaaS 初创公司',
   version: 'alpha-0.2',
   pitch: '带领一家早期 AI SaaS 公司在现金、产品、增长和董事会压力之间寻找 PMF。',
+  menu: {
+    title: 'AI SaaS 初创公司',
+    subtitle: '从 100 万启动现金开始验证 PMF',
+    difficulty: '标准',
+    statusLabel: '当前可玩',
+    featureTags: ['办公室经营', '董事会压力', '竞品追赶']
+  },
   startingCompany: {
     displayName: 'NimbusAI',
     cashLabel: '100万启动现金',
