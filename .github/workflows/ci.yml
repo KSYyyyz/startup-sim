@@ -40,6 +40,9 @@ jobs:
       - name: CSharp core tests
         run: dotnet test csharp/StartupSim.Core.Tests/StartupSim.Core.Tests.csproj --configuration Release
 
+      - name: Godot CSharp project build
+        run: dotnet build godot/StartupSimGodot/StartupSimGodot.csproj --configuration Debug
+
       - name: Pytest
         run: python -m pytest tests/ -v
 

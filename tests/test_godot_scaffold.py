@@ -40,11 +40,13 @@ def test_godot_project_scaffold_exists():
 
 def test_godot_project_references_portable_csharp_core():
     csproj = (GODOT / "StartupSimGodot.csproj").read_text(encoding="utf-8")
+    ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
     gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
 
     assert 'Sdk="Godot.NET.Sdk/4.6.2"' in csproj
     assert "<TargetFramework>net8.0</TargetFramework>" in csproj
     assert "..\\..\\csharp\\StartupSim.Core\\StartupSim.Core.csproj" in csproj
+    assert "dotnet build godot/StartupSimGodot/StartupSimGodot.csproj --configuration Debug" in ci
     assert "godot/**/.godot/" in gitignore
     assert "godot/**/obj/" in gitignore
 
