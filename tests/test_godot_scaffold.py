@@ -39,6 +39,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "EmployeeManagementController.cs",
         SCRIPTS / "CapacityPreviewController.cs",
         SCRIPTS / "TimeProgressController.cs",
+        SCRIPTS / "MonthlyReportController.cs",
     ]
 
     for path in required:
@@ -162,3 +163,16 @@ def test_godot_main_scene_mounts_time_progress_controller():
     assert "AdvanceGameHours" in controller
     assert "SubmitMonthSettlement" in controller
     assert "GodotTurnBridge" in controller
+
+
+def test_godot_main_scene_mounts_monthly_report_controller():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "MonthlyReportController.cs").read_text(encoding="utf-8")
+
+    assert "MonthlyReportController" in scene
+    assert "res://scripts/MonthlyReportController.cs" in scene
+    assert "BuildMonthlyReport" in controller
+    assert "BuildBoardFeedback" in controller
+    assert "BuildCompetitorSignal" in controller
+    assert "BuildBusinessInsight" in controller
+    assert "TurnResultSnapshot" in controller

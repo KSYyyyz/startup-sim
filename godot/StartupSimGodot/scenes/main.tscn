@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/StartupSimController.cs" id="1"]
 [ext_resource type="Script" path="res://scripts/OfficeGridView.cs" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/CapacityPreviewController.cs" id="6"]
 [ext_resource type="Script" path="res://scripts/TimeProgressController.cs" id="7"]
 [ext_resource type="Script" path="res://scripts/GodotTurnBridge.cs" id="8"]
+[ext_resource type="Script" path="res://scripts/MonthlyReportController.cs" id="9"]
 
 [node name="StartupSimMain" type="Node"]
 script = ExtResource("1")
@@ -46,3 +47,6 @@ TurnBridgePath = NodePath("../GodotTurnBridge")
 EmployeeManagementControllerPath = NodePath("../EmployeeManagementController")
 SpeedMultiplier = 1.0
 MonthIndex = 1
+
+[node name="MonthlyReportController" type="Node" parent="."]
+script = ExtResource("9")

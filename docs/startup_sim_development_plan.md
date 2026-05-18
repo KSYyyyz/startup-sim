@@ -571,6 +571,8 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 - 已建立 Godot `CapacityPreviewController`，主场景挂载产能预览控制器，输出面向玩家的人话摘要。
 - 已建立 Godot `TimeProgressController`，支持暂停、正常速度、二倍速、三倍速、游戏时间推进、月末信号和通过 `GodotTurnBridge` 执行月度结算。
 - 主场景已挂载 `GodotTurnBridge`，时间推进不直接修改经营数值，月度结果仍由 C# Core 结算。
+- 已建立 Godot `MonthlyReportController`，把 `TurnResultSnapshot` 转换为月度战报、董事会反馈、竞品态势和经营洞察。
+- 月报与反馈只消费结算事实，不直接修改现金、产品、用户、收入或其他经营数值。
 
 验收：
 
