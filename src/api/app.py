@@ -497,6 +497,79 @@ def _story_events_view(result: TurnResult) -> list[dict[str, Any]]:
     return _sanitize_copy(events)
 
 
+def _review_phase(ending_status: str) -> str:
+    return "阶段复盘" if ending_status == "active" else "终局复盘"
+
+
+def _review_status_copy(ending_status: str) -> str:
+    return "进行中" if ending_status == "active" else "已结束"
+
+
+def _review_key_moments_view(key_moments: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    moments = []
+    for moment in key_moments:
+        item = dict(moment)
+        title = item.get("title") or "关键节点"
+        description = item.get("description") or ""
+        item["display_title"] = title
+        item["display_description"] = description
+        item["display_tone"] = item.get("impact_type") or "neutral"
+        moments.append(item)
+    return moments
+
+
+def _achievement_cards_view(achievements: list[Any]) -> list[dict[str, Any]]:
+    return [
+        {
+            "title": item.title,
+            "description": item.description,
+            "rarity": item.rarity,
+            "unlocked": True,
+        }
+        for item in achievements
+    ]
+
+
+def _first_sentence(text: str, max_chars: int = 48) -> str:
+    clean = " ".join(str(_sanitize_copy(text or "")).split())
+    if "。" in clean:
+        clean = clean.split("。", 1)[0]
+    clean = clean.strip(" 。")
+    if not clean:
+        clean = "复盘本局关键选择，下次开局先设定一个主目标"
+    if len(clean) > max_chars:
+        clean = clean[:max_chars].rstrip()
+    return f"{clean}。"
+
+
+def _next_run_suggestions_view(review: Any, final_state: CompanyState) -> list[str]:
+    suggestions = [_first_sentence(review.advice_for_next_run)]
+    coverage_months = (
+        final_state.cash / final_state.monthly_burn if final_state.monthly_burn > 0 else 999
+    )
+
+    if coverage_months < 3:
+        suggestions.append("优先控制现金消耗，先保证下轮决策空间。")
+    elif coverage_months >= 8:
+        suggestions.append("利用资金余量做小步实验，验证增长效率。")
+    else:
+        suggestions.append("保持资金纪律，把预算集中到最能验证假设的动作。")
+
+    if final_state.product_score < 55:
+        suggestions.append("继续打磨产品核心体验，再放大获客投入。")
+    elif final_state.users < 200:
+        suggestions.append("用低成本渠道获取种子用户，观察真实反馈。")
+    else:
+        suggestions.append("复盘高质量用户来源，集中资源复制有效渠道。")
+
+    unique = []
+    for item in suggestions:
+        clean = _sanitize_copy(item)
+        if clean and clean not in unique:
+            unique.append(clean)
+    return unique[:3]
+
+
 def _review_payload(session_id: int) -> dict[str, Any]:
     final_state = repository.load_state(session_id)
     session = repository.get_session_status(session_id)
@@ -523,14 +596,19 @@ def _review_payload(session_id: int) -> dict[str, Any]:
         snapshots=snapshots,
     )
     payload = json.loads(review.model_dump_json())
+    payload["review_phase"] = _review_phase(ending_status)
+    payload["status_copy"] = _review_status_copy(ending_status)
+    payload["key_moments"] = _review_key_moments_view(payload.get("key_moments", []))
     payload["achievements"] = [
         json.loads(item.model_dump_json()) for item in achievements.achievements
     ]
+    payload["achievement_cards"] = _achievement_cards_view(achievements.achievements)
     payload["achievement_summary"] = {
         "total_count": achievements.total_count,
         "rare_count": achievements.rare_count,
         "summary": achievements.summary,
     }
+    payload["next_run_suggestions"] = _next_run_suggestions_view(review, final_state)
     return _sanitize_copy(payload)
 
 

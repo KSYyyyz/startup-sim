@@ -107,7 +107,7 @@ Current backend coverage:
 - `RoleMemory` is persisted in `role_memory_history` after each settled turn. The same turn response exposes `turn.role_memory` for current memories and `turn.memory_history` / `turn.recent_role_memory` for recent persisted memories; it must not derive from hover state, unsent commands, or command previews.
 - `OfficeSignal` first slice is exposed through the same turn response as `turn.office_signals`. It is serialized from settled state, `conflict_summary`, and `insight`, with short fact text plus renderer-neutral room and visual intent fields.
 - `StoryEvent` first slice is exposed through the same turn response as `turn.story_events`. It is serialized from settled rule events, competitor moves, or business insight fallback, then rendered by the frontend as a compact monthly event list.
-- A read-only `GET /api/sessions/{session_id}/review` endpoint wraps existing `ReviewEngine` and `AchievementEngine` outputs without mutating state or changing TurnEngine settlement.
+- A read-only `GET /api/sessions/{session_id}/review` endpoint wraps existing `ReviewEngine` and `AchievementEngine` outputs without mutating state or changing TurnEngine settlement. The backend review serializer may add compact display fields such as `review_phase`, `status_copy`, `key_moments[*].display_*`, `achievement_cards`, and `next_run_suggestions`, but those fields must be derived from review output, unlocked achievements, and final state facts.
 
 Migration sequence:
 
@@ -116,7 +116,8 @@ Migration sequence:
 3. Keep `RoleMemory` persistence append-only and derived from settled turn facts; do not backfill from frontend text.
 4. Broaden `OfficeSignal` only with fields derived from settled state, conflict, and insight facts; keep it renderer-neutral and limited to facts plus short display text.
 5. Use `StoryEvent` for replay and monthly reporting only; it must remain downstream from settled events, competitor facts, and insight facts.
-6. Extend `docs/frontend_api_contract.md` only when additional fields are actually exposed through HTTP.
+6. Keep review-page helpers read-only. They can repackage `ReviewEngine` / `AchievementEngine` outputs and final metrics into short text, but they cannot update session state, advance months, or introduce new numeric conclusions.
+7. Extend `docs/frontend_api_contract.md` only when additional fields are actually exposed through HTTP.
 
 ## Version
 

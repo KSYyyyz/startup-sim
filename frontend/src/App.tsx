@@ -33,7 +33,7 @@ import {
 import type { OfficeAction } from './game/officeRooms';
 import { builtinScenarios } from './game/scenarios';
 import { useGameStore } from './store';
-import type { CompetitorItem, MetricSet, OfficeSignalPayload, RoleMemoryPayload } from './types';
+import type { CompetitorItem, GameReviewResponse, MetricSet, OfficeSignalPayload, RoleMemoryPayload } from './types';
 import './styles.css';
 
 function money(value: number) {
@@ -146,6 +146,21 @@ function memoryMatchesMember(memory: RoleMemoryPayload, member: { name: string; 
 
 function roleMemoryLine(memory: RoleMemoryPayload) {
   return `记忆：${memory.fact}${memory.implication}`;
+}
+
+function reviewStatusLabel(status?: string) {
+  if (!status || status === 'active') return '本月复盘';
+  if (status === 'series_a_success') return 'A 轮成功';
+  if (status === 'survived_but_average') return '存活复盘';
+  if (status === 'bankruptcy') return '破产复盘';
+  if (status === 'founder_removed') return '创始人出局';
+  if (status === 'slow_death') return '慢性失血';
+  return '结局复盘';
+}
+
+function compactReviewLabel(review: GameReviewResponse) {
+  const phase = review.review_phase ?? reviewStatusLabel(review.ending_status);
+  return review.status_copy ? `${phase} · ${review.status_copy}` : phase;
 }
 
 function mostRelevantMemory(memories: RoleMemoryPayload[], members: Array<{ name: string; role: string }>) {
@@ -303,6 +318,8 @@ export default function App() {
     () => commandPreview ?? (preparedAction ? buildPreparedActionPreview(preparedAction) : null),
     [commandPreview, preparedAction]
   );
+  const reviewAchievements = useMemo(() => (review?.achievement_cards ?? review?.achievements ?? []).slice(0, 3), [review]);
+  const reviewSuggestions = useMemo(() => review?.next_run_suggestions?.slice(0, 3) ?? [], [review]);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -539,12 +556,32 @@ export default function App() {
                 {reviewUnavailable && <p>复盘接口暂未开放。</p>}
                 {review && (
                   <div aria-label="轻量复盘">
-                    <b>{review.ending_title ?? '本局复盘'}</b>
+                    <div className="review-summary-line">
+                      <b>{review.ending_title ?? '本局复盘'}</b>
+                      <span>{compactReviewLabel(review)}</span>
+                    </div>
                     {review.ending_summary && <p>{review.ending_summary}</p>}
                     {review.key_moments?.[0] && (
-                      <span>
+                      <span className="review-moment">
                         {review.key_moments[0].title}：{review.key_moments[0].description}
                       </span>
+                    )}
+                    {reviewAchievements.length > 0 && (
+                      <div className="achievement-card-list" aria-label="成就徽章">
+                        {reviewAchievements.map((achievement) => (
+                          <span className="achievement-card" key={achievement.code ?? achievement.title}>
+                            <b>{achievement.title}</b>
+                            {achievement.description && <small>{achievement.description}</small>}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {reviewSuggestions.length > 0 && (
+                      <ul className="next-run-suggestions" aria-label="下局建议">
+                        {reviewSuggestions.map((suggestion) => (
+                          <li key={suggestion}>{suggestion}</li>
+                        ))}
+                      </ul>
                     )}
                     {review.advice_for_next_run && <small>{review.advice_for_next_run}</small>}
                   </div>

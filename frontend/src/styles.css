@@ -621,6 +621,73 @@ h2 {
   border-left-color: #c88a18;
 }
 
+.review-entry > div {
+  display: grid;
+  gap: 8px;
+}
+
+.review-summary-line {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-summary-line span {
+  border-radius: 999px;
+  padding: 3px 7px;
+  background: #e7eef8;
+  color: #245a9d;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.review-moment {
+  color: #4c5e76;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.achievement-card-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.achievement-card {
+  border: 1px solid #d6dee8;
+  border-radius: 6px;
+  padding: 7px;
+  background: #f8fbff;
+}
+
+.achievement-card b,
+.achievement-card small {
+  display: block;
+}
+
+.achievement-card b {
+  color: #153b68;
+  font-size: 0.78rem;
+}
+
+.achievement-card small {
+  margin-top: 3px;
+  color: #4c5e76;
+  font-size: 0.7rem;
+  line-height: 1.25;
+}
+
+.next-run-suggestions {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 17px;
+  color: #4c5e76;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
 .room-action-panel {
   position: absolute;
   z-index: 3;

@@ -1060,3 +1060,23 @@ Alpha 1.5 建议方向：
 - 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充持久记忆、复盘接口和表现层边界。
 
 状态：Alpha 0.5 第二组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。
+
+---
+
+## Alpha 0.5 十轮推进 — 复盘与成就内嵌闭环 (2026-05-18)
+
+主题：把“轻量复盘”从单句摘要升级为桌面端可用的内嵌复盘/成就反馈，同时保持不跳页、不堆信息、不改变结算规则。
+
+内容：
+- 第 1 轮：`GET /api/sessions/{session_id}/review` 增加 `review_phase` 与 `status_copy`，让前端直接消费阶段/终局文案。
+- 第 2 轮：复盘接口为 `key_moments` 增加 `display_title`、`display_description`、`display_tone`，保持原字段兼容。
+- 第 3 轮：复盘接口新增 `achievement_cards`，只从已解锁成就派生展示卡片，不新增成就规则。
+- 第 4 轮：复盘接口新增 `next_run_suggestions`，由 ReviewEngine 建议和最终现金、产品、用户事实生成 2-3 条短建议。
+- 第 5 轮：后端测试覆盖 active 阶段复盘、已结束终局复盘、只读性、成就卡、关键节点 display 字段和禁用词。
+- 第 6 轮：前端 `GameReviewResponse` 类型同步扩展复盘阶段、状态、成就卡与下局建议字段。
+- 第 7 轮：月度战报内的“轻量复盘”展示升级为紧凑区域：标题、状态标签、摘要、关键时刻、成就徽章和短建议。
+- 第 8 轮：成就和建议展示都限制最多 3 条，避免复盘区重新变成信息堆叠。
+- 第 9 轮：前端测试覆盖复盘接口缺失时的兜底提示、成就/建议数量限制、后端阶段文案优先级和禁用词。
+- 第 10 轮：`docs/frontend_api_contract.md` 与 `docs/gameplay_contracts.md` 同步补充复盘展示契约和只读边界。
+
+状态：Alpha 0.5 第三组十轮推进进入完整验证、发布检查和 CI/Vercel smoke。

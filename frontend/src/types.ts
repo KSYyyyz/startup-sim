@@ -145,10 +145,19 @@ export type StoryEventPayload = {
 export type GameReviewResponse = {
   session_id?: number;
   ending_status?: string;
+  review_phase?: string;
+  status_copy?: string;
   ending_title?: string;
   ending_summary?: string;
   advice_for_next_run?: string;
+  next_run_suggestions?: string[];
   final_metrics?: Record<string, unknown>;
+  achievement_cards?: Array<{
+    code?: string;
+    title: string;
+    description?: string;
+    rarity?: string;
+  }>;
   achievements?: Array<{
     code?: string;
     title: string;

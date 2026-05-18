@@ -198,8 +198,13 @@ def test_review_endpoint_returns_compact_replay_and_achievements(client):
     assert payload["ending_title"]
     assert payload["ending_summary"]
     assert payload["advice_for_next_run"]
+    assert payload["review_phase"] == "阶段复盘"
+    assert payload["status_copy"] == "进行中"
     assert isinstance(payload["key_moments"], list)
     assert isinstance(payload["achievements"], list)
+    assert isinstance(payload["achievement_cards"], list)
+    assert 2 <= len(payload["next_run_suggestions"]) <= 3
+    assert all(item for item in payload["next_run_suggestions"])
     assert "跑道" not in _body_text(payload)
     assert "Runway" not in _body_text(payload)
 
@@ -290,6 +295,8 @@ def test_turns_return_recent_role_memory_history(client):
 
 
 def test_review_endpoint_returns_read_only_review_and_achievements(client):
+    from src.db import repository
+
     created = client.post("/api/sessions", json={"player_name": "Tester"}).json()
     session_id = created["session_id"]
     client.post(
@@ -297,6 +304,12 @@ def test_review_endpoint_returns_read_only_review_and_achievements(client):
         json={"command": "花10万研发产品"},
     )
 
+    current = client.get(f"/api/sessions/{session_id}").json()
+    repository.update_session_month(
+        session_id,
+        current["metrics"]["month"],
+        "series_a_success",
+    )
     before = client.get(f"/api/sessions/{session_id}").json()
     response = client.get(f"/api/sessions/{session_id}/review")
     after = client.get(f"/api/sessions/{session_id}").json()
@@ -305,10 +318,27 @@ def test_review_endpoint_returns_read_only_review_and_achievements(client):
     payload = response.json()
     assert payload["session_id"] == session_id
     assert payload["ending_status"] == before["status"]
+    assert payload["review_phase"] == "终局复盘"
+    assert payload["status_copy"] == "已结束"
     assert payload["final_metrics"]["month"] == before["metrics"]["month"]
     assert isinstance(payload["achievements"], list)
     assert "total_count" in payload["achievement_summary"]
+    assert payload["key_moments"]
+    first_moment = payload["key_moments"][0]
+    assert first_moment["title"]
+    assert first_moment["description"]
+    assert first_moment["display_title"] == first_moment["title"]
+    assert first_moment["display_description"] == first_moment["description"]
+    assert first_moment["display_tone"] in {"positive", "negative", "neutral"}
+    assert payload["achievement_cards"]
+    first_card = payload["achievement_cards"][0]
+    assert set(first_card) == {"title", "description", "rarity", "unlocked"}
+    assert first_card["unlocked"] is True
+    assert 2 <= len(payload["next_run_suggestions"]) <= 3
+    assert "跑道" not in _body_text(payload)
+    assert "Runway" not in _body_text(payload)
     assert after["metrics"] == before["metrics"]
+    assert after["status"] == before["status"]
 
 
 def test_empty_turn_command_returns_plain_language_error(client):

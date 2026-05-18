@@ -119,10 +119,13 @@ describe('Vercel demo fallback', () => {
         async () =>
           new Response(
             JSON.stringify({
+              ending_status: 'survived_but_average',
               ending_title: '本局复盘',
               ending_summary: '产品推进有效，但现金压力上升。',
               advice_for_next_run: '下局先设预算上限。',
-              key_moments: [{ title: '研发冲刺', description: '产品分显著提升。' }]
+              key_moments: [{ title: '研发冲刺', description: '产品分显著提升。' }],
+              achievement_cards: [{ title: '产品主义者', description: '产品分提升明显。', rarity: 'silver' }],
+              next_run_suggestions: ['先设预算上限', '把营销放在产品验证之后']
             }),
             { status: 200 }
           )
@@ -133,6 +136,8 @@ describe('Vercel demo fallback', () => {
 
     expect(review?.ending_title).toBe('本局复盘');
     expect(review?.key_moments?.[0].title).toBe('研发冲刺');
+    expect(review?.achievement_cards?.[0].title).toBe('产品主义者');
+    expect(review?.next_run_suggestions).toEqual(['先设预算上限', '把营销放在产品验证之后']);
   });
 
   test('treats a missing review endpoint as optional', async () => {

@@ -214,11 +214,32 @@ Response:
 {
   "session_id": 1,
   "ending_status": "active",
+  "review_phase": "阶段复盘",
+  "status_copy": "进行中",
   "ending_title": "<review title>",
   "ending_summary": "<review summary>",
-  "key_moments": [],
+  "key_moments": [
+    {
+      "month": 2,
+      "title": "<existing title>",
+      "description": "<existing description>",
+      "impact_type": "positive",
+      "display_title": "<compact title>",
+      "display_description": "<compact description>",
+      "display_tone": "positive"
+    }
+  ],
   "final_metrics": { "month": 2 },
   "advice_for_next_run": "<review advice>",
+  "achievement_cards": [
+    {
+      "title": "<achievement title>",
+      "description": "<achievement description>",
+      "rarity": "common",
+      "unlocked": true
+    }
+  ],
+  "next_run_suggestions": ["<short suggestion>", "<short suggestion>"],
   "achievements": [],
   "achievement_summary": {
     "total_count": 0,
@@ -227,6 +248,8 @@ Response:
   }
 }
 ```
+
+`review_phase` is `"阶段复盘"` while the session is active and `"终局复盘"` after an ending status. `status_copy` is short frontend-ready copy for the same status class. `key_moments` keeps existing `title` and `description` fields while adding compact `display_*` fields. `achievement_cards` is derived from unlocked achievements only. `next_run_suggestions` returns 2-3 short suggestions derived from `ReviewEngine.advice_for_next_run` plus final cash, product, and user performance; it must not introduce new settlement facts.
 
 ### `POST /api/sessions/{session_id}/command-preview`
 

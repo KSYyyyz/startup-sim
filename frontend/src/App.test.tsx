@@ -536,10 +536,20 @@ describe('Startup Sim frontend shell', () => {
         turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
       },
       {
+        ending_status: 'survived_but_average',
+        review_phase: '终局复盘',
+        status_copy: '已结束',
         ending_title: '本局复盘',
         ending_summary: '产品推进有效，但现金压力上升。',
         advice_for_next_run: '下局先设预算上限。',
-        key_moments: [{ title: '研发冲刺', description: '产品分显著提升。' }]
+        key_moments: [{ title: '研发冲刺', description: '产品分显著提升。' }],
+        achievement_cards: [
+          { title: '产品主义者', description: '产品分提升明显。', rarity: 'silver' },
+          { title: '现金守夜人', description: '及时注意到现金压力。', rarity: 'bronze' },
+          { title: '董事会沟通者', description: '保持董事会反馈可见。', rarity: 'bronze' },
+          { title: '不应显示的第 4 个成就', description: '超过上限。', rarity: 'gold' }
+        ],
+        next_run_suggestions: ['先设预算上限', '只保留一条主线动作', '复盘获客质量', '不应显示的第 4 条建议']
       }
     );
     render(<App />);
@@ -551,8 +561,32 @@ describe('Startup Sim frontend shell', () => {
 
     const review = await screen.findByLabelText('轻量复盘');
     expect(review).toHaveTextContent('本局复盘');
+    expect(review).toHaveTextContent('终局复盘');
+    expect(review).toHaveTextContent('已结束');
     expect(review).toHaveTextContent('产品推进有效，但现金压力上升。');
     expect(review).toHaveTextContent('研发冲刺');
+    expect(review).toHaveTextContent('下局先设预算上限。');
+    expect(review).toHaveTextContent('产品主义者');
+    expect(review).toHaveTextContent('现金守夜人');
+    expect(review).toHaveTextContent('董事会沟通者');
+    expect(review).not.toHaveTextContent('不应显示的第 4 个成就');
+    expect(review).toHaveTextContent('先设预算上限');
+    expect(review).toHaveTextContent('只保留一条主线动作');
+    expect(review).toHaveTextContent('复盘获客质量');
+    expect(review).not.toHaveTextContent('不应显示的第 4 条建议');
     expect(screen.queryByRole('heading', { name: '复盘详情' })).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/跑道|Runway/);
+  });
+
+  test('keeps the compact review unavailable message when the review endpoint is missing', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+    await userEvent.click(await screen.findByRole('button', { name: '查看轻量复盘' }));
+
+    expect(await screen.findByText('复盘接口暂未开放。')).toBeInTheDocument();
   });
 });
