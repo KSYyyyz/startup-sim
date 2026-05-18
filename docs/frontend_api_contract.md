@@ -129,10 +129,28 @@ Response:
     "parsed_actions": [],
     "events": [],
     "customer_response": {},
-    "raw_competitor_moves": []
+    "raw_competitor_moves": [],
+    "turn_facts": {
+      "month": 1,
+      "command": "<player command>",
+      "changes": [
+        {
+          "metric": "cash",
+          "label": "<short metric label>",
+          "delta": -220000,
+          "value": "-220000",
+          "tone": "bad"
+        }
+      ],
+      "replay_basis": ["product: budget=100000, risk=medium"],
+      "next_pressure": "<post-settlement rule pressure>",
+      "authority": "backend-turn-engine"
+    }
   }
 }
 ```
+
+`turn.turn_facts` is the first backend TurnFacts serializer slice. It is derived from the settled `TurnResult`, not from frontend UI state or command preview text. `changes` contains backend metric facts and short labels; frontend renderers decide layout, animation, and emphasis.
 
 ### `POST /api/sessions/{session_id}/command-preview`
 

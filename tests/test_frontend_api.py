@@ -85,8 +85,30 @@ def test_submit_turn_returns_post_turn_feedback(client):
     assert state["competitors"], "competitor status should be visible each turn"
     assert state["core_tension"]["title"]
     assert state["insight"]["description"]
-    assert payload["turn"]["month"] == 1
-    assert payload["turn"]["delta_reasons"]
+    turn = payload["turn"]
+    assert turn["month"] == 1
+    assert turn["delta_reasons"]
+    facts = turn["turn_facts"]
+    assert set(facts) == {
+        "month",
+        "command",
+        "changes",
+        "replay_basis",
+        "next_pressure",
+        "authority",
+    }
+    assert facts["month"] == turn["month"]
+    assert facts["command"] == "花10万研发产品"
+    assert facts["authority"] == "backend-turn-engine"
+    assert facts["replay_basis"] == turn["delta_reasons"]
+    assert facts["next_pressure"] == state["core_tension"]["next_focus"]
+    cash_change = next(item for item in facts["changes"] if item["metric"] == "cash")
+    product_change = next(item for item in facts["changes"] if item["metric"] == "product_score")
+    assert cash_change["delta"] == state["metrics"]["cash_change"]
+    assert cash_change["label"] == "现金"
+    assert cash_change["tone"] == "bad"
+    assert product_change["delta"] == state["metrics"]["product_change"]
+    assert product_change["label"] == "产品"
     assert "跑道" not in _body_text(payload)
     assert "Runway" not in _body_text(payload)
 

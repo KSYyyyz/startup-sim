@@ -4,6 +4,28 @@
 
 ---
 
+## Alpha 0.4 — TurnFacts 后端序列化第一切片 (2026-05-18)
+
+**性质**: 共同合同层的第一轮后端落地。目标是让前端和未来 Unity 不再从 UI 文案或分散字段里猜“本回合事实”。
+
+**主要产出**:
+- `src/api/app.py` 新增 `turn.turn_facts`，从 settled `TurnResult` 序列化 `month`、`command`、`changes`、`replay_basis`、`next_pressure`、`authority`。
+- `tests/test_frontend_api.py` 覆盖 `turn_facts` 来自后端结算结果、`delta.reasons` 和结算后压力。
+- `frontend/src/types.ts`、`frontend/src/store.ts`、`frontend/src/App.tsx` 兼容可选 `turn_facts`；有新事实时月报优先使用它，旧响应仍走 `delta_reasons`。
+- `docs/frontend_api_contract.md` 和 `docs/gameplay_contracts.md` 更新为当前 HTTP 合同。
+
+**Agent 参与方式**:
+- 后端/规则 Agent 实现 serializer、后端测试和合同文档。
+- 前端/美术 Agent 实现类型、store 和月报兼容适配。
+- 主控完成集成、冲突检查、完整验证、提交和推送。
+
+**验收边界**:
+- TurnEngine 结算逻辑不变。
+- `changes` 第一切片只覆盖现金、月经常收入、用户、产品四类核心变化。
+- `RoleMemory` 和 `OfficeSignal` 仍未暴露 HTTP，后续必须基于 `TurnFacts` 继续推进。
+
+---
+
 ## Alpha 0.4 Contract & Agent Workflow Prep (2026-05-18)
 
 **性质**: 为后续 Web/Tauri/Unity 可迁移路线做的工作流和合同层收口。

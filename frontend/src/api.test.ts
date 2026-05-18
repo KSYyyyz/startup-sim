@@ -43,6 +43,35 @@ describe('Vercel demo fallback', () => {
     expect(suggestions.items.length).toBe(3);
   });
 
+  test('preserves optional settled turn facts on turn responses', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              state: { metrics: { month: 2 } },
+              turn: { month: 1, delta_reasons: ['旧版复盘原因'] },
+              turn_facts: {
+                month: 1,
+                command: '花10万研发产品',
+                changes: [{ label: '产品', value: '+12 分', tone: 'good' }],
+                replay_basis: ['TurnFacts 复盘依据'],
+                next_pressure: 'TurnFacts 下月压力'
+              }
+            }),
+            { status: 200 }
+          )
+      )
+    );
+
+    const result = await submitTurn(1, '花10万研发产品');
+
+    expect(result.turn_facts?.replay_basis).toEqual(['TurnFacts 复盘依据']);
+    expect(result.turn_facts?.changes[0]).toEqual({ label: '产品', value: '+12 分', tone: 'good' });
+    expect(result.turn_facts?.next_pressure).toBe('TurnFacts 下月压力');
+  });
+
   test('previews multi-action demo commands with segment budgets', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => Promise.reject(new Error('network down'))));
 

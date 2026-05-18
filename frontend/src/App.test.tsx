@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import App from './App';
+import type { TurnResponse } from './types';
 
 const initialState = {
   session_id: 7,
@@ -117,7 +118,11 @@ const commandPreview = {
   ]
 };
 
-function installFetchMock() {
+function installFetchMock(
+  turnPayload: Pick<TurnResponse, 'turn' | 'turn_facts'> = {
+    turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
+  }
+) {
   const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
     const url = String(input);
     if (url.endsWith('/api/sessions')) {
@@ -127,7 +132,7 @@ function installFetchMock() {
       return new Response(
         JSON.stringify({
           state: nextState,
-          turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
+          ...turnPayload
         }),
         { status: 200 }
       );
@@ -378,5 +383,35 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('灵犀客服云').length).toBeGreaterThan(0);
     expect(screen.getByText('上升')).toBeInTheDocument();
     expect(screen.getAllByText('研发投入带来产品进展').length).toBeGreaterThan(0);
+  });
+
+  test('uses settled turn facts first when building the monthly report', async () => {
+    installFetchMock({
+      turn: { month: 1, delta_reasons: ['旧版 delta_reasons 不应进入 TurnFacts 月报。'] },
+      turn_facts: {
+        month: 1,
+        command: '花10万研发产品',
+        changes: [
+          { label: 'TurnFacts 产品', value: '+12 分', tone: 'good' },
+          { label: 'TurnFacts 现金', value: '-20 万', tone: 'bad' }
+        ],
+        replay_basis: ['TurnFacts 复盘依据：研发效率高于预期。'],
+        next_pressure: 'TurnFacts 下月压力：控制燃烧率。'
+      }
+    });
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+
+    expect(await screen.findByText('月度战报')).toBeInTheDocument();
+    expect(screen.getByText('TurnFacts 产品')).toBeInTheDocument();
+    expect(screen.getByText('+12 分')).toBeInTheDocument();
+    expect(screen.getByText('TurnFacts 现金')).toBeInTheDocument();
+    expect(screen.getByText('-20 万')).toBeInTheDocument();
+    expect(screen.getAllByText('TurnFacts 复盘依据：研发效率高于预期。').length).toBeGreaterThan(1);
+    expect(screen.getByText('TurnFacts 下月压力：控制燃烧率。')).toBeInTheDocument();
+    expect(screen.queryByText('旧版 delta_reasons 不应进入 TurnFacts 月报。')).not.toBeInTheDocument();
   });
 });

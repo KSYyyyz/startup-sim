@@ -46,11 +46,11 @@ Required fields:
 - `month`
 - `command`
 - `changes`
-- `replayBasis`
-- `nextPressure`
+- `replay_basis`
+- `next_pressure`
 - `authority`
 
-`changes` should contain player-facing labels and values that already came from settled state. `replayBasis` should cite backend reasons or deterministic replay facts. Frontend narrative can summarize these facts, but cannot add new outcomes.
+`changes` should contain metric facts, short labels, and values that already came from settled state. `replay_basis` should cite backend reasons or deterministic replay facts. `next_pressure` should come from post-settlement rule outputs, such as the settled conflict summary. Frontend narrative can summarize these facts, but cannot add new outcomes.
 
 ### RoleMemory
 
@@ -87,17 +87,17 @@ Required fields:
 Current backend coverage:
 
 - `ActionPlan` already exists as `src.core.models.ActionPlan`. The HTTP command preview exposes a read-only action explanation, while TurnEngine remains the only numeric settlement authority.
-- `TurnFacts` is not a separate backend model yet. The current source of truth is `src.core.models.TurnResult`, especially `month`, `action_plan`, `delta.reasons`, `events`, `customer_response`, `competitor_moves`, and the post-turn `CompanyState`.
+- `TurnFacts` first slice is exposed through `POST /api/sessions/{session_id}/turns` as `turn.turn_facts`. It is serialized from `src.core.models.TurnResult`, especially `month`, `action_plan.raw_input`, `delta`, `delta.reasons`, post-turn `CompanyState`, and `conflict_summary.next_focus`.
 - `RoleMemory` is not persisted yet. It should be derived only from settled turn records, future `TurnFacts`, and saved role feedback; it must not derive from hover state, unsent commands, or command previews.
 - `OfficeSignal` is not persisted yet. The current semantic inputs are settled state plus rule outputs such as `ConflictEngine.identify(...)` and post-turn business insight. Future API fields should expose short facts like title, description, severity, source, and visualIntent, leaving layout and animation to the frontend or Unity layer.
 
 Migration sequence:
 
-1. Add backend serializers that convert `TurnResult` into `TurnFacts` without changing TurnEngine settlement behavior.
-2. Add focused tests that prove `TurnFacts` values come from settled state and `delta.reasons`, not frontend text.
-3. Derive `RoleMemory` from saved `TurnFacts` history after the `TurnFacts` serializer is stable.
+1. Keep the `TurnResult` to `TurnFacts` serializer thin; it must not change TurnEngine settlement behavior.
+2. Broaden `TurnFacts` only with fields that can be proven from settled state, `delta.reasons`, events, or deterministic replay facts.
+3. Derive `RoleMemory` from saved `TurnFacts` history after the `TurnFacts` shape is stable.
 4. Derive `OfficeSignal` from settled state, conflict, and insight facts; keep it renderer-neutral and limited to facts plus short display text.
-5. Extend `docs/frontend_api_contract.md` only when these fields are actually exposed through HTTP.
+5. Extend `docs/frontend_api_contract.md` only when additional fields are actually exposed through HTTP.
 
 ## Version
 

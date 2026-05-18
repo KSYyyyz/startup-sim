@@ -91,10 +91,29 @@ export type CommandPreviewResponse = {
   actions: CommandPreviewAction[];
 };
 
+export type TurnFactChange = {
+  metric?: string;
+  label: string;
+  delta?: number;
+  value: string;
+  tone: string;
+};
+
+export type TurnFacts = {
+  month: number;
+  command: string;
+  changes: TurnFactChange[];
+  replay_basis: string[];
+  next_pressure: string;
+  authority?: 'backend-turn-engine';
+};
+
 export type TurnResponse = {
   state: GameStateView;
   turn: {
     month: number;
     delta_reasons?: string[];
+    turn_facts?: TurnFacts;
   };
+  turn_facts?: TurnFacts;
 };

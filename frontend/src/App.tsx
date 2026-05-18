@@ -199,32 +199,44 @@ export default function App() {
     [lastCommand, lastTurn, state]
   );
   const competitorMoves = useMemo(() => (state ? buildCompetitorMoves(state.competitors) : []), [state]);
+  const monthlyFacts = lastTurn?.turn_facts;
+  const monthlyHighlights = useMemo(
+    () =>
+      monthlyFacts
+        ? monthlyFacts.changes.map((change) => ({
+            label: change.label,
+            value: change.value,
+            tone: change.tone
+          }))
+        : highlights,
+    [highlights, monthlyFacts]
+  );
   const monthlyReport = useMemo(
     () =>
       state && lastTurn
         ? buildMonthlyReport({
             month: lastTurn.month,
-            highlights,
-            reasons: lastTurn.delta_reasons,
-            nextPressure: state.core_tension.next_focus,
-            command: lastCommand,
+            highlights: monthlyHighlights,
+            reasons: monthlyFacts?.replay_basis ?? lastTurn.delta_reasons,
+            nextPressure: monthlyFacts?.next_pressure ?? state.core_tension.next_focus,
+            command: monthlyFacts?.command ?? lastCommand,
             cashChange: state.metrics.cash_change,
             productChange: state.metrics.product_change,
             usersChange: state.metrics.users_change
           })
         : null,
-    [highlights, lastTurn, state]
+    [lastCommand, lastTurn, monthlyFacts, monthlyHighlights, state]
   );
   const turnResolutionSteps = useMemo(
     () =>
-      monthlyReport && lastCommand
+      monthlyReport && (monthlyFacts?.command ?? lastCommand)
         ? buildTurnResolutionSteps({
-            command: lastCommand,
-            highlights,
+            command: monthlyFacts?.command ?? lastCommand,
+            highlights: monthlyHighlights,
             reportHeadline: monthlyReport.headline
           })
         : [],
-    [highlights, lastCommand, monthlyReport]
+    [lastCommand, monthlyFacts, monthlyHighlights, monthlyReport]
   );
   const executionPreview = useMemo(
     () => commandPreview ?? (preparedAction ? buildPreparedActionPreview(preparedAction) : null),

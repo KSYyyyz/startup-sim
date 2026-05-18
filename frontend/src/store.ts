@@ -44,7 +44,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ submitting: true, error: '' });
     try {
       const result = await submitTurn(current.session_id, command);
-      set({ state: result.state, lastTurn: result.turn, suggestions: null, commandPreview: null, submitting: false });
+      set({
+        state: result.state,
+        lastTurn: {
+          ...result.turn,
+          turn_facts: result.turn.turn_facts ?? result.turn_facts
+        },
+        suggestions: null,
+        commandPreview: null,
+        submitting: false
+      });
     } catch (error) {
       set({ error: error instanceof Error ? error.message : '执行失败', submitting: false });
     }

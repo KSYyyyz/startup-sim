@@ -19,7 +19,15 @@ from src.agents import CFO, COO, CTO
 from src.agents.competitors import KuaiDaTech, LingxiCSCloud
 from src.core.action_parser import parse_multi
 from src.core.conflict_engine import ConflictEngine
-from src.core.models import ActionPlan, ActionType, CompanyState, EndingType, RiskLevel, StateDelta
+from src.core.models import (
+    ActionPlan,
+    ActionType,
+    CompanyState,
+    EndingType,
+    RiskLevel,
+    StateDelta,
+    TurnResult,
+)
 from src.core.suggestion_engine import SuggestionEngine
 from src.core.turn_engine import TurnEngine
 from src.db import repository
@@ -273,6 +281,47 @@ def _money_label(value: int) -> str:
     return f"{value:,}元"
 
 
+def _change_tone(value: int) -> str:
+    if value > 0:
+        return "good"
+    if value < 0:
+        return "bad"
+    return "neutral"
+
+
+def _turn_fact_changes(delta: StateDelta) -> list[dict[str, Any]]:
+    change_specs = [
+        ("cash", "现金", delta.cash),
+        ("mrr", "月经常收入", delta.mrr),
+        ("users", "用户", delta.users),
+        ("product_score", "产品", delta.product_score),
+    ]
+    return [
+        {
+            "metric": metric,
+            "label": label,
+            "delta": value,
+            "value": str(value),
+            "tone": _change_tone(value),
+        }
+        for metric, label, value in change_specs
+        if value != 0
+    ]
+
+
+def _turn_facts_view(result: TurnResult) -> dict[str, Any]:
+    next_pressure = result.conflict_summary.next_focus if result.conflict_summary else ""
+    payload = {
+        "month": result.month,
+        "command": result.action_plan.raw_input,
+        "changes": _turn_fact_changes(result.delta),
+        "replay_basis": result.delta.reasons,
+        "next_pressure": next_pressure,
+        "authority": "backend-turn-engine",
+    }
+    return _sanitize_copy(payload)
+
+
 def _command_preview_view(command: str) -> dict[str, Any]:
     plan = parse_multi(command)
     actions = [
@@ -381,6 +430,7 @@ def create_app() -> FastAPI:
                 "customer_response": result.customer_response,
                 "raw_competitor_moves": result.competitor_moves,
                 "parsed_actions": [action.model_dump() for action in result.action_plan.actions],
+                "turn_facts": _turn_facts_view(result),
             },
         }
         return _sanitize_copy(payload)
