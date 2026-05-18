@@ -4,6 +4,23 @@
 
 ---
 
+## C# / Unity Migration Prep — ActionParser portable slice (2026-05-18)
+
+**性质**: C# Core 规则迁移第一刀。目标是先把自然语言指令解析迁入 `StartupSim.Core`，让 Unity 未来可以拿到结构化行动，而不是依赖 Web 前端或 Python API 做输入理解。
+
+**主要产出**:
+- 新增 C# 合同：`ActionPlan`、`PlayerAction`、`ActionType`、`RiskLevel`。
+- 新增 `StartupSim.Core.Parsing.ActionParser.ParseMulti()`，承接 Python `parse_multi()` 的最小行为：分段预算、研发/营销/招聘/战略/融资识别、风险词、融资额、出让比例、投后估值。
+- 新增 `csharp/golden-cases/action_parser_multi.json`，以 Python 当前输出作为解析器黄金样例。
+- 新增 `ActionParserTests` 与黄金样例校验，C# Core 测试数从 4 增加到 9。
+
+**验收边界**:
+- 本轮只迁移解析层，不迁移现金、产品、用户、董事会、竞品或结局结算。
+- C# 解析器继续保持 `UnityEngine` 零依赖。
+- Python 仍是完整玩法参考实现，C# 只承接已被黄金样例覆盖的输入解析切片。
+
+---
+
 ## C# / Unity Migration Prep — Compile gate and CI coverage (2026-05-18)
 
 **性质**: C# Core 迁移基础设施收口。目标是让 `StartupSim.Core` 不再只是文件骨架，而是进入可编译、可测试、可在 GitHub CI 上守门的状态。

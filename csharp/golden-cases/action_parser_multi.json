@@ -1,0 +1,83 @@
+{
+  "authority": "python-action-parser-reference",
+  "cases": [
+    {
+      "command": "融资500万出让10%，花20万研发产品，花10万做营销推广",
+      "actions": [
+        {
+          "type": "product",
+          "intent": "花20万研发产品",
+          "budget": 200000,
+          "risk_level": "medium",
+          "fundraise_amount": 0,
+          "equity_offered": 0,
+          "post_money_valuation": 0
+        },
+        {
+          "type": "marketing",
+          "intent": "花10万做营销推广",
+          "budget": 100000,
+          "risk_level": "medium",
+          "fundraise_amount": 0,
+          "equity_offered": 0,
+          "post_money_valuation": 0
+        },
+        {
+          "type": "fundraising",
+          "intent": "融资500万出让10%",
+          "budget": 0,
+          "risk_level": "low",
+          "fundraise_amount": 5000000,
+          "equity_offered": 10,
+          "post_money_valuation": 50000000
+        }
+      ]
+    },
+    {
+      "command": "出让8%融资300万，招人扩团队",
+      "actions": [
+        {
+          "type": "team",
+          "intent": "招人扩团队",
+          "budget": 0,
+          "risk_level": "medium",
+          "fundraise_amount": 0,
+          "equity_offered": 0,
+          "post_money_valuation": 0
+        },
+        {
+          "type": "fundraising",
+          "intent": "融资300万出让8%",
+          "budget": 0,
+          "risk_level": "low",
+          "fundraise_amount": 3000000,
+          "equity_offered": 8,
+          "post_money_valuation": 37500000
+        }
+      ]
+    },
+    {
+      "command": "小规模花5万研发产品，激进投放30万广告",
+      "actions": [
+        {
+          "type": "product",
+          "intent": "小规模花5万研发产品",
+          "budget": 50000,
+          "risk_level": "low",
+          "fundraise_amount": 0,
+          "equity_offered": 0,
+          "post_money_valuation": 0
+        },
+        {
+          "type": "marketing",
+          "intent": "激进投放30万广告",
+          "budget": 300000,
+          "risk_level": "high",
+          "fundraise_amount": 0,
+          "equity_offered": 0,
+          "post_money_valuation": 0
+        }
+      ]
+    }
+  ]
+}

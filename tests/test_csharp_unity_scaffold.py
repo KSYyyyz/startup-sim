@@ -22,11 +22,16 @@ def test_csharp_core_scaffold_is_unity_independent():
         CORE / "StartupSim.Core.csproj",
         CORE / "Contracts" / "GameMetrics.cs",
         CORE / "Contracts" / "GameState.cs",
+        CORE / "Contracts" / "ActionPlan.cs",
+        CORE / "Contracts" / "ActionType.cs",
+        CORE / "Contracts" / "PlayerAction.cs",
+        CORE / "Contracts" / "RiskLevel.cs",
         CORE / "Contracts" / "TurnCommand.cs",
         CORE / "Contracts" / "TurnResult.cs",
         CORE / "Contracts" / "ScenarioDefinition.cs",
         CORE / "Engines" / "ITurnEngine.cs",
         CORE / "Engines" / "DeterministicTurnEngine.cs",
+        CORE / "Parsing" / "ActionParser.cs",
     ]
 
     for path in required:
@@ -52,6 +57,7 @@ def test_csharp_core_has_compile_gate_and_ci_coverage():
         '<ProjectReference Include="..\\StartupSim.Core\\StartupSim.Core.csproj" />' in test_content
     )
     assert (CORE_TESTS / "DeterministicTurnEngineTests.cs").is_file()
+    assert (CORE_TESTS / "ActionParserTests.cs").is_file()
     assert (CORE_TESTS / "GoldenCaseTests.cs").is_file()
 
     ci_content = ci.read_text(encoding="utf-8")
@@ -84,9 +90,15 @@ def test_unity_component_scaffold_is_adapter_only():
 
 
 def test_golden_case_seed_exists_for_csharp_port():
-    golden = ROOT / "csharp" / "golden-cases" / "month01_product_investment.json"
+    turn_golden = ROOT / "csharp" / "golden-cases" / "month01_product_investment.json"
+    parser_golden = ROOT / "csharp" / "golden-cases" / "action_parser_multi.json"
 
-    assert golden.is_file()
-    content = golden.read_text(encoding="utf-8")
+    assert turn_golden.is_file()
+    content = turn_golden.read_text(encoding="utf-8")
     assert '"command": "花10万研发产品"' in content
     assert '"authority": "python-turn-engine-reference"' in content
+
+    assert parser_golden.is_file()
+    parser_content = parser_golden.read_text(encoding="utf-8")
+    assert '"authority": "python-action-parser-reference"' in parser_content
+    assert '"command": "融资500万出让10%，花20万研发产品，花10万做营销推广"' in parser_content

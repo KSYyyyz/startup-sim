@@ -25,12 +25,17 @@ unity/
 
 `StartupSim.Core` owns portable contracts and deterministic gameplay services:
 
+- `ActionPlan`
+- `ActionType`
 - `GameState`
 - `GameMetrics`
+- `PlayerAction`
+- `RiskLevel`
 - `TurnCommand`
 - `TurnResult`
 - `ScenarioDefinition`
 - `ITurnEngine`
+- `ActionParser`
 
 Unity owns only presentation and input:
 
@@ -64,12 +69,19 @@ The first golden case is:
 - command: `花10万研发产品`
 - authority: `python-turn-engine-reference`
 
+The first parser golden fixture is:
+
+- `action_parser_multi.json`
+- commands: mixed R&D, marketing, hiring, and fundraising inputs
+- authority: `python-action-parser-reference`
+
 `StartupSim.Core.Tests` is the compile gate for the portable C# layer. It currently verifies:
 
 - deterministic turn execution for the first product-investment slice
+- C# `ActionParser.ParseMulti()` behavior against segmented budgets and fundraising terms
 - input state immutability
 - unknown-command fallback behavior
-- the first golden fixture imported from the Python reference layer
+- golden fixtures imported from the Python reference layer
 
 CI must run:
 
