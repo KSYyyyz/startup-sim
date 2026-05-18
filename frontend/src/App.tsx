@@ -170,6 +170,7 @@ export default function App() {
     useGameStore();
   const [command, setCommand] = useState('');
   const [preparedAction, setPreparedAction] = useState<OfficeAction | null>(null);
+  const [pressureResponse, setPressureResponse] = useState<{ source: string; message: string } | null>(null);
   const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'log'>('board');
 
   useEffect(() => {
@@ -187,36 +188,43 @@ export default function App() {
     await runTurn(command);
     setCommand('');
     setPreparedAction(null);
+    setPressureResponse(null);
   }
 
   function handleCommandChange(value: string) {
     setCommand(value);
     setPreparedAction(null);
+    setPressureResponse(null);
   }
 
   function handleQuickCommand(value: string) {
     setCommand(value);
     setPreparedAction(null);
+    setPressureResponse(null);
   }
 
   function handleOfficeAction(action: OfficeAction) {
     setCommand(action.command);
     setPreparedAction(action);
+    setPressureResponse(null);
   }
 
   function clearPreparedAction() {
     setCommand('');
     setPreparedAction(null);
+    setPressureResponse(null);
   }
 
   function handleBoardResponse(member: { name: string; role: string; message: string }) {
     setCommand(boardResponseCommand(member));
     setPreparedAction(null);
+    setPressureResponse({ source: member.name, message: member.message });
   }
 
   function handleCompetitorResponse(item: CompetitorItem) {
     setCommand(competitorResponseCommand(item));
     setPreparedAction(null);
+    setPressureResponse({ source: item.name, message: item.status });
   }
 
   async function handleAdvice() {
@@ -483,7 +491,16 @@ export default function App() {
               <code>{preparedAction.command}</code>
             </article>
           )}
-          {!preparedAction && <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>}
+          {!preparedAction && pressureResponse && (
+            <article className="pressure-response" aria-label="已生成回应指令">
+              <span>已生成回应指令</span>
+              <strong>{pressureResponse.source}</strong>
+              <p>{pressureResponse.message}</p>
+            </article>
+          )}
+          {!preparedAction && !pressureResponse && (
+            <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>
+          )}
           <form onSubmit={handleSubmit} className="command-form">
             <label htmlFor="turn-command">本回合指令</label>
             <input

@@ -77,6 +77,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Board feedback rows can now turn role pressure into a prepared CEO command through a compact response button.
 - Competitor rows and the competitor glance include readable trend labels such as "持平" and "上升".
 - Competitor pressure can now be converted into an executable CEO command from the competitor panel.
+- Board and competitor response commands show a bottom-dock explanation so the player knows which pressure generated the command.
 - The office scene has a non-blocking "办公室提示" bubble for the current focus.
 - Office dynamic feedback signals are clickable: board signals open the board panel, and competitor signals open the competitor panel.
 - After submitting a turn, the office scene shows a compact "办公室月末变化" pulse strip for cash, product, users, and recurring revenue changes.
