@@ -15,8 +15,8 @@
       },
       "expected": {
         "status": "active",
-        "cash": 800000,
-        "product_score": 36,
+        "cash": 680000,
+        "product_score": 33,
         "users": 0,
         "mrr": 0,
         "founder_equity": 100,
@@ -37,8 +37,8 @@
       },
       "expected": {
         "status": "active",
-        "cash": 900000,
-        "product_score": 35,
+        "cash": 780000,
+        "product_score": 36,
         "users": 100,
         "mrr": 50000,
         "founder_equity": 100,
@@ -59,8 +59,8 @@
       },
       "expected": {
         "status": "active",
-        "cash": 3700000,
-        "product_score": 36,
+        "cash": 3580000,
+        "product_score": 33,
         "users": 100,
         "mrr": 50000,
         "founder_equity": 92,
@@ -82,7 +82,7 @@
       "expected": {
         "status": "bankruptcy",
         "cash": 0,
-        "product_score": 36,
+        "product_score": 33,
         "users": 0,
         "mrr": 0,
         "founder_equity": 100,

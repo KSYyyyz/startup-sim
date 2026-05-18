@@ -4,6 +4,22 @@
 
 ---
 
+## C# / Unity Migration Prep — Python-aligned base turn rules (2026-05-18)
+
+**性质**: C# Core 规则对齐切片。目标是把上一轮临时 C# 公式改向 Python `TurnEngine` 的基础回合语义。
+
+**主要产出**:
+- 产品研发公式改为 `budget//80000 + employee_count//3 + team_morale//10`，并保留最少 +1。
+- 每回合结算固定月度消耗 `MonthlyBurn`。
+- 团队人数达到 5 人时，每回合自然学习带来产品分 +1。
+- 产品投入会增加后续 `MonthlyBurn`，但本回合现金消耗仍按回合开始时的月度消耗结算。
+- 同步更新 C# TurnEngine 黄金样例，锁定新的现金和产品分结果。
+
+**验收边界**:
+- 本轮只对齐基础产品/固定消耗/自然学习，不迁移客户代理、竞品代理、融资拒绝模型。
+
+---
+
 ## C# / Unity Migration Prep — Ten-round portable core push (2026-05-18)
 
 **性质**: C# Core 迁移连续十轮推进。目标是把 `StartupSim.Core` 从解析器切片推进到可执行的最小回合结算切片，并为 Unity 表现层准备结构化行动入口。

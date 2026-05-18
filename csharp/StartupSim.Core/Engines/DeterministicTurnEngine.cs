@@ -14,6 +14,7 @@ namespace StartupSim.Core.Engines
             }
 
             var next = currentState.Clone();
+            var startingMonthlyBurn = next.Metrics.MonthlyBurn;
             next.Metrics.Month += 1;
 
             var result = new TurnResult
@@ -28,6 +29,7 @@ namespace StartupSim.Core.Engines
                 ApplyAction(next, result, action);
             }
 
+            ApplyMonthlyOperations(next, result, startingMonthlyBurn);
             ApplyPostTurnStateChecks(next, result);
 
             if (result.ChangedMetrics.Count == 0)
@@ -37,6 +39,23 @@ namespace StartupSim.Core.Engines
             }
 
             return result;
+        }
+
+        private static void ApplyMonthlyOperations(GameState state, TurnResult result, decimal monthlyBurn)
+        {
+            if (monthlyBurn > 0m)
+            {
+                state.Metrics.Cash -= monthlyBurn;
+                result.ChangedMetrics.Add($"月度消耗 -{monthlyBurn / 10_000m:0}万");
+                result.ReplayBasis.Add("月度固定消耗已结算。");
+            }
+
+            if (state.Metrics.EmployeeCount >= 5)
+            {
+                state.Metrics.ProductScore += 1;
+                result.ChangedMetrics.Add("团队自然学习 产品 +1");
+                result.ReplayBasis.Add("团队自然学习带来产品分提升。");
+            }
         }
 
         private static void ApplyPostTurnStateChecks(GameState state, TurnResult result)
@@ -80,9 +99,12 @@ namespace StartupSim.Core.Engines
         private static void ApplyProductAction(GameState state, TurnResult result, PlayerAction action)
         {
             var budget = action.Budget > 0m ? action.Budget : 100_000m;
-            var productGain = Math.Max(1, (int)(budget / 12_500m));
+            var productGain = Math.Max(
+                1,
+                (int)(budget / 80_000m) + state.Metrics.EmployeeCount / 3 + state.Metrics.TeamMorale / 10);
             state.Metrics.Cash -= budget;
             state.Metrics.ProductScore += productGain;
+            state.Metrics.MonthlyBurn += Math.Floor(budget / 30m);
             result.ReplayBasis.Add("研发投入提升了产品分，但现金消耗上升。");
             result.ChangedMetrics.Add($"现金 -{budget / 10_000m:0}万");
             result.ChangedMetrics.Add($"产品 +{productGain}");

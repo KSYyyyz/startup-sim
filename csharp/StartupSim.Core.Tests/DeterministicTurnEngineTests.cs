@@ -23,9 +23,11 @@ public sealed class DeterministicTurnEngineTests
         var result = engine.Execute(initial, new TurnCommand { RawText = "花10万研发产品" });
 
         Assert.Equal(2, result.State.Metrics.Month);
-        Assert.Equal(900_000m, result.State.Metrics.Cash);
-        Assert.Equal(28, result.State.Metrics.ProductScore);
+        Assert.Equal(780_000m, result.State.Metrics.Cash);
+        Assert.Equal(32, result.State.Metrics.ProductScore);
         Assert.Contains("现金 -10万", result.ChangedMetrics);
+        Assert.Contains("月度消耗 -12万", result.ChangedMetrics);
+        Assert.Contains("团队自然学习 产品 +1", result.ChangedMetrics);
         Assert.Contains(result.ReplayBasis, item => item.Contains("研发投入提升了产品分"));
         Assert.Equal("csharp-startup-sim-core", result.Authority);
     }
@@ -47,10 +49,10 @@ public sealed class DeterministicTurnEngineTests
         var result = engine.Execute(initial, new TurnCommand { RawText = "花20万研发产品" });
 
         Assert.Equal(2, result.State.Metrics.Month);
-        Assert.Equal(800_000m, result.State.Metrics.Cash);
-        Assert.Equal(36, result.State.Metrics.ProductScore);
+        Assert.Equal(680_000m, result.State.Metrics.Cash);
+        Assert.Equal(33, result.State.Metrics.ProductScore);
         Assert.Contains("现金 -20万", result.ChangedMetrics);
-        Assert.Contains("产品 +16", result.ChangedMetrics);
+        Assert.Contains("产品 +12", result.ChangedMetrics);
     }
 
     [Fact]
@@ -72,7 +74,7 @@ public sealed class DeterministicTurnEngineTests
         var result = engine.Execute(initial, new TurnCommand { RawText = "花10万做营销推广" });
 
         Assert.Equal(2, result.State.Metrics.Month);
-        Assert.Equal(900_000m, result.State.Metrics.Cash);
+        Assert.Equal(780_000m, result.State.Metrics.Cash);
         Assert.Equal(100, result.State.Metrics.Users);
         Assert.Equal(50_000m, result.State.Metrics.MonthlyRecurringRevenue);
         Assert.Contains("现金 -10万", result.ChangedMetrics);
@@ -99,7 +101,7 @@ public sealed class DeterministicTurnEngineTests
         var result = engine.Execute(initial, new TurnCommand { RawText = "花15万招聘工程师扩团队" });
 
         Assert.Equal(2, result.State.Metrics.Month);
-        Assert.Equal(850_000m, result.State.Metrics.Cash);
+        Assert.Equal(730_000m, result.State.Metrics.Cash);
         Assert.Equal(13, result.State.Metrics.EmployeeCount);
         Assert.Equal(150_000m, result.State.Metrics.MonthlyBurn);
         Assert.Equal(75, result.State.Metrics.TeamMorale);
@@ -125,7 +127,7 @@ public sealed class DeterministicTurnEngineTests
         var result = engine.Execute(initial, new TurnCommand { RawText = "花20万做出海战略试点" });
 
         Assert.Equal(2, result.State.Metrics.Month);
-        Assert.Equal(800_000m, result.State.Metrics.Cash);
+        Assert.Equal(680_000m, result.State.Metrics.Cash);
         Assert.Equal(56, result.State.Metrics.Reputation);
         Assert.Equal(2_840_000m, result.State.Metrics.Valuation);
         Assert.Contains("声誉 +6", result.ChangedMetrics);
@@ -150,7 +152,7 @@ public sealed class DeterministicTurnEngineTests
         var result = engine.Execute(initial, new TurnCommand { RawText = "融资300万出让8%股权" });
 
         Assert.Equal(2, result.State.Metrics.Month);
-        Assert.Equal(4_000_000m, result.State.Metrics.Cash);
+        Assert.Equal(3_880_000m, result.State.Metrics.Cash);
         Assert.Equal(92m, result.State.Metrics.FounderEquityPercent);
         Assert.Equal(37_500_000m, result.State.Metrics.Valuation);
         Assert.Contains("融资 +300万", result.ChangedMetrics);
@@ -180,13 +182,13 @@ public sealed class DeterministicTurnEngineTests
             new TurnCommand { RawText = "融资300万出让8%，花20万研发产品，花10万做营销推广" });
 
         Assert.Equal(2, result.State.Metrics.Month);
-        Assert.Equal(3_700_000m, result.State.Metrics.Cash);
-        Assert.Equal(36, result.State.Metrics.ProductScore);
+        Assert.Equal(3_580_000m, result.State.Metrics.Cash);
+        Assert.Equal(33, result.State.Metrics.ProductScore);
         Assert.Equal(100, result.State.Metrics.Users);
         Assert.Equal(50_000m, result.State.Metrics.MonthlyRecurringRevenue);
         Assert.Equal(92m, result.State.Metrics.FounderEquityPercent);
         Assert.Equal(37_500_000m, result.State.Metrics.Valuation);
-        Assert.Contains("产品 +16", result.ChangedMetrics);
+        Assert.Contains("产品 +12", result.ChangedMetrics);
         Assert.Contains("用户 +100", result.ChangedMetrics);
         Assert.Contains("融资 +300万", result.ChangedMetrics);
     }
@@ -235,7 +237,7 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
-    public void UnknownCommandKeepsMetricsStableExceptMonth()
+    public void UnknownCommandStillAppliesMonthlyOperations()
     {
         var engine = new DeterministicTurnEngine();
         var initial = new GameState
@@ -251,8 +253,9 @@ public sealed class DeterministicTurnEngineTests
         var result = engine.Execute(initial, new TurnCommand { RawText = "内部复盘一下" });
 
         Assert.Equal(4, result.State.Metrics.Month);
-        Assert.Equal(800_000m, result.State.Metrics.Cash);
-        Assert.Equal(31, result.State.Metrics.ProductScore);
-        Assert.Contains("现金 稳定", result.ChangedMetrics);
+        Assert.Equal(680_000m, result.State.Metrics.Cash);
+        Assert.Equal(32, result.State.Metrics.ProductScore);
+        Assert.Contains("月度消耗 -12万", result.ChangedMetrics);
+        Assert.Contains("团队自然学习 产品 +1", result.ChangedMetrics);
     }
 }

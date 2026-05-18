@@ -36,7 +36,7 @@ unity/
 - `ScenarioDefinition`
 - `ITurnEngine`
 - `ActionParser`
-- minimal `DeterministicTurnEngine` settlement for product, marketing, team, strategy, fundraising, multi-action turns, and bankruptcy guard
+- minimal `DeterministicTurnEngine` settlement for product, marketing, team, strategy, fundraising, multi-action turns, monthly burn, organic product learning, and bankruptcy guard
 
 Unity owns only presentation and input:
 
@@ -79,14 +79,14 @@ The first parser golden fixture is:
 The first C# portable turn fixture is:
 
 - `turn_engine_minimal.json`
-- commands: product budget, marketing budget, fundraising + multi-action, and bankruptcy guard
+- commands: product budget, marketing budget, fundraising + multi-action, monthly burn, organic product learning, and bankruptcy guard
 - authority: `csharp-portable-turn-slice`
 
 `StartupSim.Core.Tests` is the compile gate for the portable C# layer. It currently verifies:
 
 - deterministic turn execution for the first product-investment slice
 - C# `ActionParser.ParseMulti()` behavior against segmented budgets and fundraising terms
-- minimal C# turn settlement for product, marketing, team, strategy, fundraising, multi-action turns, and bankruptcy guard
+- minimal C# turn settlement for product, marketing, team, strategy, fundraising, multi-action turns, monthly burn, organic product learning, and bankruptcy guard
 - input state immutability
 - unknown-command fallback behavior
 - golden fixtures imported from the Python reference layer
@@ -118,6 +118,6 @@ This lets Unity validate interaction feel while the C# core catches up to the Py
 2. Add golden fixtures from Python. Done for parser reference and initial turn reference.
 3. Add C# test project and CI compile gate. Done.
 4. Port `ActionParser`. Done for the current `parse_multi()` slice.
-5. Port the minimum `TurnEngine` loop. In progress: product, marketing, team, strategy, fundraising, multi-action, and bankruptcy guard are covered.
+5. Port the minimum `TurnEngine` loop. In progress: product formula, monthly burn, organic product learning, marketing, team, strategy, fundraising, multi-action, and bankruptcy guard are covered.
 6. Add Unity office-room vertical slice. In progress: adapter scripts and structured action snapshot exist; Unity scene assembly remains.
 7. Decide whether Unity calls local C# core directly or continues through API during transition. Pending.
