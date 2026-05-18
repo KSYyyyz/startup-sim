@@ -160,8 +160,11 @@ describe('Startup Sim frontend shell', () => {
     await screen.findByText('NimbusAI');
 
     expect(screen.getByLabelText('互动办公室场景')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: '产品室' }));
+    const productRoom = screen.getByRole('button', { name: '产品室' });
+    await userEvent.click(productRoom);
 
+    expect(productRoom).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByText('当前房间')).toBeInTheDocument();
     expect(screen.getByText('产品打磨')).toBeInTheDocument();
     expect(screen.getByText('现金消耗中等，产品体验提升。')).toBeInTheDocument();
 

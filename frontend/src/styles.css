@@ -312,6 +312,17 @@ h2 {
   font-size: 1rem;
 }
 
+.room-kicker {
+  display: inline-block;
+  margin-bottom: 5px;
+  border-radius: 999px;
+  padding: 3px 7px;
+  background: #dce8f6;
+  color: #245a9d;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
 .action-card-list {
   display: grid;
   gap: 8px;

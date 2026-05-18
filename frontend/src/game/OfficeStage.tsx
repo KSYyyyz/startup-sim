@@ -84,6 +84,7 @@ export function OfficeStage({ insightTitle, insightDescription, onActionSelect }
           return (
             <button
               className={`room-hotspot ${room.tone} ${room.id === selectedRoomId ? 'active' : ''}`}
+              aria-pressed={room.id === selectedRoomId}
               key={room.id}
               onClick={() => setSelectedRoomId(room.id)}
               style={{ left: `${room.x}%`, top: `${room.y}%` }}
@@ -96,6 +97,7 @@ export function OfficeStage({ insightTitle, insightDescription, onActionSelect }
         })}
       </div>
       <div className="room-action-panel" aria-live="polite">
+        <span className="room-kicker">当前房间</span>
         <strong>{selectedRoom.name}</strong>
         <div className="action-card-list">
           {selectedRoom.actions.map((action) => (
