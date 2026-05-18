@@ -136,6 +136,7 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('估值').length).toBeGreaterThan(0);
     expect(screen.getByText('现金流可支撑时间')).toBeInTheDocument();
     expect(screen.getByText('核心矛盾')).toBeInTheDocument();
+    expect(screen.getByLabelText('办公室提示')).toHaveTextContent('早期打磨期');
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('持平')).toBeInTheDocument();

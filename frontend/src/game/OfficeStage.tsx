@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { officeRooms, type OfficeAction, type OfficeRoom } from './officeRooms';
 
 type OfficeStageProps = {
+  focusTitle: string;
   insightTitle: string;
   insightDescription: string;
   onActionSelect: (action: OfficeAction) => void;
@@ -62,7 +63,7 @@ function drawPixiOverlay(container: HTMLDivElement) {
   };
 }
 
-export function OfficeStage({ insightTitle, insightDescription, onActionSelect }: OfficeStageProps) {
+export function OfficeStage({ focusTitle, insightTitle, insightDescription, onActionSelect }: OfficeStageProps) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [selectedRoomId, setSelectedRoomId] = useState(officeRooms[0].id);
   const selectedRoom = useMemo<OfficeRoom>(
@@ -78,6 +79,10 @@ export function OfficeStage({ insightTitle, insightDescription, onActionSelect }
   return (
     <section className="office-stage" aria-label="互动办公室场景" ref={stageRef}>
       <img src="/assets/scenes/office-command-center-v0.1.jpg" alt="NimbusAI office command center" />
+      <div className="office-bubble" aria-label="办公室提示">
+        <span>本月焦点</span>
+        <strong>{focusTitle}</strong>
+      </div>
       <div className="room-hotspots" aria-label="可操作房间">
         {officeRooms.map((room) => {
           const Icon = room.icon;

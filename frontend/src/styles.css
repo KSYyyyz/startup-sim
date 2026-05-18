@@ -252,6 +252,34 @@ h2 {
   z-index: 2;
 }
 
+.office-bubble {
+  position: absolute;
+  z-index: 3;
+  left: 18px;
+  top: 18px;
+  max-width: 220px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  padding: 9px 11px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 26px rgba(24, 36, 56, 0.18);
+}
+
+.office-bubble span,
+.office-bubble strong {
+  display: block;
+}
+
+.office-bubble span {
+  color: #607189;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.office-bubble strong {
+  color: #153b68;
+}
+
 .room-hotspot {
   position: absolute;
   scroll-margin-top: 150px;
@@ -904,6 +932,13 @@ h2 {
   .room-hotspots {
     inset: 0 0 auto;
     height: 320px;
+  }
+
+  .office-bubble {
+    left: 8px;
+    top: 8px;
+    max-width: 160px;
+    padding: 7px 9px;
   }
 
   .room-hotspot {

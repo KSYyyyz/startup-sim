@@ -305,6 +305,7 @@ export default function App() {
         </aside>
 
         <OfficeStage
+          focusTitle={state.core_tension.title}
           insightTitle={state.insight.title}
           insightDescription={state.insight.description}
           onActionSelect={handleOfficeAction}
