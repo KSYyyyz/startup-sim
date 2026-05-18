@@ -46,6 +46,24 @@ export type PressureResponsePlan = {
   tradeoffs: string[];
 };
 
+export type OfficePulseInput = {
+  title: string;
+  description: string;
+  insightTitle: string;
+};
+
+export type OfficePulseRule = {
+  id: string;
+  pattern: RegExp;
+  roomId: string;
+  text: string;
+};
+
+export type OfficePulseSignal = {
+  roomId: string;
+  text: string;
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -222,6 +240,27 @@ export const pressureResponseTemplates = {
   ]
 } satisfies Record<'board' | 'competitor', PressureResponseTemplate[]>;
 
+export const officePulseRules: OfficePulseRule[] = [
+  {
+    id: 'cash-pressure',
+    pattern: /现金|融资|股权/,
+    roomId: 'board',
+    text: '现金压力'
+  },
+  {
+    id: 'growth-pressure',
+    pattern: /用户|增长|营销|获客/,
+    roomId: 'sales',
+    text: '增长压力'
+  },
+  {
+    id: 'delivery-pressure',
+    pattern: /服务器|稳定|交付/,
+    roomId: 'servers',
+    text: '交付压力'
+  }
+];
+
 export function commandTradeoffs(value: string) {
   if (/保持最低运转/.test(value)) return ['现金流可支撑时间 +', '增长 -'];
   if (/融资/.test(value)) return ['现金 +', '股权 -'];
@@ -248,4 +287,10 @@ export function buildBoardPressureResponse(member: BoardPressureInput): Pressure
 export function buildCompetitorPressureResponse(item: CompetitorPressureInput): PressureResponsePlan {
   const signal = `${item.name} ${item.status} trend:${item.trend}`;
   return responseFromTemplates(pressureResponseTemplates.competitor, signal, '花10万做营销推广');
+}
+
+export function resolveOfficePulse(input: OfficePulseInput): OfficePulseSignal {
+  const signal = `${input.title} ${input.description} ${input.insightTitle}`;
+  const rule = officePulseRules.find((item) => item.pattern.test(signal));
+  return rule ? { roomId: rule.roomId, text: rule.text } : { roomId: 'product', text: '产品压力' };
 }

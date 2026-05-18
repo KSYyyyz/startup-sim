@@ -21,6 +21,7 @@ import {
   buildBoardPressureResponse,
   buildCompetitorPressureResponse,
   quickActionShortcuts,
+  resolveOfficePulse,
   type QuickActionShortcut
 } from './game/gameplayContent';
 import type { OfficeAction } from './game/officeRooms';
@@ -152,14 +153,6 @@ function boardStance(member: { name: string; role: string }) {
   return '公司治理';
 }
 
-function officePulseRoom(state: GameStateView) {
-  const signal = `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title}`;
-  if (/现金|融资|股权/.test(signal)) return { roomId: 'board', text: '现金压力' };
-  if (/用户|增长|营销|获客/.test(signal)) return { roomId: 'sales', text: '增长压力' };
-  if (/服务器|稳定|交付/.test(signal)) return { roomId: 'servers', text: '交付压力' };
-  return { roomId: 'product', text: '产品压力' };
-}
-
 export default function App() {
   const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
     useGameStore();
@@ -179,7 +172,17 @@ export default function App() {
   const cards = useMemo(() => (state ? metricCards(state.metrics) : []), [state]);
   const highlights = useMemo(() => (state ? turnHighlights(state.metrics) : []), [state]);
   const hasCommand = command.trim().length > 0;
-  const pulse = useMemo(() => (state ? officePulseRoom(state) : { roomId: 'product', text: '产品压力' }), [state]);
+  const pulse = useMemo(
+    () =>
+      state
+        ? resolveOfficePulse({
+            title: state.core_tension.title,
+            description: state.core_tension.description,
+            insightTitle: state.insight.title
+          })
+        : { roomId: 'product', text: '产品压力' },
+    [state]
+  );
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();

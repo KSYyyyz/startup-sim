@@ -7,7 +7,9 @@ import {
   gameContentManifest,
   quickActionShortcuts,
   gameplayRooms,
-  pressureResponseTemplates
+  officePulseRules,
+  pressureResponseTemplates,
+  resolveOfficePulse
 } from './gameplayContent';
 
 describe('gameplay content definitions', () => {
@@ -71,5 +73,26 @@ describe('gameplay content definitions', () => {
       expect(action.tags).toEqual(commandTradeoffs(action.command));
       expect(action.iconKey).toMatch(/boxes|users|hand-coins|megaphone/);
     }
+  });
+
+  test('resolves office pulse signals from gameplay rules', () => {
+    expect(officePulseRules.map((rule) => rule.roomId)).toEqual(['board', 'sales', 'servers']);
+
+    expect(resolveOfficePulse({ title: '现金告急', description: '融资窗口收紧', insightTitle: '股权压力' })).toEqual({
+      roomId: 'board',
+      text: '现金压力'
+    });
+    expect(resolveOfficePulse({ title: '用户增长', description: '获客效率提升', insightTitle: '营销反馈' })).toEqual({
+      roomId: 'sales',
+      text: '增长压力'
+    });
+    expect(resolveOfficePulse({ title: '交付风险', description: '服务器稳定性下降', insightTitle: '客户投诉' })).toEqual({
+      roomId: 'servers',
+      text: '交付压力'
+    });
+    expect(resolveOfficePulse({ title: '早期打磨期', description: '继续验证需求', insightTitle: '产品仍在打磨期' })).toEqual({
+      roomId: 'product',
+      text: '产品压力'
+    });
   });
 });

@@ -39,10 +39,11 @@
 7. 房间和行动定义已从 UI 组件中抽出，为后续原创剧本包、行业包和本地化做准备。
 8. 董事会/竞品压力回应模板已进入玩法数据层，UI 只负责触发和展示回应。
 9. 底部快捷行动已进入玩法数据层，并复用“已准备行动”预览。
+10. 办公室压力脉冲路由已进入玩法数据层，为未来剧本/行业包扩展房间信号做准备。
 
 **验证记录**:
 - Python: `pytest tests/ -q` → 400 passed
-- Frontend: `npm test -- --run` → 13 passed
+- Frontend: `npm test -- --run` → 14 passed
 - Frontend E2E: `npm run test:e2e` → 8 passed
 - GitHub CI: latest pushed frontend slices passed
 - Vercel smoke: `https://startup-sim-khaki.vercel.app` verified after push
