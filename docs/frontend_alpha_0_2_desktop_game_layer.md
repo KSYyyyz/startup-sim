@@ -88,6 +88,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Office pulse routing now uses gameplay data rules, so room pressure signals can evolve with future scenario/content packs.
 - Room actions, quick actions, board responses, and competitor responses now share a single prepared-action preview path.
 - Room operating states now resolve from gameplay data and render labels such as "运转中" and "产品改善" on the office scene.
+- Office event bubbles now resolve from board, competitor, and operating insight facts, with clickable board and competitor bubbles opening the matching side panel.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:

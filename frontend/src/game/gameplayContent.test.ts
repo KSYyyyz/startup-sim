@@ -3,6 +3,7 @@
 import {
   buildBoardPressureResponse,
   buildCompetitorPressureResponse,
+  buildOfficeEventBubbles,
   commandTradeoffs,
   gameContentManifest,
   quickActionShortcuts,
@@ -119,5 +120,43 @@ describe('gameplay content definitions', () => {
     expect(statuses.sales).toEqual({ tone: 'opportunity', label: '增长机会' });
     expect(statuses.servers).toEqual({ tone: 'blocked', label: '交付阻塞' });
     expect(statuses.team).toEqual({ tone: 'normal', label: '运转中' });
+  });
+
+  test('builds office event bubbles from board competitor and insight facts', () => {
+    const events = buildOfficeEventBubbles({
+      boardName: 'CFO',
+      boardMessage: '控制固定支出。',
+      competitorName: '快答科技',
+      competitorStatus: '升级企业功能',
+      insightTitle: '产品仍在打磨期',
+      insightDescription: '先用小预算验证客户需求。'
+    });
+
+    expect(events).toEqual([
+      {
+        id: 'board-signal',
+        roomId: 'board',
+        tone: 'board',
+        title: 'CFO',
+        description: '控制固定支出。',
+        action: 'board'
+      },
+      {
+        id: 'competitor-signal',
+        roomId: 'sales',
+        tone: 'competitor',
+        title: '快答科技',
+        description: '升级企业功能',
+        action: 'competitor'
+      },
+      {
+        id: 'insight-signal',
+        roomId: 'product',
+        tone: 'insight',
+        title: '产品仍在打磨期',
+        description: '先用小预算验证客户需求。',
+        action: 'none'
+      }
+    ]);
   });
 });

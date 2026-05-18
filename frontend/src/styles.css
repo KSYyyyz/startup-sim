@@ -367,6 +367,53 @@ h2 {
   color: #8a2520;
 }
 
+.office-event-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.office-event-bubble {
+  position: absolute;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+  display: grid;
+  max-width: 150px;
+  gap: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1f3d56;
+  font: inherit;
+  font-size: 0.7rem;
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(24, 36, 56, 0.16);
+}
+
+.office-event-bubble strong {
+  font-size: 0.72rem;
+}
+
+.office-event-bubble span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.office-event-bubble.board {
+  border-color: rgba(132, 74, 28, 0.32);
+}
+
+.office-event-bubble.competitor {
+  border-color: rgba(47, 109, 179, 0.32);
+}
+
+.office-event-bubble.insight {
+  border-color: rgba(55, 130, 88, 0.32);
+}
+
 .office-feedback {
   position: absolute;
   z-index: 3;

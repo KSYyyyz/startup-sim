@@ -82,6 +82,24 @@ export type RoomStatusInput = {
   signalText: string;
 };
 
+export type OfficeEventInput = {
+  boardName: string;
+  boardMessage: string;
+  competitorName: string;
+  competitorStatus: string;
+  insightTitle: string;
+  insightDescription: string;
+};
+
+export type OfficeEventBubble = {
+  id: string;
+  roomId: string;
+  tone: 'board' | 'competitor' | 'insight';
+  title: string;
+  description: string;
+  action: 'board' | 'competitor' | 'none';
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -383,4 +401,33 @@ export function resolveRoomStatuses(input: RoomStatusInput): Record<string, Room
   }
 
   return statuses;
+}
+
+export function buildOfficeEventBubbles(input: OfficeEventInput): OfficeEventBubble[] {
+  return [
+    {
+      id: 'board-signal',
+      roomId: 'board',
+      tone: 'board',
+      title: input.boardName,
+      description: input.boardMessage,
+      action: 'board'
+    },
+    {
+      id: 'competitor-signal',
+      roomId: 'sales',
+      tone: 'competitor',
+      title: input.competitorName,
+      description: input.competitorStatus,
+      action: 'competitor'
+    },
+    {
+      id: 'insight-signal',
+      roomId: 'product',
+      tone: 'insight',
+      title: input.insightTitle,
+      description: input.insightDescription,
+      action: 'none'
+    }
+  ];
 }

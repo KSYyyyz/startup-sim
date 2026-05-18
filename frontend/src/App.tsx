@@ -20,6 +20,7 @@ import { OfficeStage } from './game/OfficeStage';
 import {
   buildBoardPressureResponse,
   buildCompetitorPressureResponse,
+  buildOfficeEventBubbles,
   prepareAction,
   quickActionShortcuts,
   type PreparedAction,
@@ -192,6 +193,20 @@ export default function App() {
             signalText: `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title} ${state.insight.description}`
           })
         : {},
+    [state]
+  );
+  const officeEvents = useMemo(
+    () =>
+      state
+        ? buildOfficeEventBubbles({
+            boardName: state.board[0]?.name ?? '董事会',
+            boardMessage: state.board[0]?.message ?? '等待本月经营结果。',
+            competitorName: state.competitors[0]?.name ?? '暂无竞品',
+            competitorStatus: state.competitors[0]?.status ?? '等待市场信号。',
+            insightTitle: state.insight.title,
+            insightDescription: state.insight.description
+          })
+        : [],
     [state]
   );
 
@@ -369,6 +384,7 @@ export default function App() {
           pulseText={pulse.text}
           resultHighlights={lastTurn ? highlights : []}
           roomStatuses={roomStatuses}
+          officeEvents={officeEvents}
           onBoardSignalSelect={() => setRightTab('board')}
           onCompetitorSignalSelect={() => setRightTab('competitors')}
           onActionSelect={handleOfficeAction}

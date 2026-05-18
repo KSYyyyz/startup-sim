@@ -143,6 +143,10 @@ describe('Startup Sim frontend shell', () => {
     expect(officeFeedback).toHaveTextContent('快答科技：本月暂无重大动作');
     expect(screen.getByLabelText('产品室状态')).toHaveTextContent('产品压力');
     expect(screen.getByLabelText('产品室经营状态')).toHaveTextContent('运转中');
+    const officeEvents = within(screen.getByLabelText('办公室事件'));
+    expect(officeEvents.getByText('CFO')).toBeInTheDocument();
+    expect(officeEvents.getByText('快答科技')).toBeInTheDocument();
+    expect(officeEvents.getByText('产品仍在打磨期')).toBeInTheDocument();
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('持平')).toBeInTheDocument();
@@ -227,7 +231,11 @@ describe('Startup Sim frontend shell', () => {
 
     expect(sideTabs.getByRole('button', { name: '董事会' })).toHaveClass('active');
     expect(screen.getByRole('heading', { name: '董事会反馈' })).toBeInTheDocument();
-    expect(screen.getByText('控制固定支出。')).toBeInTheDocument();
+    expect(screen.getAllByText('控制固定支出。').length).toBeGreaterThan(0);
+
+    await userEvent.click(within(screen.getByLabelText('办公室事件')).getByRole('button', { name: /CFO/ }));
+
+    expect(sideTabs.getByRole('button', { name: '董事会' })).toHaveClass('active');
   });
 
   test('lets the player turn board pressure into a command', async () => {
@@ -281,9 +289,9 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('原因复盘')).toBeInTheDocument();
     expect(screen.getByText('下月压力')).toBeInTheDocument();
     expect(screen.getByText('研发投入提升了产品分，但现金消耗上升。')).toBeInTheDocument();
-    expect(screen.getByText('研发有效，但现金消耗上升。')).toBeInTheDocument();
-    expect(screen.getByText('灵犀客服云')).toBeInTheDocument();
+    expect(screen.getAllByText('研发有效，但现金消耗上升。').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('灵犀客服云').length).toBeGreaterThan(0);
     expect(screen.getByText('上升')).toBeInTheDocument();
-    expect(screen.getByText('研发投入带来产品进展')).toBeInTheDocument();
+    expect(screen.getAllByText('研发投入带来产品进展').length).toBeGreaterThan(0);
   });
 });

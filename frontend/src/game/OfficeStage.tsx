@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import type { RoomStatus } from './gameplayContent';
+import type { OfficeEventBubble, RoomStatus } from './gameplayContent';
 import { officeRooms, type OfficeAction, type OfficeRoom } from './officeRooms';
 
 type OfficeStageProps = {
@@ -17,6 +17,7 @@ type OfficeStageProps = {
     tone: string;
   }>;
   roomStatuses: Record<string, RoomStatus>;
+  officeEvents: OfficeEventBubble[];
   onBoardSignalSelect: () => void;
   onCompetitorSignalSelect: () => void;
   onActionSelect: (action: OfficeAction) => void;
@@ -86,6 +87,7 @@ export function OfficeStage({
   pulseText,
   resultHighlights,
   roomStatuses,
+  officeEvents,
   onBoardSignalSelect,
   onCompetitorSignalSelect,
   onActionSelect
@@ -152,6 +154,42 @@ export function OfficeStage({
                 {roomStatus.label}
               </span>
             </div>
+          );
+        })}
+      </div>
+      <div className="office-event-layer" aria-label="办公室事件">
+        {officeEvents.map((event) => {
+          const room = officeRooms.find((item) => item.id === event.roomId) ?? officeRooms[0];
+          const handleClick =
+            event.action === 'board'
+              ? onBoardSignalSelect
+              : event.action === 'competitor'
+                ? onCompetitorSignalSelect
+                : undefined;
+          const eventNode = (
+            <>
+              <strong>{event.title}</strong>
+              <span>{event.description}</span>
+            </>
+          );
+          return handleClick ? (
+            <button
+              className={`office-event-bubble ${event.tone}`}
+              key={event.id}
+              style={{ left: `${room.x}%`, top: `${room.y + 10}%` }}
+              type="button"
+              onClick={handleClick}
+            >
+              {eventNode}
+            </button>
+          ) : (
+            <span
+              className={`office-event-bubble ${event.tone}`}
+              key={event.id}
+              style={{ left: `${room.x}%`, top: `${room.y + 10}%` }}
+            >
+              {eventNode}
+            </span>
           );
         })}
       </div>
