@@ -110,6 +110,7 @@ Completed in the first ten desktop-first implementation rounds:
 - The command dock now has a "指令完整度" hint that checks for action, budget/scale, and target object. It only points out missing clarity and does not generate dependency commands.
 - Board and competitor side panels now start with a compact "关键信号" summary so the right rail is scan-first instead of list-first.
 - The left rail now surfaces a "本局路线" card after settled turns, recognizing playstyles such as product, capital, growth, lean, or balanced routes from already-executed actions and changes.
+- Production-style E2E now checks the full scan-first loop: command readiness before execution, monthly verdict and route after execution, and compact board/competitor key-signal summaries.
 
 Known follow-up:
 
