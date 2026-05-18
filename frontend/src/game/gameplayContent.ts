@@ -15,7 +15,7 @@ export type QuickActionShortcut = GameplayActionDefinition & {
 
 export type PreparedAction = GameplayActionDefinition & {
   id: string;
-  source: 'room' | 'quick' | 'board' | 'competitor';
+  source: 'room' | 'quick' | 'board' | 'competitor' | 'monthly';
   sourceLabel: string;
 };
 
@@ -606,6 +606,19 @@ export function buildMonthlyReport(input: MonthlyReportInput): MonthlyReport {
     nextPressure: input.nextPressure,
     recoveryAction
   };
+}
+
+export function buildMonthlyRecoveryAction(report: MonthlyReport, month: number): PreparedAction {
+  return prepareAction(
+    {
+      title: report.recoveryAction.label,
+      description: report.recoveryAction.description,
+      impact: '现金流可支撑时间 + / 风险 -',
+      command: report.recoveryAction.command,
+      tags: commandTradeoffs(report.recoveryAction.command)
+    },
+    { id: `monthly-${month}`, source: 'monthly', sourceLabel: '月报行动' }
+  );
 }
 
 function boardStanceFromIdentity(member: BoardNpcMember) {

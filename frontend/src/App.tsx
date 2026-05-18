@@ -21,8 +21,8 @@ import {
   buildCompetitorMoves,
   buildPreparedActionPreview,
   buildMonthlyReport,
+  buildMonthlyRecoveryAction,
   buildTurnResolutionSteps,
-  commandTradeoffs,
   prepareAction,
   quickActionShortcuts,
   type PreparedAction,
@@ -285,18 +285,7 @@ export default function App() {
     const action = monthlyReport.recoveryAction;
     setCommand(action.command);
     clearCommandPreview();
-    setPreparedAction(
-      prepareAction(
-        {
-          title: action.label,
-          description: action.description,
-          impact: '现金流可支撑时间 + / 风险 -',
-          command: action.command,
-          tags: commandTradeoffs(action.command)
-        },
-        { id: `monthly-${lastTurn?.month ?? 'latest'}`, source: 'quick', sourceLabel: '月报行动' }
-      )
-    );
+    setPreparedAction(buildMonthlyRecoveryAction(monthlyReport, lastTurn?.month ?? 0));
   }
 
   async function handleAdvice() {

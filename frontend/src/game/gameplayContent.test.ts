@@ -7,6 +7,7 @@ import {
   buildCompetitorMoves,
   buildPreparedActionPreview,
   buildMonthlyReport,
+  buildMonthlyRecoveryAction,
   buildOfficeEventBubbles,
   buildTurnResolutionSteps,
   commandTradeoffs,
@@ -201,6 +202,29 @@ describe('gameplay content definitions', () => {
         command: '花1万研发产品保持最低运转',
         description: '先压住现金消耗，再继续验证产品改进是否能转成增长。'
       }
+    });
+  });
+
+  test('builds monthly recovery actions outside React UI', () => {
+    const report = buildMonthlyReport({
+      month: 3,
+      highlights: [{ label: '现金', value: '$-22万', tone: 'bad' }],
+      reasons: ['现金消耗上升。'],
+      nextPressure: '需要收紧节奏。',
+      command: '花10万研发产品',
+      cashChange: -220000,
+      productChange: 0,
+      usersChange: 0
+    });
+
+    expect(buildMonthlyRecoveryAction(report, 3)).toMatchObject({
+      id: 'monthly-3',
+      source: 'monthly',
+      sourceLabel: '月报行动',
+      title: '下月止血',
+      command: '花1万研发产品保持最低运转',
+      impact: '现金流可支撑时间 + / 风险 -',
+      tags: ['现金流可支撑时间 +', '增长 -']
     });
   });
 
