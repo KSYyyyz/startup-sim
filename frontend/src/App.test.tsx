@@ -139,6 +139,8 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
+    expect(screen.getByText('现金纪律')).toBeInTheDocument();
+    expect(screen.getByText('产品护城河')).toBeInTheDocument();
     expect(screen.getByLabelText('移动端本回合指令')).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/跑道|Runway/);
   });

@@ -124,6 +124,15 @@ function turnHighlights(metrics: MetricSet) {
   ];
 }
 
+function boardStance(member: { name: string; role: string }) {
+  const identity = `${member.name} ${member.role}`;
+  if (/CFO|财务/.test(identity)) return '现金纪律';
+  if (/CTO|技术/.test(identity)) return '产品护城河';
+  if (/COO|运营/.test(identity)) return '交付质量';
+  if (/增长|Growth/.test(identity)) return '增长效率';
+  return '公司治理';
+}
+
 export default function App() {
   const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
     useGameStore();
@@ -335,6 +344,7 @@ export default function App() {
                   <div className="avatar">{member.name.slice(0, 1)}</div>
                   <div>
                     <strong>{member.name}</strong>
+                    <small className="stance-chip">{boardStance(member)}</small>
                     <span>{member.role}</span>
                     <p>{member.message}</p>
                   </div>
