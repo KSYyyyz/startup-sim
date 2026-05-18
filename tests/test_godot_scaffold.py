@@ -37,6 +37,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "ZonePaintingController.cs",
         SCRIPTS / "FacilityPlacementController.cs",
         SCRIPTS / "EmployeeManagementController.cs",
+        SCRIPTS / "CapacityPreviewController.cs",
     ]
 
     for path in required:
@@ -134,3 +135,14 @@ def test_godot_main_scene_mounts_employee_management_controller():
     assert "AdvanceEmployeeNeeds" in controller
     assert "EmployeeCandidate" in controller
     assert "RoleFitScore" in controller
+
+
+def test_godot_main_scene_mounts_capacity_preview_controller():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "CapacityPreviewController.cs").read_text(encoding="utf-8")
+
+    assert "CapacityPreviewController" in scene
+    assert "res://scripts/CapacityPreviewController.cs" in scene
+    assert "RefreshCapacityPreview" in controller
+    assert "BuildCapacitySnapshot" in controller
+    assert "CapacityPreviewChanged" in controller

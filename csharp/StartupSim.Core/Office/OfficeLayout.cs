@@ -210,6 +210,39 @@ namespace StartupSim.Core.Office
             return true;
         }
 
+        public OfficeCapacitySnapshot BuildCapacitySnapshot()
+        {
+            var snapshot = new OfficeCapacitySnapshot
+            {
+                EmployeeCount = employees.Count,
+                MonthlyFixedCost = employees.Sum(item => item.Salary) + facilities.Sum(item => item.MonthlyCost)
+            };
+
+            foreach (var facility in facilities)
+            {
+                AddFacilityCapacity(snapshot, facility);
+            }
+
+            var assignedEmployees = employees
+                .Where(item => !string.IsNullOrWhiteSpace(item.AssignedZoneId))
+                .ToList();
+            if (assignedEmployees.Count > 0)
+            {
+                snapshot.EmployeeEfficiency = assignedEmployees.Average(CalculateEmployeeEfficiency);
+            }
+
+            foreach (var employee in assignedEmployees)
+            {
+                AddEmployeeCapacity(snapshot, employee);
+            }
+
+            var hasTraining = assignedEmployees.Any(item => item.CurrentActivity == "培训中");
+            snapshot.HumanSummary = hasTraining
+                ? "研发区产能已形成，但培训会短期降低员工效率。"
+                : "研发区、设施和员工正在形成基础公司产能。";
+            return snapshot;
+        }
+
         public void AdvanceEmployeeNeeds(int hours)
         {
             if (hours <= 0)
@@ -327,6 +360,62 @@ namespace StartupSim.Core.Office
                 && cell.X < zone.X + zone.Width
                 && cell.Y >= zone.Y
                 && cell.Y < zone.Y + zone.Height;
+        }
+
+        private static void AddFacilityCapacity(OfficeCapacitySnapshot snapshot, OfficeFacility facility)
+        {
+            switch (facility.FacilityTypeId)
+            {
+                case "basic_desk":
+                    snapshot.OrganizationEfficiency += facility.Level;
+                    break;
+                case "product_whiteboard":
+                    snapshot.ProductCapacity += 3 + facility.Level;
+                    break;
+                case "starter_server_rack":
+                    snapshot.Stability += 5 + facility.Level * 2;
+                    break;
+            }
+        }
+
+        private static void AddEmployeeCapacity(OfficeCapacitySnapshot snapshot, OfficeEmployee employee)
+        {
+            var efficiency = CalculateEmployeeEfficiency(employee);
+            var levelBonus = employee.Level > 1 ? 3 : 0;
+
+            if (employee.RoleId == "product_engineer")
+            {
+                snapshot.ProductCapacity +=
+                    ((GetSkill(employee, "product_development") / 20m) + levelBonus) * efficiency;
+            }
+            else if (employee.RoleId == "sales_specialist")
+            {
+                snapshot.SalesCapacity +=
+                    ((GetSkill(employee, "sales_conversion") / 20m) + levelBonus) * efficiency;
+            }
+            else if (employee.RoleId == "ops_engineer")
+            {
+                snapshot.Stability +=
+                    ((GetSkill(employee, "infrastructure_ops") / 20m) + levelBonus) * efficiency;
+            }
+        }
+
+        private static decimal CalculateEmployeeEfficiency(OfficeEmployee employee)
+        {
+            var fatiguePenalty = employee.Fatigue / 200m;
+            var moodPenalty = employee.Mood < 50 ? (50 - employee.Mood) / 100m : 0m;
+            var efficiency = 1m - fatiguePenalty - moodPenalty - employee.OutputPenalty;
+            if (efficiency < 0.2m)
+            {
+                return 0.2m;
+            }
+
+            return efficiency > 1m ? 1m : efficiency;
+        }
+
+        private static int GetSkill(OfficeEmployee employee, string skillId)
+        {
+            return employee.Skills.TryGetValue(skillId, out var value) ? value : 0;
         }
 
         private static int CalculateLevel(int experience)

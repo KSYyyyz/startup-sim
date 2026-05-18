@@ -567,6 +567,8 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 - 已建立 Godot `EmployeeManagementController`，主场景挂载员工管理控制器，支持招聘 G1 候选人并分配到匹配区域。
 - 已建立员工成长与需求字段，支持疲劳、休息需求、厕所需求、娱乐需求、情绪、健康、当前活动、经验、等级和短期产出惩罚。
 - 已建立员工培训和需求推进接口，Godot `EmployeeManagementController` 可触发培训和员工需求时间推进。
+- 已建立 C# Core `OfficeCapacitySnapshot`，把区域、设施、员工能力、等级、疲劳和培训惩罚转化为产品产能、销售产能、稳定性、组织效率和固定成本预览。
+- 已建立 Godot `CapacityPreviewController`，主场景挂载产能预览控制器，输出面向玩家的人话摘要。
 
 验收：
 
