@@ -129,6 +129,26 @@ export type MonthlyReport = {
   };
 };
 
+export type BoardNpcMember = {
+  name: string;
+  role: string;
+  message: string;
+  confidence: number;
+};
+
+export type BoardNpcProfileInput = {
+  members: BoardNpcMember[];
+  cashCoverageMonths: number;
+  productChange: number;
+  usersChange: number;
+};
+
+export type BoardNpcProfile = BoardNpcMember & {
+  stance: string;
+  trustTrend: '信任上升' | '信任稳定' | '信任承压';
+  pressureTags: string[];
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -505,4 +525,41 @@ export function buildMonthlyReport(input: MonthlyReportInput): MonthlyReport {
     nextPressure: input.nextPressure,
     recoveryAction
   };
+}
+
+function boardStanceFromIdentity(member: BoardNpcMember) {
+  const identity = `${member.name} ${member.role}`;
+  if (/CFO|财务/.test(identity)) return '现金纪律';
+  if (/CTO|技术/.test(identity)) return '产品护城河';
+  if (/COO|运营/.test(identity)) return '交付质量';
+  if (/增长|Growth/.test(identity)) return '增长效率';
+  return '公司治理';
+}
+
+function boardTrustTrend(member: BoardNpcMember, input: BoardNpcProfileInput): BoardNpcProfile['trustTrend'] {
+  const stance = boardStanceFromIdentity(member);
+  if (stance === '现金纪律' && input.cashCoverageMonths < 3) return '信任承压';
+  if (stance === '产品护城河' && input.productChange > 0) return '信任上升';
+  if (stance === '增长效率' && input.usersChange > 0) return '信任上升';
+  if (member.confidence >= 86) return '信任上升';
+  if (member.confidence < 76) return '信任承压';
+  return '信任稳定';
+}
+
+function boardPressureTags(member: BoardNpcMember, input: BoardNpcProfileInput) {
+  const stance = boardStanceFromIdentity(member);
+  if (stance === '现金纪律' && input.cashCoverageMonths < 3) return ['现金压力', '控制支出'];
+  if (stance === '产品护城河' && input.productChange > 0) return ['产品进展', '继续验证'];
+  if (stance === '增长效率' && input.usersChange > 0) return ['用户增长', '渠道复盘'];
+  if (stance === '交付质量') return ['交付节奏', '组织压力'];
+  return [stance, '持续观察'];
+}
+
+export function buildBoardNpcProfiles(input: BoardNpcProfileInput): BoardNpcProfile[] {
+  return input.members.map((member) => ({
+    ...member,
+    stance: boardStanceFromIdentity(member),
+    trustTrend: boardTrustTrend(member, input),
+    pressureTags: boardPressureTags(member, input)
+  }));
 }

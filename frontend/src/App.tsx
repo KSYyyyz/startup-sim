@@ -19,6 +19,7 @@ import {
 import { OfficeStage } from './game/OfficeStage';
 import {
   buildBoardPressureResponse,
+  buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
   buildMonthlyReport,
   buildOfficeEventBubbles,
@@ -150,15 +151,6 @@ function turnHighlights(metrics: MetricSet) {
   ];
 }
 
-function boardStance(member: { name: string; role: string }) {
-  const identity = `${member.name} ${member.role}`;
-  if (/CFO|财务/.test(identity)) return '现金纪律';
-  if (/CTO|技术/.test(identity)) return '产品护城河';
-  if (/COO|运营/.test(identity)) return '交付质量';
-  if (/增长|Growth/.test(identity)) return '增长效率';
-  return '公司治理';
-}
-
 export default function App() {
   const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
     useGameStore();
@@ -207,6 +199,18 @@ export default function App() {
             competitorStatus: state.competitors[0]?.status ?? '等待市场信号。',
             insightTitle: state.insight.title,
             insightDescription: state.insight.description
+          })
+        : [],
+    [state]
+  );
+  const boardProfiles = useMemo(
+    () =>
+      state
+        ? buildBoardNpcProfiles({
+            members: state.board,
+            cashCoverageMonths: state.metrics.cash_coverage_months,
+            productChange: state.metrics.product_change,
+            usersChange: state.metrics.users_change
           })
         : [],
     [state]
@@ -465,13 +469,23 @@ export default function App() {
           {rightTab === 'board' && (
             <article className="panel tall-panel">
               <h2>董事会反馈</h2>
-              {state.board.map((member) => (
+              {boardProfiles.map((member) => (
                 <div className="board-row" key={member.name}>
                   <div className="avatar">{member.name.slice(0, 1)}</div>
                   <div>
                     <strong>{member.name}</strong>
-                    <small className="stance-chip">{boardStance(member)}</small>
+                    <div className="board-profile-line">
+                      <small className="stance-chip">{member.stance}</small>
+                      <small className={`trust-chip ${member.trustTrend === '信任承压' ? 'strained' : ''}`}>
+                        {member.trustTrend}
+                      </small>
+                    </div>
                     <span>{member.role}</span>
+                    <div className="board-pressure-tags" aria-label={`${member.name}压力标签`}>
+                      {member.pressureTags.map((tag) => (
+                        <small key={tag}>{tag}</small>
+                      ))}
+                    </div>
                     <p>{member.message}</p>
                     <button type="button" className="board-response-button" onClick={() => handleBoardResponse(member)}>
                       回应 {member.name} 压力

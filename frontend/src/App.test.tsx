@@ -154,8 +154,10 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('持平')).toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
-    expect(screen.getByText('现金纪律')).toBeInTheDocument();
-    expect(screen.getByText('产品护城河')).toBeInTheDocument();
+    expect(screen.getAllByText('现金纪律').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('产品护城河').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('信任稳定').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('持续观察').length).toBeGreaterThan(0);
     expect(screen.getByLabelText('移动端本回合指令')).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/跑道|Runway/);
   });

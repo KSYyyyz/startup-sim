@@ -2,6 +2,7 @@
 
 import {
   buildBoardPressureResponse,
+  buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
   buildMonthlyReport,
   buildOfficeEventBubbles,
@@ -192,5 +193,38 @@ describe('gameplay content definitions', () => {
         description: '先压住现金消耗，再继续验证产品改进是否能转成增长。'
       }
     });
+  });
+
+  test('builds board NPC profiles from member roles and current pressure', () => {
+    const profiles = buildBoardNpcProfiles({
+      members: [
+        { name: 'CFO', role: '财务负责人', message: '现金消耗上升。', confidence: 72 },
+        { name: 'CTO', role: '技术负责人', message: '产品体验改善。', confidence: 88 }
+      ],
+      cashCoverageMonths: 2.4,
+      productChange: 8,
+      usersChange: 0
+    });
+
+    expect(profiles).toEqual([
+      {
+        name: 'CFO',
+        role: '财务负责人',
+        message: '现金消耗上升。',
+        confidence: 72,
+        stance: '现金纪律',
+        trustTrend: '信任承压',
+        pressureTags: ['现金压力', '控制支出']
+      },
+      {
+        name: 'CTO',
+        role: '技术负责人',
+        message: '产品体验改善。',
+        confidence: 88,
+        stance: '产品护城河',
+        trustTrend: '信任上升',
+        pressureTags: ['产品进展', '继续验证']
+      }
+    ]);
   });
 });

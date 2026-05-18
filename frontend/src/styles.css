@@ -794,6 +794,41 @@ h2 {
   font-weight: 900;
 }
 
+.board-profile-line,
+.board-pressure-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+
+.trust-chip,
+.board-pressure-tags small {
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.trust-chip {
+  background: #e7f6ed;
+  color: #1f8f4d;
+}
+
+.trust-chip.strained {
+  background: #fdecec;
+  color: #c0393d;
+}
+
+.board-pressure-tags {
+  margin-top: 5px;
+}
+
+.board-pressure-tags small {
+  background: #f2f5f8;
+  color: #4c5e76;
+}
+
 .board-row p,
 .competitor-row p,
 .advice-row p {
