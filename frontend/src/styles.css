@@ -506,6 +506,21 @@ h2 {
   font-weight: 900;
 }
 
+.pressure-tags {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+.pressure-tags small {
+  border: 1px solid #ccd7e6;
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: #edf4fc;
+  color: #245a9d;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
 .room-action-card p {
   margin-top: 4px;
   color: #33475f;

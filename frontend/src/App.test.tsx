@@ -225,6 +225,8 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByLabelText('本回合指令')).toHaveValue('花1万研发产品保持最低运转');
     expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('CFO');
     expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('控制固定支出。');
+    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('现金流可支撑时间 +');
+    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('增长 -');
     expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
   });
 
@@ -239,6 +241,8 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByLabelText('本回合指令')).toHaveValue('花10万做营销推广');
     expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('快答科技');
     expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('本月暂无重大动作');
+    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('用户 +');
+    expect(screen.getByLabelText('已生成回应指令')).toHaveTextContent('现金 -');
     expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
   });
 

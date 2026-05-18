@@ -157,6 +157,16 @@ function competitorResponseCommand(item: CompetitorItem) {
   return '花10万做营销推广';
 }
 
+function commandTradeoffs(value: string) {
+  if (/保持最低运转/.test(value)) return ['现金流可支撑时间 +', '增长 -'];
+  if (/融资/.test(value)) return ['现金 +', '股权 -'];
+  if (/招聘/.test(value)) return ['团队 +', '固定支出 +'];
+  if (/营销/.test(value)) return ['用户 +', '现金 -'];
+  if (/服务器|稳定/.test(value)) return ['稳定性 +', '现金 -'];
+  if (/25万|提升竞争力/.test(value)) return ['产品 ++', '现金 --'];
+  return ['产品 +', '现金 -'];
+}
+
 function officePulseRoom(state: GameStateView) {
   const signal = `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title}`;
   if (/现金|融资|股权/.test(signal)) return { roomId: 'board', text: '现金压力' };
@@ -170,7 +180,11 @@ export default function App() {
     useGameStore();
   const [command, setCommand] = useState('');
   const [preparedAction, setPreparedAction] = useState<OfficeAction | null>(null);
-  const [pressureResponse, setPressureResponse] = useState<{ source: string; message: string } | null>(null);
+  const [pressureResponse, setPressureResponse] = useState<{
+    source: string;
+    message: string;
+    tradeoffs: string[];
+  } | null>(null);
   const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'log'>('board');
 
   useEffect(() => {
@@ -216,15 +230,17 @@ export default function App() {
   }
 
   function handleBoardResponse(member: { name: string; role: string; message: string }) {
-    setCommand(boardResponseCommand(member));
+    const responseCommand = boardResponseCommand(member);
+    setCommand(responseCommand);
     setPreparedAction(null);
-    setPressureResponse({ source: member.name, message: member.message });
+    setPressureResponse({ source: member.name, message: member.message, tradeoffs: commandTradeoffs(responseCommand) });
   }
 
   function handleCompetitorResponse(item: CompetitorItem) {
-    setCommand(competitorResponseCommand(item));
+    const responseCommand = competitorResponseCommand(item);
+    setCommand(responseCommand);
     setPreparedAction(null);
-    setPressureResponse({ source: item.name, message: item.status });
+    setPressureResponse({ source: item.name, message: item.status, tradeoffs: commandTradeoffs(responseCommand) });
   }
 
   async function handleAdvice() {
@@ -496,6 +512,11 @@ export default function App() {
               <span>已生成回应指令</span>
               <strong>{pressureResponse.source}</strong>
               <p>{pressureResponse.message}</p>
+              <div className="action-tags pressure-tags" aria-label="回应指令取舍">
+                {pressureResponse.tradeoffs.map((tag) => (
+                  <small key={tag}>{tag}</small>
+                ))}
+              </div>
             </article>
           )}
           {!preparedAction && !pressureResponse && (

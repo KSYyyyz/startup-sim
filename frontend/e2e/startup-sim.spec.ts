@@ -12,6 +12,8 @@ test('creates a session and submits one turn', async ({ page }) => {
   await page.getByRole('button', { name: /查看竞品信号/ }).click();
   await expect(page.getByRole('button', { name: '竞品', exact: true })).toHaveClass(/active/);
   await page.locator('.competitor-response-button').first().click();
+  await expect(page.locator('.pressure-response')).toBeVisible();
+  await expect(page.locator('.pressure-tags small')).toHaveCount(2);
   if ((page.viewportSize()?.width ?? 0) <= 640) {
     await expect(page.getByLabel('移动端本回合指令')).not.toHaveValue('');
   } else {
