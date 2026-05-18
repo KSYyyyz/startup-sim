@@ -1,7 +1,7 @@
 {
   "pack_id": "startup-sim-godot-g1-art-pack-v0.1",
   "created_at_local": "2026-05-18T22:55:02",
-  "storage_policy": "Project-integrated art library. Assets are now stored under D:/startup-sim/godot/StartupSimGodot/assets/art/godot-g1-art-pack-v0.1; external D:/???? copy may remain as backup.",
+  "storage_policy": "Generated art pack is tracked in this repository under godot/StartupSimGodot/assets/art so Godot import tests and future art updates stay reproducible.",
   "project_context": {
     "engine_direction": "Godot 4.x .NET presentation layer with C# Core gameplay facts",
     "art_priority": "Godot G1 playable slice: office construction, zones, facilities, employee sprites and animation, UI frames, feedback FX, icons, and recruitment portraits."
