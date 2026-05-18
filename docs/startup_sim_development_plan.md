@@ -569,6 +569,8 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 - 已建立员工培训和需求推进接口，Godot `EmployeeManagementController` 可触发培训和员工需求时间推进。
 - 已建立 C# Core `OfficeCapacitySnapshot`，把区域、设施、员工能力、等级、疲劳和培训惩罚转化为产品产能、销售产能、稳定性、组织效率和固定成本预览。
 - 已建立 Godot `CapacityPreviewController`，主场景挂载产能预览控制器，输出面向玩家的人话摘要。
+- 已建立 Godot `TimeProgressController`，支持暂停、正常速度、二倍速、三倍速、游戏时间推进、月末信号和通过 `GodotTurnBridge` 执行月度结算。
+- 主场景已挂载 `GodotTurnBridge`，时间推进不直接修改经营数值，月度结果仍由 C# Core 结算。
 
 验收：
 

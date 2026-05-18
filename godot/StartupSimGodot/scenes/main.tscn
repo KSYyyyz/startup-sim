@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/StartupSimController.cs" id="1"]
 [ext_resource type="Script" path="res://scripts/OfficeGridView.cs" id="2"]
@@ -6,9 +6,14 @@
 [ext_resource type="Script" path="res://scripts/FacilityPlacementController.cs" id="4"]
 [ext_resource type="Script" path="res://scripts/EmployeeManagementController.cs" id="5"]
 [ext_resource type="Script" path="res://scripts/CapacityPreviewController.cs" id="6"]
+[ext_resource type="Script" path="res://scripts/TimeProgressController.cs" id="7"]
+[ext_resource type="Script" path="res://scripts/GodotTurnBridge.cs" id="8"]
 
 [node name="StartupSimMain" type="Node"]
 script = ExtResource("1")
+
+[node name="GodotTurnBridge" type="Node" parent="."]
+script = ExtResource("8")
 
 [node name="OfficeGridView" type="Node2D" parent="."]
 script = ExtResource("2")
@@ -34,3 +39,10 @@ ZonePaintingControllerPath = NodePath("../ZonePaintingController")
 [node name="CapacityPreviewController" type="Node" parent="."]
 script = ExtResource("6")
 ZonePaintingControllerPath = NodePath("../ZonePaintingController")
+
+[node name="TimeProgressController" type="Node" parent="."]
+script = ExtResource("7")
+TurnBridgePath = NodePath("../GodotTurnBridge")
+EmployeeManagementControllerPath = NodePath("../EmployeeManagementController")
+SpeedMultiplier = 1.0
+MonthIndex = 1

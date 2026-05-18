@@ -38,6 +38,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "FacilityPlacementController.cs",
         SCRIPTS / "EmployeeManagementController.cs",
         SCRIPTS / "CapacityPreviewController.cs",
+        SCRIPTS / "TimeProgressController.cs",
     ]
 
     for path in required:
@@ -146,3 +147,18 @@ def test_godot_main_scene_mounts_capacity_preview_controller():
     assert "RefreshCapacityPreview" in controller
     assert "BuildCapacitySnapshot" in controller
     assert "CapacityPreviewChanged" in controller
+
+
+def test_godot_main_scene_mounts_time_progress_controller():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "TimeProgressController.cs").read_text(encoding="utf-8")
+
+    assert "TimeProgressController" in scene
+    assert "res://scripts/TimeProgressController.cs" in scene
+    assert "SetPaused" in controller
+    assert "SetNormalSpeed" in controller
+    assert "SetDoubleSpeed" in controller
+    assert "SetTripleSpeed" in controller
+    assert "AdvanceGameHours" in controller
+    assert "SubmitMonthSettlement" in controller
+    assert "GodotTurnBridge" in controller
