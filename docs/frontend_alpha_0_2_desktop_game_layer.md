@@ -103,7 +103,8 @@ Completed in the first ten desktop-first implementation rounds:
 
 Known follow-up:
 
-- PixiJS now loads through an isolated optional overlay boundary. Its async production chunk is still large, so the next performance pass should choose between a lighter canvas renderer, deeper Pixi tree-shaking, or a release-oriented chunk budget.
+- PixiJS now loads through an isolated optional overlay boundary and Vite keeps it in a named `pixi-overlay` production chunk. The main app chunk remains separate from the optional canvas layer, which preserves room/button interactivity as the first-load priority.
+- The current Pixi chunk is still a deliberate heavy optional dependency. Future performance work should only replace it with a lighter renderer if the office layer starts needing faster cold starts on low-end machines or packaged desktop builds.
 - The mobile path is intentionally smoke-level only. Desktop layout remains the primary acceptance target until the office-management loop feels complete.
 
 ## 5. Next Desktop Tasks

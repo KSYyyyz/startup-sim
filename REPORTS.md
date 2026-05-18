@@ -4,6 +4,22 @@
 
 ---
 
+## Frontend Performance Pass — PixiJS optional chunk boundary (2026-05-18)
+
+**性质**: 桌面前端性能边界收口。目标是让办公室 Canvas 层继续可选，同时避免 PixiJS 被误并入主入口。
+
+**主要产出**:
+- `frontend/src/buildChunks.ts` 新增 Vite/Rollup 分包规则，将 `pixi.js` 和 `@pixi/*` 统一命名到 `pixi-overlay` chunk。
+- `frontend/vite.config.ts` 接入分包规则，并把当前发布预算调整到适合“主入口轻、Pixi 可选异步加载”的边界。
+- `frontend/src/buildConfig.test.ts` 锁定分包规则，防止未来改动把 Pixi 重新吸回主包。
+- `docs/frontend_alpha_0_2_desktop_game_layer.md` 更新性能结论：当前路线继续保留 Pixi 可选层，未来只有在低端设备或桌面包冷启动变差时才替换更轻 renderer。
+
+**验证重点**:
+- `npm run build` 输出主入口约 243KB，`pixi-overlay` 约 853KB，且不再出现大 chunk 警告。
+- 本轮不改变 TurnEngine、不改变房间行动结算、不触碰体外资产包。
+
+---
+
 ## Alpha 0.4 — TurnFacts 后端序列化第一切片 (2026-05-18)
 
 **性质**: 共同合同层的第一轮后端落地。目标是让前端和未来 Unity 不再从 UI 文案或分散字段里猜“本回合事实”。

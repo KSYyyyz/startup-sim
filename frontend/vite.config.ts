@@ -1,8 +1,18 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+import { manualChunks } from './src/buildChunks';
+
 export default defineConfig({
   plugins: [react()],
+  build: {
+    chunkSizeWarningLimit: 900,
+    rollupOptions: {
+      output: {
+        manualChunks
+      }
+    }
+  },
   server: {
     port: 5173,
     proxy: {
