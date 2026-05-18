@@ -137,6 +137,11 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('现金流可支撑时间')).toBeInTheDocument();
     expect(screen.getByText('核心矛盾')).toBeInTheDocument();
     expect(screen.getByLabelText('办公室提示')).toHaveTextContent('早期打磨期');
+    const officeFeedback = screen.getByLabelText('办公室动态反馈');
+    expect(officeFeedback).toHaveTextContent('CFO');
+    expect(officeFeedback).toHaveTextContent('控制固定支出。');
+    expect(officeFeedback).toHaveTextContent('快答科技：本月暂无重大动作');
+    expect(screen.getByLabelText('产品室状态')).toHaveTextContent('产品压力');
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('持平')).toBeInTheDocument();

@@ -7,6 +7,8 @@ test('creates a session and submits one turn', async ({ page }) => {
   await expect(page.getByText('现金流可支撑时间', { exact: true })).toBeVisible();
   await expect(page.getByText('核心矛盾')).toBeVisible();
   await expect(page.getByLabel('互动办公室场景')).toBeVisible();
+  await expect(page.getByLabel('办公室动态反馈')).toBeVisible();
+  await expect(page.getByLabel('产品室状态')).toContainText('产品压力');
   await expect(page.getByLabel('竞品态势')).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);
 

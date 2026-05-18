@@ -6,6 +6,10 @@ type OfficeStageProps = {
   focusTitle: string;
   insightTitle: string;
   insightDescription: string;
+  boardSignal: string;
+  competitorSignal: string;
+  pulseRoomId: string;
+  pulseText: string;
   onActionSelect: (action: OfficeAction) => void;
 };
 
@@ -63,7 +67,16 @@ function drawPixiOverlay(container: HTMLDivElement) {
   };
 }
 
-export function OfficeStage({ focusTitle, insightTitle, insightDescription, onActionSelect }: OfficeStageProps) {
+export function OfficeStage({
+  focusTitle,
+  insightTitle,
+  insightDescription,
+  boardSignal,
+  competitorSignal,
+  pulseRoomId,
+  pulseText,
+  onActionSelect
+}: OfficeStageProps) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [selectedRoomId, setSelectedRoomId] = useState(officeRooms[0].id);
   const selectedRoom = useMemo<OfficeRoom>(
@@ -83,21 +96,31 @@ export function OfficeStage({ focusTitle, insightTitle, insightDescription, onAc
         <span>本月焦点</span>
         <strong>{focusTitle}</strong>
       </div>
+      <div className="office-feedback" aria-label="办公室动态反馈">
+        <span>动态反馈</span>
+        <strong>{boardSignal}</strong>
+        <small>{competitorSignal}</small>
+      </div>
       <div className="room-hotspots" aria-label="可操作房间">
         {officeRooms.map((room) => {
           const Icon = room.icon;
           return (
-            <button
-              className={`room-hotspot ${room.tone} ${room.id === selectedRoomId ? 'active' : ''}`}
-              aria-pressed={room.id === selectedRoomId}
-              key={room.id}
-              onClick={() => setSelectedRoomId(room.id)}
-              style={{ left: `${room.x}%`, top: `${room.y}%` }}
-              type="button"
-            >
-              <Icon size={18} aria-hidden="true" />
-              <span>{room.name}</span>
-            </button>
+            <div className="room-hotspot-wrap" key={room.id} style={{ left: `${room.x}%`, top: `${room.y}%` }}>
+              <button
+                className={`room-hotspot ${room.tone} ${room.id === selectedRoomId ? 'active' : ''}`}
+                aria-pressed={room.id === selectedRoomId}
+                onClick={() => setSelectedRoomId(room.id)}
+                type="button"
+              >
+                <Icon size={18} aria-hidden="true" />
+                <span>{room.name}</span>
+              </button>
+              {room.id === pulseRoomId && (
+                <span className="room-pulse" aria-label={`${room.name}状态`}>
+                  {pulseText}
+                </span>
+              )}
+            </div>
           );
         })}
       </div>
