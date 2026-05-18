@@ -559,6 +559,8 @@ Godot 版的核心玩法必须以办公室空间建设和员工设施管理为�
 - 已建立 `scripts/validate_godot_content.py`，CI 会检查内容 ID、必填字段和引用关系。
 - 已建立 C# Core `OfficeGrid`，支持大像素格子、世界坐标转格子、矩形占用、重叠拒绝、释放和快照。
 - 已建立 Godot `OfficeGridView`，主场景挂载办公室网格视图，支持悬停/点击格子信号。
+- 已建立 C# Core `OfficeLayout`，支持部门区域创建、重叠拒绝、越界拒绝、重命名、删除和快照。
+- 已建立 Godot `ZonePaintingController`，主场景挂载区域框定控制器，支持选择区域类型、开始框定、提交、重命名和删除。
 
 验收：
 

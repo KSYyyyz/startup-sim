@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/StartupSimController.cs" id="1"]
 [ext_resource type="Script" path="res://scripts/OfficeGridView.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/ZonePaintingController.cs" id="3"]
 
 [node name="StartupSimMain" type="Node"]
 script = ExtResource("1")
@@ -12,3 +13,8 @@ position = Vector2(32, 32)
 GridWidth = 12
 GridHeight = 8
 CellSize = 64
+
+[node name="ZonePaintingController" type="Node" parent="."]
+script = ExtResource("3")
+GridViewPath = NodePath("../OfficeGridView")
+SelectedZoneTypeId = "product_zone"

@@ -34,6 +34,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "GodotTurnBridge.cs",
         SCRIPTS / "OfficeRoomHotspot.cs",
         SCRIPTS / "OfficeGridView.cs",
+        SCRIPTS / "ZonePaintingController.cs",
     ]
 
     for path in required:
@@ -91,3 +92,17 @@ def test_godot_main_scene_mounts_office_grid_view():
     assert "GridCellHovered" in grid_script
     assert "GridCellSelected" in grid_script
     assert "OfficeGrid" in grid_script
+
+
+def test_godot_main_scene_mounts_zone_painting_controller():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    controller = (SCRIPTS / "ZonePaintingController.cs").read_text(encoding="utf-8")
+
+    assert "ZonePaintingController" in scene
+    assert "res://scripts/ZonePaintingController.cs" in scene
+    assert "SelectZoneType" in controller
+    assert "BeginSelection" in controller
+    assert "CommitSelection" in controller
+    assert "RenameZone" in controller
+    assert "RemoveZone" in controller
+    assert "OfficeLayout" in controller
