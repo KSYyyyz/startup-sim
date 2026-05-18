@@ -13,8 +13,9 @@ test('creates a session and submits one turn', async ({ page }) => {
   await page.getByRole('button', { name: '产品室' }).click();
   await expect(page.getByText('产品打磨', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '采用行动：产品打磨' }).click();
-  await expect(page.getByLabel('已准备行动')).toContainText('产品打磨');
-  await expect(page.getByLabel('已准备行动')).toContainText('花10万研发产品');
+  const preparedAction = page.getByRole('article', { name: '已准备行动' });
+  await expect(preparedAction).toContainText('产品打磨');
+  await expect(preparedAction).toContainText('花10万研发产品');
 
   if ((page.viewportSize()?.width ?? 0) <= 640) {
     await expect(page.getByLabel('移动端本回合指令')).toHaveValue('花10万研发产品');
@@ -25,7 +26,7 @@ test('creates a session and submits one turn', async ({ page }) => {
   }
 
   await expect(page.getByText('第2月', { exact: true })).toBeVisible();
-  await expect(page.getByText('回合结果')).toBeVisible();
+  await expect(page.getByText('月度战报')).toBeVisible();
   await expect(page.getByText('董事会反馈')).toBeVisible();
   await expect(page.getByLabel('竞品态势')).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);

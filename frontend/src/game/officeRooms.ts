@@ -24,7 +24,7 @@ export const officeRooms: OfficeRoom[] = [
     id: 'product',
     name: '产品室',
     tone: 'product',
-    x: 55,
+    x: 48,
     y: 18,
     icon: Boxes,
     actions: [

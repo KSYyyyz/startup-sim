@@ -28,8 +28,16 @@ export default defineConfig({
   ],
   projects: [
     {
-      name: 'desktop',
+      name: 'desktop-1366',
+      use: { viewport: { width: 1366, height: 768 } }
+    },
+    {
+      name: 'desktop-1440',
       use: { viewport: { width: 1440, height: 900 } }
+    },
+    {
+      name: 'desktop-1920',
+      use: { viewport: { width: 1920, height: 1080 } }
     },
     {
       name: 'mobile',
