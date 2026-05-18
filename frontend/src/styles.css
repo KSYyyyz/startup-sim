@@ -1107,6 +1107,42 @@ h2 {
   line-height: 1.35;
 }
 
+.resolution-timeline {
+  display: grid;
+  gap: 7px;
+  border: 1px solid #d6dee8;
+  border-radius: 6px;
+  padding: 9px;
+  background: rgba(237, 244, 252, 0.72);
+}
+
+.resolution-timeline h3 {
+  margin: 0;
+  color: #153b68;
+  font-size: 0.84rem;
+}
+
+.resolution-step {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+.resolution-step b {
+  border-radius: 999px;
+  padding: 3px 7px;
+  background: #fff;
+  color: #245a9d;
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+.resolution-step span {
+  color: #4c5e76;
+  line-height: 1.35;
+}
+
 .report-block {
   border: 1px solid #d6dee8;
   border-radius: 6px;

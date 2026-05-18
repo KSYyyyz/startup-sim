@@ -288,11 +288,16 @@ describe('Startup Sim frontend shell', () => {
 
     expect(await screen.findByText('第2月')).toBeInTheDocument();
     expect(screen.getByText('月度战报')).toBeInTheDocument();
+    expect(screen.getByText('回合结算')).toBeInTheDocument();
+    expect(screen.getByText('执行指令')).toBeInTheDocument();
+    expect(screen.getAllByText('月末变化').length).toBeGreaterThan(0);
+    expect(screen.getByText('战报复盘')).toBeInTheDocument();
+    expect(screen.getAllByText('花10万研发产品').length).toBeGreaterThan(0);
     expect(screen.getByLabelText('办公室月末变化')).toHaveTextContent('产品');
     expect(screen.getByLabelText('办公室月末变化')).toHaveTextContent('+8 分');
     expect(screen.getByLabelText('产品室经营状态')).toHaveTextContent('产品改善');
     expect(screen.getByText('第1月执行结果')).toBeInTheDocument();
-    expect(screen.getByText('产品有进展，但现金在承压')).toBeInTheDocument();
+    expect(screen.getAllByText('产品有进展，但现金在承压').length).toBeGreaterThan(0);
     expect(screen.getAllByText('本月变化').length).toBeGreaterThan(1);
     expect(screen.getByText('原因复盘')).toBeInTheDocument();
     expect(screen.getByText('下月压力')).toBeInTheDocument();

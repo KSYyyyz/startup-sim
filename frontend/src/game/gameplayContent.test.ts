@@ -7,6 +7,7 @@ import {
   buildCompetitorMoves,
   buildMonthlyReport,
   buildOfficeEventBubbles,
+  buildTurnResolutionSteps,
   commandTradeoffs,
   gameContentManifest,
   quickActionShortcuts,
@@ -254,6 +255,23 @@ describe('gameplay content definitions', () => {
         reason: '市场窗口暂时平静，适合用小步试错积累优势。',
         responseCommand: '花10万做营销推广'
       }
+    ]);
+  });
+
+  test('builds turn resolution steps from command highlights and report', () => {
+    const steps = buildTurnResolutionSteps({
+      command: '花10万研发产品',
+      highlights: [
+        { label: '现金', value: '$-22万', tone: 'bad' },
+        { label: '产品', value: '+8 分', tone: 'good' }
+      ],
+      reportHeadline: '产品有进展，但现金在承压'
+    });
+
+    expect(steps).toEqual([
+      { title: '执行指令', detail: '花10万研发产品', tone: 'neutral' },
+      { title: '月末变化', detail: '现金 $-22万 · 产品 +8 分', tone: 'mixed' },
+      { title: '战报复盘', detail: '产品有进展，但现金在承压', tone: 'focus' }
     ]);
   });
 });

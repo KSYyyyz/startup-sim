@@ -24,6 +24,7 @@ import {
   buildCompetitorMoves,
   buildMonthlyReport,
   buildOfficeEventBubbles,
+  buildTurnResolutionSteps,
   commandTradeoffs,
   prepareAction,
   quickActionShortcuts,
@@ -156,6 +157,7 @@ export default function App() {
   const { state, suggestions, lastTurn, loading, submitting, error, boot, runTurn, openSuggestions } =
     useGameStore();
   const [command, setCommand] = useState('');
+  const [lastCommand, setLastCommand] = useState('');
   const [preparedAction, setPreparedAction] = useState<PreparedAction | null>(null);
   const [rightTab, setRightTab] = useState<'board' | 'competitors' | 'advice' | 'log'>('board');
 
@@ -232,11 +234,24 @@ export default function App() {
         : null,
     [highlights, lastTurn, state]
   );
+  const turnResolutionSteps = useMemo(
+    () =>
+      monthlyReport && lastCommand
+        ? buildTurnResolutionSteps({
+            command: lastCommand,
+            highlights,
+            reportHeadline: monthlyReport.headline
+          })
+        : [],
+    [highlights, lastCommand, monthlyReport]
+  );
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     if (!command.trim()) return;
-    await runTurn(command);
+    const submittedCommand = command.trim();
+    setLastCommand(submittedCommand);
+    await runTurn(submittedCommand);
     setCommand('');
     setPreparedAction(null);
   }
@@ -381,6 +396,17 @@ export default function App() {
           {monthlyReport && (
             <article className="panel result-panel monthly-report">
               <h2>月度战报</h2>
+              {turnResolutionSteps.length > 0 && (
+                <section className="resolution-timeline" aria-label="回合结算">
+                  <h3>回合结算</h3>
+                  {turnResolutionSteps.map((step) => (
+                    <div className={`resolution-step ${step.tone}`} key={step.title}>
+                      <b>{step.title}</b>
+                      <span>{step.detail}</span>
+                    </div>
+                  ))}
+                </section>
+              )}
               <strong>{monthlyReport.title}</strong>
               <p className="report-headline">{monthlyReport.headline}</p>
               <section className="report-block">

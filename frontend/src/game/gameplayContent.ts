@@ -135,6 +135,18 @@ export type MonthlyReport = {
   };
 };
 
+export type TurnResolutionStep = {
+  title: '执行指令' | '月末变化' | '战报复盘';
+  detail: string;
+  tone: 'neutral' | 'good' | 'bad' | 'mixed' | 'focus';
+};
+
+export type TurnResolutionInput = {
+  command: string;
+  highlights: MonthlyReportHighlight[];
+  reportHeadline: string;
+};
+
 export type BoardNpcMember = {
   name: string;
   role: string;
@@ -610,4 +622,17 @@ export function buildCompetitorMoves(items: CompetitorPressureInput[]): Competit
       responseCommand: buildCompetitorPressureResponse(item).command
     };
   });
+}
+
+export function buildTurnResolutionSteps(input: TurnResolutionInput): TurnResolutionStep[] {
+  const highlightDetail = input.highlights.map((item) => `${item.label} ${item.value}`).join(' · ');
+  const hasGood = input.highlights.some((item) => item.tone === 'good');
+  const hasBad = input.highlights.some((item) => item.tone === 'bad');
+  const changeTone: TurnResolutionStep['tone'] = hasGood && hasBad ? 'mixed' : hasBad ? 'bad' : 'good';
+
+  return [
+    { title: '执行指令', detail: input.command, tone: 'neutral' },
+    { title: '月末变化', detail: highlightDetail || '本月指标保持观察', tone: changeTone },
+    { title: '战报复盘', detail: input.reportHeadline, tone: 'focus' }
+  ];
 }
