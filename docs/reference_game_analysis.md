@@ -70,27 +70,7 @@ Startup Sim 应该逐步把原创游戏数据与运行时代码分离：
 
 ### 2.3 历史模拟器：崇祯
 
-本地路径：`D:\Steam\steamapps\common\历史模拟器：崇祯`
-
-观察到的结构：
-
-- Electron/Chromium 桌面分发结构：可执行文件、Chromium 运行时文件、语言包、`resources.pak` 和 `resources\app.asar`。
-- `resources\app.asar.unpacked\node_modules\steamworks.js` 中可见 Steamworks 集成相关内容。
-- 安装目录对桌面打包有参考价值，但不应解包或检查应用源码包的实现细节。
-
-对 Startup Sim 的价值：
-
-- 很适合作为“自由指令 + 策略反馈”如何形成卖点的参考。
-- 说明 AI 原生策略游戏可以用常规桌面产品形态发布。
-- 对 Startup Sim 的技术路线启发已经转为：Godot 负责桌面外壳和交互，C# Core 负责确定性规则。
-
-安全借鉴结论：
-
-Startup Sim 应保持 Godot 桌面主线：
-
-- Godot 桌面端信息密度继续作为主要设计目标。
-- 后续通过 Godot 导出桌面包，不再以 Tauri 或 Electron 为主线。
-- Steamworks、成就、云存档等集成应推迟到核心办公室循环足够好玩之后。
+当前阶段先忽略该参考。Startup Sim 近期不做自由指令、AI 角色对话、AI 事件叙事或模型接入，因此不把它纳入当前玩法分析基线。
 
 ### 2.4 Game Dev Story / 游戏开发物语
 
@@ -218,7 +198,7 @@ Startup Sim 后续不再切换到 Unity 或继续把 Web 作为最终外壳。�
 - 不再推进 Unity 主线。
 - 不再把 Web/PixiJS 作为最终表现层。
 - 在核心游戏还不好玩前，不提前过度建设 Mod 系统。
-- 不让 AI 叙事绕过确定性的游戏规则。
+- 不引入 AI 叙事或自由指令作为近期玩法。
 
 ## 6. Startup Sim 设计规则
 
@@ -230,6 +210,5 @@ Startup Sim 后续不再切换到 Unity 或继续把 Web 作为最终外壳。�
 
 - 办公室就是棋盘。
 - 房间就是控制入口。
-- AI 角色是顾问和叙事压力，不是规则所有者。
 - 数值结果由确定性系统决定。
 - 数据定义应具备足够复用性，以便支持剧本、本地化和未来桌面分发。

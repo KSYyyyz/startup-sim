@@ -63,7 +63,7 @@ Godot owns:
 - optional command submission
 - animation, sound, layout, feedback timing
 
-Godot scripts must not duplicate gameplay settlement rules. They can turn office layout, facilities, and employees into structured intent snapshots and call the local C# bridge. API access is optional and should only be added for remote AI or cloud-save features.
+Godot scripts must not duplicate gameplay settlement rules. They can turn office layout, facilities, and employees into structured intent snapshots and call the local C# bridge. API access is not part of the near-term route and should only be reconsidered after the offline Godot loop is stable.
 
 ## 5. First Godot Slice
 
@@ -122,7 +122,7 @@ Near-term C# priorities:
 1. Keep migrating gameplay rules into `StartupSim.Core`.
 2. Build Godot office construction shell around zones, facilities, and employees.
 3. Convert office layout into structured intent snapshots through `GodotTurnBridge`.
-4. Add optional API bridge only if remote AI or cloud-save features require it.
+4. Do not add API, model, or cloud-save scope until the offline Godot loop is stable.
 5. Do not restore the deleted Vercel/Web frontend route; new presentation work belongs in Godot.
 
 ## 9. Adaptation Status
