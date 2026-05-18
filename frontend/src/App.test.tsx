@@ -248,6 +248,10 @@ describe('Startup Sim frontend shell', () => {
     expect(preparedAction).toHaveTextContent('融资');
     expect(preparedAction).toHaveTextContent('补充现金，同时稀释创始人股权。');
     expect(preparedAction).toHaveTextContent('融资300万出让8%股权');
+    const preview = screen.getByLabelText('AI 指令解释');
+    expect(preview).toHaveTextContent('已从 快捷行动 生成 1 个执行前预期。');
+    expect(preview).toHaveTextContent('现金 +');
+    expect(preview).toHaveTextContent('股权 -');
   });
 
   test('explains free-form CEO commands before execution', async () => {
@@ -365,6 +369,7 @@ describe('Startup Sim frontend shell', () => {
     expect(within(screen.getByLabelText('已准备行动')).getByText('下月补救')).toBeInTheDocument();
     expect(screen.getByText('研发投入提升了产品分，但现金消耗上升。')).toBeInTheDocument();
     expect(screen.getAllByText('研发有效，但现金消耗上升。').length).toBeGreaterThan(0);
+    expect(screen.getByText('记忆：上月现金减少，CFO 会继续盯预算。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '竞品' }));
     expect(screen.getAllByText('灵犀客服云').length).toBeGreaterThan(0);
     expect(screen.getByText('上升')).toBeInTheDocument();

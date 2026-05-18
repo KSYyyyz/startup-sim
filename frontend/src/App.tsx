@@ -19,6 +19,7 @@ import {
   buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
+  buildPreparedActionPreview,
   buildMonthlyReport,
   buildTurnResolutionSteps,
   commandTradeoffs,
@@ -190,10 +191,12 @@ export default function App() {
             members: state.board,
             cashCoverageMonths: state.metrics.cash_coverage_months,
             productChange: state.metrics.product_change,
-            usersChange: state.metrics.users_change
+            usersChange: state.metrics.users_change,
+            cashChange: lastTurn ? state.metrics.cash_change : undefined,
+            lastCommand: lastTurn ? lastCommand : undefined
           })
         : [],
-    [state]
+    [lastCommand, lastTurn, state]
   );
   const competitorMoves = useMemo(() => (state ? buildCompetitorMoves(state.competitors) : []), [state]);
   const monthlyReport = useMemo(
@@ -221,6 +224,10 @@ export default function App() {
           })
         : [],
     [highlights, lastCommand, monthlyReport]
+  );
+  const executionPreview = useMemo(
+    () => commandPreview ?? (preparedAction ? buildPreparedActionPreview(preparedAction) : null),
+    [commandPreview, preparedAction]
   );
 
   async function handleSubmit(event: React.FormEvent) {
@@ -517,6 +524,7 @@ export default function App() {
                       ))}
                     </div>
                     <p>{member.message}</p>
+                    {member.memoryFact && <p className="board-memory">{member.memoryFact}</p>}
                     <button type="button" className="board-response-button" onClick={() => handleBoardResponse(member)}>
                       回应 {member.name} 压力
                     </button>
@@ -603,12 +611,12 @@ export default function App() {
               <code>{preparedAction.command}</code>
             </article>
           )}
-          {commandPreview && (
+          {executionPreview && (
             <article className="command-preview compact" aria-label="AI 指令解释">
               <span>AI 指令解释</span>
-              <strong>{commandPreview.summary}</strong>
+              <strong>{executionPreview.summary}</strong>
               <div className="preview-action-list">
-                {commandPreview.actions.map((action) => (
+                {executionPreview.actions.map((action) => (
                   <div className="preview-action-row" key={`${action.type}-${action.intent}-${action.budget}`}>
                     <b>{action.label}</b>
                     <small>{action.budget_label}</small>
@@ -622,7 +630,7 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <p>{commandPreview.guardrail}</p>
+              <p>{executionPreview.guardrail}</p>
             </article>
           )}
           {!preparedAction && <p className="command-empty">从办公室选择行动，或直接输入 CEO 指令。</p>}

@@ -5,6 +5,7 @@ import {
   buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
+  buildPreparedActionPreview,
   buildMonthlyReport,
   buildOfficeEventBubbles,
   buildTurnResolutionSteps,
@@ -205,7 +206,9 @@ describe('gameplay content definitions', () => {
       ],
       cashCoverageMonths: 2.4,
       productChange: 8,
-      usersChange: 0
+      usersChange: 0,
+      cashChange: -220000,
+      lastCommand: '花10万研发产品'
     });
 
     expect(profiles).toEqual([
@@ -216,7 +219,8 @@ describe('gameplay content definitions', () => {
         confidence: 72,
         stance: '现金纪律',
         trustTrend: '信任承压',
-        pressureTags: ['现金压力', '控制支出']
+        pressureTags: ['现金压力', '控制支出'],
+        memoryFact: '记忆：上月现金减少，CFO 会继续盯预算。'
       },
       {
         name: 'CTO',
@@ -225,9 +229,37 @@ describe('gameplay content definitions', () => {
         confidence: 88,
         stance: '产品护城河',
         trustTrend: '信任上升',
-        pressureTags: ['产品进展', '继续验证']
+        pressureTags: ['产品进展', '继续验证'],
+        memoryFact: '记忆：上月产品有改善，CTO 更愿意支持继续验证。'
       }
     ]);
+  });
+
+  test('builds a unified read-only preview for prepared actions', () => {
+    const preparedAction = buildBoardPressureResponse({
+      name: 'CFO',
+      role: '财务负责人',
+      message: '现金压力明显，需要控制支出。'
+    });
+
+    const preview = buildPreparedActionPreview(preparedAction);
+
+    expect(preview).toEqual({
+      status: 'ready',
+      summary: '已从 CFO 生成 1 个执行前预期。',
+      guardrail: '这是执行前预期，数值结算仍由 TurnEngine 执行。',
+      actions: [
+        {
+          type: 'prepared',
+          label: '回应 CFO 压力',
+          intent: '花1万研发产品保持最低运转',
+          budget: 10000,
+          budget_label: '1万',
+          risk_label: '低风险',
+          tradeoffs: ['现金流可支撑时间 +', '增长 -']
+        }
+      ]
+    });
   });
 
   test('builds competitor moves from status and trend', () => {

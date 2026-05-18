@@ -1,3 +1,5 @@
+import type { CommandPreviewResponse } from '../types';
+
 export type GameplayActionDefinition = {
   title: string;
   description: string;
@@ -159,12 +161,15 @@ export type BoardNpcProfileInput = {
   cashCoverageMonths: number;
   productChange: number;
   usersChange: number;
+  cashChange?: number;
+  lastCommand?: string;
 };
 
 export type BoardNpcProfile = BoardNpcMember & {
   stance: string;
   trustTrend: '信任上升' | '信任稳定' | '信任承压';
   pressureTags: string[];
+  memoryFact?: string;
 };
 
 export const gameContentManifest = {
@@ -398,6 +403,45 @@ export function prepareAction(
   };
 }
 
+function commandBudget(value: string) {
+  const match = value.match(/(\d+)万/);
+  return match
+    ? {
+        value: Number(match[1]) * 10000,
+        label: `${match[1]}万`
+      }
+    : {
+        value: 0,
+        label: '无直接支出'
+      };
+}
+
+function riskLabelForBudget(value: number) {
+  if (value >= 250000) return '高风险';
+  if (value >= 50000) return '中风险';
+  return '低风险';
+}
+
+export function buildPreparedActionPreview(action: PreparedAction): CommandPreviewResponse {
+  const budget = commandBudget(action.command);
+  return {
+    status: 'ready',
+    summary: `已从 ${action.sourceLabel} 生成 1 个执行前预期。`,
+    guardrail: '这是执行前预期，数值结算仍由 TurnEngine 执行。',
+    actions: [
+      {
+        type: 'prepared',
+        label: action.title,
+        intent: action.command,
+        budget: budget.value,
+        budget_label: budget.label,
+        risk_label: riskLabelForBudget(budget.value),
+        tradeoffs: action.tags
+      }
+    ]
+  };
+}
+
 export function buildBoardPressureResponse(member: BoardPressureInput): PressureResponsePlan {
   const signal = `${member.name} ${member.role} ${member.message}`;
   const response = responseFromTemplates(pressureResponseTemplates.board, signal, '花10万研发产品');
@@ -573,12 +617,34 @@ function boardPressureTags(member: BoardNpcMember, input: BoardNpcProfileInput) 
   return [stance, '持续观察'];
 }
 
+function boardMemoryFact(member: BoardNpcMember, input: BoardNpcProfileInput) {
+  if (!input.lastCommand) return undefined;
+  const stance = boardStanceFromIdentity(member);
+  if (stance === '现金纪律' && (input.cashChange ?? 0) < 0) {
+    return '记忆：上月现金减少，CFO 会继续盯预算。';
+  }
+  if (stance === '产品护城河' && input.productChange > 0) {
+    return '记忆：上月产品有改善，CTO 更愿意支持继续验证。';
+  }
+  if (stance === '产品护城河' && !/研发|产品|功能/.test(input.lastCommand)) {
+    return '记忆：上月没有产品动作，CTO 会追问研发节奏。';
+  }
+  if (stance === '增长效率' && input.usersChange > 0) {
+    return '记忆：上月用户增长，增长方会要求复盘渠道质量。';
+  }
+  if (stance === '交付质量' && /招聘|团队/.test(input.lastCommand)) {
+    return '记忆：上月补充团队，COO 会关注交付节奏是否改善。';
+  }
+  return undefined;
+}
+
 export function buildBoardNpcProfiles(input: BoardNpcProfileInput): BoardNpcProfile[] {
   return input.members.map((member) => ({
     ...member,
     stance: boardStanceFromIdentity(member),
     trustTrend: boardTrustTrend(member, input),
-    pressureTags: boardPressureTags(member, input)
+    pressureTags: boardPressureTags(member, input),
+    memoryFact: boardMemoryFact(member, input)
   }));
 }
 

@@ -47,8 +47,8 @@ If no executable action is detected, the preview asks the player to clarify the 
 
 ## 5. Next Alpha 0.3 Tasks
 
-- Add lightweight role memory facts for CFO/CTO/COO based on previous player behavior.
-- Feed command preview and turn history into board/competitor narrative surfaces.
+- Add lightweight role memory facts for CFO/CTO/COO based on previous player behavior. `Done in current slice: board NPC profiles now surface deterministic memory facts after a turn when the previous command and current result make the memory relevant.`
+- Feed command preview and turn history into board/competitor narrative surfaces. `In progress: prepared actions from quick actions, rooms, board responses, competitor responses, and monthly recovery now share the same execution-preview panel before settlement.`
 - Add a monthly narrative layer that cites executed actions and result facts without inventing state changes.
 - Keep LLM integration optional; deterministic fallback remains required for offline and Vercel demo play.
 

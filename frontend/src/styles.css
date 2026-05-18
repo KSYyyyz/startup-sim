@@ -803,6 +803,12 @@ h2 {
   line-height: 1.42;
 }
 
+.board-row .board-memory {
+  color: #244d7b;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
 .competitor-move-reason {
   color: #4c5e76;
 }
