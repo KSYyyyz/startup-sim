@@ -28,6 +28,8 @@ namespace StartupSim.Core.Engines
                 ApplyAction(next, result, action);
             }
 
+            ApplyPostTurnStateChecks(next, result);
+
             if (result.ChangedMetrics.Count == 0)
             {
                 result.ReplayBasis.Add("本回合保持观察，尚未形成强变化。");
@@ -35,6 +37,20 @@ namespace StartupSim.Core.Engines
             }
 
             return result;
+        }
+
+        private static void ApplyPostTurnStateChecks(GameState state, TurnResult result)
+        {
+            if (state.Metrics.Cash >= 0m)
+            {
+                return;
+            }
+
+            state.Metrics.Cash = 0m;
+            state.Status = "bankruptcy";
+            result.ChangedMetrics.Add("公司破产");
+            result.ReplayBasis.Add("现金为负，经营无法继续。");
+            result.NextPressure = "现金流断裂，公司进入破产结局。";
         }
 
         private static void ApplyAction(GameState state, TurnResult result, PlayerAction action)

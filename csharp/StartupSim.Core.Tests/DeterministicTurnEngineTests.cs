@@ -192,6 +192,28 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
+    public void CashBelowZeroEndsCompanyAsBankrupt()
+    {
+        var engine = new DeterministicTurnEngine();
+        var initial = new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = 1,
+                Cash = 50_000m,
+                ProductScore = 20
+            }
+        };
+
+        var result = engine.Execute(initial, new TurnCommand { RawText = "花20万研发产品" });
+
+        Assert.Equal("bankruptcy", result.State.Status);
+        Assert.Equal(0m, result.State.Metrics.Cash);
+        Assert.Contains("公司破产", result.ChangedMetrics);
+        Assert.Contains("现金流断裂", result.NextPressure);
+    }
+
+    [Fact]
     public void ExecuteDoesNotMutateInputState()
     {
         var engine = new DeterministicTurnEngine();
