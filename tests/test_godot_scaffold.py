@@ -33,6 +33,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "TurnResultSnapshot.cs",
         SCRIPTS / "GodotTurnBridge.cs",
         SCRIPTS / "OfficeRoomHotspot.cs",
+        SCRIPTS / "OfficeGridView.cs",
     ]
 
     for path in required:
@@ -79,3 +80,14 @@ def test_godot_scripts_keep_rules_inside_bridge_only():
     controller = (SCRIPTS / "StartupSimController.cs").read_text(encoding="utf-8")
     assert "GodotTurnBridge" in controller
     assert "TurnResultReceived" in controller
+
+
+def test_godot_main_scene_mounts_office_grid_view():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+
+    assert "OfficeGridView" in scene
+    assert "res://scripts/OfficeGridView.cs" in scene
+    assert "GridCellHovered" in grid_script
+    assert "GridCellSelected" in grid_script
+    assert "OfficeGrid" in grid_script
