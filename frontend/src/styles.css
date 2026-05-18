@@ -753,6 +753,17 @@ h2 {
   color: #c0393d;
 }
 
+.competitor-move-chip {
+  display: inline-block;
+  margin: 3px 0 2px;
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: #edf4fc;
+  color: #245a9d;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
 .tall-panel {
   min-height: 0;
   overflow-y: auto;
@@ -834,6 +845,20 @@ h2 {
 .advice-row p {
   margin-top: 4px;
   line-height: 1.42;
+}
+
+.competitor-move-reason {
+  color: #4c5e76;
+}
+
+.competitor-command {
+  display: inline-block;
+  margin-top: 6px;
+  border-radius: 6px;
+  padding: 4px 6px;
+  background: #f2f5f8;
+  color: #1f3d56;
+  font-size: 0.7rem;
 }
 
 .board-response-button,

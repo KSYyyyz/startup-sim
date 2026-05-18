@@ -153,6 +153,8 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('持平')).toBeInTheDocument();
+    expect(screen.getByText('暂无大动作')).toBeInTheDocument();
+    expect(screen.getByText('市场窗口暂时平静，适合用小步试错积累优势。')).toBeInTheDocument();
     expect(screen.getByText('查看建议')).toBeInTheDocument();
     expect(screen.getAllByText('现金纪律').length).toBeGreaterThan(0);
     expect(screen.getAllByText('产品护城河').length).toBeGreaterThan(0);

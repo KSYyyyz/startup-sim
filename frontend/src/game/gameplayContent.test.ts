@@ -4,6 +4,7 @@ import {
   buildBoardPressureResponse,
   buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
+  buildCompetitorMoves,
   buildMonthlyReport,
   buildOfficeEventBubbles,
   commandTradeoffs,
@@ -224,6 +225,34 @@ describe('gameplay content definitions', () => {
         stance: '产品护城河',
         trustTrend: '信任上升',
         pressureTags: ['产品进展', '继续验证']
+      }
+    ]);
+  });
+
+  test('builds competitor moves from status and trend', () => {
+    const moves = buildCompetitorMoves([
+      { name: '灵犀客服云', status: '升级企业功能', mrr: 41000, trend: 'up' },
+      { name: '快答科技', status: '本月暂无重大动作', mrr: 33000, trend: 'flat' }
+    ]);
+
+    expect(moves).toEqual([
+      {
+        name: '灵犀客服云',
+        status: '升级企业功能',
+        mrr: 41000,
+        trend: 'up',
+        moveType: '功能升级',
+        reason: '正在强化产品能力，可能抢走重视功能完整度的客户。',
+        responseCommand: '花25万研发产品提升竞争力'
+      },
+      {
+        name: '快答科技',
+        status: '本月暂无重大动作',
+        mrr: 33000,
+        trend: 'flat',
+        moveType: '暂无大动作',
+        reason: '市场窗口暂时平静，适合用小步试错积累优势。',
+        responseCommand: '花10万做营销推广'
       }
     ]);
   });

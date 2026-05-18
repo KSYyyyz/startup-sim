@@ -21,6 +21,7 @@ import {
   buildBoardPressureResponse,
   buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
+  buildCompetitorMoves,
   buildMonthlyReport,
   buildOfficeEventBubbles,
   commandTradeoffs,
@@ -215,6 +216,7 @@ export default function App() {
         : [],
     [state]
   );
+  const competitorMoves = useMemo(() => (state ? buildCompetitorMoves(state.competitors) : []), [state]);
   const monthlyReport = useMemo(
     () =>
       state && lastTurn
@@ -460,9 +462,10 @@ export default function App() {
           <article className="competitor-glance" aria-label="竞品态势">
             <strong>竞品态势</strong>
             <span>
-              <b>{state.competitors[0]?.name ?? '暂无竞品'}</b>
-              {state.competitors[0] && <em className={`trend-chip ${state.competitors[0].trend}`}>{trendText(state.competitors[0])}</em>}
-              <small>{state.competitors[0]?.status ?? '本月暂无重大动作'}</small>
+              <b>{competitorMoves[0]?.name ?? '暂无竞品'}</b>
+              {competitorMoves[0] && <em className={`trend-chip ${competitorMoves[0].trend}`}>{trendText(competitorMoves[0])}</em>}
+              <small>{competitorMoves[0]?.moveType ?? '暂无大动作'}</small>
+              <small>{competitorMoves[0]?.reason ?? '市场窗口暂时平静，适合用小步试错积累优势。'}</small>
             </span>
           </article>
 
@@ -500,13 +503,16 @@ export default function App() {
           {rightTab === 'competitors' && (
             <article className="panel tall-panel">
               <h2>竞品态势</h2>
-              {state.competitors.map((item) => (
+              {competitorMoves.map((item) => (
                 <div className="competitor-row" key={item.name}>
                   <strong>{item.name}</strong>
+                  <small className="competitor-move-chip">{item.moveType}</small>
                   <span>{money(item.mrr)} 月经常收入</span>
                   <em className={item.trend}>{trendLabel(item)}</em>
                   <small className={`trend-chip ${item.trend}`}>{trendText(item)}</small>
                   <p>{item.status}</p>
+                  <p className="competitor-move-reason">{item.reason}</p>
+                  <code className="competitor-command">{item.responseCommand}</code>
                   <button
                     type="button"
                     className="competitor-response-button"

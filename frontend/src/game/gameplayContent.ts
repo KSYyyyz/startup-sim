@@ -37,8 +37,14 @@ export type BoardPressureInput = {
 export type CompetitorPressureInput = {
   name: string;
   status: string;
-  mrr?: number;
-  trend: string;
+  mrr: number;
+  trend: 'up' | 'down' | 'flat';
+};
+
+export type CompetitorMove = CompetitorPressureInput & {
+  moveType: '功能升级' | '渠道抢量' | '价格压力' | '客户绑定' | '暂无大动作';
+  reason: string;
+  responseCommand: string;
 };
 
 export type PressureResponseTemplate = {
@@ -562,4 +568,46 @@ export function buildBoardNpcProfiles(input: BoardNpcProfileInput): BoardNpcProf
     trustTrend: boardTrustTrend(member, input),
     pressureTags: boardPressureTags(member, input)
   }));
+}
+
+function competitorMoveCopy(item: CompetitorPressureInput): Pick<CompetitorMove, 'moveType' | 'reason'> {
+  if (/升级|功能|产品/.test(item.status)) {
+    return {
+      moveType: '功能升级',
+      reason: '正在强化产品能力，可能抢走重视功能完整度的客户。'
+    };
+  }
+  if (/渠道|营销|投放|声量/.test(item.status) || item.trend === 'up') {
+    return {
+      moveType: '渠道抢量',
+      reason: '市场声量正在抬升，可能推高获客成本。'
+    };
+  }
+  if (/降价|价格|补贴/.test(item.status)) {
+    return {
+      moveType: '价格压力',
+      reason: '对手用价格换增长，容易拉低客户对价值的判断。'
+    };
+  }
+  if (/大客户|绑定|集成|标杆/.test(item.status)) {
+    return {
+      moveType: '客户绑定',
+      reason: '对手正在绑定关键客户，后续替换成本会变高。'
+    };
+  }
+  return {
+    moveType: '暂无大动作',
+    reason: '市场窗口暂时平静，适合用小步试错积累优势。'
+  };
+}
+
+export function buildCompetitorMoves(items: CompetitorPressureInput[]): CompetitorMove[] {
+  return items.map((item) => {
+    const copy = competitorMoveCopy(item);
+    return {
+      ...item,
+      ...copy,
+      responseCommand: buildCompetitorPressureResponse(item).command
+    };
+  });
 }
