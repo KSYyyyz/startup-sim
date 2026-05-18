@@ -200,8 +200,14 @@ export type CurrentMonthGoal = {
   title: string;
   statusLabel: string;
   progressLabel: string;
+  trackLabel: string;
+  progressPercent: number;
   why: string;
   directionTags: string[];
+  checkpoints: Array<{
+    label: string;
+    status: '已满足' | '进行中' | '未开始';
+  }>;
   riskHint: string;
 };
 
@@ -802,8 +808,15 @@ export function buildCurrentMonthGoal(input: NewPlayerGuidanceInput): CurrentMon
       title: '本月小目标',
       statusLabel: '现金承压',
       progressLabel: `现金流可支撑时间 ${input.cashCoverageMonths.toFixed(1)}个月`,
+      trackLabel: '现金安全线',
+      progressPercent: percentOf(input.cashCoverageMonths, 4),
       why: '现金流可支撑时间已经偏短，本月优先让公司活得更久，再考虑加速。',
       directionTags: ['压低单月消耗', '保留融资选项', '选择低风险试验'],
+      checkpoints: [
+        { label: '现金流可支撑时间回到4个月以上', status: '进行中' },
+        { label: '避免同时加大多项支出', status: '未开始' },
+        { label: '保留下一轮融资窗口', status: '未开始' }
+      ],
       riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
     };
   }
@@ -813,8 +826,15 @@ export function buildCurrentMonthGoal(input: NewPlayerGuidanceInput): CurrentMon
       title: '本月小目标',
       statusLabel: '产品验证前',
       progressLabel: `产品 ${input.productScore}/35`,
+      trackLabel: '产品成熟度',
+      progressPercent: percentOf(input.productScore, 35),
       why: '产品还没到可验证区间，优先把核心体验补到能拿去见客户的程度。',
       directionTags: ['提升产品成熟度', '保持现金纪律', '准备客户验证'],
+      checkpoints: [
+        { label: '产品达到可验证区间', status: '进行中' },
+        { label: '现金流可支撑时间保持安全', status: input.cashCoverageMonths >= 6 ? '已满足' : '进行中' },
+        { label: '准备客户验证材料', status: '未开始' }
+      ],
       riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
     };
   }
@@ -824,8 +844,15 @@ export function buildCurrentMonthGoal(input: NewPlayerGuidanceInput): CurrentMon
       title: '本月小目标',
       statusLabel: '验证市场',
       progressLabel: input.users > 0 ? `用户 ${input.users}` : '用户 0',
+      trackLabel: '市场验证',
+      progressPercent: input.users > 0 ? 60 : 20,
       why: '产品已有基础，但还需要用客户反馈证明它不是闭门研发成果。',
       directionTags: ['小范围获客', '客户访谈', '观察留存'],
+      checkpoints: [
+        { label: '获得第一批真实用户', status: input.users > 0 ? '已满足' : '进行中' },
+        { label: '出现付费或收入信号', status: input.mrr > 0 ? '已满足' : '未开始' },
+        { label: '记录客户反馈', status: '进行中' }
+      ],
       riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
     };
   }
@@ -834,8 +861,20 @@ export function buildCurrentMonthGoal(input: NewPlayerGuidanceInput): CurrentMon
     title: '本月小目标',
     statusLabel: '沉淀节奏',
     progressLabel: `月经常收入 ${input.mrr}`,
+    trackLabel: '经营节奏',
+    progressPercent: 80,
     why: '公司已经有早期反馈，本月重点是把有效动作沉淀成可重复的经营节奏。',
     directionTags: ['复盘有效动作', '稳定交付', '准备下一阶段'],
+    checkpoints: [
+      { label: '有稳定收入信号', status: '已满足' },
+      { label: '交付节奏可控', status: '进行中' },
+      { label: '准备下一阶段目标', status: '未开始' }
+    ],
     riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
   };
+}
+
+function percentOf(value: number, target: number) {
+  if (target <= 0) return 0;
+  return Math.max(0, Math.min(100, Math.round((value / target) * 100)));
 }

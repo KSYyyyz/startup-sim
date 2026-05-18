@@ -383,8 +383,15 @@ describe('gameplay content definitions', () => {
       title: '本月小目标',
       statusLabel: '产品验证前',
       progressLabel: '产品 20/35',
+      trackLabel: '产品成熟度',
+      progressPercent: 57,
       why: '产品还没到可验证区间，优先把核心体验补到能拿去见客户的程度。',
       directionTags: ['提升产品成熟度', '保持现金纪律', '准备客户验证'],
+      checkpoints: [
+        { label: '产品达到可验证区间', status: '进行中' },
+        { label: '现金流可支撑时间保持安全', status: '已满足' },
+        { label: '准备客户验证材料', status: '未开始' }
+      ],
       riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
     });
 
@@ -396,7 +403,10 @@ describe('gameplay content definitions', () => {
       mrr: 8000
     });
     expect(cashGoal.statusLabel).toBe('现金承压');
+    expect(cashGoal.trackLabel).toBe('现金安全线');
+    expect(cashGoal.progressPercent).toBe(70);
     expect(cashGoal.directionTags).toContain('压低单月消耗');
+    expect(cashGoal.checkpoints).toContainEqual({ label: '现金流可支撑时间回到4个月以上', status: '进行中' });
     expect(JSON.stringify(cashGoal)).not.toContain('花1万');
     expect(JSON.stringify(cashGoal)).not.toContain('融资300万');
   });

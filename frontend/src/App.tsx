@@ -564,12 +564,29 @@ export default function App() {
                 <span>{currentMonthGoal.statusLabel}</span>
               </div>
               <strong>{currentMonthGoal.progressLabel}</strong>
+              <div className="goal-track" aria-label="本月目标进度">
+                <div>
+                  <b>{currentMonthGoal.trackLabel}</b>
+                  <em>{currentMonthGoal.progressPercent}%</em>
+                </div>
+                <span>
+                  <i style={{ width: `${currentMonthGoal.progressPercent}%` }} />
+                </span>
+              </div>
               <p>{currentMonthGoal.why}</p>
               <div className="direction-tags" aria-label="本月方向">
                 {currentMonthGoal.directionTags.map((tag) => (
                   <b key={tag}>{tag}</b>
                 ))}
               </div>
+              <ul className="goal-checkpoints" aria-label="本月目标检查点">
+                {currentMonthGoal.checkpoints.map((checkpoint) => (
+                  <li key={checkpoint.label}>
+                    <span>{checkpoint.status}</span>
+                    <b>{checkpoint.label}</b>
+                  </li>
+                ))}
+              </ul>
               <small>{currentMonthGoal.riskHint}</small>
             </article>
           )}

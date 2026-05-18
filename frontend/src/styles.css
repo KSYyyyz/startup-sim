@@ -434,6 +434,40 @@ h2 {
   font-size: 0.82rem;
 }
 
+.goal-track {
+  display: grid;
+  gap: 5px;
+}
+
+.goal-track > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #153b68;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.goal-track em {
+  color: #245a9d;
+  font-style: normal;
+}
+
+.goal-track > span {
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #dce6f2;
+}
+
+.goal-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #245a9d 0%, #1f8f4d 100%);
+}
+
 .onboarding-panel small,
 .month-goal-panel small {
   color: #607189;
@@ -448,6 +482,32 @@ h2 {
   color: #245a9d;
   font-size: 0.7rem;
   font-weight: 800;
+}
+
+.goal-checkpoints {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-checkpoints li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px;
+  align-items: center;
+  color: #33475f;
+  font-size: 0.74rem;
+}
+
+.goal-checkpoints span {
+  border-radius: 999px;
+  padding: 2px 6px;
+  background: #f2f5f8;
+  color: #4c5e76;
+  font-size: 0.66rem;
+  font-weight: 900;
 }
 
 .objective-card p {

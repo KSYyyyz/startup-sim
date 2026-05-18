@@ -240,6 +240,11 @@ describe('Startup Sim frontend shell', () => {
     const monthGoal = screen.getByLabelText('本月小目标');
     expect(monthGoal).toHaveTextContent('产品验证前');
     expect(monthGoal).toHaveTextContent('产品 20/35');
+    expect(monthGoal).toHaveTextContent('产品成熟度');
+    expect(monthGoal).toHaveTextContent('57%');
+    expect(monthGoal).toHaveTextContent('产品达到可验证区间');
+    expect(monthGoal).toHaveTextContent('现金流可支撑时间保持安全');
+    expect(monthGoal).toHaveTextContent('已满足');
     expect(monthGoal).toHaveTextContent('准备客户验证');
     expect(within(monthGoal).queryByRole('button')).not.toBeInTheDocument();
     expect(monthGoal).not.toHaveTextContent('花10万研发产品');

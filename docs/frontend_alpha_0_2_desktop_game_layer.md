@@ -102,6 +102,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Desktop UI has completed one information-reduction pass after screenshot review: the top HUD keeps only six essential operating metrics, the current scenario entry is collapsed by default, office feedback/event bubbles no longer cover the central scene, competitor detail is shown only inside the right-side competitor tab, and operating insight has moved into the left core-tension panel.
 - The first three months now surface a lightweight "新手经营节奏" panel: month 1 teaches reading the situation, month 2 teaches reading settlement feedback, and month 3 nudges the player to form a route. It only shows direction tags and check hints, not executable commands.
 - A "本月小目标" panel translates the phase goal into the current month focus such as product readiness, cash discipline, or market validation. It is intentionally advisory so players do not become dependent on generated one-click instructions.
+- The month goal now has a game-like progress track and checkpoints. These are derived from current metrics such as product score, cash coverage, users, and recurring revenue, but they remain presentation metadata and never settle outcomes.
 
 Known follow-up:
 
