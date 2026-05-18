@@ -119,6 +119,36 @@ namespace StartupSim.Core.Engines
                 };
             }
 
+            var fundraisingAction = plan.Actions.FirstOrDefault(
+                action => action.Type == ActionType.Fundraising);
+            if (fundraisingAction != null)
+            {
+                next.Metrics.Cash += fundraisingAction.FundraiseAmount;
+                next.Metrics.FounderEquityPercent = Math.Max(
+                    0m,
+                    next.Metrics.FounderEquityPercent - fundraisingAction.EquityOffered);
+                if (fundraisingAction.PostMoneyValuation > 0m)
+                {
+                    next.Metrics.Valuation = fundraisingAction.PostMoneyValuation;
+                }
+
+                return new TurnResult
+                {
+                    State = next,
+                    ReplayBasis =
+                    {
+                        "融资增加了现金储备，但创始人股权被稀释。"
+                    },
+                    ChangedMetrics =
+                    {
+                        $"融资 +{fundraisingAction.FundraiseAmount / 10_000m:0}万",
+                        $"创始人股权 -{fundraisingAction.EquityOffered:0}%",
+                        $"估值 {next.Metrics.Valuation / 10_000m:0}万"
+                    },
+                    NextPressure = "现金更充足了，但需要把融资换成可验证的业务进展。"
+                };
+            }
+
             return new TurnResult
             {
                 State = next,

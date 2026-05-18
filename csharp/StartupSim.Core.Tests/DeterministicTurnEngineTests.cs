@@ -133,6 +133,31 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
+    public void FundraisingAddsCashAndDilutesFounderEquity()
+    {
+        var engine = new DeterministicTurnEngine();
+        var initial = new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = 1,
+                Cash = 1_000_000m,
+                FounderEquityPercent = 100m,
+                Valuation = 2_640_000m
+            }
+        };
+
+        var result = engine.Execute(initial, new TurnCommand { RawText = "融资300万出让8%股权" });
+
+        Assert.Equal(2, result.State.Metrics.Month);
+        Assert.Equal(4_000_000m, result.State.Metrics.Cash);
+        Assert.Equal(92m, result.State.Metrics.FounderEquityPercent);
+        Assert.Equal(37_500_000m, result.State.Metrics.Valuation);
+        Assert.Contains("融资 +300万", result.ChangedMetrics);
+        Assert.Contains("创始人股权 -8%", result.ChangedMetrics);
+    }
+
+    [Fact]
     public void ExecuteDoesNotMutateInputState()
     {
         var engine = new DeterministicTurnEngine();
