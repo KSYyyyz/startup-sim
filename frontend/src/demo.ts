@@ -101,29 +101,43 @@ export const demoSuggestions: SuggestionResponse = {
 };
 
 export function demoCommandPreview(command: string): CommandPreviewResponse {
-  const actions = [];
-  if (/研发|产品|功能|迭代/i.test(command)) {
-    actions.push({
-      type: 'product',
-      label: '产品研发',
-      intent: command,
-      budget: /(\d+)万/.test(command) ? Number(command.match(/(\d+)万/)?.[1] ?? 0) * 10000 : 0,
-      budget_label: /(\d+)万/.test(command) ? `${command.match(/(\d+)万/)?.[1]}万` : '无直接支出',
-      risk_label: '中风险',
-      tradeoffs: ['产品 +', '现金 -']
-    });
-  }
-  if (/营销|推广|获客|广告/i.test(command)) {
-    actions.push({
-      type: 'marketing',
-      label: '市场营销',
-      intent: command,
-      budget: 0,
-      budget_label: '按指令解析',
-      risk_label: '中风险',
-      tradeoffs: ['用户 +', '现金 -']
-    });
-  }
+  const clauses = command
+    .split(/[，,；;、]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const sourceClauses = clauses.length > 0 ? clauses : [command.trim()];
+  const actions = sourceClauses.flatMap((clause) => {
+    const budgetMatch = clause.match(/(\d+)万/);
+    const budget = budgetMatch ? Number(budgetMatch[1]) * 10000 : 0;
+    const budgetLabel = budgetMatch ? `${budgetMatch[1]}万` : '无直接支出';
+    if (/研发|产品|功能|迭代/i.test(clause)) {
+      return [
+        {
+          type: 'product',
+          label: '产品研发',
+          intent: clause,
+          budget,
+          budget_label: budgetLabel,
+          risk_label: '中风险',
+          tradeoffs: ['产品 +', '现金 -']
+        }
+      ];
+    }
+    if (/营销|推广|获客|广告/i.test(clause)) {
+      return [
+        {
+          type: 'marketing',
+          label: '市场营销',
+          intent: clause,
+          budget,
+          budget_label: budgetLabel,
+          risk_label: '中风险',
+          tradeoffs: ['用户 +', '现金 -']
+        }
+      ];
+    }
+    return [];
+  });
   return {
     status: actions.length > 0 ? 'ready' : 'needs_clarification',
     summary:

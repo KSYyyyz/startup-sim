@@ -159,6 +159,9 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByText('难度：标准')).toBeVisible();
     expect(screen.getByText('竞品追赶')).not.toBeVisible();
     expect(screen.getByRole('button', { name: '执行回合' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '解释指令' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '移动端执行' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '移动端解释指令' })).toBeDisabled();
     expect(screen.getByText('从办公室选择行动，或直接输入 CEO 指令。')).toBeInTheDocument();
     expect(screen.getByText('第1月')).toBeInTheDocument();
     const hud = within(screen.getByLabelText('公司指标'));
@@ -262,6 +265,21 @@ describe('Startup Sim frontend shell', () => {
     expect(preview).toHaveTextContent('市场营销');
     expect(preview).toHaveTextContent('5万');
     expect(preview).toHaveTextContent('数值结算仍由 TurnEngine 执行');
+    expect(preview).not.toHaveTextContent('花10万研发产品，花5万做营销 产品 +');
+    expect(screen.getByLabelText('AI 指令解释')).toHaveClass('compact');
+  });
+
+  test('lets the mobile command strip explain commands before execution', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('移动端本回合指令'), '花10万研发产品，花5万做营销');
+    await userEvent.click(screen.getByRole('button', { name: '移动端解释指令' }));
+
+    const preview = await screen.findByLabelText('AI 指令解释');
+    expect(preview).toHaveTextContent('产品研发');
+    expect(preview).toHaveTextContent('市场营销');
   });
 
   test('keeps board and competitor details behind side tabs', async () => {

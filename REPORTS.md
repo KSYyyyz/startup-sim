@@ -29,6 +29,24 @@
 
 ---
 
+## Frontend Alpha 0.3 — 线上试玩 Bug 修复 (2026-05-18)
+
+**来源**: 人工试玩 Vercel 当前版本后发现的问题。主流程可用，但 demo fallback、移动端快捷条和解释面板密度仍影响试玩质量。
+
+**修复内容**:
+- Vercel 静态前端在未配置真实 API 时直接进入 demo fallback，不再先请求 `/api/*` 产生 405 控制台错误。
+- `demoCommandPreview()` 改为按分句解析自由命令，`花10万研发产品，花5万做营销` 会正确显示产品研发 10 万、市场营销 5 万。
+- 移动端快捷指令条增加“解释”按钮，并在空指令时禁用“解释/执行”。
+- `AI 指令解释` 面板改为紧凑样式，隐藏重复 intent 文本，减少底部区域重新变重的问题。
+- Playwright 覆盖移动端解释路径和空指令禁用状态。
+
+**验证重点**:
+- 线上 demo 不应出现 `/api/sessions`、`/api/turns`、`/api/command-preview` 的 405 fallback 噪声。
+- 桌面和移动端都能先解释指令，再执行回合。
+- 解释结果仍强调数值结算由 TurnEngine 执行。
+
+---
+
 ## Reference Game Scan — 本地参考游戏结构分析 (2026-05-18)
 
 本轮对五个本地安装目录做了只读结构扫描，产出文档：[docs/reference_game_analysis.md](docs/reference_game_analysis.md)。

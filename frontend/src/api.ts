@@ -5,6 +5,16 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
 const DEMO_FALLBACK =
   (import.meta.env.VITE_ENABLE_DEMO_FALLBACK ?? (API_BASE ? 'false' : 'true')) !== 'false';
 
+function shouldUseDirectDemoFallback() {
+  const hostname = globalThis.location?.hostname ?? '';
+  return (
+    DEMO_FALLBACK &&
+    !API_BASE &&
+    hostname.length > 0 &&
+    !['localhost', '127.0.0.1', '::1'].includes(hostname)
+  );
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`, {
     headers: {
@@ -21,6 +31,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export function createSession(): Promise<GameStateView> {
+  if (shouldUseDirectDemoFallback()) return Promise.resolve(demoInitialState);
   return request<GameStateView>('/api/sessions', {
     method: 'POST',
     body: JSON.stringify({
@@ -34,6 +45,7 @@ export function createSession(): Promise<GameStateView> {
 }
 
 export function submitTurn(sessionId: number, command: string): Promise<TurnResponse> {
+  if (shouldUseDirectDemoFallback()) return Promise.resolve(demoTurn(command));
   return request<TurnResponse>(`/api/sessions/${sessionId}/turns`, {
     method: 'POST',
     body: JSON.stringify({ command })
@@ -44,6 +56,7 @@ export function submitTurn(sessionId: number, command: string): Promise<TurnResp
 }
 
 export function loadSuggestions(sessionId: number): Promise<SuggestionResponse> {
+  if (shouldUseDirectDemoFallback()) return Promise.resolve(demoSuggestions);
   return request<SuggestionResponse>(`/api/sessions/${sessionId}/suggestions`).catch((error) => {
     if (!DEMO_FALLBACK) throw error;
     return demoSuggestions;
@@ -51,6 +64,7 @@ export function loadSuggestions(sessionId: number): Promise<SuggestionResponse> 
 }
 
 export function previewCommand(sessionId: number, command: string): Promise<CommandPreviewResponse> {
+  if (shouldUseDirectDemoFallback()) return Promise.resolve(demoCommandPreview(command));
   return request<CommandPreviewResponse>(`/api/sessions/${sessionId}/command-preview`, {
     method: 'POST',
     body: JSON.stringify({ command })

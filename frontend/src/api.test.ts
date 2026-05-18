@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-import { createSession, loadSuggestions, submitTurn } from './api';
+import { createSession, loadSuggestions, previewCommand, submitTurn } from './api';
 
 describe('Vercel demo fallback', () => {
   afterEach(() => {
@@ -16,6 +16,21 @@ describe('Vercel demo fallback', () => {
     expect(state.metrics.cash_coverage_label).toBe('现金流可支撑时间');
   });
 
+  test('uses demo mode directly on deployed static frontend without calling missing API routes', async () => {
+    const fetchMock = vi.fn(async () => new Response('method not allowed', { status: 405 }));
+    vi.stubGlobal('fetch', fetchMock);
+    vi.stubGlobal('location', { hostname: 'startup-sim-khaki.vercel.app' });
+
+    const state = await createSession();
+    const preview = await previewCommand(1, '花10万研发产品，花5万做营销');
+    const result = await submitTurn(1, '花10万研发产品');
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(state.stage.company_name).toBe('NimbusAI');
+    expect(preview.summary).toBe('系统将这条 CEO 指令理解为 2 个可执行动作。');
+    expect(result.state.metrics.month).toBe(2);
+  });
+
   test('simulates a turn and suggestions in demo mode', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => Promise.reject(new Error('network down'))));
 
@@ -26,5 +41,25 @@ describe('Vercel demo fallback', () => {
     expect(result.state.board.length).toBeGreaterThan(0);
     expect(result.state.competitors.length).toBeGreaterThan(0);
     expect(suggestions.items.length).toBe(3);
+  });
+
+  test('previews multi-action demo commands with segment budgets', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => Promise.reject(new Error('network down'))));
+
+    const preview = await previewCommand(1, '花10万研发产品，花5万做营销');
+
+    expect(preview.actions).toHaveLength(2);
+    expect(preview.actions[0]).toMatchObject({
+      label: '产品研发',
+      intent: '花10万研发产品',
+      budget: 100000,
+      budget_label: '10万'
+    });
+    expect(preview.actions[1]).toMatchObject({
+      label: '市场营销',
+      intent: '花5万做营销',
+      budget: 50000,
+      budget_label: '5万'
+    });
   });
 });

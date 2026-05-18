@@ -340,9 +340,17 @@ export default function App() {
           onChange={(event) => handleCommandChange(event.target.value)}
           placeholder="例如：花10万研发产品"
         />
-            <button type="submit" disabled={submitting}>
-              <Play size={18} />
-              执行
+        <button
+          type="button"
+          aria-label="移动端解释指令"
+          disabled={previewing || !hasCommand}
+          onClick={handleExplainCommand}
+        >
+          解释
+        </button>
+        <button type="submit" aria-label="移动端执行" disabled={submitting || !hasCommand}>
+          <Play size={18} />
+          执行
         </button>
       </form>
 
@@ -596,7 +604,7 @@ export default function App() {
             </article>
           )}
           {commandPreview && (
-            <article className="command-preview" aria-label="AI 指令解释">
+            <article className="command-preview compact" aria-label="AI 指令解释">
               <span>AI 指令解释</span>
               <strong>{commandPreview.summary}</strong>
               <div className="preview-action-list">
