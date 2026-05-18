@@ -188,11 +188,14 @@ G2 起步轮已经建立 Godot 美术导入验证和最小操作台：
 3. `godot/StartupSimGodot/scripts/G2OperationsPanelController.cs` 挂到主场景，连接现有区域、设施、员工、产能、时间和月报控制器。
 4. 主场景新增 `G2OperationsPanel`，玩家可以从按钮入口选择区域工具、设施工具、招聘、训练、暂停、速度和推进月份。
 5. 玩家可见文案继续使用“现金流可支撑时间”，Godot UI 不引用 `DeterministicTurnEngine`，月度经营仍通过 `GodotTurnBridge` 进入 C# Core。
+6. 主场景 `OfficeGridView` 已接入 office tile、zone overlay、facility、employee 和 status icon atlas，区域占用、设施摆放、员工招聘后会在网格中出现基础视觉反馈。
+7. `art_import_preview.tscn` 已扩展为完整 atlas 首格预览，覆盖 zone overlay、员工朝向、员工动画、UI core、feedback FX 和两版招聘头像。
 
 对应关键测试：
 
 - `tests/test_godot_scaffold.py::test_godot_main_scene_mounts_g2_minimal_operations_ui`
 - `tests/test_godot_scaffold.py::test_godot_art_import_preview_scene_references_core_atlases`
+- `tests/test_godot_scaffold.py::test_godot_main_scene_uses_art_atlases_for_office_visuals`
 
 ## 7. 下一步建议
 

@@ -305,6 +305,11 @@ public partial class G2OperationsPanelController : Control
         }
 
         selectedFacilityId = facilityId;
+        OfficeGridView?.ShowFacilityVisual(
+            facilityId,
+            FacilityPlacementController.SelectedFacilityTypeId,
+            x,
+            y);
         RefreshCapacity();
         UpdateStatus($"已摆放设施 {facilityId}。");
     }
@@ -334,6 +339,12 @@ public partial class G2OperationsPanelController : Control
         if (zone != null)
         {
             EmployeeManagementController.AssignEmployeeToZone(employeeId, zone.Id);
+            var employee = FindEmployee(employeeId);
+            OfficeGridView?.ShowEmployeeVisual(
+                employeeId,
+                employee?.RoleId ?? string.Empty,
+                zone.X,
+                zone.Y);
         }
 
         EmployeeManagementController.TrainEmployee(employeeId, skillId);

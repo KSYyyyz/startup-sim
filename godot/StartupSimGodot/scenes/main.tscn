@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/StartupSimController.cs" id="1"]
 [ext_resource type="Script" path="res://scripts/OfficeGridView.cs" id="2"]
@@ -10,6 +10,11 @@
 [ext_resource type="Script" path="res://scripts/GodotTurnBridge.cs" id="8"]
 [ext_resource type="Script" path="res://scripts/MonthlyReportController.cs" id="9"]
 [ext_resource type="Script" path="res://scripts/G2OperationsPanelController.cs" id="10"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/office-tile-atlas-v0.1.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/zone-state-overlay-atlas-v0.1.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/facility-upgrade-atlas-v0.1.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/employee-sprite-atlas-v0.1.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/status-icon-atlas-v0.1.png" id="15"]
 
 [node name="StartupSimMain" type="Node"]
 script = ExtResource("1")
@@ -23,6 +28,11 @@ position = Vector2(32, 32)
 GridWidth = 12
 GridHeight = 8
 CellSize = 64
+OfficeTileAtlas = ExtResource("11")
+ZoneOverlayAtlas = ExtResource("12")
+FacilityAtlas = ExtResource("13")
+EmployeeAtlas = ExtResource("14")
+StatusIconAtlas = ExtResource("15")
 
 [node name="ZonePaintingController" type="Node" parent="."]
 script = ExtResource("3")

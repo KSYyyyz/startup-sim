@@ -1,11 +1,61 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://scripts/ArtImportPreviewController.cs" id="1"]
 [ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/office-tile-atlas-v0.1.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/facility-upgrade-atlas-v0.1.png" id="3"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/employee-sprite-atlas-v0.1.png" id="4"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/status-icon-atlas-v0.1.png" id="5"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/recruitment-portrait-sheet-v0.2-angle-balanced.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/zone-state-overlay-atlas-v0.1.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/facility-upgrade-atlas-v0.1.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/employee-sprite-atlas-v0.1.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/employee-direction-variants-v0.1.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/status-icon-atlas-v0.1.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/employee-animation-minimal-v0.1.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/ui-core-atlas-v0.1.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/feedback-fx-atlas-v0.1.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/recruitment-portrait-sheet-v0.1.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.1/exports/recruitment-portrait-sheet-v0.2-angle-balanced.png" id="12"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_office_tile"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_zone_overlay"]
+atlas = ExtResource("3")
+region = Rect2(0, 0, 192, 204.8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_facility"]
+atlas = ExtResource("4")
+region = Rect2(0, 0, 256, 341.33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_employee"]
+atlas = ExtResource("5")
+region = Rect2(0, 0, 256, 204.8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_employee_direction"]
+atlas = ExtResource("6")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_status_icon"]
+atlas = ExtResource("7")
+region = Rect2(0, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_employee_animation"]
+atlas = ExtResource("8")
+region = Rect2(0, 0, 192, 170.67)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ui_core"]
+atlas = ExtResource("9")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_feedback_fx"]
+atlas = ExtResource("10")
+region = Rect2(0, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_portrait_v1"]
+atlas = ExtResource("11")
+region = Rect2(0, 0, 384, 341.33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_portrait_v2"]
+atlas = ExtResource("12")
+region = Rect2(0, 0, 384, 341.33)
 
 [node name="ArtImportPreview" type="Control"]
 layout_mode = 3
@@ -14,99 +64,293 @@ offset_right = 1280.0
 offset_bottom = 720.0
 script = ExtResource("1")
 OfficeTileAtlas = ExtResource("2")
-FacilityAtlas = ExtResource("3")
-EmployeeAtlas = ExtResource("4")
-StatusIconAtlas = ExtResource("5")
-RecruitmentPortraitAtlas = ExtResource("6")
+ZoneStateOverlayAtlas = ExtResource("3")
+FacilityAtlas = ExtResource("4")
+EmployeeAtlas = ExtResource("5")
+EmployeeDirectionAtlas = ExtResource("6")
+StatusIconAtlas = ExtResource("7")
+EmployeeAnimationAtlas = ExtResource("8")
+UiCoreAtlas = ExtResource("9")
+FeedbackFxAtlas = ExtResource("10")
+RecruitmentPortraitAtlasV1 = ExtResource("11")
+RecruitmentPortraitAtlas = ExtResource("12")
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 20.0
+offset_right = 760.0
+offset_bottom = 48.0
+text = "Startup Sim G1 Art Import Preview - first atlas cells"
 
 [node name="Scale100Percent" type="Control" parent="."]
 layout_mode = 0
 offset_left = 32.0
-offset_top = 48.0
-offset_right = 420.0
-offset_bottom = 280.0
+offset_top = 64.0
+offset_right = 1220.0
+offset_bottom = 256.0
 
 [node name="OfficeTiles100" type="TextureRect" parent="Scale100Percent"]
 layout_mode = 0
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("2")
+offset_right = 112.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_office_tile")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ZoneOverlay100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 240.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_zone_overlay")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Facility100" type="TextureRect" parent="Scale100Percent"]
 layout_mode = 0
-offset_left = 112.0
-offset_right = 208.0
-offset_bottom = 96.0
-texture = ExtResource("3")
+offset_left = 256.0
+offset_right = 368.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_facility")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Employee100" type="TextureRect" parent="Scale100Percent"]
 layout_mode = 0
-offset_left = 224.0
-offset_right = 320.0
-offset_bottom = 96.0
-texture = ExtResource("4")
+offset_left = 384.0
+offset_right = 496.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmployeeDirection100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 512.0
+offset_right = 624.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee_direction")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusIcon100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 640.0
+offset_right = 752.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_status_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmployeeAnimation100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 768.0
+offset_right = 880.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee_animation")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="UiCore100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 896.0
+offset_right = 1008.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_ui_core")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FeedbackFx100" type="TextureRect" parent="Scale100Percent"]
+layout_mode = 0
+offset_left = 1024.0
+offset_right = 1136.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_feedback_fx")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Scale75Percent" type="Control" parent="."]
 layout_mode = 0
 offset_left = 32.0
-offset_top = 320.0
-offset_right = 420.0
-offset_bottom = 500.0
+offset_top = 288.0
+offset_right = 1220.0
+offset_bottom = 456.0
 scale = Vector2(0.75, 0.75)
 
-[node name="StatusIcon75" type="TextureRect" parent="Scale75Percent"]
+[node name="OfficeTiles75" type="TextureRect" parent="Scale75Percent"]
 layout_mode = 0
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("5")
+offset_right = 112.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_office_tile")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Portrait75" type="TextureRect" parent="Scale75Percent"]
+[node name="ZoneOverlay75" type="TextureRect" parent="Scale75Percent"]
 layout_mode = 0
-offset_left = 112.0
-offset_right = 208.0
-offset_bottom = 96.0
-texture = ExtResource("6")
+offset_left = 128.0
+offset_right = 240.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_zone_overlay")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Facility75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 256.0
+offset_right = 368.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_facility")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Employee75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 384.0
+offset_right = 496.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmployeeDirection75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 512.0
+offset_right = 624.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee_direction")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusIcon75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 640.0
+offset_right = 752.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_status_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="UiCore75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 768.0
+offset_right = 880.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_ui_core")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FeedbackFx75" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 896.0
+offset_right = 1008.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_feedback_fx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PortraitV175" type="TextureRect" parent="Scale75Percent"]
+layout_mode = 0
+offset_left = 1024.0
+offset_right = 1136.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_portrait_v1")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Scale50Percent" type="Control" parent="."]
 layout_mode = 0
-offset_left = 520.0
-offset_top = 48.0
-offset_right = 920.0
-offset_bottom = 260.0
+offset_left = 32.0
+offset_top = 512.0
+offset_right = 1220.0
+offset_bottom = 680.0
 scale = Vector2(0.5, 0.5)
 
 [node name="OfficeTiles50" type="TextureRect" parent="Scale50Percent"]
 layout_mode = 0
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("2")
+offset_right = 112.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_office_tile")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ZoneOverlay50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 240.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_zone_overlay")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Facility50" type="TextureRect" parent="Scale50Percent"]
 layout_mode = 0
-offset_left = 112.0
-offset_right = 208.0
-offset_bottom = 96.0
-texture = ExtResource("3")
+offset_left = 256.0
+offset_right = 368.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_facility")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Employee50" type="TextureRect" parent="Scale50Percent"]
 layout_mode = 0
-offset_left = 224.0
-offset_right = 320.0
-offset_bottom = 96.0
-texture = ExtResource("4")
+offset_left = 384.0
+offset_right = 496.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmployeeDirection50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 512.0
+offset_right = 624.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee_direction")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusIcon50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 640.0
+offset_right = 752.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_status_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmployeeAnimation50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 768.0
+offset_right = 880.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_employee_animation")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="UiCore50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 896.0
+offset_right = 1008.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_ui_core")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FeedbackFx50" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 1024.0
+offset_right = 1136.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_feedback_fx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PortraitV250" type="TextureRect" parent="Scale50Percent"]
+layout_mode = 0
+offset_left = 1152.0
+offset_right = 1264.0
+offset_bottom = 112.0
+texture = SubResource("AtlasTexture_portrait_v2")
 expand_mode = 1
 stretch_mode = 5

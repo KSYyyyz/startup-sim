@@ -102,6 +102,35 @@ def test_godot_main_scene_mounts_office_grid_view():
     assert "OfficeGrid" in grid_script
 
 
+def test_godot_main_scene_uses_art_atlases_for_office_visuals():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    for atlas in [
+        "office-tile-atlas-v0.1.png",
+        "zone-state-overlay-atlas-v0.1.png",
+        "facility-upgrade-atlas-v0.1.png",
+        "employee-sprite-atlas-v0.1.png",
+        "status-icon-atlas-v0.1.png",
+    ]:
+        assert atlas in scene
+
+    assert "OfficeTileAtlas = ExtResource" in scene
+    assert "ZoneOverlayAtlas = ExtResource" in scene
+    assert "FacilityAtlas = ExtResource" in scene
+    assert "EmployeeAtlas = ExtResource" in scene
+    assert "StatusIconAtlas = ExtResource" in scene
+    assert "DrawTextureRectRegion" in grid_script
+    assert "DrawFloorTiles" in grid_script
+    assert "ShowFacilityVisual" in grid_script
+    assert "ShowEmployeeVisual" in grid_script
+    assert "DrawFacilityVisuals" in grid_script
+    assert "DrawEmployeeVisuals" in grid_script
+    assert "ShowFacilityVisual" in panel_script
+    assert "ShowEmployeeVisual" in panel_script
+
+
 def test_godot_main_scene_mounts_zone_painting_controller():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     controller = (SCRIPTS / "ZonePaintingController.cs").read_text(encoding="utf-8")
@@ -220,9 +249,15 @@ def test_godot_art_import_preview_scene_references_core_atlases():
     assert "res://scripts/ArtImportPreviewController.cs" in scene
     for atlas in [
         "office-tile-atlas-v0.1.png",
+        "zone-state-overlay-atlas-v0.1.png",
         "facility-upgrade-atlas-v0.1.png",
         "employee-sprite-atlas-v0.1.png",
+        "employee-direction-variants-v0.1.png",
         "status-icon-atlas-v0.1.png",
+        "employee-animation-minimal-v0.1.png",
+        "ui-core-atlas-v0.1.png",
+        "feedback-fx-atlas-v0.1.png",
+        "recruitment-portrait-sheet-v0.1.png",
         "recruitment-portrait-sheet-v0.2-angle-balanced.png",
     ]:
         assert atlas in scene
@@ -231,8 +266,14 @@ def test_godot_art_import_preview_scene_references_core_atlases():
     assert "Scale75Percent" in scene
     assert "Scale50Percent" in scene
     assert "ValidateAtlasPreview" in controller
+    assert "ValidateAtlasPreviewReport" in controller
     assert "AtlasTexture" in controller
     assert "Texture2D" in controller
+    assert "ZoneStateOverlayAtlas" in controller
+    assert "EmployeeDirectionAtlas" in controller
+    assert "EmployeeAnimationAtlas" in controller
+    assert "UiCoreAtlas" in controller
+    assert "FeedbackFxAtlas" in controller
     assert "DeterministicTurnEngine" not in controller
 
 

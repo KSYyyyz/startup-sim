@@ -49,6 +49,9 @@ def test_godot_art_pack_is_tracked_and_import_ready():
         "employee-sprite-atlas-v0.1",
         "employee-direction-variants-v0.1",
         "status-icon-atlas-v0.1",
+        "employee-animation-minimal-v0.1",
+        "ui-core-atlas-v0.1",
+        "feedback-fx-atlas-v0.1",
         "recruitment-portrait-sheet-v0.1",
         "recruitment-portrait-sheet-v0.2-angle-balanced",
     }
@@ -59,11 +62,13 @@ def test_godot_art_pack_is_tracked_and_import_ready():
 
     for asset in index["assets"]:
         export_path = GODOT_ART_PACK / asset["file"]
+        import_path = export_path.with_name(f"{export_path.name}.import")
         source_path = GODOT_ART_PACK / asset["source"]
         prompt_path = GODOT_ART_PACK / asset["prompt"]
         slice_guide_path = GODOT_ART_PACK / "slice-guides" / f"{asset['id']}.md"
 
         assert export_path.is_file(), f"missing export for {asset['id']}"
+        assert import_path.is_file(), f"missing Godot import metadata for {asset['id']}"
         assert source_path.is_file(), f"missing source for {asset['id']}"
         assert prompt_path.is_file(), f"missing prompt for {asset['id']}"
         assert slice_guide_path.is_file(), f"missing slice guide for {asset['id']}"
