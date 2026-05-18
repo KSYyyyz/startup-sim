@@ -1,0 +1,93 @@
+{
+  "authority": "csharp-portable-turn-slice",
+  "cases": [
+    {
+      "name": "product_budget",
+      "command": "花20万研发产品",
+      "initial": {
+        "month": 1,
+        "cash": 1000000,
+        "product_score": 20,
+        "users": 0,
+        "mrr": 0,
+        "founder_equity": 100,
+        "valuation": 2640000
+      },
+      "expected": {
+        "status": "active",
+        "cash": 800000,
+        "product_score": 36,
+        "users": 0,
+        "mrr": 0,
+        "founder_equity": 100,
+        "valuation": 2640000
+      }
+    },
+    {
+      "name": "marketing_budget",
+      "command": "花10万做营销推广",
+      "initial": {
+        "month": 1,
+        "cash": 1000000,
+        "product_score": 35,
+        "users": 0,
+        "mrr": 0,
+        "founder_equity": 100,
+        "valuation": 2640000
+      },
+      "expected": {
+        "status": "active",
+        "cash": 900000,
+        "product_score": 35,
+        "users": 100,
+        "mrr": 50000,
+        "founder_equity": 100,
+        "valuation": 2640000
+      }
+    },
+    {
+      "name": "fundraising_plus_product_and_marketing",
+      "command": "融资300万出让8%，花20万研发产品，花10万做营销推广",
+      "initial": {
+        "month": 1,
+        "cash": 1000000,
+        "product_score": 20,
+        "users": 0,
+        "mrr": 0,
+        "founder_equity": 100,
+        "valuation": 2640000
+      },
+      "expected": {
+        "status": "active",
+        "cash": 3700000,
+        "product_score": 36,
+        "users": 100,
+        "mrr": 50000,
+        "founder_equity": 92,
+        "valuation": 37500000
+      }
+    },
+    {
+      "name": "bankruptcy_guard",
+      "command": "花20万研发产品",
+      "initial": {
+        "month": 1,
+        "cash": 50000,
+        "product_score": 20,
+        "users": 0,
+        "mrr": 0,
+        "founder_equity": 100,
+        "valuation": 2640000
+      },
+      "expected": {
+        "status": "bankruptcy",
+        "cash": 0,
+        "product_score": 36,
+        "users": 0,
+        "mrr": 0,
+        "founder_equity": 100,
+        "valuation": 2640000
+      }
+    }
+  ]
+}

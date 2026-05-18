@@ -1,5 +1,6 @@
 using System.Text.Json;
 using StartupSim.Core.Contracts;
+using StartupSim.Core.Engines;
 using StartupSim.Core.Parsing;
 using Xunit;
 
@@ -63,6 +64,37 @@ public sealed class GoldenCaseTests
         }
     }
 
+    [Fact]
+    public void MinimalTurnEngineGoldenCasesMatchCSharpPortableSlice()
+    {
+        var root = FindRepositoryRoot();
+        var goldenPath = Path.Combine(root, "csharp", "golden-cases", "turn_engine_minimal.json");
+        var json = File.ReadAllText(goldenPath);
+        using var document = JsonDocument.Parse(json);
+        var rootElement = document.RootElement;
+        var engine = new DeterministicTurnEngine();
+
+        Assert.Equal("csharp-portable-turn-slice", rootElement.GetProperty("authority").GetString());
+
+        foreach (var goldenCase in rootElement.GetProperty("cases").EnumerateArray())
+        {
+            var initial = goldenCase.GetProperty("initial");
+            var command = goldenCase.GetProperty("command").GetString() ?? string.Empty;
+            var expected = goldenCase.GetProperty("expected");
+            var result = engine.Execute(BuildState(initial), new TurnCommand { RawText = command });
+
+            Assert.Equal(expected.GetProperty("status").GetString(), result.State.Status);
+            Assert.Equal(expected.GetProperty("cash").GetDecimal(), result.State.Metrics.Cash);
+            Assert.Equal(expected.GetProperty("product_score").GetInt32(), result.State.Metrics.ProductScore);
+            Assert.Equal(expected.GetProperty("users").GetInt32(), result.State.Metrics.Users);
+            Assert.Equal(expected.GetProperty("mrr").GetDecimal(), result.State.Metrics.MonthlyRecurringRevenue);
+            Assert.Equal(
+                expected.GetProperty("founder_equity").GetDecimal(),
+                result.State.Metrics.FounderEquityPercent);
+            Assert.Equal(expected.GetProperty("valuation").GetDecimal(), result.State.Metrics.Valuation);
+        }
+    }
+
     private static string FindRepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
@@ -77,6 +109,23 @@ public sealed class GoldenCaseTests
         }
 
         throw new DirectoryNotFoundException("Could not find repository root.");
+    }
+
+    private static GameState BuildState(JsonElement initial)
+    {
+        return new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = initial.GetProperty("month").GetInt32(),
+                Cash = initial.GetProperty("cash").GetDecimal(),
+                ProductScore = initial.GetProperty("product_score").GetInt32(),
+                Users = initial.GetProperty("users").GetInt32(),
+                MonthlyRecurringRevenue = initial.GetProperty("mrr").GetDecimal(),
+                FounderEquityPercent = initial.GetProperty("founder_equity").GetDecimal(),
+                Valuation = initial.GetProperty("valuation").GetDecimal()
+            }
+        };
     }
 
     private static string SerializeType(ActionType type)
