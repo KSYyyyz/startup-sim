@@ -179,6 +179,32 @@ export type BoardNpcProfile = BoardNpcMember & {
   memoryFact?: string;
 };
 
+export type NewPlayerGuidanceInput = {
+  month: number;
+  cashCoverageMonths: number;
+  productScore: number;
+  users: number;
+  mrr: number;
+  hasLastTurn?: boolean;
+};
+
+export type NewPlayerGuidance = {
+  stepLabel: string;
+  title: string;
+  description: string;
+  focusTags: string[];
+  checkHint: string;
+};
+
+export type CurrentMonthGoal = {
+  title: string;
+  statusLabel: string;
+  progressLabel: string;
+  why: string;
+  directionTags: string[];
+  riskHint: string;
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -733,4 +759,83 @@ export function buildTurnResolutionSteps(input: TurnResolutionInput): TurnResolu
     { title: '月末变化', detail: highlightDetail || '本月指标保持观察', tone: changeTone },
     { title: '战报复盘', detail: input.reportHeadline, tone: 'focus' }
   ];
+}
+
+export function buildNewPlayerGuidance(input: NewPlayerGuidanceInput): NewPlayerGuidance | null {
+  if (input.month > 3) return null;
+
+  if (input.month === 1) {
+    return {
+      stepLabel: '第1步',
+      title: '先读局面',
+      description: '先看现金、产品和核心矛盾，再从办公室选一个小动作试水。',
+      focusTags: ['现金流可支撑时间', '产品室', '小步试错'],
+      checkHint: '本月只需要完成一次明确行动，别急着同时扩张和融资。'
+    };
+  }
+
+  if (input.month === 2) {
+    return {
+      stepLabel: '第2步',
+      title: '读懂结算',
+      description: '先看月度战报和董事会反馈，判断上月动作带来了什么代价。',
+      focusTags: ['复盘重点', '董事会反馈', '现金边界'],
+      checkHint: input.hasLastTurn ? '把上月变化变成下一次选择，不要只盯单个指标。' : '先执行一回合，再回来读结算变化。'
+    };
+  }
+
+  return {
+    stepLabel: '第3步',
+    title: '形成路线',
+    description: '开始判断这局更像产品路线、增长路线，还是现金纪律路线。',
+    focusTags: ['创业风格', '竞品态势', '目标复盘'],
+    checkHint:
+      input.cashCoverageMonths < 4
+        ? '现金已经偏紧，先确认每个动作是否值得消耗一个月。'
+        : '现金还允许试错，可以选一个方向连续推进。'
+  };
+}
+
+export function buildCurrentMonthGoal(input: NewPlayerGuidanceInput): CurrentMonthGoal {
+  if (input.cashCoverageMonths < 4) {
+    return {
+      title: '本月小目标',
+      statusLabel: '现金承压',
+      progressLabel: `现金流可支撑时间 ${input.cashCoverageMonths.toFixed(1)}个月`,
+      why: '现金流可支撑时间已经偏短，本月优先让公司活得更久，再考虑加速。',
+      directionTags: ['压低单月消耗', '保留融资选项', '选择低风险试验'],
+      riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
+    };
+  }
+
+  if (input.productScore < 35) {
+    return {
+      title: '本月小目标',
+      statusLabel: '产品验证前',
+      progressLabel: `产品 ${input.productScore}/35`,
+      why: '产品还没到可验证区间，优先把核心体验补到能拿去见客户的程度。',
+      directionTags: ['提升产品成熟度', '保持现金纪律', '准备客户验证'],
+      riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
+    };
+  }
+
+  if (input.users <= 0 || input.mrr <= 0) {
+    return {
+      title: '本月小目标',
+      statusLabel: '验证市场',
+      progressLabel: input.users > 0 ? `用户 ${input.users}` : '用户 0',
+      why: '产品已有基础，但还需要用客户反馈证明它不是闭门研发成果。',
+      directionTags: ['小范围获客', '客户访谈', '观察留存'],
+      riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
+    };
+  }
+
+  return {
+    title: '本月小目标',
+    statusLabel: '沉淀节奏',
+    progressLabel: `月经常收入 ${input.mrr}`,
+    why: '公司已经有早期反馈，本月重点是把有效动作沉淀成可重复的经营节奏。',
+    directionTags: ['复盘有效动作', '稳定交付', '准备下一阶段'],
+    riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
+  };
 }

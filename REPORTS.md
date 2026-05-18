@@ -4,6 +4,24 @@
 
 ---
 
+## Frontend Alpha 0.5 — 前三回合经营节奏与本月小目标 (2026-05-18)
+
+**性质**: 桌面端第一体验切片。目标是让新玩家前 3 个月知道该看什么、怎么理解结算、如何形成本局路线，同时避免依赖一键生成指令。
+
+**主要产出**:
+- `frontend/src/game/gameplayContent.ts` 新增 `buildNewPlayerGuidance()`，只在第 1-3 月显示经营节奏：先读局面、读懂结算、形成路线。
+- 新增 `buildCurrentMonthGoal()`，把阶段目标翻译成本月小目标，例如产品验证前、现金承压、验证市场。
+- `frontend/src/App.tsx` 在左侧信息流中显示“新手经营节奏”和“本月小目标”，只展示方向标签、检查点和风险提示，不提供按钮或固定命令。
+- `frontend/src/App.test.tsx` 和 `frontend/src/game/gameplayContent.test.ts` 覆盖新手引导、本月目标、无一键/无固定指令依赖。
+
+**验收边界**:
+- 不改变 TurnEngine、StateGuard、融资、估值或现金结算。
+- 不新增复杂商业机制。
+- 不触碰体外资产包。
+- 玩家可见文案继续使用“现金流可支撑时间”，不出现“跑道”或 Runway。
+
+---
+
 ## Frontend Performance Pass — PixiJS optional chunk boundary (2026-05-18)
 
 **性质**: 桌面前端性能边界收口。目标是让办公室 Canvas 层继续可选，同时避免 PixiJS 被误并入主入口。

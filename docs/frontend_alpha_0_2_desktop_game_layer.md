@@ -100,6 +100,8 @@ Completed in the first ten desktop-first implementation rounds:
 - Production-facing Playwright acceptance now checks the scenario entry, office operation deck, room-to-command path, turn resolution, and banned wording at desktop and mobile smoke viewports.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 - Desktop UI has completed one information-reduction pass after screenshot review: the top HUD keeps only six essential operating metrics, the current scenario entry is collapsed by default, office feedback/event bubbles no longer cover the central scene, competitor detail is shown only inside the right-side competitor tab, and operating insight has moved into the left core-tension panel.
+- The first three months now surface a lightweight "新手经营节奏" panel: month 1 teaches reading the situation, month 2 teaches reading settlement feedback, and month 3 nudges the player to form a route. It only shows direction tags and check hints, not executable commands.
+- A "本月小目标" panel translates the phase goal into the current month focus such as product readiness, cash discipline, or market validation. It is intentionally advisory so players do not become dependent on generated one-click instructions.
 
 Known follow-up:
 

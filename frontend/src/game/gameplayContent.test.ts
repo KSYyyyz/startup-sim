@@ -5,6 +5,8 @@ import {
   buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
+  buildCurrentMonthGoal,
+  buildNewPlayerGuidance,
   buildPreparedActionPreview,
   buildMonthlyReport,
   buildMonthlyRecoveryAction,
@@ -335,5 +337,67 @@ describe('gameplay content definitions', () => {
       { title: '月末变化', detail: '现金 $-22万 · 产品 +8 分', tone: 'mixed' },
       { title: '战报复盘', detail: '产品有进展，但现金在承压', tone: 'focus' }
     ]);
+  });
+
+  test('builds first-three-month guidance without executable commands', () => {
+    const monthOne = buildNewPlayerGuidance({
+      month: 1,
+      cashCoverageMonths: 8.3,
+      productScore: 20,
+      users: 0,
+      mrr: 0,
+      hasLastTurn: false
+    });
+    const monthTwo = buildNewPlayerGuidance({
+      month: 2,
+      cashCoverageMonths: 6.5,
+      productScore: 32,
+      users: 0,
+      mrr: 0,
+      hasLastTurn: true
+    });
+
+    expect(monthOne).toEqual({
+      stepLabel: '第1步',
+      title: '先读局面',
+      description: '先看现金、产品和核心矛盾，再从办公室选一个小动作试水。',
+      focusTags: ['现金流可支撑时间', '产品室', '小步试错'],
+      checkHint: '本月只需要完成一次明确行动，别急着同时扩张和融资。'
+    });
+    expect(monthTwo?.title).toBe('读懂结算');
+    expect(JSON.stringify(monthOne)).not.toContain('花10万研发产品');
+    expect(JSON.stringify(monthOne)).not.toContain('一键');
+    expect(buildNewPlayerGuidance({ month: 4, cashCoverageMonths: 5, productScore: 40, users: 100, mrr: 5000 })).toBeNull();
+  });
+
+  test('builds a current month goal as direction not command', () => {
+    expect(
+      buildCurrentMonthGoal({
+        month: 1,
+        cashCoverageMonths: 8.3,
+        productScore: 20,
+        users: 0,
+        mrr: 0
+      })
+    ).toEqual({
+      title: '本月小目标',
+      statusLabel: '产品验证前',
+      progressLabel: '产品 20/35',
+      why: '产品还没到可验证区间，优先把核心体验补到能拿去见客户的程度。',
+      directionTags: ['提升产品成熟度', '保持现金纪律', '准备客户验证'],
+      riskHint: '不要把本月目标理解成固定指令；你仍然可以用任意 CEO 指令达成方向。'
+    });
+
+    const cashGoal = buildCurrentMonthGoal({
+      month: 3,
+      cashCoverageMonths: 2.8,
+      productScore: 44,
+      users: 120,
+      mrr: 8000
+    });
+    expect(cashGoal.statusLabel).toBe('现金承压');
+    expect(cashGoal.directionTags).toContain('压低单月消耗');
+    expect(JSON.stringify(cashGoal)).not.toContain('花1万');
+    expect(JSON.stringify(cashGoal)).not.toContain('融资300万');
   });
 });

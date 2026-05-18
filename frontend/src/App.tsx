@@ -19,6 +19,8 @@ import {
   buildBoardNpcProfiles,
   buildCompetitorPressureResponse,
   buildCompetitorMoves,
+  buildCurrentMonthGoal,
+  buildNewPlayerGuidance,
   buildPreparedActionPreview,
   buildMonthlyReport,
   buildMonthlyRecoveryAction,
@@ -319,6 +321,34 @@ export default function App() {
     () => commandPreview ?? (preparedAction ? buildPreparedActionPreview(preparedAction) : null),
     [commandPreview, preparedAction]
   );
+  const newPlayerGuidance = useMemo(
+    () =>
+      state
+        ? buildNewPlayerGuidance({
+            month: state.metrics.month,
+            cashCoverageMonths: state.metrics.cash_coverage_months,
+            productScore: state.metrics.product_score,
+            users: state.metrics.users,
+            mrr: state.metrics.mrr,
+            hasLastTurn: Boolean(lastTurn)
+          })
+        : null,
+    [lastTurn, state]
+  );
+  const currentMonthGoal = useMemo(
+    () =>
+      state
+        ? buildCurrentMonthGoal({
+            month: state.metrics.month,
+            cashCoverageMonths: state.metrics.cash_coverage_months,
+            productScore: state.metrics.product_score,
+            users: state.metrics.users,
+            mrr: state.metrics.mrr,
+            hasLastTurn: Boolean(lastTurn)
+          })
+        : null,
+    [lastTurn, state]
+  );
   const reviewAchievements = useMemo(() => (review?.achievement_cards ?? review?.achievements ?? []).slice(0, 3), [review]);
   const reviewSuggestions = useMemo(() => review?.next_run_suggestions?.slice(0, 3) ?? [], [review]);
   const archiveSummary = review?.archive_summary ?? review?.ending_summary ?? '';
@@ -510,6 +540,37 @@ export default function App() {
                   </section>
                 ))}
               </div>
+            </article>
+          )}
+
+          {newPlayerGuidance && (
+            <article className="panel onboarding-panel" aria-label="新手经营节奏">
+              <span>{newPlayerGuidance.stepLabel}</span>
+              <h2>{newPlayerGuidance.title}</h2>
+              <p>{newPlayerGuidance.description}</p>
+              <div className="direction-tags" aria-label="本步关注点">
+                {newPlayerGuidance.focusTags.map((tag) => (
+                  <b key={tag}>{tag}</b>
+                ))}
+              </div>
+              <small>{newPlayerGuidance.checkHint}</small>
+            </article>
+          )}
+
+          {currentMonthGoal && (
+            <article className="panel month-goal-panel" aria-label="本月小目标">
+              <div>
+                <h2>{currentMonthGoal.title}</h2>
+                <span>{currentMonthGoal.statusLabel}</span>
+              </div>
+              <strong>{currentMonthGoal.progressLabel}</strong>
+              <p>{currentMonthGoal.why}</p>
+              <div className="direction-tags" aria-label="本月方向">
+                {currentMonthGoal.directionTags.map((tag) => (
+                  <b key={tag}>{tag}</b>
+                ))}
+              </div>
+              <small>{currentMonthGoal.riskHint}</small>
             </article>
           )}
 

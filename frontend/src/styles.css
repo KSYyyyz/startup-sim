@@ -397,6 +397,59 @@ h2 {
   font-weight: 800;
 }
 
+.onboarding-panel,
+.month-goal-panel {
+  display: grid;
+  gap: 8px;
+}
+
+.onboarding-panel > span,
+.month-goal-panel > div > span {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: #e7f6ed;
+  color: #1f7a47;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.onboarding-panel h2,
+.month-goal-panel h2 {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #153b68;
+}
+
+.month-goal-panel > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.month-goal-panel > strong {
+  color: #244d7b;
+  font-size: 0.82rem;
+}
+
+.onboarding-panel small,
+.month-goal-panel small {
+  color: #607189;
+  line-height: 1.35;
+}
+
+.onboarding-panel .direction-tags b,
+.month-goal-panel .direction-tags b {
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: #edf4fc;
+  color: #245a9d;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
 .objective-card p {
   line-height: 1.36;
 }
