@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
@@ -193,6 +193,26 @@ describe('Startup Sim frontend shell', () => {
 
     expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
     expect(screen.getByLabelText('本回合指令')).toHaveValue('');
+  });
+
+  test('lets office feedback signals open matching side panels', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    const sideTabs = within(screen.getByRole('tablist', { name: '右侧信息' }));
+
+    await userEvent.click(screen.getByRole('button', { name: /查看竞品信号/ }));
+
+    expect(sideTabs.getByRole('button', { name: '竞品' })).toHaveClass('active');
+    expect(screen.getByRole('heading', { name: '竞品态势' })).toBeInTheDocument();
+    expect(screen.getAllByText('快答科技').length).toBeGreaterThan(0);
+
+    await userEvent.click(screen.getByRole('button', { name: /查看董事会信号/ }));
+
+    expect(sideTabs.getByRole('button', { name: '董事会' })).toHaveClass('active');
+    expect(screen.getByRole('heading', { name: '董事会反馈' })).toBeInTheDocument();
+    expect(screen.getByText('控制固定支出。')).toBeInTheDocument();
   });
 
   test('submits a turn and refreshes post-turn board competitor and insight feedback', async () => {

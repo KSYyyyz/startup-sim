@@ -10,6 +10,8 @@ type OfficeStageProps = {
   competitorSignal: string;
   pulseRoomId: string;
   pulseText: string;
+  onBoardSignalSelect: () => void;
+  onCompetitorSignalSelect: () => void;
   onActionSelect: (action: OfficeAction) => void;
 };
 
@@ -75,6 +77,8 @@ export function OfficeStage({
   competitorSignal,
   pulseRoomId,
   pulseText,
+  onBoardSignalSelect,
+  onCompetitorSignalSelect,
   onActionSelect
 }: OfficeStageProps) {
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -98,8 +102,12 @@ export function OfficeStage({
       </div>
       <div className="office-feedback" aria-label="办公室动态反馈">
         <span>动态反馈</span>
-        <strong>{boardSignal}</strong>
-        <small>{competitorSignal}</small>
+        <button type="button" aria-label={`查看董事会信号：${boardSignal}`} onClick={onBoardSignalSelect}>
+          <strong>{boardSignal}</strong>
+        </button>
+        <button type="button" aria-label={`查看竞品信号：${competitorSignal}`} onClick={onCompetitorSignalSelect}>
+          <small>{competitorSignal}</small>
+        </button>
       </div>
       <div className="room-hotspots" aria-label="可操作房间">
         {officeRooms.map((room) => {

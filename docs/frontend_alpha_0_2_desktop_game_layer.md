@@ -76,6 +76,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Board rows show role stances such as "现金纪律" and "产品护城河".
 - Competitor rows and the competitor glance include readable trend labels such as "持平" and "上升".
 - The office scene has a non-blocking "办公室提示" bubble for the current focus.
+- Office dynamic feedback signals are clickable: board signals open the board panel, and competitor signals open the competitor panel.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:

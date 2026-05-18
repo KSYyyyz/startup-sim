@@ -356,8 +356,26 @@ h2 {
 
 .office-feedback span,
 .office-feedback strong,
-.office-feedback small {
+.office-feedback small,
+.office-feedback button {
   display: block;
+}
+
+.office-feedback button {
+  pointer-events: auto;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  padding: 3px 4px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.office-feedback button:hover,
+.office-feedback button:focus-visible {
+  outline: 2px solid rgba(36, 90, 157, 0.35);
+  background: rgba(220, 232, 246, 0.62);
 }
 
 .office-feedback span {

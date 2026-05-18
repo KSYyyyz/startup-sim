@@ -9,6 +9,10 @@ test('creates a session and submits one turn', async ({ page }) => {
   await expect(page.getByLabel('互动办公室场景')).toBeVisible();
   await expect(page.getByLabel('办公室动态反馈')).toBeVisible();
   await expect(page.getByLabel('产品室状态')).toContainText('产品压力');
+  await page.getByRole('button', { name: /查看竞品信号/ }).click();
+  await expect(page.getByRole('button', { name: '竞品', exact: true })).toHaveClass(/active/);
+  await page.getByRole('button', { name: /查看董事会信号/ }).click();
+  await expect(page.getByRole('button', { name: '董事会', exact: true }).last()).toHaveClass(/active/);
   await expect(page.getByLabel('竞品态势')).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/跑道|Runway/);
 
