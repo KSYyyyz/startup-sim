@@ -8,6 +8,7 @@ import {
   buildCompetitorMoves,
   buildCurrentMonthGoal,
   buildCommandReadiness,
+  buildSidePanelBrief,
   buildNewPlayerGuidance,
   buildPreparedActionPreview,
   buildMonthlyReport,
@@ -507,5 +508,32 @@ describe('gameplay content definitions', () => {
     });
     expect(JSON.stringify(buildCommandReadiness('研发'))).not.toContain('花10万研发产品');
     expect(JSON.stringify(buildCommandReadiness('研发'))).not.toContain('一键');
+  });
+
+  test('builds compact side panel briefs for scan-first panels', () => {
+    expect(
+      buildSidePanelBrief({
+        kind: 'board',
+        total: 2,
+        hotCount: 1,
+        focus: '现金压力'
+      })
+    ).toEqual({
+      title: '关键信号',
+      summary: '2 个董事角色，1 个需要优先回应。',
+      focus: '现金压力'
+    });
+    expect(
+      buildSidePanelBrief({
+        kind: 'competitor',
+        total: 3,
+        hotCount: 1,
+        focus: '高威胁'
+      })
+    ).toEqual({
+      title: '关键信号',
+      summary: '3 个竞品动态，1 个高优先级。',
+      focus: '高威胁'
+    });
   });
 });

@@ -26,6 +26,7 @@ import {
   buildPreparedActionPreview,
   buildMonthlyReport,
   buildMonthlyRecoveryAction,
+  buildSidePanelBrief,
   buildTurnResolutionSteps,
   buildTurnVerdict,
   prepareAction,
@@ -282,6 +283,26 @@ export default function App() {
   );
   const boardRoomMood = useMemo(() => buildBoardRoomMood(boardProfiles), [boardProfiles]);
   const competitorMoves = useMemo(() => (state ? buildCompetitorMoves(state.competitors) : []), [state]);
+  const boardBrief = useMemo(
+    () =>
+      buildSidePanelBrief({
+        kind: 'board',
+        total: boardProfiles.length,
+        hotCount: boardProfiles.filter((member) => member.trustTrend === '信任承压').length,
+        focus: boardRoomMood.focus
+      }),
+    [boardProfiles, boardRoomMood.focus]
+  );
+  const competitorBrief = useMemo(
+    () =>
+      buildSidePanelBrief({
+        kind: 'competitor',
+        total: competitorMoves.length,
+        hotCount: competitorMoves.filter((item) => item.threatLevel === '高威胁').length,
+        focus: competitorMoves.find((item) => item.threatLevel === '高威胁')?.threatLevel ?? '持续观察'
+      }),
+    [competitorMoves]
+  );
   const monthlyFacts = lastTurn?.turn_facts;
   const monthlyHighlights = useMemo(
     () =>
@@ -809,6 +830,11 @@ export default function App() {
           {rightTab === 'board' && (
             <article className="panel tall-panel">
               <h2>董事会反馈</h2>
+              <section className="side-brief" aria-label="董事会关键信号">
+                <strong>{boardBrief.title}</strong>
+                <span>{boardBrief.summary}</span>
+                <small>{boardBrief.focus}</small>
+              </section>
               <section className={`board-mood ${boardRoomMood.tone}`} aria-label="董事会氛围">
                 <span>{boardRoomMood.label}</span>
                 <p>{boardRoomMood.summary}</p>
@@ -846,6 +872,11 @@ export default function App() {
           {rightTab === 'competitors' && (
             <article className="panel tall-panel" aria-label="竞品态势">
               <h2>竞品态势</h2>
+              <section className="side-brief" aria-label="竞品关键信号">
+                <strong>{competitorBrief.title}</strong>
+                <span>{competitorBrief.summary}</span>
+                <small>{competitorBrief.focus}</small>
+              </section>
               {competitorMoves.map((item) => (
                 <div className="competitor-row" key={item.name}>
                   <strong>{item.name}</strong>

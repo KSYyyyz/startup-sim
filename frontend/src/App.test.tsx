@@ -506,10 +506,12 @@ describe('Startup Sim frontend shell', () => {
     expect(boardMood).toHaveTextContent('董事会正在盯风险，下一步需要给出更清楚的节奏。');
     expect(boardMood).toHaveTextContent('现金压力');
     expect(boardMood).not.toHaveTextContent('投资方');
+    expect(screen.getByLabelText('董事会关键信号')).toHaveTextContent('1 个董事角色，1 个需要优先回应。');
     expect(screen.getByText('记忆：上月现金减少，CFO 会继续盯预算。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '竞品' }));
+    expect(screen.getByLabelText('竞品关键信号')).toHaveTextContent('1 个竞品动态，1 个高优先级。');
     expect(screen.getAllByText('灵犀客服云').length).toBeGreaterThan(0);
-    expect(screen.getByText('高威胁')).toBeInTheDocument();
+    expect(screen.getAllByText('高威胁').length).toBeGreaterThan(0);
     expect(screen.getByText('优先判断是否会影响你的核心客户。')).toBeInTheDocument();
     expect(screen.getByText('上升')).toBeInTheDocument();
     expect(screen.getAllByText('研发投入带来产品进展').length).toBeGreaterThan(0);

@@ -247,6 +247,19 @@ export type CommandReadiness = {
   hints: string[];
 };
 
+export type SidePanelBriefInput = {
+  kind: 'board' | 'competitor';
+  total: number;
+  hotCount: number;
+  focus: string;
+};
+
+export type SidePanelBrief = {
+  title: string;
+  summary: string;
+  focus: string;
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -1092,6 +1105,16 @@ export function buildCommandReadiness(command: string): CommandReadiness {
     label: '可以执行',
     tone: 'ready',
     hints: ['已包含动作、预算和对象，执行后由 TurnEngine 结算。']
+  };
+}
+
+export function buildSidePanelBrief(input: SidePanelBriefInput): SidePanelBrief {
+  const totalLabel = input.kind === 'board' ? '董事角色' : '竞品动态';
+  const hotLabel = input.kind === 'board' ? '需要优先回应' : '高优先级';
+  return {
+    title: '关键信号',
+    summary: `${input.total} 个${totalLabel}，${input.hotCount} 个${hotLabel}。`,
+    focus: input.focus
   };
 }
 

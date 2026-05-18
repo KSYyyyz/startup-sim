@@ -1220,6 +1220,32 @@ h2 {
   background: #f3fbf5;
 }
 
+.side-brief {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 8px;
+  align-items: center;
+  border: 1px solid #d7e2ef;
+  border-radius: 6px;
+  padding: 8px;
+  background: #f8fafc;
+}
+
+.side-brief strong {
+  color: #102032;
+}
+
+.side-brief span {
+  color: #33475f;
+  font-weight: 800;
+}
+
+.side-brief small {
+  grid-column: 1 / -1;
+  color: #607189;
+  font-weight: 800;
+}
+
 .avatar {
   width: 36px;
   height: 36px;
