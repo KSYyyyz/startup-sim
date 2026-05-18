@@ -17,6 +17,7 @@ The backend rules layer owns facts. The frontend owns presentation. The contract
 | `TurnFacts` | Backend/rules Agent | What actually happened after TurnEngine settlement. |
 | `RoleMemory` | Backend/rules Agent | Role memory derived from historical facts. |
 | `OfficeSignal` | Shared | Room-level signals that Web, Tauri, or Unity can render differently. |
+| `StoryEvent` | Backend/rules Agent | Short replayable events derived from rule events, competitors, and insight facts. |
 | `ScenarioDefinition` | Shared | Scenario rooms, roles, competitors, and market framing. |
 | `AssetManifest` | Frontend/art Agent | image-2 visual assets and stable references. |
 
@@ -58,8 +59,9 @@ Required fields:
 
 Required fields:
 
-- `roleId`
-- `roleName`
+- `role_id`
+- `role_name`
+- `month`
 - `fact`
 - `implication`
 - `source`
@@ -73,14 +75,28 @@ The `source` field must be `settled-turn-facts`. Role memory cannot be generated
 Required fields:
 
 - `id`
-- `roomId`
+- `room_id`
 - `title`
 - `description`
 - `severity`
 - `source`
-- `visualIntent`
+- `visual_intent`
 
-`visualIntent` is currently `surface-in-office`. React may render it as a badge or bubble; Unity may render it as room animation, character speech, or icon. Neither renderer should infer business rules from raw text.
+`visual_intent` is currently `surface-in-office`. React may render it as a badge or bubble; Unity may render it as room animation, character speech, or icon. Neither renderer should infer business rules from raw text.
+
+### StoryEvent
+
+`StoryEvent` describes one compact event for monthly reports and future post-game replay.
+
+Required fields:
+
+- `id`
+- `title`
+- `description`
+- `tone`
+- `source`
+
+The `source` field must be one of `rule-event`, `competitor-fact`, or `business-insight`. Story events are narrative surfaces over settled facts. They cannot change metrics, advance turns, or introduce outcomes that are not already present in `TurnResult`.
 
 ## Backend Migration Notes
 
@@ -88,16 +104,18 @@ Current backend coverage:
 
 - `ActionPlan` already exists as `src.core.models.ActionPlan`. The HTTP command preview exposes a read-only action explanation, while TurnEngine remains the only numeric settlement authority.
 - `TurnFacts` first slice is exposed through `POST /api/sessions/{session_id}/turns` as `turn.turn_facts`. It is serialized from `src.core.models.TurnResult`, especially `month`, `action_plan.raw_input`, `delta`, `delta.reasons`, post-turn `CompanyState`, and `conflict_summary.next_focus`.
-- `RoleMemory` is not persisted yet. It should be derived only from settled turn records, future `TurnFacts`, and saved role feedback; it must not derive from hover state, unsent commands, or command previews.
-- `OfficeSignal` is not persisted yet. The current semantic inputs are settled state plus rule outputs such as `ConflictEngine.identify(...)` and post-turn business insight. Future API fields should expose short facts like title, description, severity, source, and visualIntent, leaving layout and animation to the frontend or Unity layer.
+- `RoleMemory` first slice is exposed through the same turn response as `turn.role_memory`. It is serialized from settled `TurnFacts` plus post-turn role feedback in `TurnResult`; it must not derive from hover state, unsent commands, or command previews.
+- `OfficeSignal` first slice is exposed through the same turn response as `turn.office_signals`. It is serialized from settled state, `conflict_summary`, and `insight`, with short fact text plus renderer-neutral room and visual intent fields.
+- `StoryEvent` first slice is exposed through the same turn response as `turn.story_events`. It is serialized from settled rule events, competitor moves, or business insight fallback, then rendered by the frontend as a compact monthly event list.
 
 Migration sequence:
 
 1. Keep the `TurnResult` to `TurnFacts` serializer thin; it must not change TurnEngine settlement behavior.
 2. Broaden `TurnFacts` only with fields that can be proven from settled state, `delta.reasons`, events, or deterministic replay facts.
-3. Derive `RoleMemory` from saved `TurnFacts` history after the `TurnFacts` shape is stable.
-4. Derive `OfficeSignal` from settled state, conflict, and insight facts; keep it renderer-neutral and limited to facts plus short display text.
-5. Extend `docs/frontend_api_contract.md` only when additional fields are actually exposed through HTTP.
+3. Persist `RoleMemory` only after saved `TurnFacts` history is available; the current API slice is a per-turn derived view.
+4. Broaden `OfficeSignal` only with fields derived from settled state, conflict, and insight facts; keep it renderer-neutral and limited to facts plus short display text.
+5. Use `StoryEvent` for replay and monthly reporting only; it must remain downstream from settled events, competitor facts, and insight facts.
+6. Extend `docs/frontend_api_contract.md` only when additional fields are actually exposed through HTTP.
 
 ## Version
 

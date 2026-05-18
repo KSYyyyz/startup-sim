@@ -43,7 +43,7 @@ describe('Vercel demo fallback', () => {
     expect(suggestions.items.length).toBe(3);
   });
 
-  test('preserves optional settled turn facts on turn responses', async () => {
+  test('preserves optional settled gameplay facts on turn responses', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(
@@ -58,7 +58,35 @@ describe('Vercel demo fallback', () => {
                 changes: [{ label: '产品', value: '+12 分', tone: 'good' }],
                 replay_basis: ['TurnFacts 复盘依据'],
                 next_pressure: 'TurnFacts 下月压力'
-              }
+              },
+              role_memory: [
+                {
+                  role_id: 'cfo',
+                  role_name: 'CFO',
+                  fact: '上月现金消耗来自研发投入。',
+                  implication: 'CFO 会优先追问预算纪律。'
+                }
+              ],
+              office_signals: [
+                {
+                  id: 'cash-watch',
+                  room_id: 'board',
+                  title: '预算审查',
+                  description: '董事会要求解释现金消耗。',
+                  severity: 'warning',
+                  source: 'role-memory',
+                  visual_intent: 'surface-in-office'
+                }
+              ],
+              story_events: [
+                {
+                  id: 'demo-event',
+                  title: '产品冲刺',
+                  description: '研发投入带来可见产品改善。',
+                  tone: 'good',
+                  source: 'rule-event'
+                }
+              ]
             }),
             { status: 200 }
           )
@@ -70,6 +98,9 @@ describe('Vercel demo fallback', () => {
     expect(result.turn_facts?.replay_basis).toEqual(['TurnFacts 复盘依据']);
     expect(result.turn_facts?.changes[0]).toEqual({ label: '产品', value: '+12 分', tone: 'good' });
     expect(result.turn_facts?.next_pressure).toBe('TurnFacts 下月压力');
+    expect(result.role_memory?.[0].fact).toBe('上月现金消耗来自研发投入。');
+    expect(result.office_signals?.[0].room_id).toBe('board');
+    expect(result.story_events?.[0].title).toBe('产品冲刺');
   });
 
   test('previews multi-action demo commands with segment budgets', async () => {

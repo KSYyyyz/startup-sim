@@ -108,6 +108,50 @@ def test_submit_turn_returns_post_turn_feedback(client):
     assert cash_change["label"] == "现金"
     assert cash_change["tone"] == "bad"
     assert product_change["delta"] == state["metrics"]["product_change"]
+    role_memory = turn["role_memory"]
+    assert role_memory
+    assert {item["source"] for item in role_memory} == {"settled-turn-facts"}
+    assert {"CFO", "CTO", "COO"} <= {item["role_name"] for item in role_memory}
+    cfo_memory = next(item for item in role_memory if item["role_id"] == "cfo")
+    assert cfo_memory["month"] == facts["month"]
+    assert "cash" in cfo_memory["fact"]
+    assert str(cash_change["delta"]) in cfo_memory["fact"]
+    assert cfo_memory["implication"]
+
+    office_signals = turn["office_signals"]
+    assert office_signals
+    assert {item["source"] for item in office_signals} >= {
+        "settled-core-tension",
+        "settled-business-insight",
+    }
+    core_signal = next(item for item in office_signals if item["source"] == "settled-core-tension")
+    assert set(core_signal) == {
+        "id",
+        "room_id",
+        "title",
+        "description",
+        "severity",
+        "source",
+        "visual_intent",
+    }
+    assert core_signal["title"] == state["core_tension"]["title"]
+    assert core_signal["description"] == state["core_tension"]["description"]
+    assert core_signal["severity"] == state["core_tension"]["severity"]
+    assert core_signal["visual_intent"] == "surface-in-office"
+    story_events = turn["story_events"]
+    assert story_events
+    assert all(
+        item["source"] in {"rule-event", "competitor-fact", "business-insight"}
+        for item in story_events
+    )
+    assert all(item["title"] and item["description"] for item in story_events)
+    assert {item["tone"] for item in story_events} <= {
+        "neutral",
+        "good",
+        "bad",
+        "warning",
+        "opportunity",
+    }
     assert product_change["label"] == "产品"
     assert "跑道" not in _body_text(payload)
     assert "Runway" not in _body_text(payload)

@@ -1020,3 +1020,23 @@ Alpha 1.5 建议方向：
 - 继续要求生产页面使用“现金流可支撑时间”，不得出现“跑道”或 “Runway”。
 
 状态：桌面可玩性闭环第 6 轮完成。
+
+---
+
+## Alpha 0.5 十轮推进 — 结算事实驱动的桌面经营闭环 (2026-05-18)
+
+主题：把 `TurnFacts` 继续向角色记忆、办公室信号、月度事件和桌面降噪推进，形成 Alpha 0.5 的可玩闭环底座。
+
+内容：
+- 第 1 轮：后端 `POST /api/sessions/{session_id}/turns` 新增 `turn.role_memory`，由 settled `TurnFacts` 和董事会反馈派生，不从前端 hover、预览或未执行命令生成。
+- 第 2 轮：前端董事会 NPC 优先消费后端 `role_memory`，缺失时才使用原 deterministic fallback，角色记忆不再只是前端猜测。
+- 第 3 轮：后端新增 `turn.office_signals`，把核心矛盾和经营洞察转换为 renderer-neutral 办公室房间信号。
+- 第 4 轮：前端办公室场景优先使用后端 `office_signals`，并以紧凑信号条和房间状态展示，不新增大面板。
+- 第 5 轮：房间 id 对齐现有办公室空间：`product`、`team`、`sales`、`board`、`servers`，避免前端渲染不存在的房间。
+- 第 6 轮：后端新增 `turn.story_events`，从规则事件、竞品事实或经营洞察生成紧凑月度事件。
+- 第 7 轮：前端月度战报新增“本月事件”区，只展示少量可复盘事件，保持游戏性反馈而不是日志堆叠。
+- 第 8 轮：`frontend/src/types.ts`、store 和 API fallback 测试同步扩展新契约，兼容 nested turn 字段和 top-level fallback 字段。
+- 第 9 轮：`docs/frontend_api_contract.md` 和 `docs/gameplay_contracts.md` 同步补充 `RoleMemory`、`OfficeSignal`、`StoryEvent` 边界。
+- 第 10 轮：本轮保持 TurnEngine 数值结算不变，所有新增层都是事实展示、角色反馈和月报表现层。
+
+状态：Alpha 0.5 第一组十轮推进完成，下一步进入完整验证、Vercel smoke 和发布硬化。

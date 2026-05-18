@@ -119,7 +119,7 @@ const commandPreview = {
 };
 
 function installFetchMock(
-  turnPayload: Pick<TurnResponse, 'turn' | 'turn_facts'> = {
+  turnPayload: Pick<TurnResponse, 'turn' | 'turn_facts' | 'role_memory' | 'office_signals' | 'story_events'> = {
     turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] }
   }
 ) {
@@ -413,5 +413,65 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getAllByText('TurnFacts 复盘依据：研发效率高于预期。').length).toBeGreaterThan(1);
     expect(screen.getByText('TurnFacts 下月压力：控制燃烧率。')).toBeInTheDocument();
     expect(screen.queryByText('旧版 delta_reasons 不应进入 TurnFacts 月报。')).not.toBeInTheDocument();
+  });
+
+  test('uses backend role memory and office signals before deterministic fallbacks', async () => {
+    installFetchMock({
+      turn: { month: 1, delta_reasons: ['研发投入提升了产品分，但现金消耗上升。'] },
+      role_memory: [
+        {
+          role_id: 'cfo',
+          role_name: 'CFO',
+          fact: '后端事实：现金消耗来自研发冲刺。',
+          implication: 'CFO 会要求下月预算上限。'
+        }
+      ],
+      office_signals: [
+        {
+          id: 'cash-review',
+          room_id: 'board',
+          title: '后端信号：预算审查',
+          description: '董事会要求解释现金消耗。',
+          severity: 'warning',
+          source: 'role-memory',
+          visual_intent: 'surface-in-office'
+        },
+        {
+          id: 'delivery-watch',
+          room_id: 'servers',
+          title: '后端信号：交付风险',
+          description: '服务稳定性需要关注。',
+          severity: 'critical',
+          source: 'turn-facts',
+          visual_intent: 'surface-in-office'
+        }
+      ],
+      story_events: [
+        {
+          id: 'product-event',
+          title: '后端事件：产品冲刺',
+          description: '研发投入带来可见产品改善。',
+          tone: 'good',
+          source: 'rule-event'
+        }
+      ]
+    });
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+
+    expect(await screen.findByText('月度战报')).toBeInTheDocument();
+    expect(screen.getByLabelText('办公室提示')).toHaveTextContent('后端信号：预算审查');
+    expect(screen.getByLabelText('办公室信号')).toHaveTextContent('后端信号：预算审查');
+    expect(screen.getByLabelText('办公室信号')).toHaveTextContent('后端信号：交付风险');
+    expect(screen.getByLabelText('董事会状态')).toHaveTextContent('后端信号：预算审查');
+    expect(screen.getByLabelText('董事会经营状态')).toHaveTextContent('后端信号：预算审查');
+    expect(screen.getByLabelText('服务器经营状态')).toHaveTextContent('后端信号：交付风险');
+    expect(screen.getByLabelText('本月事件')).toHaveTextContent('后端事件：产品冲刺');
+    expect(screen.getByLabelText('本月事件')).toHaveTextContent('研发投入带来可见产品改善。');
+    expect(screen.getByText('记忆：后端事实：现金消耗来自研发冲刺。CFO 会要求下月预算上限。')).toBeInTheDocument();
+    expect(screen.queryByText('记忆：上月现金减少，CFO 会继续盯预算。')).not.toBeInTheDocument();
   });
 });

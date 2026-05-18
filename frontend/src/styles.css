@@ -524,6 +524,103 @@ h2 {
   color: #c0393d;
 }
 
+.office-signal-strip {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  left: 18px;
+  top: 82px;
+  max-width: min(460px, calc(100% - 360px));
+  display: grid;
+  gap: 6px;
+}
+
+.office-signal-chip {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  padding: 5px 8px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f3d56;
+  box-shadow: 0 8px 20px rgba(24, 36, 56, 0.16);
+}
+
+.office-signal-chip b,
+.office-signal-chip small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.office-signal-chip b {
+  font-size: 0.74rem;
+}
+
+.office-signal-chip small {
+  border-radius: 999px;
+  padding: 2px 6px;
+  background: #edf4fc;
+  color: #245a9d;
+  font-size: 0.64rem;
+  font-weight: 900;
+}
+
+.office-signal-chip.medium,
+.office-signal-chip.high,
+.office-signal-chip.warning {
+  background: #fff7df;
+  color: #7c4a03;
+}
+
+.office-signal-chip.critical {
+  background: #ffe7e3;
+  color: #8a2520;
+}
+
+.office-signal-chip.opportunity {
+  background: #e7f6ed;
+  color: #226332;
+}
+
+.story-events {
+  display: grid;
+  gap: 7px;
+}
+
+.story-event {
+  border-left: 3px solid #7b8da5;
+  border-radius: 4px;
+  padding: 7px 9px;
+  background: #f4f7fb;
+  display: grid;
+  gap: 3px;
+}
+
+.story-event b {
+  color: #172033;
+  font-size: 0.82rem;
+}
+
+.story-event span {
+  color: #4c5e76;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.story-event.good,
+.story-event.opportunity {
+  border-left-color: #1f8f4d;
+}
+
+.story-event.bad,
+.story-event.warning {
+  border-left-color: #c88a18;
+}
+
 .room-action-panel {
   position: absolute;
   z-index: 3;

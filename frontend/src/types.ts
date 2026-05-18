@@ -108,12 +108,50 @@ export type TurnFacts = {
   authority?: 'backend-turn-engine';
 };
 
+export type RoleMemoryPayload = {
+  role_id?: string;
+  role_name?: string;
+  fact: string;
+  implication: string;
+  source?: 'settled-turn-facts';
+};
+
+export type OfficeSignalPayload = {
+  id: string;
+  room_id: string;
+  title: string;
+  description: string;
+  severity: 'low' | 'medium' | 'high' | 'critical' | 'info' | 'warning' | 'opportunity';
+  source:
+    | 'settled-core-tension'
+    | 'settled-business-insight'
+    | 'turn-facts'
+    | 'role-memory'
+    | 'competitor-facts'
+    | 'scenario';
+  visual_intent?: 'surface-in-office';
+};
+
+export type StoryEventPayload = {
+  id: string;
+  title: string;
+  description: string;
+  tone: 'neutral' | 'good' | 'bad' | 'warning' | 'opportunity';
+  source: 'rule-event' | 'competitor-fact' | 'business-insight';
+};
+
 export type TurnResponse = {
   state: GameStateView;
   turn: {
     month: number;
     delta_reasons?: string[];
     turn_facts?: TurnFacts;
+    role_memory?: RoleMemoryPayload[];
+    office_signals?: OfficeSignalPayload[];
+    story_events?: StoryEventPayload[];
   };
   turn_facts?: TurnFacts;
+  role_memory?: RoleMemoryPayload[];
+  office_signals?: OfficeSignalPayload[];
+  story_events?: StoryEventPayload[];
 };

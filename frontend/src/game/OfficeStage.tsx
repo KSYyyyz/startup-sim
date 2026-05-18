@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import type { OfficeSignalPayload } from '../types';
 import type { RoomStatus } from './gameplayContent';
 import { officeRooms, type OfficeAction, type OfficeRoom } from './officeRooms';
 import { mountOfficePixiOverlay } from './pixiOverlay';
@@ -13,6 +14,7 @@ type OfficeStageProps = {
     value: string;
     tone: string;
   }>;
+  officeSignals: OfficeSignalPayload[];
   roomStatuses: Record<string, RoomStatus>;
   onActionSelect: (action: OfficeAction) => void;
 };
@@ -22,6 +24,7 @@ export function OfficeStage({
   pulseRoomId,
   pulseText,
   resultHighlights,
+  officeSignals,
   roomStatuses,
   onActionSelect
 }: OfficeStageProps) {
@@ -51,6 +54,16 @@ export function OfficeStage({
             <strong className={item.tone} key={item.label}>
               {item.label} {item.value}
             </strong>
+          ))}
+        </div>
+      )}
+      {officeSignals.length > 0 && (
+        <div className="office-signal-strip" aria-label="办公室信号">
+          {officeSignals.slice(0, 3).map((signal) => (
+            <span className={`office-signal-chip ${signal.severity}`} key={signal.id} title={signal.description}>
+              <b>{signal.title}</b>
+              <small>{signal.room_id}</small>
+            </span>
           ))}
         </div>
       )}

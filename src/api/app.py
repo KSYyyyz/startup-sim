@@ -322,6 +322,161 @@ def _turn_facts_view(result: TurnResult) -> dict[str, Any]:
     return _sanitize_copy(payload)
 
 
+ROLE_MEMORY_METRICS = {
+    "CFO": ("cash", "mrr"),
+    "CTO": ("product_score",),
+    "COO": ("users", "mrr"),
+}
+
+
+def _first_change_for_role(changes: list[dict[str, Any]], role_name: str) -> dict[str, Any] | None:
+    preferred_metrics = ROLE_MEMORY_METRICS.get(role_name, ())
+    for metric in preferred_metrics:
+        for change in changes:
+            if change["metric"] == metric:
+                return change
+    return changes[0] if changes else None
+
+
+def _role_memory_view(result: TurnResult, turn_facts: dict[str, Any]) -> list[dict[str, Any]]:
+    memories = []
+    changes = turn_facts["changes"]
+    replay_basis = turn_facts["replay_basis"]
+    fallback_fact = replay_basis[0] if replay_basis else turn_facts["command"]
+
+    for role_name, implication in result.board_feedback.items():
+        change = _first_change_for_role(changes, role_name)
+        if change:
+            fact = f'{change["metric"]} changed by {change["delta"]}'
+        else:
+            fact = fallback_fact
+        memories.append(
+            {
+                "role_id": role_name.lower(),
+                "role_name": role_name,
+                "month": result.month,
+                "fact": fact,
+                "implication": implication,
+                "source": "settled-turn-facts",
+            }
+        )
+    return _sanitize_copy(memories)
+
+
+def _room_for_pressure(pressure_type: str) -> str:
+    return {
+        "cash": "board",
+        "equity": "board",
+        "pmf": "product",
+        "delivery": "product",
+        "growth": "sales",
+        "competition": "sales",
+        "team": "team",
+    }.get(pressure_type, "product")
+
+
+def _room_for_insight(category: str) -> str:
+    if "cash" in category or "fundraising" in category:
+        return "board"
+    if "marketing" in category or "growth" in category:
+        return "sales"
+    if "product" in category:
+        return "product"
+    if "team" in category:
+        return "team"
+    return "product"
+
+
+def _severity_for_insight(category: str) -> str:
+    if category in {"cash_warning", "fundraising_fail", "risk_alert"}:
+        return "medium"
+    return "low"
+
+
+def _office_signals_view(result: TurnResult) -> list[dict[str, Any]]:
+    signals = []
+    if result.conflict_summary:
+        conflict = result.conflict_summary
+        signals.append(
+            {
+                "id": f"month-{result.month}-core-tension",
+                "room_id": _room_for_pressure(conflict.pressure_type),
+                "title": conflict.title,
+                "description": conflict.description,
+                "severity": conflict.severity,
+                "source": "settled-core-tension",
+                "visual_intent": "surface-in-office",
+            }
+        )
+    if result.insight:
+        insight = result.insight
+        signals.append(
+            {
+                "id": f"month-{result.month}-business-insight",
+                "room_id": _room_for_insight(insight.category),
+                "title": insight.title,
+                "description": insight.description,
+                "severity": _severity_for_insight(insight.category),
+                "source": "settled-business-insight",
+                "visual_intent": "surface-in-office",
+            }
+        )
+    return _sanitize_copy(signals)
+
+
+def _story_event_tone(delta: StateDelta) -> str:
+    if delta.cash < 0 and not (delta.product_score > 0 or delta.users > 0 or delta.mrr > 0):
+        return "warning"
+    if delta.cash < 0:
+        return "bad"
+    if delta.product_score > 0 or delta.users > 0 or delta.mrr > 0:
+        return "good"
+    return "neutral"
+
+
+def _story_events_view(result: TurnResult) -> list[dict[str, Any]]:
+    events: list[dict[str, Any]] = []
+    for idx, event in enumerate(result.events[:3], start=1):
+        events.append(
+            {
+                "id": f"month-{result.month}-event-{idx}",
+                "title": event.event_type,
+                "description": event.description,
+                "tone": _story_event_tone(event.delta),
+                "source": "rule-event",
+            }
+        )
+
+    for idx, move in enumerate(result.competitor_moves[:2], start=1):
+        events.append(
+            {
+                "id": f"month-{result.month}-competitor-{idx}",
+                "title": move.get("name", "竞品动态"),
+                "description": move.get("description")
+                or move.get("action")
+                or "竞品本月保持观察。",
+                "tone": (
+                    "warning"
+                    if (move.get("delta") or {}).get("market_share", 0) >= 0
+                    else "opportunity"
+                ),
+                "source": "competitor-fact",
+            }
+        )
+
+    if not events and result.insight:
+        events.append(
+            {
+                "id": f"month-{result.month}-insight",
+                "title": result.insight.title,
+                "description": result.insight.description,
+                "tone": "neutral",
+                "source": "business-insight",
+            }
+        )
+    return _sanitize_copy(events)
+
+
 def _command_preview_view(command: str) -> dict[str, Any]:
     plan = parse_multi(command)
     actions = [
@@ -421,6 +576,7 @@ def create_app() -> FastAPI:
             ending_type=result.ending,
             ending_description=result.ending_description,
         )
+        turn_facts = _turn_facts_view(result)
         payload = {
             "state": state,
             "turn": {
@@ -430,7 +586,10 @@ def create_app() -> FastAPI:
                 "customer_response": result.customer_response,
                 "raw_competitor_moves": result.competitor_moves,
                 "parsed_actions": [action.model_dump() for action in result.action_plan.actions],
-                "turn_facts": _turn_facts_view(result),
+                "turn_facts": turn_facts,
+                "role_memory": _role_memory_view(result, turn_facts),
+                "office_signals": _office_signals_view(result),
+                "story_events": _story_events_view(result),
             },
         }
         return _sanitize_copy(payload)

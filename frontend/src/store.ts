@@ -48,7 +48,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
         state: result.state,
         lastTurn: {
           ...result.turn,
-          turn_facts: result.turn.turn_facts ?? result.turn_facts
+          turn_facts: result.turn.turn_facts ?? result.turn_facts,
+          role_memory: result.turn.role_memory ?? result.role_memory,
+          office_signals: result.turn.office_signals ?? result.office_signals,
+          story_events: result.turn.story_events ?? result.story_events
         },
         suggestions: null,
         commandPreview: null,

@@ -33,7 +33,7 @@ import {
 import type { OfficeAction } from './game/officeRooms';
 import { builtinScenarios } from './game/scenarios';
 import { useGameStore } from './store';
-import type { CompetitorItem, MetricSet } from './types';
+import type { CompetitorItem, MetricSet, OfficeSignalPayload, RoleMemoryPayload } from './types';
 import './styles.css';
 
 function money(value: number) {
@@ -132,6 +132,22 @@ function turnHighlights(metrics: MetricSet) {
   ];
 }
 
+function roomStatusToneFromSignal(signal: OfficeSignalPayload) {
+  if (signal.severity === 'critical') return 'blocked';
+  if (signal.severity === 'warning' || signal.severity === 'high' || signal.severity === 'medium') return 'warning';
+  if (signal.severity === 'opportunity') return 'opportunity';
+  return 'normal';
+}
+
+function memoryMatchesMember(memory: RoleMemoryPayload, member: { name: string; role: string }) {
+  const identity = `${memory.role_id ?? ''} ${memory.role_name ?? ''}`.toLowerCase();
+  return identity.includes(member.name.toLowerCase()) || identity.includes(member.role.toLowerCase());
+}
+
+function roleMemoryLine(memory: RoleMemoryPayload) {
+  return `记忆：${memory.fact}${memory.implication}`;
+}
+
 export default function App() {
   const {
     state,
@@ -159,21 +175,27 @@ export default function App() {
 
   const cards = useMemo(() => (state ? metricCards(state.metrics) : []), [state]);
   const highlights = useMemo(() => (state ? turnHighlights(state.metrics) : []), [state]);
+  const roleMemory = lastTurn?.role_memory ?? [];
+  const officeSignals = lastTurn?.office_signals ?? [];
+  const storyEvents = lastTurn?.story_events ?? [];
+  const primaryOfficeSignal = officeSignals[0];
   const hasCommand = command.trim().length > 0;
   const pulse = useMemo(
     () =>
-      state
-        ? resolveOfficePulse({
-            title: state.core_tension.title,
-            description: state.core_tension.description,
-            insightTitle: state.insight.title
-          })
-        : { roomId: 'product', text: '产品压力' },
-    [state]
+      primaryOfficeSignal
+        ? { roomId: primaryOfficeSignal.room_id, text: primaryOfficeSignal.title }
+        : state
+          ? resolveOfficePulse({
+              title: state.core_tension.title,
+              description: state.core_tension.description,
+              insightTitle: state.insight.title
+            })
+          : { roomId: 'product', text: '产品压力' },
+    [primaryOfficeSignal, state]
   );
   const roomStatuses = useMemo(
-    () =>
-      state
+    () => {
+      const statuses = state
         ? resolveRoomStatuses({
             cashCoverageMonths: state.metrics.cash_coverage_months,
             productChange: state.metrics.product_change,
@@ -181,8 +203,16 @@ export default function App() {
             mrrChange: state.metrics.mrr_change,
             signalText: `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title} ${state.insight.description}`
           })
-        : {},
-    [state]
+        : {};
+      for (const signal of officeSignals) {
+        statuses[signal.room_id] = {
+          tone: roomStatusToneFromSignal(signal),
+          label: signal.title
+        };
+      }
+      return statuses;
+    },
+    [officeSignals, state]
   );
   const boardProfiles = useMemo(
     () =>
@@ -194,9 +224,12 @@ export default function App() {
             usersChange: state.metrics.users_change,
             cashChange: lastTurn ? state.metrics.cash_change : undefined,
             lastCommand: lastTurn ? lastCommand : undefined
+          }).map((member) => {
+            const memory = roleMemory.find((item) => memoryMatchesMember(item, member));
+            return memory ? { ...member, memoryFact: roleMemoryLine(memory) } : member;
           })
         : [],
-    [lastCommand, lastTurn, state]
+    [lastCommand, lastTurn, roleMemory, state]
   );
   const competitorMoves = useMemo(() => (state ? buildCompetitorMoves(state.competitors) : []), [state]);
   const monthlyFacts = lastTurn?.turn_facts;
@@ -466,6 +499,17 @@ export default function App() {
                   </span>
                 ))}
               </section>
+              {storyEvents.length > 0 && (
+                <section className="report-block story-events" aria-label="本月事件">
+                  <h3>本月事件</h3>
+                  {storyEvents.slice(0, 3).map((event) => (
+                    <article className={`story-event ${event.tone}`} key={event.id}>
+                      <b>{event.title}</b>
+                      <span>{event.description}</span>
+                    </article>
+                  ))}
+                </section>
+              )}
               <section className="report-block">
                 <h3>下月压力</h3>
                 <p>{monthlyReport.nextPressure}</p>
@@ -482,10 +526,11 @@ export default function App() {
         </aside>
 
         <OfficeStage
-          focusTitle={state.core_tension.title}
+          focusTitle={primaryOfficeSignal?.title ?? state.core_tension.title}
           pulseRoomId={pulse.roomId}
           pulseText={pulse.text}
           resultHighlights={lastTurn ? highlights : []}
+          officeSignals={officeSignals}
           roomStatuses={roomStatuses}
           onActionSelect={handleOfficeAction}
         />

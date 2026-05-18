@@ -145,12 +145,44 @@ Response:
       "replay_basis": ["product: budget=100000, risk=medium"],
       "next_pressure": "<post-settlement rule pressure>",
       "authority": "backend-turn-engine"
-    }
+    },
+    "role_memory": [
+      {
+        "role_id": "cfo",
+        "role_name": "CFO",
+        "month": 1,
+        "fact": "cash changed by -220000",
+        "implication": "<settled role implication>",
+        "source": "settled-turn-facts"
+      }
+    ],
+    "office_signals": [
+      {
+        "id": "month-1-core-tension",
+        "room_id": "product",
+        "title": "<settled core tension title>",
+        "description": "<settled core tension description>",
+        "severity": "low",
+        "source": "settled-core-tension",
+        "visual_intent": "surface-in-office"
+      }
+    ],
+    "story_events": [
+      {
+        "id": "month-1-insight",
+        "title": "<settled event title>",
+        "description": "<settled event description>",
+        "tone": "neutral",
+        "source": "business-insight"
+      }
+    ]
   }
 }
 ```
 
 `turn.turn_facts` is the first backend TurnFacts serializer slice. It is derived from the settled `TurnResult`, not from frontend UI state or command preview text. `changes` contains backend metric facts and short labels; frontend renderers decide layout, animation, and emphasis.
+
+`turn.role_memory` is derived from settled TurnFacts plus post-turn role feedback in `TurnResult`. `turn.office_signals` is derived from settled state, core tension, and business insight. `turn.story_events` is derived from settled rule events, competitor moves, or business insight fallback. These fields are renderer-neutral: the backend supplies facts and short text, while frontend renderers decide placement, animation, and visual treatment.
 
 ### `POST /api/sessions/{session_id}/command-preview`
 
