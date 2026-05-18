@@ -226,6 +226,18 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
   });
 
+  test('lets the player turn competitor pressure into a command', async () => {
+    installFetchMock();
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.click(screen.getByRole('button', { name: /查看竞品信号/ }));
+    await userEvent.click(screen.getByRole('button', { name: '回应快答科技压力' }));
+
+    expect(screen.getByLabelText('本回合指令')).toHaveValue('花10万做营销推广');
+    expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
+  });
+
   test('submits a turn and refreshes post-turn board competitor and insight feedback', async () => {
     installFetchMock();
     render(<App />);

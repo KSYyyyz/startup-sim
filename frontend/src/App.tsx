@@ -148,6 +148,15 @@ function boardResponseCommand(member: { name: string; role: string; message: str
   return '花10万研发产品';
 }
 
+function competitorResponseCommand(item: CompetitorItem) {
+  const signal = `${item.name} ${item.status}`;
+  if (/企业|功能|产品|升级/.test(signal)) return '花25万研发产品提升竞争力';
+  if (/服务器|稳定|故障|交付/.test(signal)) return '花6万优化服务器稳定性';
+  if (item.trend === 'up') return '花10万做营销推广';
+  if (item.trend === 'down') return '花10万研发产品';
+  return '花10万做营销推广';
+}
+
 function officePulseRoom(state: GameStateView) {
   const signal = `${state.core_tension.title} ${state.core_tension.description} ${state.insight.title}`;
   if (/现金|融资|股权/.test(signal)) return { roomId: 'board', text: '现金压力' };
@@ -202,6 +211,11 @@ export default function App() {
 
   function handleBoardResponse(member: { name: string; role: string; message: string }) {
     setCommand(boardResponseCommand(member));
+    setPreparedAction(null);
+  }
+
+  function handleCompetitorResponse(item: CompetitorItem) {
+    setCommand(competitorResponseCommand(item));
     setPreparedAction(null);
   }
 
@@ -407,6 +421,13 @@ export default function App() {
                   <em className={item.trend}>{trendLabel(item)}</em>
                   <small className={`trend-chip ${item.trend}`}>{trendText(item)}</small>
                   <p>{item.status}</p>
+                  <button
+                    type="button"
+                    className="competitor-response-button"
+                    onClick={() => handleCompetitorResponse(item)}
+                  >
+                    回应{item.name}压力
+                  </button>
                 </div>
               ))}
             </article>

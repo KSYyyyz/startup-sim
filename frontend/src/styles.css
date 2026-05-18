@@ -687,7 +687,8 @@ h2 {
   line-height: 1.42;
 }
 
-.board-response-button {
+.board-response-button,
+.competitor-response-button {
   margin-top: 7px;
   border: 1px solid #b9c6d7;
   border-radius: 6px;
@@ -700,7 +701,9 @@ h2 {
 }
 
 .board-response-button:hover,
-.board-response-button:focus-visible {
+.board-response-button:focus-visible,
+.competitor-response-button:hover,
+.competitor-response-button:focus-visible {
   outline: 2px solid rgba(36, 90, 157, 0.25);
   background: #edf4fc;
 }
@@ -724,7 +727,8 @@ h2 {
 }
 
 .competitor-row small,
-.competitor-row p {
+.competitor-row p,
+.competitor-response-button {
   grid-column: 1 / -1;
 }
 

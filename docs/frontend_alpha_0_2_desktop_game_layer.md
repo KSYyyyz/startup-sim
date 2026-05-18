@@ -76,6 +76,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Board rows show role stances such as "现金纪律" and "产品护城河".
 - Board feedback rows can now turn role pressure into a prepared CEO command through a compact response button.
 - Competitor rows and the competitor glance include readable trend labels such as "持平" and "上升".
+- Competitor pressure can now be converted into an executable CEO command from the competitor panel.
 - The office scene has a non-blocking "办公室提示" bubble for the current focus.
 - Office dynamic feedback signals are clickable: board signals open the board panel, and competitor signals open the competitor panel.
 - After submitting a turn, the office scene shows a compact "办公室月末变化" pulse strip for cash, product, users, and recurring revenue changes.
