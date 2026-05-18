@@ -323,6 +323,7 @@ export default function App() {
           }`}
           pulseRoomId={pulse.roomId}
           pulseText={pulse.text}
+          resultHighlights={lastTurn ? highlights : []}
           onBoardSignalSelect={() => setRightTab('board')}
           onCompetitorSignalSelect={() => setRightTab('competitors')}
           onActionSelect={handleOfficeAction}

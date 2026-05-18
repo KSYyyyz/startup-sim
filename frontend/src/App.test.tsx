@@ -225,6 +225,8 @@ describe('Startup Sim frontend shell', () => {
 
     expect(await screen.findByText('第2月')).toBeInTheDocument();
     expect(screen.getByText('月度战报')).toBeInTheDocument();
+    expect(screen.getByLabelText('办公室月末变化')).toHaveTextContent('产品');
+    expect(screen.getByLabelText('办公室月末变化')).toHaveTextContent('+8 分');
     expect(screen.getByText('第1月执行结果')).toBeInTheDocument();
     expect(screen.getAllByText('本月变化').length).toBeGreaterThan(1);
     expect(screen.getByText('原因复盘')).toBeInTheDocument();

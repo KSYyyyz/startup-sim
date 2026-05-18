@@ -77,6 +77,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Competitor rows and the competitor glance include readable trend labels such as "持平" and "上升".
 - The office scene has a non-blocking "办公室提示" bubble for the current focus.
 - Office dynamic feedback signals are clickable: board signals open the board panel, and competitor signals open the competitor panel.
+- After submitting a turn, the office scene shows a compact "办公室月末变化" pulse strip for cash, product, users, and recurring revenue changes.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:

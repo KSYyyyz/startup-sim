@@ -10,6 +10,11 @@ type OfficeStageProps = {
   competitorSignal: string;
   pulseRoomId: string;
   pulseText: string;
+  resultHighlights: Array<{
+    label: string;
+    value: string;
+    tone: string;
+  }>;
   onBoardSignalSelect: () => void;
   onCompetitorSignalSelect: () => void;
   onActionSelect: (action: OfficeAction) => void;
@@ -77,6 +82,7 @@ export function OfficeStage({
   competitorSignal,
   pulseRoomId,
   pulseText,
+  resultHighlights,
   onBoardSignalSelect,
   onCompetitorSignalSelect,
   onActionSelect
@@ -109,6 +115,16 @@ export function OfficeStage({
           <small>{competitorSignal}</small>
         </button>
       </div>
+      {resultHighlights.length > 0 && (
+        <div className="office-result-pulses" aria-label="办公室月末变化">
+          <span>月末变化</span>
+          {resultHighlights.map((item) => (
+            <strong className={item.tone} key={item.label}>
+              {item.label} {item.value}
+            </strong>
+          ))}
+        </div>
+      )}
       <div className="room-hotspots" aria-label="可操作房间">
         {officeRooms.map((room) => {
           const Icon = room.icon;

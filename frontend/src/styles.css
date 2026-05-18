@@ -394,6 +394,52 @@ h2 {
   line-height: 1.35;
 }
 
+.office-result-pulses {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  left: 18px;
+  right: 332px;
+  bottom: 82px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 26px rgba(24, 36, 56, 0.18);
+}
+
+.office-result-pulses span,
+.office-result-pulses strong {
+  border-radius: 999px;
+  padding: 3px 7px;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.office-result-pulses span {
+  background: #dce8f6;
+  color: #245a9d;
+}
+
+.office-result-pulses strong {
+  background: #eef3f8;
+  color: #4c5e76;
+}
+
+.office-result-pulses strong.good {
+  background: #e7f6ed;
+  color: #1f8f4d;
+}
+
+.office-result-pulses strong.bad {
+  background: #fdecec;
+  color: #c0393d;
+}
+
 .room-action-panel {
   position: absolute;
   z-index: 3;
@@ -1019,6 +1065,14 @@ h2 {
     left: 8px;
     right: 8px;
     top: 64px;
+    padding: 7px 9px;
+  }
+
+  .office-result-pulses {
+    left: 8px;
+    right: 8px;
+    bottom: auto;
+    top: 152px;
     padding: 7px 9px;
   }
 
