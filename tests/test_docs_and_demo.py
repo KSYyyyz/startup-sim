@@ -79,6 +79,19 @@ class TestReadme:
         readme = (PROJECT_DIR / "README.md").read_text(encoding="utf-8")
         assert "Alpha 1.9" in readme, "README title should contain Alpha 1.9"
 
+    def test_readme_uses_named_investor_language(self):
+        readme = (PROJECT_DIR / "README.md").read_text(encoding="utf-8")
+        assert "投资方董事" not in readme, "README should use named investor representative wording"
+
+
+class TestDocsConsistencyScript:
+    def test_check_headers_are_well_formed(self):
+        script = (PROJECT_DIR / "scripts" / "check_docs_consistency.py").read_text(
+            encoding="utf-8"
+        )
+        assert "safe_print(\"\\n[检查 1:" not in script
+        assert "[检查 1]" in script
+
 
 class TestQuickstart:
     @pytest.fixture(autouse=True)

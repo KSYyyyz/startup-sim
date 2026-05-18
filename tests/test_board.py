@@ -1,6 +1,6 @@
 """Tests for board member agents / 董事会会议 (Phase 1B)."""
 
-from src.agents.board import CFO, COO, CTO, InvestorDirector
+from src.agents.board import CFO, COO, CTO, InvestorDirector, generate_board_minutes
 from src.core.models import ActionPlan, ActionType, CompanyState, PlayerAction
 
 
@@ -158,3 +158,27 @@ def test_board_member_names_are_distinct():
     members = [CFO(), CTO(), COO(), InvestorDirector()]
     names = [m.name for m in members]
     assert len(names) == len(set(names)), f"Duplicate names: {names}"
+
+
+def test_board_minutes_do_not_invent_investor_conflict_without_investor():
+    """Conflict notes should not mention investors when no investor attended."""
+    state = CompanyState(
+        month=5,
+        cash=300_000,
+        monthly_burn=120_000,
+        product_score=20,
+        mrr=0,
+        founder_equity=100,
+        board_control=100,
+    )
+    plan = make_plan(PlayerAction(type=ActionType.PRODUCT, budget=10_000))
+    feedback = {
+        "CFO": "cfo message",
+        "CTO": "cto message",
+        "COO": "coo message",
+    }
+
+    minutes = generate_board_minutes(state, plan, feedback)
+
+    assert "投资方董事" not in minutes
+    assert "投资方" not in minutes

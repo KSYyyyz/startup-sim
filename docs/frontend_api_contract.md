@@ -1,0 +1,162 @@
+# Startup Sim Frontend API Contract
+
+Status: Alpha 0.1 contract
+Date: 2026-05-18
+
+The frontend talks to a small local HTTP API. The Python simulation remains the only source of truth for game rules.
+
+## Data Shape
+
+### GameStateView
+
+```json
+{
+  "session_id": 1,
+  "status": "active",
+  "metrics": {
+    "month": 1,
+    "cash": 1000000,
+    "cash_change": 0,
+    "cash_coverage_months": 8.3,
+    "mrr": 0,
+    "mrr_change": 0,
+    "users": 0,
+    "users_change": 0,
+    "product_score": 20,
+    "reputation": 50,
+    "founder_equity": 100,
+    "valuation": 2640000
+  },
+  "stage": {
+    "company_name": "NimbusAI",
+    "week_label": "Week 1, Mon",
+    "focus": "活下去、做产品、拿到下一轮机会"
+  },
+  "core_tension": {
+    "title": "产品推进 vs 现金消耗",
+    "description": "继续研发会提升产品，但现金流可支撑时间会缩短。"
+  },
+  "insight": {
+    "title": "本月经营洞察",
+    "description": "产品还在早期，建议先用小预算验证客户需求。"
+  },
+  "board": [
+    {
+      "name": "CFO",
+      "role": "财务负责人",
+      "message": "现金仍可支撑一段时间，但要控制固定支出。",
+      "confidence": 82
+    }
+  ],
+  "competitors": [
+    {
+      "name": "快答科技",
+      "status": "保持跟进",
+      "mrr": 24000,
+      "trend": "up"
+    }
+  ],
+  "advice_entry": {
+    "label": "查看建议",
+    "summary": "输入「建议」查看详情"
+  },
+  "ending": {
+    "type": "none",
+    "description": ""
+  }
+}
+```
+
+## Endpoints
+
+### `GET /api/health`
+
+Returns service status.
+
+Response:
+
+```json
+{ "ok": true, "service": "startup-sim-api" }
+```
+
+### `POST /api/sessions`
+
+Creates a new local game session.
+
+Request:
+
+```json
+{
+  "player_name": "Player",
+  "company_name": "NimbusAI",
+  "scenario_id": "ai_customer_service_saas",
+  "difficulty": "normal"
+}
+```
+
+Response: `GameStateView`
+
+### `GET /api/sessions/{session_id}`
+
+Returns the latest state for a session.
+
+Response: `GameStateView`
+
+### `POST /api/sessions/{session_id}/turns`
+
+Processes one player command.
+
+Request:
+
+```json
+{
+  "command": "花10万研发产品"
+}
+```
+
+Response:
+
+```json
+{
+  "state": "GameStateView",
+  "turn": {
+    "month": 1,
+    "delta_reasons": ["product: 预算=100000, 风险=medium"],
+    "events": [],
+    "customer_response": {},
+    "raw_competitor_moves": []
+  }
+}
+```
+
+### `GET /api/sessions/{session_id}/suggestions`
+
+Returns detailed suggestions on demand.
+
+Response:
+
+```json
+{
+  "items": [
+    {
+      "title": "先验证客户需求",
+      "description": "小预算研发加客户访谈比一次性重投入更稳。",
+      "command": "花10万研发产品"
+    }
+  ]
+}
+```
+
+## Error Rules
+
+- Unknown session returns `404`.
+- Empty command returns `400`.
+- Validation errors return a plain-language `message`.
+- Game-ending responses still return `200` for a valid processed turn, with `ending.type` set.
+
+## Copy Rules
+
+- API response fields use English keys.
+- Player-facing strings can be Chinese.
+- Frontend must render `cash_coverage_months` as "现金流可支撑时间".
+- Frontend must not render legacy cash-coverage wording.

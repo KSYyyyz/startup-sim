@@ -90,7 +90,7 @@ MRR = 付费用户 × 单价
 | CFO | 现金流、可支撑时间、烧钱速度 |
 | CTO | 产品分、技术路线 |
 | COO | 运营效率、交付质量 |
-| 投资方董事 | 增长指标、PMF验证 |
+| 具名投资机构代表 | 增长指标、PMF验证，仅在融资相关场景出现 |
 
 ### 🏪 竞品博弈
 
@@ -224,7 +224,7 @@ pytest tests/ -v    # 389 passed (Alpha 1.9)
    - CLI 状态面板和飞书均调用
 
 4. **CLI 每回合建议** — `app.py`
-   - 每回合后显示3条建议（稳健/激进/风险）+ 建议聚焦方向
+   - 每回合仅显示「建议」入口；输入「建议」后显示3条路线（稳健/激进/风险）+ 可执行示例
    - 输入 help/帮助/怎么玩/指令 显示完整帮助
    - 状态面板集成 StateExplainer 人话解读
 
@@ -254,7 +254,7 @@ pytest tests/ -v    # 389 passed (Alpha 1.9)
    - 与现有3个固定事件（runway_warning/board_coup_risk/product_breakthrough）共存，不破坏接口
 
 2. **董事会争议系统** — `src/agents/board.py`
-   - CFO/CTO/COO/投资方董事基于同一state给出矛盾建议
+   - CFO/CTO/COO/具名投资机构代表基于同一state给出矛盾建议
    - `generate_board_minutes()` 函数输出格式化董事会会议记录
    - 自动检测分歧焦点（CFO砍预算 vs CTO加研发、CFO保守 vs COO增长）
 

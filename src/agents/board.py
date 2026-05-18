@@ -267,8 +267,8 @@ class InvestorDirector(BaseAgent):
             self.investor_style = investor_profile["style"]
             self._personality = investor_profile["personality"]
         else:
-            name = "投资方董事"
-            role = "投资方董事"
+            name = "星杉资本"
+            role = "星杉资本 — 增长合伙人"
             self.investor_style = "重视增长"
             self._personality = ""
         super().__init__(name=name, role=role, stance=self.investor_style)
@@ -415,10 +415,13 @@ def generate_board_minutes(
 def _detect_conflicts(
     state: CompanyState,
     plan: ActionPlan,
-    _feedback: dict[str, str],
+    feedback: dict[str, str],
 ) -> list[str]:
     """Detect conflicts between board members based on state and actions."""
     conflicts: list[str] = []
+    core_members = {"CFO", "CTO", "COO"}
+    investor_names = [name for name in feedback if name not in core_members]
+    investor_label = investor_names[0] if investor_names else "投资机构代表"
 
     has_marketing = any(a.type == "marketing" for a in plan.actions)
     has_product = any(a.type == "product" for a in plan.actions)
@@ -441,13 +444,13 @@ def _detect_conflicts(
         )
 
     # CFO vs Investor: raise now vs conserve equity
-    if state.runway_months < 4 and not has_fundraising:
-        conflicts.append("CFO可能建议立即融资保命 vs 投资方董事担心融资条款过于不利。")
+    if investor_names and state.runway_months < 4 and not has_fundraising:
+        conflicts.append(f"CFO可能建议立即融资保命 vs {investor_label}担心融资条款过于不利。")
 
     # CTO vs Investor: long-term tech moat vs short-term growth
-    if state.product_score < 40 and state.mrr < 100_000:
+    if investor_names and state.product_score < 40 and state.mrr < 100_000:
         conflicts.append(
-            "CTO主张先打磨产品再推广 vs 投资方董事要求先证明增长再谈产品。"
+            f"CTO主张先打磨产品再推广 vs {investor_label}要求先证明增长再谈产品。"
             "这是一场经典的'增长还是产品'之争。"
         )
 
