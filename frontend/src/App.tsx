@@ -25,6 +25,7 @@ import {
   buildMonthlyReport,
   buildMonthlyRecoveryAction,
   buildTurnResolutionSteps,
+  buildTurnVerdict,
   prepareAction,
   quickActionShortcuts,
   type PreparedAction,
@@ -316,6 +317,19 @@ export default function App() {
           })
         : [],
     [lastCommand, monthlyFacts, monthlyHighlights, monthlyReport]
+  );
+  const turnVerdict = useMemo(
+    () =>
+      state && lastTurn
+        ? buildTurnVerdict({
+            cashChange: state.metrics.cash_change,
+            productChange: state.metrics.product_change,
+            usersChange: state.metrics.users_change,
+            mrrChange: state.metrics.mrr_change,
+            cashCoverageMonths: state.metrics.cash_coverage_months
+          })
+        : null,
+    [lastTurn, state]
   );
   const executionPreview = useMemo(
     () => commandPreview ?? (preparedAction ? buildPreparedActionPreview(preparedAction) : null),
@@ -626,6 +640,14 @@ export default function App() {
           {monthlyReport && (
             <article className="panel result-panel monthly-report">
               <h2>月度战报</h2>
+              {turnVerdict && (
+                <section className={`turn-verdict ${turnVerdict.tone}`} aria-label="本月判定">
+                  <span>本月判定</span>
+                  <strong>{turnVerdict.label}</strong>
+                  <p>{turnVerdict.summary}</p>
+                  <small>{turnVerdict.nextFocus}</small>
+                </section>
+              )}
               {turnResolutionSteps.length > 0 && (
                 <section className="resolution-timeline" aria-label="回合结算">
                   <h3>回合结算</h3>

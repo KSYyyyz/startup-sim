@@ -328,6 +328,25 @@ describe('Startup Sim frontend shell', () => {
     expect(screen.getByLabelText('本回合指令')).toHaveValue('');
   });
 
+  test('shows a compact monthly verdict after turn settlement', async () => {
+    installFetchMock({
+      turn: {
+        month: 1,
+        delta_reasons: ['研发投入提升了产品分，但现金消耗上升。']
+      }
+    });
+    render(<App />);
+
+    await screen.findByText('NimbusAI');
+    await userEvent.type(screen.getByLabelText('本回合指令'), '花10万研发产品');
+    await userEvent.click(screen.getByRole('button', { name: '执行回合' }));
+
+    const verdict = await screen.findByLabelText('本月判定');
+    expect(verdict).toHaveTextContent('有进展');
+    expect(verdict).toHaveTextContent('产品在推进，但现金也在被消耗。');
+    expect(verdict).toHaveTextContent('下月重点看这次投入能否转成用户或收入。');
+  });
+
   test('uses gameplay quick actions to prepare commands from the bottom dock', async () => {
     installFetchMock();
     render(<App />);

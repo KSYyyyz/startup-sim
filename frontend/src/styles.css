@@ -1611,6 +1611,58 @@ h2 {
   line-height: 1.35;
 }
 
+.turn-verdict {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  align-items: center;
+  border: 1px solid #d7e2ef;
+  border-radius: 6px;
+  padding: 9px;
+  background: #f8fbff;
+}
+
+.turn-verdict span {
+  color: #607189;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.turn-verdict strong {
+  color: #102032;
+  font-size: 1rem;
+}
+
+.turn-verdict p,
+.turn-verdict small {
+  grid-column: 1 / -1;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.turn-verdict p {
+  color: #33475f;
+}
+
+.turn-verdict small {
+  color: #607189;
+}
+
+.turn-verdict.good {
+  border-color: #a9d8b4;
+  background: #f3fbf5;
+}
+
+.turn-verdict.mixed {
+  border-color: #d8cfa9;
+  background: #fffaf0;
+}
+
+.turn-verdict.bad {
+  border-color: #e1b2b2;
+  background: #fff6f6;
+}
+
 .resolution-timeline {
   display: grid;
   gap: 7px;

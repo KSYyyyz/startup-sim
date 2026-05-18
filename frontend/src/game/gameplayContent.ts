@@ -162,6 +162,21 @@ export type TurnResolutionInput = {
   reportHeadline: string;
 };
 
+export type TurnVerdictInput = {
+  cashChange: number;
+  productChange: number;
+  usersChange: number;
+  mrrChange: number;
+  cashCoverageMonths: number;
+};
+
+export type TurnVerdict = {
+  label: string;
+  tone: 'good' | 'mixed' | 'bad' | 'neutral';
+  summary: string;
+  nextFocus: string;
+};
+
 export type BoardNpcMember = {
   name: string;
   role: string;
@@ -807,6 +822,51 @@ export function buildTurnResolutionSteps(input: TurnResolutionInput): TurnResolu
     { title: '月末变化', detail: highlightDetail || '本月指标保持观察', tone: changeTone },
     { title: '战报复盘', detail: input.reportHeadline, tone: 'focus' }
   ];
+}
+
+export function buildTurnVerdict(input: TurnVerdictInput): TurnVerdict {
+  if (input.cashCoverageMonths < 3 || (input.cashChange < 0 && input.cashCoverageMonths < 4)) {
+    return {
+      label: '危险',
+      tone: 'bad',
+      summary: '现金流可支撑时间偏短，公司需要先稳住节奏。',
+      nextFocus: '下月优先降低消耗或补充现金，不要同时扩大多项支出。'
+    };
+  }
+
+  if ((input.usersChange > 0 || input.mrrChange > 0) && input.cashChange >= 0) {
+    return {
+      label: '漂亮',
+      tone: 'good',
+      summary: '增长信号出现，而且现金没有明显失控。',
+      nextFocus: '下月重点复盘增长来源，判断它能不能重复。'
+    };
+  }
+
+  if (input.productChange > 0 && input.cashChange < 0) {
+    return {
+      label: '有进展',
+      tone: 'mixed',
+      summary: '产品在推进，但现金也在被消耗。',
+      nextFocus: '下月重点看这次投入能否转成用户或收入。'
+    };
+  }
+
+  if (input.cashChange < 0) {
+    return {
+      label: '承压',
+      tone: 'mixed',
+      summary: '本月没有明显增长，现金却继续减少。',
+      nextFocus: '下月先找一个更轻的验证动作，避免空耗。'
+    };
+  }
+
+  return {
+    label: '平稳',
+    tone: 'neutral',
+    summary: '公司节奏暂时稳定，但还缺少足够强的突破信号。',
+    nextFocus: '下月选择一个方向推进，不要只停留在观察。'
+  };
 }
 
 export function buildNewPlayerGuidance(input: NewPlayerGuidanceInput): NewPlayerGuidance | null {

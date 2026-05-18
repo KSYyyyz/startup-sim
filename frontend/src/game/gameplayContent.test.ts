@@ -12,6 +12,7 @@ import {
   buildMonthlyRecoveryAction,
   buildOfficeEventBubbles,
   buildTurnResolutionSteps,
+  buildTurnVerdict,
   commandTradeoffs,
   gameContentManifest,
   quickActionShortcuts,
@@ -344,6 +345,38 @@ describe('gameplay content definitions', () => {
       { title: '月末变化', detail: '现金 $-22万 · 产品 +8 分', tone: 'mixed' },
       { title: '战报复盘', detail: '产品有进展，但现金在承压', tone: 'focus' }
     ]);
+  });
+
+  test('builds a compact turn verdict from settled changes', () => {
+    expect(
+      buildTurnVerdict({
+        cashChange: -220000,
+        productChange: 8,
+        usersChange: 0,
+        mrrChange: 0,
+        cashCoverageMonths: 5.4
+      })
+    ).toEqual({
+      label: '有进展',
+      tone: 'mixed',
+      summary: '产品在推进，但现金也在被消耗。',
+      nextFocus: '下月重点看这次投入能否转成用户或收入。'
+    });
+
+    expect(
+      buildTurnVerdict({
+        cashChange: -180000,
+        productChange: 0,
+        usersChange: 0,
+        mrrChange: 0,
+        cashCoverageMonths: 2.6
+      })
+    ).toEqual({
+      label: '危险',
+      tone: 'bad',
+      summary: '现金流可支撑时间偏短，公司需要先稳住节奏。',
+      nextFocus: '下月优先降低消耗或补充现金，不要同时扩大多项支出。'
+    });
   });
 
   test('builds first-three-month guidance without executable commands', () => {

@@ -104,6 +104,7 @@ Completed in the first ten desktop-first implementation rounds:
 - A "本月小目标" panel translates the phase goal into the current month focus such as product readiness, cash discipline, or market validation. It is intentionally advisory so players do not become dependent on generated one-click instructions.
 - The month goal now has a game-like progress track and checkpoints. These are derived from current metrics such as product score, cash coverage, users, and recurring revenue, but they remain presentation metadata and never settle outcomes.
 - Room action cards now include a compact expectation readout: benefit, cost, best timing, and risk. This keeps the decision understandable without exposing formulas or turning the card into an auto-command recommendation.
+- Monthly reports now start with a compact "本月判定" such as "有进展" or "危险", derived from settled metric changes so the player gets a quick outcome read before the detailed review.
 
 Known follow-up:
 
