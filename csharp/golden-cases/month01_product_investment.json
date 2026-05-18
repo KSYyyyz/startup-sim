@@ -1,0 +1,20 @@
+{
+  "id": "month01_product_investment",
+  "authority": "python-turn-engine-reference",
+  "input": {
+    "company_name": "NimbusAI",
+    "month": 1,
+    "cash": 1000000,
+    "product_score": 20,
+    "users": 0,
+    "mrr": 0,
+    "command": "花10万研发产品"
+  },
+  "expected": {
+    "month": 2,
+    "cash_change": -220000,
+    "product_change": 8,
+    "headline": "产品有进展，但现金在承压",
+    "replay_basis_contains": "研发投入提升了产品分"
+  }
+}

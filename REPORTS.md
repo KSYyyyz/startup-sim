@@ -4,6 +4,23 @@
 
 ---
 
+## C# / Unity Migration Prep — Core and adapter scaffold (2026-05-18)
+
+**性质**: 技术路线切换准备。目标是把项目从 Web 前端打磨主线，转向 C# Core + Unity 表现层的可迁移架构。
+
+**主要产出**:
+- 新增 `docs/csharp_unity_migration_plan.md`，明确 Web 前端降级为规则验证台，`StartupSim.Core` 成为未来规则层。
+- 新增 `csharp/StartupSim.Core/` 纯 C# 核心库骨架，包含 `GameState`、`GameMetrics`、`TurnCommand`、`TurnResult`、`ScenarioDefinition`、`ITurnEngine`、`DeterministicTurnEngine`。
+- 新增 `csharp/golden-cases/month01_product_investment.json`，作为 Python 参考实现到 C# 迁移的第一条黄金样例。
+- 新增 `unity/StartupSimUnity/Assets/Scripts/StartupSim/` Unity 适配组件：房间热点、行动展示、回合提交、API 桥接。
+- 新增 `tests/test_csharp_unity_scaffold.py`，锁定 C# Core 不依赖 `UnityEngine`，Unity 侧不拥有结算规则。
+
+**当前限制**:
+- 本机只有 .NET Runtime，没有 .NET SDK，因此本轮先用仓库测试验证结构边界；后续安装 SDK 后再补 C# 编译与单元测试。
+- Unity 组件目前是竖切准备脚本，还不是完整 Unity 工程。
+
+---
+
 ## Frontend Alpha 0.5 — 十轮推进验收收口 (2026-05-18)
 
 **性质**: 本轮连续推进收口。目标是把第 4-10 轮新增体验纳入自动化验收，而不是只靠手工截图判断。

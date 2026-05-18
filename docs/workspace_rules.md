@@ -36,6 +36,7 @@
    - `OfficeSignal`：办公室应该显示什么信号。
    - `ScenarioDefinition`：剧本、房间、角色、竞品和初始条件。
    - `AssetManifest`：美术资源如何被引用和复用。
+   - `StartupSim.Core`：未来 Unity 可直接引用的纯 C# 规则核心，不允许依赖 `UnityEngine`。
 
 ### 协作规则
 
@@ -49,3 +50,11 @@
    - 玩家是否能在 10 秒内理解；
    - 是否能产生可复盘故事；
    - 是否保持未来 Unity/Tauri/桌面分发的迁移空间。
+
+## C# / Unity 迁移规则
+
+1. `csharp/StartupSim.Core` 是底层规则迁移目标，必须保持纯 C#，不引用 `UnityEngine`。
+2. `unity/StartupSimUnity/Assets/Scripts/StartupSim` 只放 Unity 表现层和桥接组件。
+3. Unity 组件可以准备行动、展示行动、提交回合，但不能结算现金、产品、用户、估值、股权或结局。
+4. Python 当前逻辑仍是参考实现，C# 迁移必须通过黄金测试逐步对齐。
+5. Web 前端停止作为最终产品外壳大规模打磨，只保留规则验证台和在线试玩价值。

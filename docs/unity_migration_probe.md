@@ -1,13 +1,13 @@
 # Unity Migration Probe
 
-Status: planning baseline
+Status: C# core preparation active
 Date: 2026-05-18
 
-Startup Sim should not switch to Unity before the web prototype proves the core loop. However, the project should keep a clear path for a future Unity or desktop build.
+Startup Sim will prepare for Unity by moving deterministic gameplay contracts toward a pure C# core. The Web frontend remains useful as a rule validation bench, but it is no longer the intended final presentation layer.
 
 ## Goal
 
-Validate whether Unity can consume the same gameplay contracts without rewriting the simulation.
+Validate whether Unity can consume the same gameplay contracts while `StartupSim.Core` becomes the long-term portable rules layer.
 
 ## Minimum Probe
 
@@ -19,6 +19,13 @@ The first Unity probe should include only:
 4. One competitor signal.
 5. Clicking a room creates an `ActionPlan`.
 6. No numeric settlement inside Unity.
+
+The first C# preparation slice now lives in:
+
+- `csharp/StartupSim.Core/`
+- `csharp/golden-cases/`
+- `unity/StartupSimUnity/Assets/Scripts/StartupSim/`
+- `docs/csharp_unity_migration_plan.md`
 
 ## Required Inputs
 
@@ -36,11 +43,11 @@ The first Unity probe should include only:
 
 ## Decision Gate
 
-Run this probe after Alpha 0.4 has:
+Unity presentation work can advance after the C# preparation path has:
 
-- Stable ActionPlan and TurnFacts contracts.
-- A playable 3-5 turn desktop web loop.
-- Reusable image-2 asset naming and manifest discipline.
-- One documented Vercel playtest pass.
+- Stable `StartupSim.Core` contracts.
+- Golden cases generated from the Python reference engine.
+- One Unity office-room vertical slice that does not settle numeric rules.
+- A tested bridge from Unity input to either the current API or the C# core.
 
-If the probe can read the same contracts and produce a room-to-action loop, Unity remains viable. If it requires duplicating rules, keep Unity as a later presentation rewrite rather than a near-term platform switch.
+If Unity can produce the room-to-action loop without duplicating rules, it becomes the primary presentation path. If Unity scripts start owning settlement logic, stop and move that logic into `StartupSim.Core`.
