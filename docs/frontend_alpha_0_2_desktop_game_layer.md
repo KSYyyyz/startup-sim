@@ -97,6 +97,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Competitor feedback now renders move types, reasons, and response commands from gameplay data instead of showing raw status text only.
 - Turn results now include a compact "回合结算" timeline for command execution, month-end changes, and report review.
 - The UI now exposes the current built-in scenario as a compact "当前剧本" entry, backed by scenario menu metadata and ready for later multi-scenario expansion.
+- Production-facing Playwright acceptance now checks the scenario entry, office operation deck, room-to-command path, turn resolution, and banned wording at desktop and mobile smoke viewports.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:

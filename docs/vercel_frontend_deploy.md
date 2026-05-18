@@ -61,6 +61,7 @@ After a frontend commit is pushed and Vercel finishes deployment, verify:
 
 - The page opens at `https://startup-sim-khaki.vercel.app`.
 - The first screen shows the playable command center.
+- The first screen shows the current scenario entry ("当前剧本") and the office operation deck ("办公室操作台").
 - The page uses "现金流可支撑时间" and does not show "跑道" or "Runway".
 - Suggestions stay behind the advice entry until opened.
-- A player can submit one turn and see "回合结果".
+- A player can submit one turn and see "月度战报" plus "回合结算".

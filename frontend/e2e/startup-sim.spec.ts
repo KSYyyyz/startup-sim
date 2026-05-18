@@ -4,9 +4,12 @@ test('creates a session and submits one turn', async ({ page }) => {
   await page.goto('/');
 
   await expect(page.getByText('NimbusAI')).toBeVisible();
+  await expect(page.getByLabel('当前剧本')).toBeVisible();
+  await expect(page.getByText('难度：标准')).toBeVisible();
   await expect(page.getByText('现金流可支撑时间', { exact: true })).toBeVisible();
   await expect(page.getByText('核心矛盾')).toBeVisible();
   await expect(page.getByLabel('互动办公室场景')).toBeVisible();
+  await expect(page.getByLabel('办公室操作台')).toBeVisible();
   await expect(page.getByLabel('办公室动态反馈')).toBeVisible();
   await expect(page.getByLabel('产品室状态')).toContainText('产品压力');
   await page.getByRole('button', { name: /查看竞品信号/ }).click();
@@ -41,6 +44,7 @@ test('creates a session and submits one turn', async ({ page }) => {
 
   await expect(page.getByText('第2月', { exact: true })).toBeVisible();
   await expect(page.getByText('月度战报')).toBeVisible();
+  await expect(page.getByLabel('回合结算')).toBeVisible();
   await expect(page.getByLabel('办公室月末变化')).toBeVisible();
   await expect(page.getByText('董事会反馈')).toBeVisible();
   await expect(page.getByLabel('竞品态势')).toBeVisible();
