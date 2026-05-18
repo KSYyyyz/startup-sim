@@ -147,6 +147,9 @@ describe('Startup Sim frontend shell', () => {
     expect(officeEvents.getByText('CFO')).toBeInTheDocument();
     expect(officeEvents.getByText('快答科技')).toBeInTheDocument();
     expect(officeEvents.getByText('产品仍在打磨期')).toBeInTheDocument();
+    expect(officeEvents.queryByText('控制固定支出。')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('办公室操作台')).toBeInTheDocument();
+    expect(screen.getByText('选中房间')).toBeInTheDocument();
     expect(screen.getAllByText('董事会').length).toBeGreaterThan(0);
     expect(screen.getByText('竞品态势')).toBeInTheDocument();
     expect(screen.getByText('持平')).toBeInTheDocument();
@@ -180,7 +183,7 @@ describe('Startup Sim frontend shell', () => {
     await userEvent.click(productRoom);
 
     expect(productRoom).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByText('当前房间')).toBeInTheDocument();
+    expect(screen.getByText('选中房间')).toBeInTheDocument();
     expect(screen.getByText('产品打磨')).toBeInTheDocument();
     expect(screen.getAllByText('产品 +').length).toBeGreaterThan(0);
     expect(screen.getAllByText('现金 -').length).toBeGreaterThan(0);

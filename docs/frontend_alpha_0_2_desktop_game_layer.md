@@ -92,6 +92,7 @@ Completed in the first ten desktop-first implementation rounds:
 - Monthly reports now resolve from gameplay data into a headline, highlight cards, review lines, next pressure, and one executable recovery action.
 - `frontend/src/game/scenarios.ts` now defines the built-in AI SaaS seed scenario metadata, keeping scenario content separate from backend settlement rules.
 - PixiJS canvas setup now lives behind `frontend/src/game/pixiOverlay.ts`, keeping `OfficeStage.tsx` focused on React interactions and preserving a lazy optional rendering boundary.
+- Desktop office interaction now presents the selected room as an "办公室操作台", uses a stronger active-room highlight, and keeps office event bubbles compact to reduce scene clutter.
 - Playwright now checks the main flow at 1366 x 768, 1440 x 900, and 1920 x 1080 desktop viewports, plus a basic mobile smoke path.
 
 Known follow-up:

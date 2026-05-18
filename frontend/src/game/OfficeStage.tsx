@@ -116,7 +116,7 @@ export function OfficeStage({
           const eventNode = (
             <>
               <strong>{event.title}</strong>
-              <span>{event.description}</span>
+              <span>{event.tone === 'board' ? '董事会' : event.tone === 'competitor' ? '竞品' : '洞察'}</span>
             </>
           );
           return handleClick ? (
@@ -124,6 +124,7 @@ export function OfficeStage({
               className={`office-event-bubble ${event.tone}`}
               key={event.id}
               style={{ left: `${room.x}%`, top: `${room.y + 10}%` }}
+              title={event.description}
               type="button"
               onClick={handleClick}
             >
@@ -134,14 +135,15 @@ export function OfficeStage({
               className={`office-event-bubble ${event.tone}`}
               key={event.id}
               style={{ left: `${room.x}%`, top: `${room.y + 10}%` }}
+              title={event.description}
             >
               {eventNode}
             </span>
           );
         })}
       </div>
-      <div className="room-action-panel" aria-live="polite">
-        <span className="room-kicker">当前房间</span>
+      <div className="room-action-panel" aria-label="办公室操作台" aria-live="polite">
+        <span className="room-kicker">选中房间</span>
         <strong>{selectedRoom.name}</strong>
         <div className="action-card-list">
           {selectedRoom.actions.map((action) => (

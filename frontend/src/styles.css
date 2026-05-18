@@ -314,6 +314,14 @@ h2 {
   transform: translateY(-2px);
 }
 
+.room-hotspot.active {
+  outline: 3px solid rgba(255, 218, 87, 0.9);
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 5px rgba(255, 255, 255, 0.26),
+    0 14px 30px rgba(12, 24, 43, 0.32);
+}
+
 .room-hotspot.sales {
   background: rgba(33, 118, 86, 0.9);
 }
@@ -379,7 +387,8 @@ h2 {
   pointer-events: auto;
   transform: translate(-50%, -50%);
   display: grid;
-  max-width: 150px;
+  min-width: 74px;
+  max-width: 116px;
   gap: 2px;
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 8px;
@@ -387,19 +396,22 @@ h2 {
   background: rgba(255, 255, 255, 0.9);
   color: #1f3d56;
   font: inherit;
-  font-size: 0.7rem;
-  text-align: left;
+  font-size: 0.68rem;
+  text-align: center;
   box-shadow: 0 10px 20px rgba(24, 36, 56, 0.16);
 }
 
 .office-event-bubble strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 0.72rem;
 }
 
 .office-event-bubble span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  color: #607189;
+  font-size: 0.62rem;
+  font-weight: 900;
 }
 
 .office-event-bubble.board {
@@ -521,12 +533,23 @@ h2 {
   z-index: 3;
   top: 14px;
   right: 14px;
-  width: min(312px, calc(100% - 28px));
+  width: min(326px, calc(100% - 28px));
+  max-height: calc(100% - 28px);
+  overflow: auto;
   border: 1px solid rgba(124, 141, 164, 0.9);
   border-radius: 8px;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(247, 250, 252, 0.96);
   box-shadow: 0 16px 34px rgba(24, 36, 56, 0.22);
+}
+
+.room-action-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(90deg, #245a9d, #1f8f4d, #e0a922);
 }
 
 .room-action-panel > strong {
