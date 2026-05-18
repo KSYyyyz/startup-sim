@@ -1,234 +1,234 @@
-# Reference Game Analysis
+# 参考游戏分析
 
-Status: reference baseline
-Date: 2026-05-18
-Scope: local read-only directory scan
+状态：参考基线
+日期：2026-05-18
+范围：本地只读目录扫描
 
-## 1. Boundary
+## 1. 边界说明
 
-This document records what Startup Sim can learn from the locally installed reference games without copying proprietary content.
+本文记录 Startup Sim 可以从本地安装的参考游戏中学习什么，同时明确不复制任何专有内容。
 
-Allowed:
+允许做的事：
 
-- Study folder organization, public-facing mod/localization structures, save/config/log conventions, and high-level interaction patterns.
-- Use the findings to shape Startup Sim's own original systems, UI flow, documentation, asset pipeline, and desktop distribution roadmap.
-- Reference the existence of files and systems when they are visible from normal installation folders.
+- 研究文件夹组织、公开的 Mod/本地化结构、存档/配置/日志约定，以及高层交互模式。
+- 将观察结果用于设计 Startup Sim 自己的原创系统、UI 流程、文档、资产管线和桌面分发路线。
+- 在安装目录正常可见的范围内，引用文件和系统结构的存在。
 
-Not allowed:
+不允许做的事：
 
-- Do not copy art, audio, text, code, databases, compiled assets, or game-specific names into Startup Sim.
-- Do not decompile, unpack, bypass DRM, or reverse engineer closed implementation.
-- Do not reproduce proprietary mechanics one-to-one. Translate observations into original design principles.
+- 不把参考游戏的美术、音频、文本、代码、数据库或游戏专有名称复制进 Startup Sim。
+- 不反编译、不解包、不绕过 DRM，也不逆向闭源实现。
+- 不一比一复刻专有机制。所有观察都必须转化为 Startup Sim 自己的原创设计原则。
 
-## 2. Local Reference Scan
+## 2. 本地参考扫描
 
 ### 2.1 Mad Games Tycoon 2
 
-Local path: `D:\XDWork\Game\Mad.Games.Tycoon.2.Build.20855306`
+本地路径：`D:\XDWork\Game\Mad.Games.Tycoon.2.Build.20855306`
 
-Observed structure:
+观察到的结构：
 
-- Unity runtime layout: `Mad Games Tycoon 2_Data`, `MonoBleedingEdge`, `UnityPlayer.dll`.
-- External asset folders under `Mad Games Tycoon 2_Data\Extern`, including company logos, feature icons, genre icons, platform icons, screenshots, and text.
-- Large Unity asset bundles and scene/resource files under the data folder.
+- Unity 运行时布局：`Mad Games Tycoon 2_Data`、`MonoBleedingEdge`、`UnityPlayer.dll`。
+- `Mad Games Tycoon 2_Data\Extern` 下存在外部资产文件夹，包括公司 Logo、功能图标、品类图标、平台图标、截图和文本。
+- 数据目录中包含大型 Unity 资产包、场景文件和资源文件。
 
-Usefulness for Startup Sim:
+对 Startup Sim 的价值：
 
-- Strong reference for an office/company-management game where the workspace itself becomes the primary gameplay surface.
-- Reinforces the direction that rooms, facilities, employees, projects, and market feedback should be visible, clickable, and progressive.
-- Useful as a product-shape reference for how a business simulation can grow from a small company to a larger operating machine.
+- 很适合作为“办公室/公司经营游戏”的形态参考：工作空间本身就是主要玩法界面。
+- 强化了 Startup Sim 的方向：房间、设施、员工、项目和市场反馈应该可见、可点击、可逐步成长。
+- 可作为公司从小团队成长为更大运营机器的产品形态参考。
 
-Safe takeaway:
+安全借鉴结论：
 
-Startup Sim should build its own office layer where every room represents a business capability: product, sales, team, board, infrastructure, market, and later finance/compliance. The reference is the interaction pattern, not the assets or exact rules.
+Startup Sim 应该构建自己的办公室层，让每个房间都代表一种商业能力：产品、销售、团队、董事会、基础设施、市场，以及后续的财务/合规。可以参考的是交互模式，不是资产或具体规则。
 
 ### 2.2 STONKS-9800
 
-Local path: `D:\XDWork\Game\STONKS9800`
+本地路径：`D:\XDWork\Game\STONKS9800`
 
-Observed structure:
+观察到的结构：
 
-- GameMaker-style package with `data.win`, executable, options/config files, backgrounds, music, palette, names, localization files, and mod folders.
-- Public modding surface exists: `modding_guide.txt`, `mods\test_mod.meow`, `make your own localization`, and `mod_uploader`.
-- Public data-like folders are clearly separated from compiled game content.
+- GameMaker 风格的包结构，包含 `data.win`、可执行文件、选项/配置文件、背景、音乐、调色板、姓名、本地化文件和 Mod 文件夹。
+- 存在公开的 Mod 表面：`modding_guide.txt`、`mods\test_mod.meow`、`make your own localization` 和 `mod_uploader`。
+- 类数据文件夹与编译后的游戏核心内容有清晰分离。
 
-Usefulness for Startup Sim:
+对 Startup Sim 的价值：
 
-- Best local reference for mod/localization/data extensibility.
-- Shows the value of a visible, player-friendly customization surface: mods, localization, names, palettes, and uploader tooling.
-- Provides a useful pattern for keeping user-editable content outside the compiled core.
+- 是本地参考中最适合学习 Mod/本地化/数据扩展性的案例。
+- 展示了“玩家可见、玩家友好”的自定义表面价值：Mod、本地化、姓名、调色板和上传工具。
+- 提供了一个有用模式：把玩家可编辑内容放在编译核心之外。
 
-Safe takeaway:
+安全借鉴结论：
 
-Startup Sim should gradually separate original game data from the runtime code:
+Startup Sim 应该逐步把原创游戏数据与运行时代码分离：
 
-- `frontend/src/game` for runtime gameplay UI.
-- `frontend/src/assets` for generated visual assets.
-- `data/gameplay` or equivalent for original room, action, event, investor, competitor, and character definitions.
-- `data/locales` for localization when the text surface stabilizes.
-- Later: a documented mod or scenario format for custom startup sectors, investors, competitors, and events.
+- `frontend/src/game` 存放运行时玩法 UI。
+- `frontend/src/assets` 存放生成的视觉资产。
+- `data/gameplay` 或等价目录存放原创房间、行动、事件、投资人、竞品和角色定义。
+- `data/locales` 在文本表面稳定后承载本地化内容。
+- 后续可以提供文档化的 Mod 或剧本格式，用于自定义创业行业、投资人、竞品和事件。
 
 ### 2.3 历史模拟器：崇祯
 
-Local path: `D:\Steam\steamapps\common\历史模拟器：崇祯`
+本地路径：`D:\Steam\steamapps\common\历史模拟器：崇祯`
 
-Observed structure:
+观察到的结构：
 
-- Electron/Chromium desktop distribution: executable, Chromium runtime files, locale packs, `resources.pak`, and `resources\app.asar`.
-- Steamworks integration appears in `resources\app.asar.unpacked\node_modules\steamworks.js`.
-- The install folder is a useful desktop-packaging reference, but the application source package should not be unpacked or inspected for implementation details.
+- Electron/Chromium 桌面分发结构：可执行文件、Chromium 运行时文件、语言包、`resources.pak` 和 `resources\app.asar`。
+- `resources\app.asar.unpacked\node_modules\steamworks.js` 中可见 Steamworks 集成相关内容。
+- 安装目录对桌面打包有参考价值，但不应解包或检查应用源码包的实现细节。
 
-Usefulness for Startup Sim:
+对 Startup Sim 的价值：
 
-- Strong reference for a web-tech game distributed as a desktop app.
-- Supports the current plan: keep the web frontend playable first, then reserve Electron or Tauri packaging for desktop distribution.
-- Reinforces that AI-native strategy games can ship with a conventional desktop shell while keeping game logic and UI in web technologies.
+- 很适合作为“Web 技术游戏如何分发为桌面应用”的参考。
+- 支持当前路线：先保证 Web 前端可玩，再为 Electron 或 Tauri 桌面分发预留空间。
+- 说明 AI 原生策略游戏也可以使用常规桌面外壳发布，同时把游戏逻辑和 UI 保持在 Web 技术体系内。
 
-Safe takeaway:
+安全借鉴结论：
 
-Startup Sim should keep the current Vite/React frontend deployable to Vercel, but also preserve a future desktop packaging path:
+Startup Sim 应继续保持当前 Vite/React 前端可部署到 Vercel，同时保留未来桌面打包路径：
 
-- Browser demo remains the public playtest channel.
-- Desktop-first UI density remains the design target.
-- Later packaging can use Tauri or Electron without rewriting the game layer.
-- Steam-specific integration should be deferred until the core office loop is compelling.
+- 浏览器 Demo 继续作为公开试玩渠道。
+- 桌面端信息密度继续作为主要设计目标。
+- 后续可用 Tauri 或 Electron 打包，不必重写游戏层。
+- Steamworks、成就、云存档等集成应推迟到核心办公室循环足够好玩之后。
 
 ### 2.4 Game Dev Story / 游戏开发物语
 
-Local path: `D:\XDWork\Game\Game.Dev.Story.Build.8596453`
+本地路径：`D:\XDWork\Game\Game.Dev.Story.Build.8596453`
 
-Observed structure:
+观察到的结构：
 
-- Unity/IL2CPP runtime layout with `KairoGames_Data`, `GameAssembly.dll`, `UnityPlayer.dll`, and compact resource files.
-- The install shape is comparatively small and self-contained.
-- No public modding or localization surface was visible from the top-level scan.
+- Unity/IL2CPP 运行时布局，包含 `KairoGames_Data`、`GameAssembly.dll`、`UnityPlayer.dll` 和较紧凑的资源文件。
+- 安装形态相对小而自洽。
+- 顶层扫描中没有看到公开 Mod 或本地化表面。
 
-Usefulness for Startup Sim:
+对 Startup Sim 的价值：
 
-- Strong reference for compact management loops: small screens, fast decisions, clear progress feedback, and long-term replayability.
-- Useful as a reminder that a business simulation does not need to expose every system at once to feel strategic.
-- Supports Startup Sim's "complexity unlocks gradually" principle.
+- 很适合作为紧凑经营循环参考：小屏幕、快决策、清晰进度反馈和长期重玩价值。
+- 提醒我们：商业模拟不需要一开始暴露所有系统，也可以让玩家感到有策略性。
+- 支持 Startup Sim “复杂机制渐进解锁”的原则。
 
-Safe takeaway:
+安全借鉴结论：
 
-Startup Sim should keep the early game readable and snappy. Even as the office view becomes richer, each month should still resolve through a small number of meaningful CEO decisions, not a dense management spreadsheet.
+Startup Sim 的早期游戏应该保持易读、轻快。即使办公室视图越来越丰富，每个月仍应通过少数几个有意义的 CEO 决策来推进，而不是变成密集的管理表格。
 
 ### 2.5 Game Dev Tycoon
 
-Local path: `D:\XDWork\Game\Game Dev Tycoon`
+本地路径：`D:\XDWork\Game\Game Dev Tycoon`
 
-Observed structure:
+观察到的结构：
 
-- NW.js/web-tech desktop distribution with `nw.exe`, `package.json`, `defaultBrowser.html`, `js`, `css`, `images`, `audio`, `i18n`, and `mods`.
-- The window configuration sets a desktop-oriented 1024 x 768 minimum size.
-- A visible `mods\gdt-modAPI` package exists with package metadata, public API folders, examples, and a README pointing to official mod API documentation.
-- The install includes localization and license folders, which makes extension and distribution boundaries visible.
+- NW.js / Web 技术桌面分发结构，包含 `nw.exe`、`package.json`、`defaultBrowser.html`、`js`、`css`、`images`、`audio`、`i18n` 和 `mods`。
+- 窗口配置以桌面端为目标，最小尺寸为 1024 x 768。
+- 可见 `mods\gdt-modAPI` 包，包含包元数据、公开 API 文件夹、示例，以及指向官方 Mod API 文档的 README。
+- 安装目录中包含本地化和许可证文件夹，清楚展示了扩展和分发边界。
 
-Usefulness for Startup Sim:
+对 Startup Sim 的价值：
 
-- Excellent confirmation that a simulation game can ship as a desktop app using web technology.
-- Strong reference for how to keep a game moddable or extendable through visible package boundaries.
-- Useful precedent for desktop-first UI sizing, localization folders, mod API separation, and web-runtime packaging.
+- 很好地证明了模拟经营游戏可以用 Web 技术作为桌面应用发布。
+- 对“如何通过可见包边界保持可 Mod 或可扩展”很有参考价值。
+- 对桌面优先 UI 尺寸、本地化目录、Mod API 分离和 Web 运行时打包都有参考意义。
 
-Safe takeaway:
+安全借鉴结论：
 
-Startup Sim should continue the current Vite/React/PixiJS route and avoid a premature Unity migration. The more valuable lesson is to keep the web game modular enough that it can later be wrapped as a desktop build and expanded with original data packs or scenario APIs.
+Startup Sim 应继续采用当前 Vite/React/PixiJS 路线，避免过早迁移到 Unity。更有价值的启发是：把 Web 游戏做得足够模块化，未来才能包装成桌面版本，并通过原创数据包或剧本 API 继续扩展。
 
-## 3. Product Implications
+## 3. 对产品方向的影响
 
-### 3.1 Office Layer Is The Main Game Board
+### 3.1 办公室层就是主游戏棋盘
 
-The current Alpha 0.2 office layer should keep moving away from dashboard composition and toward a playable management space.
+当前 Alpha 0.2 办公室层应继续从“仪表盘构图”转向“可玩的经营空间”。
 
-Required next direction:
+下一步方向：
 
-- Rooms are not decorative zones. Each room is a system entry.
-- Room state should communicate pressure: busy, blocked, improving, risky, or ready for a decision.
-- Staff and room events should become visible feedback for business state changes.
-- Monthly changes should be shown both in panels and in the office scene.
+- 房间不是装饰区域，每个房间都是一个系统入口。
+- 房间状态应该表达经营压力：忙碌、阻塞、改善、风险或等待决策。
+- 员工状态和房间事件应该成为商业状态变化的可见反馈。
+- 月度变化既要显示在信息面板里，也要反映在办公室场景中。
 
-### 3.2 Data-Driven Content Should Start Early
+### 3.2 数据驱动内容应该尽早开始
 
-STONKS-9800's public mod/localization structure is the most useful engineering lesson. Startup Sim should not hard-code every room, action, investor, competitor, event, and role forever.
+STONKS-9800 的公开 Mod/本地化结构提供了最有用的工程启发。Startup Sim 不应该永远把所有房间、行动、投资人、竞品、事件和角色硬编码在代码里。
 
-Recommended direction:
+推荐方向：
 
-- Move room/action definitions toward structured data.
-- Keep deterministic rules in the core engine.
-- Let the frontend read stable definitions for labels, descriptions, tradeoff tags, and room metadata.
-- Prepare for original scenario packs without committing to public modding too early.
+- 将房间和行动定义逐步迁移为结构化数据。
+- 确定性规则仍然留在核心引擎中。
+- 前端读取稳定的数据定义，用于展示标签、说明、取舍标签和房间元数据。
+- 在不过早承诺公开 Mod 的前提下，为原创剧本包预留结构。
 
-### 3.3 Desktop Distribution Should Remain Open
+### 3.3 桌面分发路线应该保持开放
 
-The reference games show several viable packaging shapes:
+这些参考游戏展示了几种可行的打包形态：
 
-- Unity-heavy desktop game.
-- GameMaker-style executable with visible data/mod folders.
-- Electron desktop game using web technology.
-- NW.js desktop game using web technology.
+- 偏 Unity 的重桌面游戏。
+- GameMaker 风格的可执行文件，并暴露数据/Mod 文件夹。
+- 使用 Web 技术的 Electron 桌面游戏。
+- 使用 Web 技术的 NW.js 桌面游戏。
 
-Startup Sim should not switch to Unity now. The current project benefits from fast web iteration, existing Vercel deployment, and reusable Python simulation logic. The right path is:
+Startup Sim 现在不应该切换到 Unity。当前项目受益于快速 Web 迭代、已有 Vercel 部署，以及可复用的 Python 模拟逻辑。正确路径是：
 
-1. Make the desktop web version feel like a game.
-2. Keep frontend and backend boundaries clean.
-3. Add a local save/export path.
-4. Evaluate Tauri/Electron packaging after the office loop, AI command loop, and monthly result loop are strong.
+1. 先让桌面 Web 版本真正像游戏。
+2. 保持前后端边界清晰。
+3. 增加本地存档/导出路径。
+4. 等办公室循环、AI 指令循环、月度结果循环足够强之后，再评估 Tauri/Electron 打包。
 
-## 4. Concrete Roadmap Adjustments
+## 4. 路线调整建议
 
-### 4.1 Near Term
+### 4.1 近期
 
-- Keep Alpha 0.2 desktop-first.
-- Improve the office scene as an interactive board, not a static illustration.
-- Add visible room states and activity pulses.
-- Make board, competitor, and office feedback feel like game events.
-- Keep single-turn decisions compact enough to preserve Game Dev Story-style pace.
-- Keep suggestions folded by default.
-- Continue using "现金流可支撑时间" in player-facing text.
+- 继续保持 Alpha 0.2 桌面端优先。
+- 把办公室场景打磨成互动棋盘，而不是静态插图。
+- 增加可见的房间状态和活动脉冲。
+- 让董事会、竞品和办公室反馈更像游戏事件。
+- 保持单回合决策足够紧凑，保留《游戏开发物语》式的轻快节奏。
+- 建议默认折叠。
+- 玩家可见文案继续使用“现金流可支撑时间”。
 
-### 4.2 Next Game-Data Step
+### 4.2 下一步游戏数据层
 
-Introduce a small original data layer for frontend gameplay definitions:
+引入一个小型原创数据层，用于前端玩法定义：
 
-- Rooms.
-- Room actions.
-- Action tradeoff tags.
-- Board pressure response templates.
-- Competitor pressure response templates.
-- Office feedback signal types.
-- Scenario metadata, so future packs can describe sectors, starting conditions, and competitor sets without rewriting UI code.
+- 房间。
+- 房间行动。
+- 行动取舍标签。
+- 董事会压力回应模板。
+- 竞品压力回应模板。
+- 办公室反馈信号类型。
+- 剧本元数据，让未来内容包可以描述行业、初始条件和竞品组合，而不需要重写 UI 代码。
 
-This should be data-driven, but still executed through the existing API/TurnEngine. The frontend can propose commands; the deterministic engine still owns state changes.
+这层应该是数据驱动的，但仍然通过现有 API/TurnEngine 执行。前端可以提出指令，确定性引擎仍然负责状态变化。
 
-### 4.3 Later Desktop Game Step
+### 4.3 后续桌面游戏阶段
 
-Prepare for a distributable independent game without committing to a final wrapper:
+在不提前绑定最终打包方案的前提下，为可分发独立游戏做准备：
 
-- Keep save data serializable.
-- Avoid browser-only assumptions where possible.
-- Document required environment variables and offline fallback behavior.
-- Keep generated image-2 assets inside the project design asset library.
-- Keep localization and content-pack directories visible and documented before public modding is promised.
-- Defer Steamworks, achievements, cloud saves, and mod uploader until after a playable Alpha loop.
+- 保持存档数据可序列化。
+- 尽量避免只能在浏览器中成立的假设。
+- 文档化必要的环境变量和离线 fallback 行为。
+- 将 image-2 生成资产继续放在项目设计资产库中。
+- 在承诺公开 Mod 之前，先让本地化目录和内容包目录可见、可文档化。
+- Steamworks、成就、云存档和 Mod 上传器都推迟到可玩的 Alpha 循环之后。
 
-## 5. What Not To Do
+## 5. 不要做什么
 
-- Do not copy the reference games' images, audio, text, logos, character names, or exact event scripts.
-- Do not unpack or inspect closed app packages for implementation.
-- Do not change the project into Unity before the web desktop loop is proven.
-- Do not overbuild modding before the core game is fun.
-- Do not let AI narrative bypass deterministic game rules.
+- 不复制参考游戏的图片、音频、文本、Logo、角色名或具体事件脚本。
+- 不解包或检查闭源应用包的实现。
+- 在 Web 桌面循环被验证前，不把项目改成 Unity。
+- 在核心游戏还不好玩前，不提前过度建设 Mod 系统。
+- 不让 AI 叙事绕过确定性的游戏规则。
 
-## 6. Startup Sim Design Rule
+## 6. Startup Sim 设计规则
 
-Reference games confirm the current principle:
+参考游戏再次确认了当前原则：
 
-> Real business is the simulation foundation; game feel is the player-facing experience.
+> 真实商业是模拟地基，游戏感是玩家面对的体验。
 
-For Startup Sim this becomes:
+对 Startup Sim 来说，这意味着：
 
-- The office is the board.
-- Rooms are the controls.
-- AI characters are advisors and narrative pressure, not rule owners.
-- Deterministic systems decide numeric outcomes.
-- Data definitions should be reusable enough to support scenarios, localization, and future desktop distribution.
+- 办公室就是棋盘。
+- 房间就是控制入口。
+- AI 角色是顾问和叙事压力，不是规则所有者。
+- 数值结果由确定性系统决定。
+- 数据定义应具备足够复用性，以便支持剧本、本地化和未来桌面分发。
