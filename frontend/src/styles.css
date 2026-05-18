@@ -594,9 +594,23 @@ h2 {
   line-height: 1.35;
 }
 
+.prepared-action button {
+  grid-column: 3;
+  justify-self: end;
+  min-height: 28px;
+  border: 1px solid #b9c6d7;
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: #fff;
+  color: #4c5e76;
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .prepared-action code {
   grid-column: 3;
-  grid-row: 1 / 3;
+  grid-row: 2;
   justify-self: end;
   max-width: 190px;
   border-radius: 6px;
@@ -858,6 +872,7 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .prepared-action button,
   .prepared-action p,
   .prepared-action code {
     grid-column: auto;

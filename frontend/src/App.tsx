@@ -161,6 +161,11 @@ export default function App() {
     setPreparedAction(action);
   }
 
+  function clearPreparedAction() {
+    setCommand('');
+    setPreparedAction(null);
+  }
+
   async function handleAdvice() {
     setRightTab('advice');
     if (!suggestions) {
@@ -385,6 +390,9 @@ export default function App() {
             <article className="prepared-action" aria-label="已准备行动">
               <span>已准备行动</span>
               <strong>{preparedAction.title}</strong>
+              <button type="button" aria-label="取消已准备行动" onClick={clearPreparedAction}>
+                取消
+              </button>
               <p>{preparedAction.description}</p>
               <code>{preparedAction.command}</code>
             </article>

@@ -175,6 +175,11 @@ describe('Startup Sim frontend shell', () => {
     expect(preparedAction).toHaveTextContent('产品打磨');
     expect(preparedAction).toHaveTextContent('现金消耗中等，产品体验提升。');
     expect(preparedAction).toHaveTextContent('花10万研发产品');
+
+    await userEvent.click(screen.getByRole('button', { name: '取消已准备行动' }));
+
+    expect(screen.queryByLabelText('已准备行动')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('本回合指令')).toHaveValue('');
   });
 
   test('submits a turn and refreshes post-turn board competitor and insight feedback', async () => {
