@@ -158,6 +158,40 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
+    public void MultiActionTurnAggregatesAllParsedActions()
+    {
+        var engine = new DeterministicTurnEngine();
+        var initial = new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = 1,
+                Cash = 1_000_000m,
+                ProductScore = 20,
+                Users = 0,
+                MonthlyRecurringRevenue = 0m,
+                FounderEquityPercent = 100m,
+                Valuation = 2_640_000m
+            }
+        };
+
+        var result = engine.Execute(
+            initial,
+            new TurnCommand { RawText = "融资300万出让8%，花20万研发产品，花10万做营销推广" });
+
+        Assert.Equal(2, result.State.Metrics.Month);
+        Assert.Equal(3_700_000m, result.State.Metrics.Cash);
+        Assert.Equal(36, result.State.Metrics.ProductScore);
+        Assert.Equal(100, result.State.Metrics.Users);
+        Assert.Equal(50_000m, result.State.Metrics.MonthlyRecurringRevenue);
+        Assert.Equal(92m, result.State.Metrics.FounderEquityPercent);
+        Assert.Equal(37_500_000m, result.State.Metrics.Valuation);
+        Assert.Contains("产品 +16", result.ChangedMetrics);
+        Assert.Contains("用户 +100", result.ChangedMetrics);
+        Assert.Contains("融资 +300万", result.ChangedMetrics);
+    }
+
+    [Fact]
     public void ExecuteDoesNotMutateInputState()
     {
         var engine = new DeterministicTurnEngine();

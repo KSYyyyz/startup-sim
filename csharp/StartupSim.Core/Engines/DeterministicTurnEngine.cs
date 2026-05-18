@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using StartupSim.Core.Contracts;
 using StartupSim.Core.Parsing;
 
@@ -17,151 +16,124 @@ namespace StartupSim.Core.Engines
             var next = currentState.Clone();
             next.Metrics.Month += 1;
 
-            var plan = ActionParser.ParseMulti(command?.RawText ?? string.Empty);
-            var productAction = plan.Actions.FirstOrDefault(action => action.Type == ActionType.Product);
-            if (productAction != null)
-            {
-                var budget = productAction.Budget > 0m ? productAction.Budget : 100_000m;
-                var productGain = Math.Max(1, (int)(budget / 12_500m));
-                next.Metrics.Cash -= budget;
-                next.Metrics.ProductScore += productGain;
-                return new TurnResult
-                {
-                    State = next,
-                    ReplayBasis =
-                    {
-                        "研发投入提升了产品分，但现金消耗上升。"
-                    },
-                    ChangedMetrics =
-                    {
-                        $"现金 -{budget / 10_000m:0}万",
-                        $"产品 +{productGain}"
-                    },
-                    NextPressure = "产品有进展，但要验证能否转化为用户或收入。"
-                };
-            }
-
-            var marketingAction = plan.Actions.FirstOrDefault(action => action.Type == ActionType.Marketing);
-            if (marketingAction != null)
-            {
-                var budget = marketingAction.Budget > 0m ? marketingAction.Budget : 100_000m;
-                var userGain = Math.Max(1, (int)(budget / 1_000m));
-                var mrrGain = userGain * 500m;
-                next.Metrics.Cash -= budget;
-                next.Metrics.Users += userGain;
-                next.Metrics.MonthlyRecurringRevenue += mrrGain;
-                return new TurnResult
-                {
-                    State = next,
-                    ReplayBasis =
-                    {
-                        "营销投入带来了新用户和收入增长，但需要继续观察留存。"
-                    },
-                    ChangedMetrics =
-                    {
-                        $"现金 -{budget / 10_000m:0}万",
-                        $"用户 +{userGain}",
-                        $"MRR +{mrrGain / 10_000m:0}万"
-                    },
-                    NextPressure = "增长开始出现，但要确认获客是否能持续转化。"
-                };
-            }
-
-            var teamAction = plan.Actions.FirstOrDefault(action => action.Type == ActionType.Team);
-            if (teamAction != null)
-            {
-                var budget = teamAction.Budget > 0m ? teamAction.Budget : 100_000m;
-                var employees = Math.Max(1, (int)(budget / 50_000m));
-                var burnIncrease = employees * 10_000m;
-                next.Metrics.Cash -= budget;
-                next.Metrics.EmployeeCount += employees;
-                next.Metrics.MonthlyBurn += burnIncrease;
-                next.Metrics.TeamMorale = Math.Min(100, next.Metrics.TeamMorale + 5);
-                return new TurnResult
-                {
-                    State = next,
-                    ReplayBasis =
-                    {
-                        "招聘扩充了团队产能，但固定支出也随之上升。"
-                    },
-                    ChangedMetrics =
-                    {
-                        $"现金 -{budget / 10_000m:0}万",
-                        $"团队 +{employees}人",
-                        $"固定支出 +{burnIncrease / 10_000m:0}万"
-                    },
-                    NextPressure = "团队能力增强了，但要确保新增固定支出能转化成产品或增长。"
-                };
-            }
-
-            var strategyAction = plan.Actions.FirstOrDefault(action => action.Type == ActionType.Strategy);
-            if (strategyAction != null)
-            {
-                var budget = strategyAction.Budget > 0m ? strategyAction.Budget : 100_000m;
-                var reputationGain = Math.Max(1, (int)(budget / 33_333m));
-                next.Metrics.Cash -= budget;
-                next.Metrics.Reputation = Math.Min(100, next.Metrics.Reputation + reputationGain);
-                next.Metrics.Valuation += budget;
-                return new TurnResult
-                {
-                    State = next,
-                    ReplayBasis =
-                    {
-                        "战略试点提升了外部想象空间，但短期收入仍需要经营动作验证。"
-                    },
-                    ChangedMetrics =
-                    {
-                        $"现金 -{budget / 10_000m:0}万",
-                        $"声誉 +{reputationGain}",
-                        $"估值 +{budget / 10_000m:0}万"
-                    },
-                    NextPressure = "战略故事变强了，下一步要用产品、收入或合作结果证明它。"
-                };
-            }
-
-            var fundraisingAction = plan.Actions.FirstOrDefault(
-                action => action.Type == ActionType.Fundraising);
-            if (fundraisingAction != null)
-            {
-                next.Metrics.Cash += fundraisingAction.FundraiseAmount;
-                next.Metrics.FounderEquityPercent = Math.Max(
-                    0m,
-                    next.Metrics.FounderEquityPercent - fundraisingAction.EquityOffered);
-                if (fundraisingAction.PostMoneyValuation > 0m)
-                {
-                    next.Metrics.Valuation = fundraisingAction.PostMoneyValuation;
-                }
-
-                return new TurnResult
-                {
-                    State = next,
-                    ReplayBasis =
-                    {
-                        "融资增加了现金储备，但创始人股权被稀释。"
-                    },
-                    ChangedMetrics =
-                    {
-                        $"融资 +{fundraisingAction.FundraiseAmount / 10_000m:0}万",
-                        $"创始人股权 -{fundraisingAction.EquityOffered:0}%",
-                        $"估值 {next.Metrics.Valuation / 10_000m:0}万"
-                    },
-                    NextPressure = "现金更充足了，但需要把融资换成可验证的业务进展。"
-                };
-            }
-
-            return new TurnResult
+            var result = new TurnResult
             {
                 State = next,
-                ReplayBasis =
-                {
-                    "本回合保持观察，尚未形成强变化。"
-                },
-                ChangedMetrics =
-                {
-                    "现金 稳定"
-                },
                 NextPressure = "下月需要选择一个更明确的经营动作。"
             };
+
+            var plan = ActionParser.ParseMulti(command?.RawText ?? string.Empty);
+            foreach (var action in plan.Actions)
+            {
+                ApplyAction(next, result, action);
+            }
+
+            if (result.ChangedMetrics.Count == 0)
+            {
+                result.ReplayBasis.Add("本回合保持观察，尚未形成强变化。");
+                result.ChangedMetrics.Add("现金 稳定");
+            }
+
+            return result;
+        }
+
+        private static void ApplyAction(GameState state, TurnResult result, PlayerAction action)
+        {
+            switch (action.Type)
+            {
+                case ActionType.Product:
+                    ApplyProductAction(state, result, action);
+                    break;
+                case ActionType.Marketing:
+                    ApplyMarketingAction(state, result, action);
+                    break;
+                case ActionType.Team:
+                    ApplyTeamAction(state, result, action);
+                    break;
+                case ActionType.Strategy:
+                    ApplyStrategyAction(state, result, action);
+                    break;
+                case ActionType.Fundraising:
+                    ApplyFundraisingAction(state, result, action);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action.Type, null);
+            }
+        }
+
+        private static void ApplyProductAction(GameState state, TurnResult result, PlayerAction action)
+        {
+            var budget = action.Budget > 0m ? action.Budget : 100_000m;
+            var productGain = Math.Max(1, (int)(budget / 12_500m));
+            state.Metrics.Cash -= budget;
+            state.Metrics.ProductScore += productGain;
+            result.ReplayBasis.Add("研发投入提升了产品分，但现金消耗上升。");
+            result.ChangedMetrics.Add($"现金 -{budget / 10_000m:0}万");
+            result.ChangedMetrics.Add($"产品 +{productGain}");
+            result.NextPressure = "产品有进展，但要验证能否转化为用户或收入。";
+        }
+
+        private static void ApplyMarketingAction(GameState state, TurnResult result, PlayerAction action)
+        {
+            var budget = action.Budget > 0m ? action.Budget : 100_000m;
+            var userGain = Math.Max(1, (int)(budget / 1_000m));
+            var mrrGain = userGain * 500m;
+            state.Metrics.Cash -= budget;
+            state.Metrics.Users += userGain;
+            state.Metrics.MonthlyRecurringRevenue += mrrGain;
+            result.ReplayBasis.Add("营销投入带来了新用户和收入增长，但需要继续观察留存。");
+            result.ChangedMetrics.Add($"现金 -{budget / 10_000m:0}万");
+            result.ChangedMetrics.Add($"用户 +{userGain}");
+            result.ChangedMetrics.Add($"MRR +{mrrGain / 10_000m:0}万");
+            result.NextPressure = "增长开始出现，但要确认获客是否能持续转化。";
+        }
+
+        private static void ApplyTeamAction(GameState state, TurnResult result, PlayerAction action)
+        {
+            var budget = action.Budget > 0m ? action.Budget : 100_000m;
+            var employees = Math.Max(1, (int)(budget / 50_000m));
+            var burnIncrease = employees * 10_000m;
+            state.Metrics.Cash -= budget;
+            state.Metrics.EmployeeCount += employees;
+            state.Metrics.MonthlyBurn += burnIncrease;
+            state.Metrics.TeamMorale = Math.Min(100, state.Metrics.TeamMorale + 5);
+            result.ReplayBasis.Add("招聘扩充了团队产能，但固定支出也随之上升。");
+            result.ChangedMetrics.Add($"现金 -{budget / 10_000m:0}万");
+            result.ChangedMetrics.Add($"团队 +{employees}人");
+            result.ChangedMetrics.Add($"固定支出 +{burnIncrease / 10_000m:0}万");
+            result.NextPressure = "团队能力增强了，但要确保新增固定支出能转化成产品或增长。";
+        }
+
+        private static void ApplyStrategyAction(GameState state, TurnResult result, PlayerAction action)
+        {
+            var budget = action.Budget > 0m ? action.Budget : 100_000m;
+            var reputationGain = Math.Max(1, (int)(budget / 33_333m));
+            state.Metrics.Cash -= budget;
+            state.Metrics.Reputation = Math.Min(100, state.Metrics.Reputation + reputationGain);
+            state.Metrics.Valuation += budget;
+            result.ReplayBasis.Add("战略试点提升了外部想象空间，但短期收入仍需要经营动作验证。");
+            result.ChangedMetrics.Add($"现金 -{budget / 10_000m:0}万");
+            result.ChangedMetrics.Add($"声誉 +{reputationGain}");
+            result.ChangedMetrics.Add($"估值 +{budget / 10_000m:0}万");
+            result.NextPressure = "战略故事变强了，下一步要用产品、收入或合作结果证明它。";
+        }
+
+        private static void ApplyFundraisingAction(GameState state, TurnResult result, PlayerAction action)
+        {
+            state.Metrics.Cash += action.FundraiseAmount;
+            state.Metrics.FounderEquityPercent = Math.Max(
+                0m,
+                state.Metrics.FounderEquityPercent - action.EquityOffered);
+            if (action.PostMoneyValuation > 0m)
+            {
+                state.Metrics.Valuation = action.PostMoneyValuation;
+            }
+
+            result.ReplayBasis.Add("融资增加了现金储备，但创始人股权被稀释。");
+            result.ChangedMetrics.Add($"融资 +{action.FundraiseAmount / 10_000m:0}万");
+            result.ChangedMetrics.Add($"创始人股权 -{action.EquityOffered:0}%");
+            result.ChangedMetrics.Add($"估值 {state.Metrics.Valuation / 10_000m:0}万");
+            result.NextPressure = "现金更充足了，但需要把融资换成可验证的业务进展。";
         }
     }
 }
