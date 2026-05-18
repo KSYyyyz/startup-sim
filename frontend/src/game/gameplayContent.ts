@@ -100,6 +100,35 @@ export type OfficeEventBubble = {
   action: 'board' | 'competitor' | 'none';
 };
 
+export type MonthlyReportHighlight = {
+  label: string;
+  value: string;
+  tone: string;
+};
+
+export type MonthlyReportInput = {
+  month: number;
+  highlights: MonthlyReportHighlight[];
+  reasons?: string[];
+  nextPressure: string;
+  cashChange: number;
+  productChange: number;
+  usersChange: number;
+};
+
+export type MonthlyReport = {
+  title: string;
+  headline: string;
+  highlightCards: MonthlyReportHighlight[];
+  reviewLines: string[];
+  nextPressure: string;
+  recoveryAction: {
+    label: string;
+    command: string;
+    description: string;
+  };
+};
+
 export const gameContentManifest = {
   version: 'alpha-0.2',
   sources: ['docs/reference_game_analysis.md', 'docs/frontend_alpha_0_2_desktop_game_layer.md']
@@ -430,4 +459,50 @@ export function buildOfficeEventBubbles(input: OfficeEventInput): OfficeEventBub
       action: 'none'
     }
   ];
+}
+
+export function buildMonthlyReport(input: MonthlyReportInput): MonthlyReport {
+  const reviewLines =
+    input.reasons && input.reasons.length
+      ? input.reasons.slice(0, 3)
+      : ['本回合已结算，董事会、竞品态势和经营洞察已更新。'];
+
+  let headline = '公司继续向前推进';
+  let recoveryAction = {
+    label: '下月行动',
+    command: '花10万研发产品',
+    description: '保持小步试错，用一个明确行动继续推进核心矛盾。'
+  };
+
+  if (input.cashChange < 0 && input.productChange > 0) {
+    headline = '产品有进展，但现金在承压';
+    recoveryAction = {
+      label: '下月补救',
+      command: '花1万研发产品保持最低运转',
+      description: '先压住现金消耗，再继续验证产品改进是否能转成增长。'
+    };
+  } else if (input.usersChange > 0) {
+    headline = '增长开始出现，但要验证质量';
+    recoveryAction = {
+      label: '下月追击',
+      command: '花10万做营销推广',
+      description: '把新增用户转成可复用增长经验，避免只买到短期流量。'
+    };
+  } else if (input.cashChange < 0) {
+    headline = '现金消耗上升，需要收紧节奏';
+    recoveryAction = {
+      label: '下月止血',
+      command: '花1万研发产品保持最低运转',
+      description: '优先延长现金流可支撑时间，再寻找更确定的增长机会。'
+    };
+  }
+
+  return {
+    title: `第${input.month}月执行结果`,
+    headline,
+    highlightCards: input.highlights,
+    reviewLines,
+    nextPressure: input.nextPressure,
+    recoveryAction
+  };
 }

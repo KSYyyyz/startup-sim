@@ -1017,6 +1017,13 @@ h2 {
   gap: 10px;
 }
 
+.report-headline {
+  margin: -4px 0 2px;
+  color: #1f3d56;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
 .report-block {
   border: 1px solid #d6dee8;
   border-radius: 6px;
@@ -1062,6 +1069,23 @@ h2 {
   padding-left: 18px;
   color: #4c5e76;
   line-height: 1.45;
+}
+
+.report-recovery {
+  background: #eef6f3;
+  border-color: #b9d7ca;
+}
+
+.report-recovery button {
+  margin-top: 8px;
+  width: 100%;
+  border: 1px solid #79a992;
+  border-radius: 6px;
+  padding: 8px;
+  background: #ffffff;
+  color: #1f6c4e;
+  font: inherit;
+  font-weight: 900;
 }
 
 .toast {

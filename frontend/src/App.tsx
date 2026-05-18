@@ -20,7 +20,9 @@ import { OfficeStage } from './game/OfficeStage';
 import {
   buildBoardPressureResponse,
   buildCompetitorPressureResponse,
+  buildMonthlyReport,
   buildOfficeEventBubbles,
+  commandTradeoffs,
   prepareAction,
   quickActionShortcuts,
   type PreparedAction,
@@ -209,6 +211,21 @@ export default function App() {
         : [],
     [state]
   );
+  const monthlyReport = useMemo(
+    () =>
+      state && lastTurn
+        ? buildMonthlyReport({
+            month: lastTurn.month,
+            highlights,
+            reasons: lastTurn.delta_reasons,
+            nextPressure: state.core_tension.next_focus,
+            cashChange: state.metrics.cash_change,
+            productChange: state.metrics.product_change,
+            usersChange: state.metrics.users_change
+          })
+        : null,
+    [highlights, lastTurn, state]
+  );
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -248,6 +265,24 @@ export default function App() {
     const response = buildCompetitorPressureResponse(item);
     setCommand(response.command);
     setPreparedAction(response);
+  }
+
+  function handleMonthlyRecovery() {
+    if (!monthlyReport) return;
+    const action = monthlyReport.recoveryAction;
+    setCommand(action.command);
+    setPreparedAction(
+      prepareAction(
+        {
+          title: action.label,
+          description: action.description,
+          impact: '现金流可支撑时间 + / 风险 -',
+          command: action.command,
+          tags: commandTradeoffs(action.command)
+        },
+        { id: `monthly-${lastTurn?.month ?? 'latest'}`, source: 'quick', sourceLabel: '月报行动' }
+      )
+    );
   }
 
   async function handleAdvice() {
@@ -337,14 +372,15 @@ export default function App() {
             <small>{state.core_tension.next_focus}</small>
           </article>
 
-          {lastTurn && (
+          {monthlyReport && (
             <article className="panel result-panel monthly-report">
               <h2>月度战报</h2>
-              <strong>第{lastTurn.month}月执行结果</strong>
+              <strong>{monthlyReport.title}</strong>
+              <p className="report-headline">{monthlyReport.headline}</p>
               <section className="report-block">
                 <h3>本月变化</h3>
                 <div className="result-grid">
-                  {highlights.map((item) => (
+                  {monthlyReport.highlightCards.map((item) => (
                     <span key={item.label}>
                       <b>{item.label}</b>
                       <em className={item.tone}>{item.value}</em>
@@ -354,19 +390,22 @@ export default function App() {
               </section>
               <section className="report-block">
                 <h3>原因复盘</h3>
-                {lastTurn.delta_reasons?.length ? (
-                  <ul className="result-list">
-                    {lastTurn.delta_reasons.slice(0, 3).map((reason) => (
-                      <li key={reason}>{reason}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>本回合已结算，董事会、竞品态势和经营洞察已更新。</p>
-                )}
+                <ul className="result-list">
+                  {monthlyReport.reviewLines.map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                </ul>
               </section>
               <section className="report-block">
                 <h3>下月压力</h3>
-                <p>{state.core_tension.next_focus}</p>
+                <p>{monthlyReport.nextPressure}</p>
+              </section>
+              <section className="report-block report-recovery">
+                <h3>{monthlyReport.recoveryAction.label}</h3>
+                <p>{monthlyReport.recoveryAction.description}</p>
+                <button type="button" onClick={handleMonthlyRecovery}>
+                  采用补救行动
+                </button>
               </section>
             </article>
           )}

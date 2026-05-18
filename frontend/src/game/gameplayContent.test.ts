@@ -3,6 +3,7 @@
 import {
   buildBoardPressureResponse,
   buildCompetitorPressureResponse,
+  buildMonthlyReport,
   buildOfficeEventBubbles,
   commandTradeoffs,
   gameContentManifest,
@@ -158,5 +159,38 @@ describe('gameplay content definitions', () => {
         action: 'none'
       }
     ]);
+  });
+
+  test('builds a game-like monthly report with recovery action', () => {
+    const report = buildMonthlyReport({
+      month: 3,
+      highlights: [
+        { label: '现金', value: '$-22万', tone: 'bad' },
+        { label: '产品', value: '+8 分', tone: 'good' },
+        { label: '用户', value: '+160', tone: 'good' }
+      ],
+      reasons: ['研发投入提升了产品分，但现金消耗上升。'],
+      nextPressure: '研发有效，但现金消耗上升。',
+      cashChange: -220000,
+      productChange: 8,
+      usersChange: 160
+    });
+
+    expect(report).toEqual({
+      title: '第3月执行结果',
+      headline: '产品有进展，但现金在承压',
+      highlightCards: [
+        { label: '现金', value: '$-22万', tone: 'bad' },
+        { label: '产品', value: '+8 分', tone: 'good' },
+        { label: '用户', value: '+160', tone: 'good' }
+      ],
+      reviewLines: ['研发投入提升了产品分，但现金消耗上升。'],
+      nextPressure: '研发有效，但现金消耗上升。',
+      recoveryAction: {
+        label: '下月补救',
+        command: '花1万研发产品保持最低运转',
+        description: '先压住现金消耗，再继续验证产品改进是否能转成增长。'
+      }
+    });
   });
 });
