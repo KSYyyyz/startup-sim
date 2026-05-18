@@ -15,10 +15,11 @@ def test_godot_migration_plan_exists_and_sets_godot_only_frontend_route():
     assert "C# Core" in content
     assert "Unity 路线停止作为新增开发目标" in content
     assert "Web 前端路线已放弃" in content
-    assert "top-down office scene" in content
-    assert "zone selection and area painting" in content
-    assert "facility placement" in content
-    assert "employee hiring" in content
+    assert "俯视角办公室场景" in content
+    assert "区域选择和区域框定" in content
+    assert "设施摆放" in content
+    assert "员工招聘" in content
+    assert "暂停、正常速度、二倍速、三倍速" in content
 
 
 def test_godot_project_scaffold_exists():

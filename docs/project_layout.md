@@ -1,7 +1,7 @@
 # Startup Sim 项目布局
 
-Status: active layout standard
-Date: 2026-05-18
+状态：当前布局标准
+日期：2026-05-18
 
 ## 1. 根目录
 

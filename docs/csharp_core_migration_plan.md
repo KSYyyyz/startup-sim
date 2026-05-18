@@ -1,7 +1,7 @@
 # C# Core 迁移方案
 
-Status: active core direction
-Date: 2026-05-18
+状态：当前规则核心方向
+日期：2026-05-18
 
 ## 1. 目标
 
@@ -69,14 +69,14 @@ dotnet build godot\StartupSimGodot\StartupSimGodot.csproj --configuration Debug
 - C# Core 可编译、可测试。
 - Godot 工程可引用 C# Core。
 - `GodotTurnBridge` 可以本地执行准备好的行动。
-- CI 已包含 C# Core tests 和 Godot C# build。
+- CI 已包含 C# Core 测试和 Godot C# 构建。
 
 未完成：
 
-- Python TurnEngine 全量规则 parity。
-- StateGuard 预算拦截 parity。
-- 融资估值和拒绝模型 parity。
-- 董事会、竞品、客户、洞察和复盘事实 parity。
+- Python TurnEngine 全量规则对齐。
+- StateGuard 预算拦截对齐。
+- 融资估值和拒绝模型对齐。
+- 董事会、竞品、客户、洞察和复盘事实对齐。
 - 12 个月完整离线 Godot 流程。
 
 ## 8. 不做
