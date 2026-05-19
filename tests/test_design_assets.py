@@ -1,12 +1,13 @@
 import json
 import struct
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "design-assets" / "manifest.json"
 GODOT_ART_ROOT = ROOT / "godot" / "StartupSimGodot" / "assets" / "art"
 GODOT_ART_PACK = GODOT_ART_ROOT / "godot-g1-art-pack-v0.1"
 GODOT_EMPLOYEE_MOTION_PACK = GODOT_ART_ROOT / "godot-g1-art-pack-v0.2-employee-motion"
+MAGENTA_CLEANUP_REPORT = GODOT_ART_ROOT / "magenta-residue-cleanup-report.json"
 
 
 def test_design_asset_manifest_uses_image_2_policy():
@@ -538,6 +539,29 @@ def test_godot_tycoon_action_icon_pack_is_import_ready():
         assert region["h"] == 224
         assert region["x"] == texture["grid_position"]["column"] * 224
         assert region["y"] == texture["grid_position"]["row"] * 224
+
+
+def test_godot_export_art_has_magenta_residue_cleanup_report():
+    assert MAGENTA_CLEANUP_REPORT.is_file()
+
+    report = json.loads(MAGENTA_CLEANUP_REPORT.read_text(encoding="utf-8"))
+    changed_files = report["files"]
+
+    assert report["scope"] == "exports/**/*.png under godot/StartupSimGodot/assets/art"
+    assert report["changed_files"] == len(changed_files)
+    assert report["changed_files"] >= 600
+    assert report["total_deleted"] > 0
+    assert report["total_neutralized"] > 0
+    assert report["remaining_magenta_like"] == 0
+
+    for item in changed_files:
+        report_path = PureWindowsPath(item["file"])
+        export_path = GODOT_ART_ROOT.joinpath(*report_path.parts)
+        assert export_path.is_file(), item["file"]
+        assert "exports" in report_path.parts
+        assert item["file"].endswith(".png")
+        assert item["magenta_like_before"] > 0
+        assert item["magenta_like_after"] == 0
 
 
 def read_png_size(path: Path) -> tuple[int, int]:

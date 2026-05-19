@@ -1,0 +1,4350 @@
+{
+  "scope": "exports/**/*.png under godot/StartupSimGodot/assets/art",
+  "method": "global magenta despill after chroma-key extraction: edge-connected magenta shadow pixels become transparent; remaining magenta-like pixels become neutral gray",
+  "changed_files": 620,
+  "total_deleted": 554251,
+  "total_neutralized": 220246,
+  "remaining_magenta_like": 0,
+  "files": [
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\employee-animation-minimal-v0.1.png",
+      "magenta_like_before": 26,
+      "deleted": 11,
+      "neutralized": 15,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\employee-sprite-atlas-v0.1.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\facility-upgrade-atlas-v0.1.png",
+      "magenta_like_before": 853,
+      "deleted": 268,
+      "neutralized": 585,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\feedback-fx-atlas-v0.1.png",
+      "magenta_like_before": 7814,
+      "deleted": 1063,
+      "neutralized": 6751,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\office-tile-atlas-v0.1.png",
+      "magenta_like_before": 39746,
+      "deleted": 15683,
+      "neutralized": 24063,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\recruitment-portrait-sheet-v0.1.png",
+      "magenta_like_before": 16551,
+      "deleted": 6337,
+      "neutralized": 10214,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\recruitment-portrait-sheet-v0.2-angle-balanced.png",
+      "magenta_like_before": 18709,
+      "deleted": 7948,
+      "neutralized": 10761,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\status-icon-atlas-v0.1.png",
+      "magenta_like_before": 37421,
+      "deleted": 24418,
+      "neutralized": 13003,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\ui-core-atlas-v0.1.png",
+      "magenta_like_before": 4223,
+      "deleted": 291,
+      "neutralized": 3932,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.1\\exports\\zone-state-overlay-atlas-v0.1.png",
+      "magenta_like_before": 67087,
+      "deleted": 36084,
+      "neutralized": 31003,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.2-employee-motion\\exports\\employee-motion-atlas-v0.2.png",
+      "magenta_like_before": 43,
+      "deleted": 41,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.3-facility-placements\\exports\\facility-placement-atlas-v0.3.png",
+      "magenta_like_before": 1033,
+      "deleted": 98,
+      "neutralized": 935,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.4-office-tiles\\exports\\office-tile-expansion-atlas-v0.4.png",
+      "magenta_like_before": 6,
+      "deleted": 6,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.5-employee-status-icons\\exports\\employee-status-icon-atlas-v0.5.png",
+      "magenta_like_before": 1065,
+      "deleted": 440,
+      "neutralized": 625,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.6-zone-state-overlays\\exports\\zone-state-overlay-atlas-v0.6.png",
+      "magenta_like_before": 17184,
+      "deleted": 14879,
+      "neutralized": 2305,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.7-feedback-portraits\\exports\\feedback-portrait-sheet-v0.7.png",
+      "magenta_like_before": 7086,
+      "deleted": 2476,
+      "neutralized": 4610,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\business-feedback-fx-atlas-v0.8.png",
+      "magenta_like_before": 264,
+      "deleted": 225,
+      "neutralized": 39,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\cash_pressure-burst_trail-v0.8.png",
+      "magenta_like_before": 3,
+      "deleted": 3,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\customer_feedback-burst_trail-v0.8.png",
+      "magenta_like_before": 4,
+      "deleted": 4,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\customer_feedback-pulse_ring-v0.8.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\customer_feedback-rising_float-v0.8.png",
+      "magenta_like_before": 4,
+      "deleted": 4,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\morale_shift-burst_trail-v0.8.png",
+      "magenta_like_before": 3,
+      "deleted": 3,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\morale_shift-rising_float-v0.8.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\product_progress-burst_trail-v0.8.png",
+      "magenta_like_before": 4,
+      "deleted": 4,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\product_progress-pulse_ring-v0.8.png",
+      "magenta_like_before": 12,
+      "deleted": 9,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\product_progress-rising_float-v0.8.png",
+      "magenta_like_before": 7,
+      "deleted": 6,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\sales_lead-burst_trail-v0.8.png",
+      "magenta_like_before": 37,
+      "deleted": 37,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\sales_lead-pulse_ring-v0.8.png",
+      "magenta_like_before": 35,
+      "deleted": 12,
+      "neutralized": 23,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\sales_lead-rising_float-v0.8.png",
+      "magenta_like_before": 24,
+      "deleted": 23,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\sales_lead-small_pop-v0.8.png",
+      "magenta_like_before": 14,
+      "deleted": 14,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\server_stability-burst_trail-v0.8.png",
+      "magenta_like_before": 8,
+      "deleted": 8,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\server_stability-pulse_ring-v0.8.png",
+      "magenta_like_before": 4,
+      "deleted": 3,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\server_stability-rising_float-v0.8.png",
+      "magenta_like_before": 3,
+      "deleted": 3,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\server_stability-small_pop-v0.8.png",
+      "magenta_like_before": 4,
+      "deleted": 4,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\training_growth-burst_trail-v0.8.png",
+      "magenta_like_before": 32,
+      "deleted": 29,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\training_growth-pulse_ring-v0.8.png",
+      "magenta_like_before": 15,
+      "deleted": 13,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\training_growth-rising_float-v0.8.png",
+      "magenta_like_before": 31,
+      "deleted": 27,
+      "neutralized": 4,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\training_growth-small_pop-v0.8.png",
+      "magenta_like_before": 15,
+      "deleted": 14,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\upgrade_complete-burst_trail-v0.8.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\upgrade_complete-rising_float-v0.8.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.8-business-feedback-fx\\exports\\icons\\upgrade_complete-small_pop-v0.8.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\facility-state-variant-atlas-v0.9.png",
+      "magenta_like_before": 221,
+      "deleted": 164,
+      "neutralized": 57,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\basic_desk-active.png",
+      "magenta_like_before": 9,
+      "deleted": 9,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\basic_desk-blocked.png",
+      "magenta_like_before": 24,
+      "deleted": 14,
+      "neutralized": 10,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\basic_desk-high_efficiency.png",
+      "magenta_like_before": 7,
+      "deleted": 6,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\basic_desk-inefficient.png",
+      "magenta_like_before": 8,
+      "deleted": 7,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\basic_desk-placement_invalid.png",
+      "magenta_like_before": 11,
+      "deleted": 11,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\basic_desk-placement_valid.png",
+      "magenta_like_before": 13,
+      "deleted": 13,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\basic_desk-upgrading.png",
+      "magenta_like_before": 4,
+      "deleted": 2,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-active.png",
+      "magenta_like_before": 9,
+      "deleted": 8,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-blocked.png",
+      "magenta_like_before": 17,
+      "deleted": 14,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-high_efficiency.png",
+      "magenta_like_before": 45,
+      "deleted": 11,
+      "neutralized": 34,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-idle.png",
+      "magenta_like_before": 2,
+      "deleted": 1,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-inefficient.png",
+      "magenta_like_before": 5,
+      "deleted": 4,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-placement_invalid.png",
+      "magenta_like_before": 6,
+      "deleted": 6,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-placement_valid.png",
+      "magenta_like_before": 13,
+      "deleted": 13,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\product_whiteboard-upgrading.png",
+      "magenta_like_before": 1,
+      "deleted": 0,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\starter_server_rack-blocked.png",
+      "magenta_like_before": 23,
+      "deleted": 22,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\starter_server_rack-high_efficiency.png",
+      "magenta_like_before": 2,
+      "deleted": 1,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\starter_server_rack-inefficient.png",
+      "magenta_like_before": 3,
+      "deleted": 3,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\starter_server_rack-placement_invalid.png",
+      "magenta_like_before": 13,
+      "deleted": 13,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\starter_server_rack-placement_valid.png",
+      "magenta_like_before": 5,
+      "deleted": 5,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v0.9-facility-state-variants\\exports\\icons\\starter_server_rack-upgrading.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\employee-activity-state-atlas-v1.0.png",
+      "magenta_like_before": 38,
+      "deleted": 28,
+      "neutralized": 10,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\office_generalist_variant-emotional_pressure.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\office_generalist_variant-idle_walk.png",
+      "magenta_like_before": 2,
+      "deleted": 2,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\office_generalist_variant-rest_break.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\office_generalist_variant-sick_leave.png",
+      "magenta_like_before": 17,
+      "deleted": 11,
+      "neutralized": 6,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\office_generalist_variant-training.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\office_generalist_variant-working_focus.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\ops_engineer_variant-sick_leave.png",
+      "magenta_like_before": 2,
+      "deleted": 1,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\ops_engineer_variant-training.png",
+      "magenta_like_before": 2,
+      "deleted": 2,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\product_engineer_variant-emotional_pressure.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\product_engineer_variant-idle_walk.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\product_engineer_variant-sick_leave.png",
+      "magenta_like_before": 3,
+      "deleted": 0,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\sales_specialist_variant-emotional_pressure.png",
+      "magenta_like_before": 2,
+      "deleted": 2,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\sales_specialist_variant-idle_walk.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\sales_specialist_variant-training.png",
+      "magenta_like_before": 2,
+      "deleted": 2,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.0-employee-activity-states\\exports\\icons\\sales_specialist_variant-working_focus.png",
+      "magenta_like_before": 1,
+      "deleted": 1,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-capacity_warning_marker.png",
+      "magenta_like_before": 108,
+      "deleted": 107,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-department_boundary_corner_marker.png",
+      "magenta_like_before": 262,
+      "deleted": 262,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-placement_invalid_marker.png",
+      "magenta_like_before": 172,
+      "deleted": 172,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-placement_valid_marker.png",
+      "magenta_like_before": 7120,
+      "deleted": 5025,
+      "neutralized": 2095,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-traffic_arrow_marker.png",
+      "magenta_like_before": 350,
+      "deleted": 350,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-upgrade_progress_ring.png",
+      "magenta_like_before": 615,
+      "deleted": 615,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-zone_end_marker.png",
+      "magenta_like_before": 78,
+      "deleted": 78,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\build_zone_markers-zone_start_marker.png",
+      "magenta_like_before": 250,
+      "deleted": 250,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-cable_run_strip.png",
+      "magenta_like_before": 316,
+      "deleted": 235,
+      "neutralized": 81,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-carpet_zone_patch.png",
+      "magenta_like_before": 135,
+      "deleted": 135,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-hover_highlight_marker.png",
+      "magenta_like_before": 602,
+      "deleted": 602,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-large_facility_shadow.png",
+      "magenta_like_before": 26,
+      "deleted": 26,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-office_floor_tile_patch.png",
+      "magenta_like_before": 123,
+      "deleted": 123,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-selected_cell_marker.png",
+      "magenta_like_before": 39,
+      "deleted": 39,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-soft_workstation_shadow.png",
+      "magenta_like_before": 9,
+      "deleted": 9,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\floor_light_overlays-window_light_strip.png",
+      "magenta_like_before": 4776,
+      "deleted": 4696,
+      "neutralized": 80,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-blocked_floor_edge_trim.png",
+      "magenta_like_before": 95,
+      "deleted": 95,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-buildable_floor_edge_trim.png",
+      "magenta_like_before": 68,
+      "deleted": 68,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-entrance_door_segment.png",
+      "magenta_like_before": 1154,
+      "deleted": 53,
+      "neutralized": 1101,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-exterior_threshold_strip.png",
+      "magenta_like_before": 68,
+      "deleted": 66,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-glass_divider_segment.png",
+      "magenta_like_before": 9556,
+      "deleted": 2389,
+      "neutralized": 7167,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-square_column_pillar.png",
+      "magenta_like_before": 63,
+      "deleted": 63,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-wall_corner_l_piece.png",
+      "magenta_like_before": 62,
+      "deleted": 62,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\office_shell_boundary-window_wall_segment.png",
+      "magenta_like_before": 260,
+      "deleted": 122,
+      "neutralized": 138,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-cable_hub_router_box.png",
+      "magenta_like_before": 211,
+      "deleted": 211,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-coffee_machine.png",
+      "magenta_like_before": 102,
+      "deleted": 102,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-desk_accessory_cluster.png",
+      "magenta_like_before": 681,
+      "deleted": 515,
+      "neutralized": 166,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-potted_plant.png",
+      "magenta_like_before": 109,
+      "deleted": 109,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-printer_copier.png",
+      "magenta_like_before": 105,
+      "deleted": 105,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-sticky_note_board.png",
+      "magenta_like_before": 197,
+      "deleted": 135,
+      "neutralized": 62,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-trash_bin.png",
+      "magenta_like_before": 78,
+      "deleted": 78,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\props\\small_office_props-water_cooler.png",
+      "magenta_like_before": 52,
+      "deleted": 46,
+      "neutralized": 6,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1-pseudo3d-office-foundation\\exports\\pseudo3d-office-foundation-atlas-v1.1.png",
+      "magenta_like_before": 27842,
+      "deleted": 16943,
+      "neutralized": 10899,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\pseudo3d-office-structure-atlas-v1.1b.png",
+      "magenta_like_before": 19365,
+      "deleted": 8430,
+      "neutralized": 10935,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-cable_floor_channel_corner.png",
+      "magenta_like_before": 271,
+      "deleted": 268,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-cable_floor_channel_straight.png",
+      "magenta_like_before": 210,
+      "deleted": 210,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-column_base_plate.png",
+      "magenta_like_before": 128,
+      "deleted": 128,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-floor_scuff_wear_patch.png",
+      "magenta_like_before": 150,
+      "deleted": 150,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-room_edge_highlight_strip.png",
+      "magenta_like_before": 638,
+      "deleted": 638,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-small_baseboard_strip.png",
+      "magenta_like_before": 30,
+      "deleted": 30,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-wall_shadow_strip.png",
+      "magenta_like_before": 118,
+      "deleted": 118,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\architectural_detail_overlays-window_light_diamond_overlay.png",
+      "magenta_like_before": 4204,
+      "deleted": 2063,
+      "neutralized": 2141,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-alternate_diamond_floor_tile.png",
+      "magenta_like_before": 155,
+      "deleted": 155,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-blocked_boundary_diamond_tile.png",
+      "magenta_like_before": 162,
+      "deleted": 162,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-buildable_boundary_diamond_tile.png",
+      "magenta_like_before": 258,
+      "deleted": 258,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-corner_floor_transition_tile.png",
+      "magenta_like_before": 147,
+      "deleted": 147,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-corridor_diamond_tile.png",
+      "magenta_like_before": 118,
+      "deleted": 118,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-dark_floor_trim_tile.png",
+      "magenta_like_before": 179,
+      "deleted": 179,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-light_floor_trim_tile.png",
+      "magenta_like_before": 136,
+      "deleted": 136,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\diamond_floor_modules-neutral_diamond_floor_tile.png",
+      "magenta_like_before": 143,
+      "deleted": 143,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-double_glass_entrance_door.png",
+      "magenta_like_before": 732,
+      "deleted": 104,
+      "neutralized": 628,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-glass_divider_corner.png",
+      "magenta_like_before": 4707,
+      "deleted": 1028,
+      "neutralized": 3679,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-glass_divider_straight.png",
+      "magenta_like_before": 4505,
+      "deleted": 1175,
+      "neutralized": 3330,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-low_partition_corner.png",
+      "magenta_like_before": 110,
+      "deleted": 110,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-low_partition_segment.png",
+      "magenta_like_before": 152,
+      "deleted": 152,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-single_office_door_closed.png",
+      "magenta_like_before": 245,
+      "deleted": 98,
+      "neutralized": 147,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-window_wall_segment_long.png",
+      "magenta_like_before": 875,
+      "deleted": 148,
+      "neutralized": 727,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\door_window_glass_connectors-window_wall_segment_short.png",
+      "magenta_like_before": 396,
+      "deleted": 116,
+      "neutralized": 280,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-east_wall_segment.png",
+      "magenta_like_before": 55,
+      "deleted": 55,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-inner_corner_ne.png",
+      "magenta_like_before": 94,
+      "deleted": 94,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-inner_corner_nw.png",
+      "magenta_like_before": 61,
+      "deleted": 61,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-north_wall_segment.png",
+      "magenta_like_before": 92,
+      "deleted": 92,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-outer_corner_se.png",
+      "magenta_like_before": 56,
+      "deleted": 56,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-outer_corner_sw.png",
+      "magenta_like_before": 50,
+      "deleted": 50,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-south_wall_front_segment.png",
+      "magenta_like_before": 142,
+      "deleted": 142,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.1b-pseudo3d-office-structure\\exports\\tiles\\wall_corner_modules-west_wall_segment.png",
+      "magenta_like_before": 37,
+      "deleted": 37,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-admin_zone_carpet_center.png",
+      "magenta_like_before": 197,
+      "deleted": 197,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-market_zone_carpet_center.png",
+      "magenta_like_before": 103,
+      "deleted": 103,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-meeting_zone_carpet_center.png",
+      "magenta_like_before": 69,
+      "deleted": 69,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-product_zone_carpet_center.png",
+      "magenta_like_before": 64,
+      "deleted": 64,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-recruiting_zone_carpet_center.png",
+      "magenta_like_before": 10954,
+      "deleted": 7462,
+      "neutralized": 3492,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-rest_zone_carpet_center.png",
+      "magenta_like_before": 46,
+      "deleted": 46,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-sales_zone_carpet_center.png",
+      "magenta_like_before": 81,
+      "deleted": 81,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_centers-server_zone_carpet_center.png",
+      "magenta_like_before": 44,
+      "deleted": 44,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-admin_carpet_corner.png",
+      "magenta_like_before": 182,
+      "deleted": 182,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-market_carpet_corner.png",
+      "magenta_like_before": 95,
+      "deleted": 95,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-meeting_carpet_edge.png",
+      "magenta_like_before": 50,
+      "deleted": 50,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-product_carpet_edge.png",
+      "magenta_like_before": 33,
+      "deleted": 33,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-recruiting_carpet_corner.png",
+      "magenta_like_before": 6357,
+      "deleted": 5616,
+      "neutralized": 741,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-rest_carpet_corner.png",
+      "magenta_like_before": 43,
+      "deleted": 43,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-sales_carpet_edge.png",
+      "magenta_like_before": 62,
+      "deleted": 62,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\department_carpet_edges_corners-server_carpet_edge.png",
+      "magenta_like_before": 26,
+      "deleted": 26,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-blocked_diamond.png",
+      "magenta_like_before": 3537,
+      "deleted": 2403,
+      "neutralized": 1134,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-hover_diamond.png",
+      "magenta_like_before": 9866,
+      "deleted": 6039,
+      "neutralized": 3827,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-move_relocate_marker.png",
+      "magenta_like_before": 6368,
+      "deleted": 4962,
+      "neutralized": 1406,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-placement_invalid_diamond.png",
+      "magenta_like_before": 4044,
+      "deleted": 3669,
+      "neutralized": 375,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-placement_valid_diamond.png",
+      "magenta_like_before": 4042,
+      "deleted": 3672,
+      "neutralized": 370,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-selected_diamond.png",
+      "magenta_like_before": 9063,
+      "deleted": 5360,
+      "neutralized": 3703,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-sell_remove_marker.png",
+      "magenta_like_before": 3466,
+      "deleted": 3283,
+      "neutralized": 183,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\projected_build_markers-upgrade_target_ring.png",
+      "magenta_like_before": 497,
+      "deleted": 497,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-capacity_healthy_overlay.png",
+      "magenta_like_before": 9834,
+      "deleted": 5488,
+      "neutralized": 4346,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-capacity_tight_warning_overlay.png",
+      "magenta_like_before": 665,
+      "deleted": 586,
+      "neutralized": 79,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-high_efficiency_sparkle_tile.png",
+      "magenta_like_before": 7196,
+      "deleted": 4889,
+      "neutralized": 2307,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-low_efficiency_dim_tile.png",
+      "magenta_like_before": 6369,
+      "deleted": 4850,
+      "neutralized": 1519,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-morale_boost_pulse.png",
+      "magenta_like_before": 1789,
+      "deleted": 1789,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-production_active_pulse.png",
+      "magenta_like_before": 1603,
+      "deleted": 1603,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-risk_incident_pulse.png",
+      "magenta_like_before": 446,
+      "deleted": 446,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\overlays\\zone_status_overlays-under_construction_hatch.png",
+      "magenta_like_before": 2405,
+      "deleted": 1648,
+      "neutralized": 757,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.2-zone-carpets-build-markers\\exports\\zone-carpet-build-marker-atlas-v1.2.png",
+      "magenta_like_before": 89598,
+      "deleted": 65359,
+      "neutralized": 24239,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_active.png",
+      "magenta_like_before": 147,
+      "deleted": 145,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_blocked.png",
+      "magenta_like_before": 137,
+      "deleted": 135,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_high_efficiency.png",
+      "magenta_like_before": 199,
+      "deleted": 199,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_idle.png",
+      "magenta_like_before": 130,
+      "deleted": 129,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_low_efficiency.png",
+      "magenta_like_before": 109,
+      "deleted": 109,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_placement_preview_invalid.png",
+      "magenta_like_before": 400,
+      "deleted": 258,
+      "neutralized": 142,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_placement_preview_valid.png",
+      "magenta_like_before": 136,
+      "deleted": 136,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_upgrading.png",
+      "magenta_like_before": 156,
+      "deleted": 151,
+      "neutralized": 5,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_active.png",
+      "magenta_like_before": 377,
+      "deleted": 376,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_blocked.png",
+      "magenta_like_before": 534,
+      "deleted": 534,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_high_efficiency.png",
+      "magenta_like_before": 397,
+      "deleted": 397,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_idle.png",
+      "magenta_like_before": 374,
+      "deleted": 374,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_low_efficiency.png",
+      "magenta_like_before": 403,
+      "deleted": 395,
+      "neutralized": 8,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_placement_preview_invalid.png",
+      "magenta_like_before": 189,
+      "deleted": 169,
+      "neutralized": 20,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_placement_preview_valid.png",
+      "magenta_like_before": 137,
+      "deleted": 137,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\product_workstation_group_2x1-product_workstation_group_2x1_upgrading.png",
+      "magenta_like_before": 170,
+      "deleted": 166,
+      "neutralized": 4,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_active.png",
+      "magenta_like_before": 162,
+      "deleted": 162,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_blocked.png",
+      "magenta_like_before": 269,
+      "deleted": 241,
+      "neutralized": 28,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_high_efficiency.png",
+      "magenta_like_before": 200,
+      "deleted": 200,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_idle.png",
+      "magenta_like_before": 310,
+      "deleted": 310,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_low_efficiency.png",
+      "magenta_like_before": 402,
+      "deleted": 371,
+      "neutralized": 31,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_placement_preview_invalid.png",
+      "magenta_like_before": 319,
+      "deleted": 299,
+      "neutralized": 20,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_placement_preview_valid.png",
+      "magenta_like_before": 114,
+      "deleted": 114,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_upgrading.png",
+      "magenta_like_before": 227,
+      "deleted": 227,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_active.png",
+      "magenta_like_before": 271,
+      "deleted": 271,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_blocked.png",
+      "magenta_like_before": 244,
+      "deleted": 213,
+      "neutralized": 31,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_high_efficiency.png",
+      "magenta_like_before": 302,
+      "deleted": 280,
+      "neutralized": 22,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_idle.png",
+      "magenta_like_before": 288,
+      "deleted": 288,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_low_efficiency.png",
+      "magenta_like_before": 323,
+      "deleted": 320,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_placement_preview_invalid.png",
+      "magenta_like_before": 407,
+      "deleted": 399,
+      "neutralized": 8,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_placement_preview_valid.png",
+      "magenta_like_before": 104,
+      "deleted": 104,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\facilities\\server_rack_group_1x2-server_rack_group_1x2_upgrading.png",
+      "magenta_like_before": 215,
+      "deleted": 214,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.3-large-facility-sprites\\exports\\large-facility-sprite-atlas-v1.3.png",
+      "magenta_like_before": 8182,
+      "deleted": 7851,
+      "neutralized": 331,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\employee-pseudo3d-motion-atlas-v1.4.png",
+      "magenta_like_before": 5731,
+      "deleted": 5657,
+      "neutralized": 74,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-resting.png",
+      "magenta_like_before": 265,
+      "deleted": 263,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-stressed.png",
+      "magenta_like_before": 143,
+      "deleted": 132,
+      "neutralized": 11,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-training.png",
+      "magenta_like_before": 110,
+      "deleted": 110,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_down_a.png",
+      "magenta_like_before": 102,
+      "deleted": 102,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_down_b.png",
+      "magenta_like_before": 93,
+      "deleted": 93,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_left_a.png",
+      "magenta_like_before": 96,
+      "deleted": 96,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_left_b.png",
+      "magenta_like_before": 96,
+      "deleted": 96,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_right_a.png",
+      "magenta_like_before": 77,
+      "deleted": 77,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_right_b.png",
+      "magenta_like_before": 106,
+      "deleted": 106,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_up_a.png",
+      "magenta_like_before": 107,
+      "deleted": 107,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-walk_up_b.png",
+      "magenta_like_before": 99,
+      "deleted": 99,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\admin_hr_generalist-working.png",
+      "magenta_like_before": 298,
+      "deleted": 287,
+      "neutralized": 11,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-resting.png",
+      "magenta_like_before": 149,
+      "deleted": 149,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-stressed.png",
+      "magenta_like_before": 111,
+      "deleted": 110,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-training.png",
+      "magenta_like_before": 136,
+      "deleted": 136,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_down_a.png",
+      "magenta_like_before": 97,
+      "deleted": 97,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_down_b.png",
+      "magenta_like_before": 126,
+      "deleted": 126,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_left_a.png",
+      "magenta_like_before": 92,
+      "deleted": 92,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_left_b.png",
+      "magenta_like_before": 91,
+      "deleted": 91,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_right_a.png",
+      "magenta_like_before": 79,
+      "deleted": 79,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_right_b.png",
+      "magenta_like_before": 103,
+      "deleted": 103,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_up_a.png",
+      "magenta_like_before": 110,
+      "deleted": 110,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-walk_up_b.png",
+      "magenta_like_before": 134,
+      "deleted": 123,
+      "neutralized": 11,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\ops_engineer-working.png",
+      "magenta_like_before": 127,
+      "deleted": 127,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-resting.png",
+      "magenta_like_before": 90,
+      "deleted": 89,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-stressed.png",
+      "magenta_like_before": 139,
+      "deleted": 138,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-training.png",
+      "magenta_like_before": 95,
+      "deleted": 95,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_down_a.png",
+      "magenta_like_before": 114,
+      "deleted": 114,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_down_b.png",
+      "magenta_like_before": 114,
+      "deleted": 114,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_left_a.png",
+      "magenta_like_before": 117,
+      "deleted": 117,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_left_b.png",
+      "magenta_like_before": 89,
+      "deleted": 89,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_right_a.png",
+      "magenta_like_before": 120,
+      "deleted": 120,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_right_b.png",
+      "magenta_like_before": 117,
+      "deleted": 117,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_up_a.png",
+      "magenta_like_before": 127,
+      "deleted": 107,
+      "neutralized": 20,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-walk_up_b.png",
+      "magenta_like_before": 127,
+      "deleted": 114,
+      "neutralized": 13,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\product_engineer-working.png",
+      "magenta_like_before": 189,
+      "deleted": 189,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-resting.png",
+      "magenta_like_before": 126,
+      "deleted": 126,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-stressed.png",
+      "magenta_like_before": 182,
+      "deleted": 182,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-training.png",
+      "magenta_like_before": 131,
+      "deleted": 131,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_down_a.png",
+      "magenta_like_before": 102,
+      "deleted": 102,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_down_b.png",
+      "magenta_like_before": 89,
+      "deleted": 89,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_left_a.png",
+      "magenta_like_before": 69,
+      "deleted": 69,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_left_b.png",
+      "magenta_like_before": 93,
+      "deleted": 93,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_right_a.png",
+      "magenta_like_before": 102,
+      "deleted": 101,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_right_b.png",
+      "magenta_like_before": 99,
+      "deleted": 99,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_up_a.png",
+      "magenta_like_before": 97,
+      "deleted": 97,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-walk_up_b.png",
+      "magenta_like_before": 93,
+      "deleted": 93,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.4-employee-pseudo3d-motion\\exports\\sprites\\sales_representative-working.png",
+      "magenta_like_before": 163,
+      "deleted": 161,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\hud-kpi-ui-chrome-atlas-v1.5.png",
+      "magenta_like_before": 5103,
+      "deleted": 5099,
+      "neutralized": 4,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-cash_stack.png",
+      "magenta_like_before": 76,
+      "deleted": 76,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-cash_support_clock.png",
+      "magenta_like_before": 48,
+      "deleted": 48,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-mrr_revenue_chart.png",
+      "magenta_like_before": 121,
+      "deleted": 121,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-product_box.png",
+      "magenta_like_before": 179,
+      "deleted": 179,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-reputation_star.png",
+      "magenta_like_before": 77,
+      "deleted": 77,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-stability_shield.png",
+      "magenta_like_before": 50,
+      "deleted": 50,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-team_pressure_gauge.png",
+      "magenta_like_before": 45,
+      "deleted": 42,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\kpi_icons-users_customer_group.png",
+      "magenta_like_before": 108,
+      "deleted": 108,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-badge_chip.png",
+      "magenta_like_before": 51,
+      "deleted": 51,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-button_disabled.png",
+      "magenta_like_before": 149,
+      "deleted": 149,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-button_hover.png",
+      "magenta_like_before": 148,
+      "deleted": 148,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-button_normal.png",
+      "magenta_like_before": 152,
+      "deleted": 152,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-button_pressed.png",
+      "magenta_like_before": 158,
+      "deleted": 158,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-divider_line.png",
+      "magenta_like_before": 5,
+      "deleted": 5,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-panel_corner.png",
+      "magenta_like_before": 163,
+      "deleted": 163,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\operations_chrome-selected_tab.png",
+      "magenta_like_before": 268,
+      "deleted": 268,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-achievement_medal.png",
+      "magenta_like_before": 57,
+      "deleted": 57,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-failure_badge.png",
+      "magenta_like_before": 69,
+      "deleted": 69,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-opportunity_card_accent.png",
+      "magenta_like_before": 1885,
+      "deleted": 1885,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-progress_bar_frame.png",
+      "magenta_like_before": 183,
+      "deleted": 183,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-right_panel_header.png",
+      "magenta_like_before": 68,
+      "deleted": 68,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-risk_card_accent.png",
+      "magenta_like_before": 63,
+      "deleted": 62,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-success_card_accent.png",
+      "magenta_like_before": 12,
+      "deleted": 12,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\report_chrome-warning_card_accent.png",
+      "magenta_like_before": 33,
+      "deleted": 33,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-churn_leak.png",
+      "magenta_like_before": 95,
+      "deleted": 95,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-goal_completed.png",
+      "magenta_like_before": 86,
+      "deleted": 86,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-opportunity.png",
+      "magenta_like_before": 416,
+      "deleted": 416,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-risk_spike.png",
+      "magenta_like_before": 57,
+      "deleted": 57,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-trend_down.png",
+      "magenta_like_before": 122,
+      "deleted": 122,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-trend_flat.png",
+      "magenta_like_before": 32,
+      "deleted": 32,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-trend_up.png",
+      "magenta_like_before": 79,
+      "deleted": 79,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome\\exports\\ui\\trend_status_icons-warning.png",
+      "magenta_like_before": 48,
+      "deleted": 48,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-cash_crunch.png",
+      "magenta_like_before": 646,
+      "deleted": 646,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-competitor_alert.png",
+      "magenta_like_before": 6098,
+      "deleted": 4365,
+      "neutralized": 1733,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-customer_complaint.png",
+      "magenta_like_before": 703,
+      "deleted": 703,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-customer_praise.png",
+      "magenta_like_before": 668,
+      "deleted": 668,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-hiring_candidate.png",
+      "magenta_like_before": 693,
+      "deleted": 692,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-investor_interest.png",
+      "magenta_like_before": 578,
+      "deleted": 578,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-product_breakthrough.png",
+      "magenta_like_before": 819,
+      "deleted": 804,
+      "neutralized": 15,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\business_events-server_outage.png",
+      "magenta_like_before": 782,
+      "deleted": 782,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-conflict_sparks_bubble.png",
+      "magenta_like_before": 541,
+      "deleted": 541,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-fatigue_sleep_bubble.png",
+      "magenta_like_before": 750,
+      "deleted": 750,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-focus_work_bubble.png",
+      "magenta_like_before": 598,
+      "deleted": 598,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-idea_bulb_bubble.png",
+      "magenta_like_before": 648,
+      "deleted": 648,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-morale_smile_bubble.png",
+      "magenta_like_before": 545,
+      "deleted": 545,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-sick_health_bubble.png",
+      "magenta_like_before": 5143,
+      "deleted": 3869,
+      "neutralized": 1274,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-stress_pressure_bubble.png",
+      "magenta_like_before": 709,
+      "deleted": 709,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\employee_bubbles-training_book_bubble.png",
+      "magenta_like_before": 569,
+      "deleted": 569,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-churn_loss_pulse.png",
+      "magenta_like_before": 469,
+      "deleted": 469,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-money_gain_burst.png",
+      "magenta_like_before": 2248,
+      "deleted": 2247,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-money_loss_burst.png",
+      "magenta_like_before": 855,
+      "deleted": 854,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-mrr_growth_pulse.png",
+      "magenta_like_before": 3006,
+      "deleted": 3006,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-product_progress_pulse.png",
+      "magenta_like_before": 6278,
+      "deleted": 4731,
+      "neutralized": 1547,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-reputation_gain_sparkle.png",
+      "magenta_like_before": 2576,
+      "deleted": 2576,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-risk_warning_pulse.png",
+      "magenta_like_before": 1246,
+      "deleted": 1246,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\floating_metric_fx-user_growth_pulse.png",
+      "magenta_like_before": 3194,
+      "deleted": 3194,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-achievement_unlock.png",
+      "magenta_like_before": 1827,
+      "deleted": 1827,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-board_meeting_marker.png",
+      "magenta_like_before": 1773,
+      "deleted": 1773,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-crisis_review.png",
+      "magenta_like_before": 4040,
+      "deleted": 2923,
+      "neutralized": 1117,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-failed_strategy.png",
+      "magenta_like_before": 3650,
+      "deleted": 3596,
+      "neutralized": 54,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-monthly_report_stamp.png",
+      "magenta_like_before": 1744,
+      "deleted": 1744,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-next_month_pressure.png",
+      "magenta_like_before": 2572,
+      "deleted": 2388,
+      "neutralized": 184,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-objective_milestone.png",
+      "magenta_like_before": 3920,
+      "deleted": 3737,
+      "neutralized": 183,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\bubbles\\review_markers-opportunity_review.png",
+      "magenta_like_before": 2294,
+      "deleted": 2264,
+      "neutralized": 30,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.6-business-event-feedback-bubbles\\exports\\business-event-feedback-bubble-atlas-v1.6.png",
+      "magenta_like_before": 62182,
+      "deleted": 56042,
+      "neutralized": 6140,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_broken_blocked.png",
+      "magenta_like_before": 263,
+      "deleted": 263,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_level_1_active.png",
+      "magenta_like_before": 174,
+      "deleted": 174,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_level_1_idle.png",
+      "magenta_like_before": 104,
+      "deleted": 104,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_level_2_active.png",
+      "magenta_like_before": 304,
+      "deleted": 304,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_level_2_idle.png",
+      "magenta_like_before": 101,
+      "deleted": 101,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_level_3_active.png",
+      "magenta_like_before": 75,
+      "deleted": 75,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_level_3_idle.png",
+      "magenta_like_before": 81,
+      "deleted": 81,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\meeting_room-meeting_room_upgrading.png",
+      "magenta_like_before": 406,
+      "deleted": 167,
+      "neutralized": 239,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_broken_blocked.png",
+      "magenta_like_before": 509,
+      "deleted": 509,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_level_1_active.png",
+      "magenta_like_before": 167,
+      "deleted": 167,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_level_1_idle.png",
+      "magenta_like_before": 132,
+      "deleted": 132,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_level_2_active.png",
+      "magenta_like_before": 188,
+      "deleted": 188,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_level_2_idle.png",
+      "magenta_like_before": 161,
+      "deleted": 161,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_level_3_active.png",
+      "magenta_like_before": 237,
+      "deleted": 237,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_level_3_idle.png",
+      "magenta_like_before": 317,
+      "deleted": 317,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\product_workstation-product_workstation_upgrading.png",
+      "magenta_like_before": 456,
+      "deleted": 410,
+      "neutralized": 46,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_broken_blocked.png",
+      "magenta_like_before": 136,
+      "deleted": 135,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_level_1_active.png",
+      "magenta_like_before": 133,
+      "deleted": 133,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_level_1_idle.png",
+      "magenta_like_before": 90,
+      "deleted": 90,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_level_2_active.png",
+      "magenta_like_before": 131,
+      "deleted": 130,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_level_2_idle.png",
+      "magenta_like_before": 126,
+      "deleted": 126,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_level_3_active.png",
+      "magenta_like_before": 113,
+      "deleted": 113,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_level_3_idle.png",
+      "magenta_like_before": 160,
+      "deleted": 160,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\recruiting_hr_area-recruiting_hr_area_upgrading.png",
+      "magenta_like_before": 491,
+      "deleted": 488,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_broken_blocked.png",
+      "magenta_like_before": 218,
+      "deleted": 218,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_level_1_active.png",
+      "magenta_like_before": 86,
+      "deleted": 86,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_level_1_idle.png",
+      "magenta_like_before": 49,
+      "deleted": 49,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_level_2_active.png",
+      "magenta_like_before": 116,
+      "deleted": 110,
+      "neutralized": 6,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_level_2_idle.png",
+      "magenta_like_before": 76,
+      "deleted": 76,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_level_3_active.png",
+      "magenta_like_before": 100,
+      "deleted": 100,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_level_3_idle.png",
+      "magenta_like_before": 79,
+      "deleted": 79,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\rest_recovery_area-rest_recovery_area_upgrading.png",
+      "magenta_like_before": 181,
+      "deleted": 181,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_broken_blocked.png",
+      "magenta_like_before": 359,
+      "deleted": 358,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_level_1_active.png",
+      "magenta_like_before": 69,
+      "deleted": 69,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_level_1_idle.png",
+      "magenta_like_before": 62,
+      "deleted": 62,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_level_2_active.png",
+      "magenta_like_before": 71,
+      "deleted": 71,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_level_2_idle.png",
+      "magenta_like_before": 223,
+      "deleted": 166,
+      "neutralized": 57,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_level_3_active.png",
+      "magenta_like_before": 82,
+      "deleted": 80,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_level_3_idle.png",
+      "magenta_like_before": 206,
+      "deleted": 89,
+      "neutralized": 117,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\sales_phone_pod-sales_phone_pod_upgrading.png",
+      "magenta_like_before": 511,
+      "deleted": 410,
+      "neutralized": 101,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_broken_blocked.png",
+      "magenta_like_before": 423,
+      "deleted": 423,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_level_1_active.png",
+      "magenta_like_before": 96,
+      "deleted": 96,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_level_1_idle.png",
+      "magenta_like_before": 19,
+      "deleted": 19,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_level_2_active.png",
+      "magenta_like_before": 147,
+      "deleted": 147,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_level_2_idle.png",
+      "magenta_like_before": 45,
+      "deleted": 45,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_level_3_active.png",
+      "magenta_like_before": 267,
+      "deleted": 266,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_level_3_idle.png",
+      "magenta_like_before": 72,
+      "deleted": 72,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facilities\\server_infrastructure-server_infrastructure_upgrading.png",
+      "magenta_like_before": 115,
+      "deleted": 115,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.7-facility-upgrade-tiers\\exports\\facility-upgrade-tier-atlas-v1.7.png",
+      "magenta_like_before": 8727,
+      "deleted": 8152,
+      "neutralized": 575,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\build-upgrade-feedback-fx-atlas-v1.8.png",
+      "magenta_like_before": 24545,
+      "deleted": 24510,
+      "neutralized": 35,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-blueprint_base.png",
+      "magenta_like_before": 963,
+      "deleted": 963,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-completion_pop.png",
+      "magenta_like_before": 1670,
+      "deleted": 1670,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-cones_tools.png",
+      "magenta_like_before": 738,
+      "deleted": 735,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-half_built_structure.png",
+      "magenta_like_before": 632,
+      "deleted": 632,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-material_crate.png",
+      "magenta_like_before": 147,
+      "deleted": 147,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-nearly_done_sparkle.png",
+      "magenta_like_before": 1158,
+      "deleted": 1158,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-tool_swing.png",
+      "magenta_like_before": 1040,
+      "deleted": 1037,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\construction_frames-work_light_glow.png",
+      "magenta_like_before": 1073,
+      "deleted": 1050,
+      "neutralized": 23,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-cash_gain_burst.png",
+      "magenta_like_before": 629,
+      "deleted": 629,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-cash_loss_burst.png",
+      "magenta_like_before": 793,
+      "deleted": 790,
+      "neutralized": 3,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-move_ghost_marker.png",
+      "magenta_like_before": 1315,
+      "deleted": 1315,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-objective_complete_burst.png",
+      "magenta_like_before": 1367,
+      "deleted": 1367,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-placement_invalid_pulse.png",
+      "magenta_like_before": 97,
+      "deleted": 97,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-placement_valid_pulse.png",
+      "magenta_like_before": 394,
+      "deleted": 394,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-risk_burst.png",
+      "magenta_like_before": 515,
+      "deleted": 513,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\placement_monthly-selected_cell_pulse.png",
+      "magenta_like_before": 871,
+      "deleted": 871,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-big_smoke.png",
+      "magenta_like_before": 505,
+      "deleted": 505,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-cooling_fan.png",
+      "magenta_like_before": 201,
+      "deleted": 201,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-patch_panel.png",
+      "magenta_like_before": 338,
+      "deleted": 338,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-repaired_glow.png",
+      "magenta_like_before": 519,
+      "deleted": 519,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-small_smoke.png",
+      "magenta_like_before": 225,
+      "deleted": 225,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-sparks.png",
+      "magenta_like_before": 75,
+      "deleted": 75,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-warning_crackle.png",
+      "magenta_like_before": 185,
+      "deleted": 184,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\repair_malfunction-wrench_repair.png",
+      "magenta_like_before": 799,
+      "deleted": 799,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-gear_spin.png",
+      "magenta_like_before": 1471,
+      "deleted": 1471,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-polish_sparkle.png",
+      "magenta_like_before": 579,
+      "deleted": 579,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-upgrade_complete.png",
+      "magenta_like_before": 946,
+      "deleted": 946,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-upgrade_ring_bright.png",
+      "magenta_like_before": 799,
+      "deleted": 799,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-upgrade_ring_burst.png",
+      "magenta_like_before": 1113,
+      "deleted": 1113,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-upgrade_ring_medium.png",
+      "magenta_like_before": 2275,
+      "deleted": 2275,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-upgrade_ring_small.png",
+      "magenta_like_before": 803,
+      "deleted": 803,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx\\exports\\fx\\upgrade_effects-upward_arrows.png",
+      "magenta_like_before": 310,
+      "deleted": 310,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\management-panel-detail-ui-atlas-v1.9.png",
+      "magenta_like_before": 8093,
+      "deleted": 6704,
+      "neutralized": 1389,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-fast_forward.png",
+      "magenta_like_before": 185,
+      "deleted": 185,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-hire.png",
+      "magenta_like_before": 334,
+      "deleted": 334,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-move.png",
+      "magenta_like_before": 122,
+      "deleted": 122,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-pause.png",
+      "magenta_like_before": 67,
+      "deleted": 67,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-repair.png",
+      "magenta_like_before": 1867,
+      "deleted": 1769,
+      "neutralized": 98,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-sell.png",
+      "magenta_like_before": 37,
+      "deleted": 37,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-train.png",
+      "magenta_like_before": 303,
+      "deleted": 303,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\action_icons-upgrade.png",
+      "magenta_like_before": 150,
+      "deleted": 150,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-compact_tooltip_box.png",
+      "magenta_like_before": 15,
+      "deleted": 15,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-dark_inspector_header.png",
+      "magenta_like_before": 62,
+      "deleted": 62,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-employee_detail_panel.png",
+      "magenta_like_before": 639,
+      "deleted": 385,
+      "neutralized": 254,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-facility_detail_panel.png",
+      "magenta_like_before": 31,
+      "deleted": 31,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-monthly_report_modal.png",
+      "magenta_like_before": 272,
+      "deleted": 272,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-objective_milestone_card.png",
+      "magenta_like_before": 277,
+      "deleted": 277,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-recruiting_candidate_card.png",
+      "magenta_like_before": 238,
+      "deleted": 238,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\detail_panels-upgrade_confirm_modal.png",
+      "magenta_like_before": 1032,
+      "deleted": 681,
+      "neutralized": 351,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-cash_runway_meter.png",
+      "magenta_like_before": 333,
+      "deleted": 131,
+      "neutralized": 202,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-efficiency_bar_frame.png",
+      "magenta_like_before": 157,
+      "deleted": 157,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-morale_meter.png",
+      "magenta_like_before": 117,
+      "deleted": 117,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-pressure_bar_frame.png",
+      "magenta_like_before": 930,
+      "deleted": 446,
+      "neutralized": 484,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-product_progress_bar_frame.png",
+      "magenta_like_before": 216,
+      "deleted": 216,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-recruitment_fit_meter.png",
+      "magenta_like_before": 287,
+      "deleted": 287,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-server_health_meter.png",
+      "magenta_like_before": 74,
+      "deleted": 74,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\resource_bars-stability_bar_frame.png",
+      "magenta_like_before": 100,
+      "deleted": 100,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-close_button.png",
+      "magenta_like_before": 44,
+      "deleted": 44,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-collapse_button.png",
+      "magenta_like_before": 10,
+      "deleted": 10,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-corner_bracket.png",
+      "magenta_like_before": 17,
+      "deleted": 17,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-expand_button.png",
+      "magenta_like_before": 6,
+      "deleted": 6,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-filter_funnel.png",
+      "magenta_like_before": 6,
+      "deleted": 6,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-notification_badge.png",
+      "magenta_like_before": 15,
+      "deleted": 15,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-pin_marker.png",
+      "magenta_like_before": 80,
+      "deleted": 80,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v1.9-management-panel-detail-ui\\exports\\ui\\small_controls-sort_arrows.png",
+      "magenta_like_before": 70,
+      "deleted": 70,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_connector_strip.png",
+      "magenta_like_before": 72,
+      "deleted": 72,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_divider.png",
+      "magenta_like_before": 123,
+      "deleted": 123,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_entrance_shell.png",
+      "magenta_like_before": 61,
+      "deleted": 61,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_floor_patch.png",
+      "magenta_like_before": 77,
+      "deleted": 77,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_special_corner.png",
+      "magenta_like_before": 103,
+      "deleted": 103,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_transition_tile.png",
+      "magenta_like_before": 90,
+      "deleted": 90,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_wall_corner.png",
+      "magenta_like_before": 95,
+      "deleted": 95,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\growth_open_office-growth_open_office_window_wall.png",
+      "magenta_like_before": 101,
+      "deleted": 101,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_connector_strip.png",
+      "magenta_like_before": 90,
+      "deleted": 90,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_divider.png",
+      "magenta_like_before": 169,
+      "deleted": 169,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_entrance_shell.png",
+      "magenta_like_before": 57,
+      "deleted": 50,
+      "neutralized": 7,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_floor_patch.png",
+      "magenta_like_before": 63,
+      "deleted": 63,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_special_corner.png",
+      "magenta_like_before": 72,
+      "deleted": 72,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_transition_tile.png",
+      "magenta_like_before": 106,
+      "deleted": 105,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_wall_corner.png",
+      "magenta_like_before": 997,
+      "deleted": 536,
+      "neutralized": 461,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\mature_glass_office-mature_glass_office_window_wall.png",
+      "magenta_like_before": 124,
+      "deleted": 124,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_connector_strip.png",
+      "magenta_like_before": 78,
+      "deleted": 78,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_divider.png",
+      "magenta_like_before": 43,
+      "deleted": 43,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_entrance_shell.png",
+      "magenta_like_before": 136,
+      "deleted": 136,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_floor_patch.png",
+      "magenta_like_before": 131,
+      "deleted": 131,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_special_corner.png",
+      "magenta_like_before": 71,
+      "deleted": 71,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_transition_tile.png",
+      "magenta_like_before": 124,
+      "deleted": 124,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_wall_corner.png",
+      "magenta_like_before": 61,
+      "deleted": 61,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\meeting_rest_front-meeting_rest_front_window_wall.png",
+      "magenta_like_before": 72,
+      "deleted": 72,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_connector_strip.png",
+      "magenta_like_before": 45,
+      "deleted": 45,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_divider.png",
+      "magenta_like_before": 60,
+      "deleted": 60,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_entrance_shell.png",
+      "magenta_like_before": 42,
+      "deleted": 42,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_floor_patch.png",
+      "magenta_like_before": 63,
+      "deleted": 63,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_special_corner.png",
+      "magenta_like_before": 63,
+      "deleted": 61,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_transition_tile.png",
+      "magenta_like_before": 97,
+      "deleted": 97,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_wall_corner.png",
+      "magenta_like_before": 55,
+      "deleted": 55,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\server_room-server_room_window_wall.png",
+      "magenta_like_before": 100,
+      "deleted": 100,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_connector_strip.png",
+      "magenta_like_before": 58,
+      "deleted": 58,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_divider.png",
+      "magenta_like_before": 33,
+      "deleted": 33,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_entrance_shell.png",
+      "magenta_like_before": 96,
+      "deleted": 96,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_floor_patch.png",
+      "magenta_like_before": 41,
+      "deleted": 41,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_special_corner.png",
+      "magenta_like_before": 59,
+      "deleted": 59,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_transition_tile.png",
+      "magenta_like_before": 67,
+      "deleted": 66,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_wall_corner.png",
+      "magenta_like_before": 54,
+      "deleted": 54,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\modules\\small_startup_office-small_startup_office_window_wall.png",
+      "magenta_like_before": 126,
+      "deleted": 126,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.0-office-expansion-themes\\exports\\office-expansion-theme-atlas-v2.0.png",
+      "magenta_like_before": 4175,
+      "deleted": 3703,
+      "neutralized": 472,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\employee-role-extension-atlas-v2.1.png",
+      "magenta_like_before": 8754,
+      "deleted": 8304,
+      "neutralized": 450,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_celebrating.png",
+      "magenta_like_before": 52,
+      "deleted": 52,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_idle_front.png",
+      "magenta_like_before": 90,
+      "deleted": 90,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_idle_right.png",
+      "magenta_like_before": 63,
+      "deleted": 63,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_presenting.png",
+      "magenta_like_before": 152,
+      "deleted": 152,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_stressed.png",
+      "magenta_like_before": 116,
+      "deleted": 116,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_talking_negotiating.png",
+      "magenta_like_before": 115,
+      "deleted": 115,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_thinking_decision.png",
+      "magenta_like_before": 59,
+      "deleted": 59,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\customer_success-customer_success_working.png",
+      "magenta_like_before": 78,
+      "deleted": 77,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_celebrating.png",
+      "magenta_like_before": 311,
+      "deleted": 298,
+      "neutralized": 13,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_idle_front.png",
+      "magenta_like_before": 84,
+      "deleted": 84,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_idle_right.png",
+      "magenta_like_before": 244,
+      "deleted": 244,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_presenting.png",
+      "magenta_like_before": 445,
+      "deleted": 437,
+      "neutralized": 8,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_stressed.png",
+      "magenta_like_before": 295,
+      "deleted": 279,
+      "neutralized": 16,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_talking_negotiating.png",
+      "magenta_like_before": 362,
+      "deleted": 362,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_thinking_decision.png",
+      "magenta_like_before": 402,
+      "deleted": 363,
+      "neutralized": 39,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\designer-designer_working.png",
+      "magenta_like_before": 894,
+      "deleted": 686,
+      "neutralized": 208,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_celebrating.png",
+      "magenta_like_before": 76,
+      "deleted": 76,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_idle_front.png",
+      "magenta_like_before": 72,
+      "deleted": 72,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_idle_right.png",
+      "magenta_like_before": 89,
+      "deleted": 89,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_presenting.png",
+      "magenta_like_before": 125,
+      "deleted": 125,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_stressed.png",
+      "magenta_like_before": 81,
+      "deleted": 81,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_talking_negotiating.png",
+      "magenta_like_before": 131,
+      "deleted": 131,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_thinking_decision.png",
+      "magenta_like_before": 73,
+      "deleted": 73,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\finance_legal_specialist-finance_legal_specialist_working.png",
+      "magenta_like_before": 88,
+      "deleted": 87,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_celebrating.png",
+      "magenta_like_before": 81,
+      "deleted": 79,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_idle_front.png",
+      "magenta_like_before": 55,
+      "deleted": 55,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_idle_right.png",
+      "magenta_like_before": 65,
+      "deleted": 65,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_presenting.png",
+      "magenta_like_before": 110,
+      "deleted": 110,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_stressed.png",
+      "magenta_like_before": 131,
+      "deleted": 131,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_talking_negotiating.png",
+      "magenta_like_before": 114,
+      "deleted": 114,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_thinking_decision.png",
+      "magenta_like_before": 59,
+      "deleted": 59,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\founder_ceo-founder_ceo_working.png",
+      "magenta_like_before": 92,
+      "deleted": 92,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_celebrating.png",
+      "magenta_like_before": 120,
+      "deleted": 120,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_idle_front.png",
+      "magenta_like_before": 96,
+      "deleted": 96,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_idle_right.png",
+      "magenta_like_before": 90,
+      "deleted": 90,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_presenting.png",
+      "magenta_like_before": 76,
+      "deleted": 76,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_stressed.png",
+      "magenta_like_before": 92,
+      "deleted": 92,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_talking_negotiating.png",
+      "magenta_like_before": 172,
+      "deleted": 172,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_thinking_decision.png",
+      "magenta_like_before": 77,
+      "deleted": 77,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\interview_candidate-interview_candidate_working.png",
+      "magenta_like_before": 111,
+      "deleted": 95,
+      "neutralized": 16,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_celebrating.png",
+      "magenta_like_before": 65,
+      "deleted": 65,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_idle_front.png",
+      "magenta_like_before": 114,
+      "deleted": 113,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_idle_right.png",
+      "magenta_like_before": 99,
+      "deleted": 99,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_presenting.png",
+      "magenta_like_before": 219,
+      "deleted": 218,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_stressed.png",
+      "magenta_like_before": 83,
+      "deleted": 83,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_talking_negotiating.png",
+      "magenta_like_before": 116,
+      "deleted": 116,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_thinking_decision.png",
+      "magenta_like_before": 80,
+      "deleted": 80,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\investor_advisor_npc-investor_advisor_npc_working.png",
+      "magenta_like_before": 90,
+      "deleted": 90,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_celebrating.png",
+      "magenta_like_before": 70,
+      "deleted": 70,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_idle_front.png",
+      "magenta_like_before": 63,
+      "deleted": 63,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_idle_right.png",
+      "magenta_like_before": 109,
+      "deleted": 109,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_presenting.png",
+      "magenta_like_before": 131,
+      "deleted": 131,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_stressed.png",
+      "magenta_like_before": 158,
+      "deleted": 145,
+      "neutralized": 13,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_talking_negotiating.png",
+      "magenta_like_before": 144,
+      "deleted": 144,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_thinking_decision.png",
+      "magenta_like_before": 74,
+      "deleted": 74,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\marketing_operator-marketing_operator_working.png",
+      "magenta_like_before": 84,
+      "deleted": 84,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_celebrating.png",
+      "magenta_like_before": 70,
+      "deleted": 70,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_idle_front.png",
+      "magenta_like_before": 94,
+      "deleted": 94,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_idle_right.png",
+      "magenta_like_before": 102,
+      "deleted": 102,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_presenting.png",
+      "magenta_like_before": 268,
+      "deleted": 217,
+      "neutralized": 51,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_stressed.png",
+      "magenta_like_before": 95,
+      "deleted": 94,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_talking_negotiating.png",
+      "magenta_like_before": 135,
+      "deleted": 135,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_thinking_decision.png",
+      "magenta_like_before": 68,
+      "deleted": 67,
+      "neutralized": 1,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.1-employee-role-extensions\\exports\\sprites\\product_manager-product_manager_working.png",
+      "magenta_like_before": 185,
+      "deleted": 107,
+      "neutralized": 78,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\bridge_funding_icon.png",
+      "magenta_like_before": 119,
+      "deleted": 119,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\cash_support_warning_icon.png",
+      "magenta_like_before": 104,
+      "deleted": 104,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\cost_cutting_icon.png",
+      "magenta_like_before": 217,
+      "deleted": 217,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\customer_growth_icon.png",
+      "magenta_like_before": 145,
+      "deleted": 145,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\employee_fatigue_icon.png",
+      "magenta_like_before": 129,
+      "deleted": 129,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\employee_morale_icon.png",
+      "magenta_like_before": 156,
+      "deleted": 156,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\facility_blocked_icon.png",
+      "magenta_like_before": 552,
+      "deleted": 550,
+      "neutralized": 2,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\facility_move_icon.png",
+      "magenta_like_before": 144,
+      "deleted": 144,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\facility_repair_icon.png",
+      "magenta_like_before": 208,
+      "deleted": 176,
+      "neutralized": 32,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\facility_sell_icon.png",
+      "magenta_like_before": 112,
+      "deleted": 112,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\facility_upgrade_icon.png",
+      "magenta_like_before": 142,
+      "deleted": 142,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\finance_funding_icon.png",
+      "magenta_like_before": 140,
+      "deleted": 140,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\monthly_report_icon.png",
+      "magenta_like_before": 197,
+      "deleted": 197,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\pause_usage_icon.png",
+      "magenta_like_before": 152,
+      "deleted": 152,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\product_progress_icon.png",
+      "magenta_like_before": 151,
+      "deleted": 151,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\product_room_icon.png",
+      "magenta_like_before": 282,
+      "deleted": 282,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\recruiting_icon.png",
+      "magenta_like_before": 164,
+      "deleted": 164,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\revenue_growth_icon.png",
+      "magenta_like_before": 142,
+      "deleted": 142,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\sales_room_icon.png",
+      "magenta_like_before": 202,
+      "deleted": 202,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\server_room_icon.png",
+      "magenta_like_before": 91,
+      "deleted": 91,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\server_stability_icon.png",
+      "magenta_like_before": 128,
+      "deleted": 128,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\stage_goal_icon.png",
+      "magenta_like_before": 246,
+      "deleted": 207,
+      "neutralized": 39,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\training_icon.png",
+      "magenta_like_before": 179,
+      "deleted": 179,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_224\\view_detail_icon.png",
+      "magenta_like_before": 130,
+      "deleted": 130,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\bridge_funding_icon.png",
+      "magenta_like_before": 30,
+      "deleted": 30,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\cash_support_warning_icon.png",
+      "magenta_like_before": 40,
+      "deleted": 40,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\cost_cutting_icon.png",
+      "magenta_like_before": 26,
+      "deleted": 26,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\customer_growth_icon.png",
+      "magenta_like_before": 21,
+      "deleted": 21,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\employee_fatigue_icon.png",
+      "magenta_like_before": 35,
+      "deleted": 35,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\employee_morale_icon.png",
+      "magenta_like_before": 40,
+      "deleted": 40,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\facility_blocked_icon.png",
+      "magenta_like_before": 49,
+      "deleted": 49,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\facility_move_icon.png",
+      "magenta_like_before": 34,
+      "deleted": 34,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\facility_repair_icon.png",
+      "magenta_like_before": 46,
+      "deleted": 46,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\facility_sell_icon.png",
+      "magenta_like_before": 13,
+      "deleted": 13,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\facility_upgrade_icon.png",
+      "magenta_like_before": 26,
+      "deleted": 26,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\finance_funding_icon.png",
+      "magenta_like_before": 26,
+      "deleted": 26,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\monthly_report_icon.png",
+      "magenta_like_before": 10,
+      "deleted": 10,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\pause_usage_icon.png",
+      "magenta_like_before": 23,
+      "deleted": 23,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\product_progress_icon.png",
+      "magenta_like_before": 39,
+      "deleted": 39,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\product_room_icon.png",
+      "magenta_like_before": 31,
+      "deleted": 31,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\recruiting_icon.png",
+      "magenta_like_before": 24,
+      "deleted": 24,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\revenue_growth_icon.png",
+      "magenta_like_before": 26,
+      "deleted": 26,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\sales_room_icon.png",
+      "magenta_like_before": 40,
+      "deleted": 40,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\server_room_icon.png",
+      "magenta_like_before": 15,
+      "deleted": 15,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\server_stability_icon.png",
+      "magenta_like_before": 16,
+      "deleted": 16,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\stage_goal_icon.png",
+      "magenta_like_before": 38,
+      "deleted": 38,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\training_icon.png",
+      "magenta_like_before": 27,
+      "deleted": 27,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_48\\view_detail_icon.png",
+      "magenta_like_before": 30,
+      "deleted": 30,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\bridge_funding_icon.png",
+      "magenta_like_before": 35,
+      "deleted": 35,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\cash_support_warning_icon.png",
+      "magenta_like_before": 38,
+      "deleted": 38,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\cost_cutting_icon.png",
+      "magenta_like_before": 36,
+      "deleted": 36,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\customer_growth_icon.png",
+      "magenta_like_before": 32,
+      "deleted": 32,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\employee_fatigue_icon.png",
+      "magenta_like_before": 36,
+      "deleted": 36,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\employee_morale_icon.png",
+      "magenta_like_before": 39,
+      "deleted": 39,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\facility_blocked_icon.png",
+      "magenta_like_before": 69,
+      "deleted": 69,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\facility_move_icon.png",
+      "magenta_like_before": 43,
+      "deleted": 43,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\facility_repair_icon.png",
+      "magenta_like_before": 54,
+      "deleted": 54,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\facility_sell_icon.png",
+      "magenta_like_before": 30,
+      "deleted": 30,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\facility_upgrade_icon.png",
+      "magenta_like_before": 27,
+      "deleted": 27,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\finance_funding_icon.png",
+      "magenta_like_before": 31,
+      "deleted": 31,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\monthly_report_icon.png",
+      "magenta_like_before": 20,
+      "deleted": 20,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\pause_usage_icon.png",
+      "magenta_like_before": 29,
+      "deleted": 29,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\product_progress_icon.png",
+      "magenta_like_before": 37,
+      "deleted": 37,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\product_room_icon.png",
+      "magenta_like_before": 28,
+      "deleted": 28,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\recruiting_icon.png",
+      "magenta_like_before": 33,
+      "deleted": 33,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\revenue_growth_icon.png",
+      "magenta_like_before": 28,
+      "deleted": 28,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\sales_room_icon.png",
+      "magenta_like_before": 60,
+      "deleted": 60,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\server_room_icon.png",
+      "magenta_like_before": 42,
+      "deleted": 42,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\server_stability_icon.png",
+      "magenta_like_before": 26,
+      "deleted": 26,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\stage_goal_icon.png",
+      "magenta_like_before": 39,
+      "deleted": 39,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\training_icon.png",
+      "magenta_like_before": 47,
+      "deleted": 47,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\icons_64\\view_detail_icon.png",
+      "magenta_like_before": 22,
+      "deleted": 22,
+      "neutralized": 0,
+      "magenta_like_after": 0
+    },
+    {
+      "file": "godot-g1-art-pack-v2.2-tycoon-action-icons\\exports\\tycoon-action-icon-atlas-v2.2.png",
+      "magenta_like_before": 4232,
+      "deleted": 4159,
+      "neutralized": 73,
+      "magenta_like_after": 0
+    }
+  ]
+}
