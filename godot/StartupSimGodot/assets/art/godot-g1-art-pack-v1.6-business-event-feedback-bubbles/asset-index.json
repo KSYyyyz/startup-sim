@@ -1,0 +1,1276 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.6-business-event-feedback-bubbles",
+  "version": "1.6",
+  "created_for": "Startup Sim Godot employee bubbles, business events, floating metric FX, and review markers",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "business-event-feedback-bubble-atlas-v1.6",
+      "category": "business-event-feedback-bubble",
+      "file": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+      "sliced_icons_dir": "exports/bubbles",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/business-event-feedback-bubble-atlas-v1.6-source.png",
+      "raw_source": "sources/business-event-feedback-bubble-atlas-v1.6-raw-generated.png",
+      "prompt": "prompts/business-event-feedback-bubble-atlas-v1.6-prompt.md",
+      "slice_guide": "slice-guides/business-event-feedback-bubble-atlas-v1.6-slice-guide.md",
+      "preview": "previews/business-event-feedback-bubble-atlas-v1.6-transparent-contact-sheet.png",
+      "validation": "validation-1.6.json",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 896
+      },
+      "row_labels": [
+        "employee_bubbles",
+        "business_events",
+        "floating_metric_fx",
+        "review_markers"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "employee_bubbles-idea_bulb_bubble",
+          "semantic_name": "idea_bulb_bubble",
+          "zh_name": "灵感气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-idea_bulb_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“灵感气泡”使用。",
+          "state_tags": [
+            "employee",
+            "idea"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "employee_bubbles-fatigue_sleep_bubble",
+          "semantic_name": "fatigue_sleep_bubble",
+          "zh_name": "疲劳睡眠气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-fatigue_sleep_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“疲劳睡眠气泡”使用。",
+          "state_tags": [
+            "employee",
+            "fatigue"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "employee_bubbles-stress_pressure_bubble",
+          "semantic_name": "stress_pressure_bubble",
+          "zh_name": "压力气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-stress_pressure_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“压力气泡”使用。",
+          "state_tags": [
+            "employee",
+            "stress"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "employee_bubbles-training_book_bubble",
+          "semantic_name": "training_book_bubble",
+          "zh_name": "训练学习气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-training_book_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“训练学习气泡”使用。",
+          "state_tags": [
+            "employee",
+            "training"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "employee_bubbles-morale_smile_bubble",
+          "semantic_name": "morale_smile_bubble",
+          "zh_name": "士气气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-morale_smile_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“士气气泡”使用。",
+          "state_tags": [
+            "employee",
+            "morale"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "employee_bubbles-conflict_sparks_bubble",
+          "semantic_name": "conflict_sparks_bubble",
+          "zh_name": "冲突气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-conflict_sparks_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“冲突气泡”使用。",
+          "state_tags": [
+            "employee",
+            "conflict"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "employee_bubbles-sick_health_bubble",
+          "semantic_name": "sick_health_bubble",
+          "zh_name": "健康异常气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-sick_health_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“健康异常气泡”使用。",
+          "state_tags": [
+            "employee",
+            "sick"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "employee_bubbles-focus_work_bubble",
+          "semantic_name": "focus_work_bubble",
+          "zh_name": "专注工作气泡",
+          "category": "employee_status_bubble",
+          "file": "exports/bubbles/employee_bubbles-focus_work_bubble.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“专注工作气泡”使用。",
+          "state_tags": [
+            "employee",
+            "focus"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-customer_complaint",
+          "semantic_name": "customer_complaint",
+          "zh_name": "客户投诉",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-customer_complaint.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“客户投诉”使用。",
+          "state_tags": [
+            "customer",
+            "negative"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-customer_praise",
+          "semantic_name": "customer_praise",
+          "zh_name": "客户好评",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-customer_praise.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“客户好评”使用。",
+          "state_tags": [
+            "customer",
+            "positive"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-competitor_alert",
+          "semantic_name": "competitor_alert",
+          "zh_name": "竞品预警",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-competitor_alert.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“竞品预警”使用。",
+          "state_tags": [
+            "competitor"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-cash_crunch",
+          "semantic_name": "cash_crunch",
+          "zh_name": "现金流紧张",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-cash_crunch.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“现金流紧张”使用。",
+          "state_tags": [
+            "cash",
+            "risk"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-product_breakthrough",
+          "semantic_name": "product_breakthrough",
+          "zh_name": "产品突破",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-product_breakthrough.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“产品突破”使用。",
+          "state_tags": [
+            "product",
+            "positive"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-investor_interest",
+          "semantic_name": "investor_interest",
+          "zh_name": "投资人兴趣",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-investor_interest.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“投资人兴趣”使用。",
+          "state_tags": [
+            "fundraising"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-server_outage",
+          "semantic_name": "server_outage",
+          "zh_name": "服务器故障",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-server_outage.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“服务器故障”使用。",
+          "state_tags": [
+            "server",
+            "risk"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "business_events-hiring_candidate",
+          "semantic_name": "hiring_candidate",
+          "zh_name": "招聘候选人",
+          "category": "business_event_icon",
+          "file": "exports/bubbles/business_events-hiring_candidate.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“招聘候选人”使用。",
+          "state_tags": [
+            "hiring"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-money_gain_burst",
+          "semantic_name": "money_gain_burst",
+          "zh_name": "现金增加浮层",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-money_gain_burst.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“现金增加浮层”使用。",
+          "state_tags": [
+            "cash",
+            "gain"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-money_loss_burst",
+          "semantic_name": "money_loss_burst",
+          "zh_name": "现金减少浮层",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-money_loss_burst.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“现金减少浮层”使用。",
+          "state_tags": [
+            "cash",
+            "loss"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-mrr_growth_pulse",
+          "semantic_name": "mrr_growth_pulse",
+          "zh_name": "MRR 增长脉冲",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-mrr_growth_pulse.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“MRR 增长脉冲”使用。",
+          "state_tags": [
+            "mrr",
+            "growth"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-user_growth_pulse",
+          "semantic_name": "user_growth_pulse",
+          "zh_name": "用户增长脉冲",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-user_growth_pulse.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“用户增长脉冲”使用。",
+          "state_tags": [
+            "users",
+            "growth"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-product_progress_pulse",
+          "semantic_name": "product_progress_pulse",
+          "zh_name": "产品进度脉冲",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-product_progress_pulse.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“产品进度脉冲”使用。",
+          "state_tags": [
+            "product",
+            "progress"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-churn_loss_pulse",
+          "semantic_name": "churn_loss_pulse",
+          "zh_name": "流失损失脉冲",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-churn_loss_pulse.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“流失损失脉冲”使用。",
+          "state_tags": [
+            "churn",
+            "loss"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-risk_warning_pulse",
+          "semantic_name": "risk_warning_pulse",
+          "zh_name": "风险警告脉冲",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-risk_warning_pulse.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“风险警告脉冲”使用。",
+          "state_tags": [
+            "risk",
+            "warning"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "floating_metric_fx-reputation_gain_sparkle",
+          "semantic_name": "reputation_gain_sparkle",
+          "zh_name": "声誉提升闪光",
+          "category": "floating_metric_fx",
+          "file": "exports/bubbles/floating_metric_fx-reputation_gain_sparkle.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“声誉提升闪光”使用。",
+          "state_tags": [
+            "reputation",
+            "gain"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-board_meeting_marker",
+          "semantic_name": "board_meeting_marker",
+          "zh_name": "董事会会议标记",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-board_meeting_marker.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“董事会会议标记”使用。",
+          "state_tags": [
+            "review",
+            "board"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-monthly_report_stamp",
+          "semantic_name": "monthly_report_stamp",
+          "zh_name": "月报标记",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-monthly_report_stamp.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“月报标记”使用。",
+          "state_tags": [
+            "review",
+            "monthly"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-objective_milestone",
+          "semantic_name": "objective_milestone",
+          "zh_name": "目标里程碑",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-objective_milestone.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“目标里程碑”使用。",
+          "state_tags": [
+            "review",
+            "objective"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-crisis_review",
+          "semantic_name": "crisis_review",
+          "zh_name": "危机复盘",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-crisis_review.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“危机复盘”使用。",
+          "state_tags": [
+            "review",
+            "crisis"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-opportunity_review",
+          "semantic_name": "opportunity_review",
+          "zh_name": "机会复盘",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-opportunity_review.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“机会复盘”使用。",
+          "state_tags": [
+            "review",
+            "opportunity"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-achievement_unlock",
+          "semantic_name": "achievement_unlock",
+          "zh_name": "成就解锁",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-achievement_unlock.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“成就解锁”使用。",
+          "state_tags": [
+            "review",
+            "achievement"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-failed_strategy",
+          "semantic_name": "failed_strategy",
+          "zh_name": "策略失败",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-failed_strategy.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“策略失败”使用。",
+          "state_tags": [
+            "review",
+            "failure"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "review_markers-next_month_pressure",
+          "semantic_name": "next_month_pressure",
+          "zh_name": "下月压力",
+          "category": "review_marker_icon",
+          "file": "exports/bubbles/review_markers-next_month_pressure.png",
+          "atlas": "exports/business-event-feedback-bubble-atlas-v1.6.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 中作为“下月压力”使用。",
+          "state_tags": [
+            "review",
+            "pressure"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

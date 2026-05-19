@@ -1,0 +1,497 @@
+{
+  "asset_id": "employee-pseudo3d-motion-atlas-v1.4",
+  "atlas_sha256": "c4b6150ba3dbd3b29b749819325b1715c5c8978cd1b211d28b5122bc1f8337cc",
+  "png_count": 49,
+  "checks": [
+    {
+      "file": "exports\\employee-pseudo3d-motion-atlas-v1.4.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-resting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-training.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_down_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_down_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_left_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_left_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_right_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_right_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_up_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-walk_up_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\admin_hr_generalist-working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-resting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-training.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_down_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_down_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_left_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_left_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_right_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_right_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_up_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-walk_up_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\ops_engineer-working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-resting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-training.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_down_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_down_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_left_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_left_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_right_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_right_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_up_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-walk_up_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_engineer-working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-resting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-training.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_down_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_down_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_left_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_left_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_right_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_right_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_up_a.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-walk_up_b.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\sales_representative-working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

@@ -19,6 +19,12 @@
 [ext_resource type="Script" uid="uid://b6h5g4wlme18d" path="res://scripts/BusinessIntentController.cs" id="17_muem4"]
 [ext_resource type="Script" uid="uid://ix5afjinatl2" path="res://scripts/CompanyProgressController.cs" id="18_dp3eg"]
 [ext_resource type="Script" uid="uid://dqtfgqyknfjgk" path="res://scripts/LocalSaveController.cs" id="19_0ld40"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.1b-pseudo3d-office-structure/exports/pseudo3d-office-structure-atlas-v1.1b.png" id="20"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.2-zone-carpets-build-markers/exports/zone-carpet-build-marker-atlas-v1.2.png" id="21"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.3-large-facility-sprites/exports/large-facility-sprite-atlas-v1.3.png" id="22"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.4-employee-pseudo3d-motion/exports/employee-pseudo3d-motion-atlas-v1.4.png" id="23"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.5-hud-kpi-ui-chrome/exports/hud-kpi-ui-chrome-atlas-v1.5.png" id="24"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.6-business-event-feedback-bubbles/exports/business-event-feedback-bubble-atlas-v1.6.png" id="25"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_feedback_portrait"]
 atlas = ExtResource("17")
@@ -44,6 +50,11 @@ ZoneOverlayAtlas = ExtResource("12")
 FacilityAtlas = ExtResource("13")
 EmployeeAtlas = ExtResource("14")
 StatusIconAtlas = ExtResource("15")
+Pseudo3DStructureAtlas = ExtResource("20")
+ZoneCarpetAtlas = ExtResource("21")
+LargeFacilityAtlas = ExtResource("22")
+EmployeePseudo3DAtlas = ExtResource("23")
+BusinessFeedbackBubbleAtlas = ExtResource("25")
 GridColor = Color(0.36, 0.55, 0.74, 0.24)
 OccupiedColor = Color(0.95, 0.72, 0.25, 0.2)
 

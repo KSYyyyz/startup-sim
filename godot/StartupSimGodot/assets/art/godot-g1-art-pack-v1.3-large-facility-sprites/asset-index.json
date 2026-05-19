@@ -1,0 +1,1354 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.3-large-facility-sprites",
+  "version": "1.3",
+  "created_for": "Startup Sim Godot 2.5D large facility sprites and visual states",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow resize to 1776x888, border-connected #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "large-facility-sprite-atlas-v1.3",
+      "category": "large_facility_sprites",
+      "file": "exports/large-facility-sprite-atlas-v1.3.png",
+      "sliced_icons_dir": "exports/facilities",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/large-facility-sprite-atlas-v1.3-source.png",
+      "raw_source": "sources/large-facility-sprite-atlas-v1.3-raw-generated.png",
+      "prompt": "prompts/large-facility-sprite-atlas-v1.3-prompt.md",
+      "slice_guide": "slice-guides/large-facility-sprite-atlas-v1.3-slice-guide.md",
+      "preview": "previews/large-facility-sprite-atlas-v1.3-transparent-contact-sheet.png",
+      "validation": "validation-1.3.json",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 222,
+        "cell_height_px": 222
+      },
+      "image": {
+        "width": 1776,
+        "height": 888
+      },
+      "row_labels": [
+        "product_workstation_group_2x1",
+        "sales_phone_pod_group_2x1",
+        "server_rack_group_1x2",
+        "meeting_rest_hybrid_2x2"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_idle",
+          "semantic_name": "product_workstation_group_2x1_idle",
+          "zh_name": "2x1 产品工位组-待机",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_idle.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-待机”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "idle"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_active",
+          "semantic_name": "product_workstation_group_2x1_active",
+          "zh_name": "2x1 产品工位组-工作中",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_active.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-工作中”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "active"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_upgrading",
+          "semantic_name": "product_workstation_group_2x1_upgrading",
+          "zh_name": "2x1 产品工位组-升级中",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_upgrading.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-升级中”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_blocked",
+          "semantic_name": "product_workstation_group_2x1_blocked",
+          "zh_name": "2x1 产品工位组-受阻",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_blocked.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-受阻”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "blocked"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_high_efficiency",
+          "semantic_name": "product_workstation_group_2x1_high_efficiency",
+          "zh_name": "2x1 产品工位组-高效率",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_high_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-高效率”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "high_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_low_efficiency",
+          "semantic_name": "product_workstation_group_2x1_low_efficiency",
+          "zh_name": "2x1 产品工位组-低效率",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_low_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-低效率”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "low_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_placement_preview_valid",
+          "semantic_name": "product_workstation_group_2x1_placement_preview_valid",
+          "zh_name": "2x1 产品工位组-可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_placement_preview_valid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-可放置预览”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "placement_valid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "product_workstation_group_2x1-product_workstation_group_2x1_placement_preview_invalid",
+          "semantic_name": "product_workstation_group_2x1_placement_preview_invalid",
+          "zh_name": "2x1 产品工位组-不可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/product_workstation_group_2x1-product_workstation_group_2x1_placement_preview_invalid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 产品工位组-不可放置预览”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "2x1",
+            "placement_invalid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_idle",
+          "semantic_name": "sales_phone_pod_group_2x1_idle",
+          "zh_name": "2x1 销售电话舱组-待机",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_idle.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-待机”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "idle"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_active",
+          "semantic_name": "sales_phone_pod_group_2x1_active",
+          "zh_name": "2x1 销售电话舱组-工作中",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_active.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-工作中”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "active"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_upgrading",
+          "semantic_name": "sales_phone_pod_group_2x1_upgrading",
+          "zh_name": "2x1 销售电话舱组-升级中",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_upgrading.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-升级中”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_blocked",
+          "semantic_name": "sales_phone_pod_group_2x1_blocked",
+          "zh_name": "2x1 销售电话舱组-受阻",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_blocked.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-受阻”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "blocked"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_high_efficiency",
+          "semantic_name": "sales_phone_pod_group_2x1_high_efficiency",
+          "zh_name": "2x1 销售电话舱组-高效率",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_high_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-高效率”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "high_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_low_efficiency",
+          "semantic_name": "sales_phone_pod_group_2x1_low_efficiency",
+          "zh_name": "2x1 销售电话舱组-低效率",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_low_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-低效率”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "low_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_placement_preview_valid",
+          "semantic_name": "sales_phone_pod_group_2x1_placement_preview_valid",
+          "zh_name": "2x1 销售电话舱组-可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_placement_preview_valid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-可放置预览”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "placement_valid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_placement_preview_invalid",
+          "semantic_name": "sales_phone_pod_group_2x1_placement_preview_invalid",
+          "zh_name": "2x1 销售电话舱组-不可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/sales_phone_pod_group_2x1-sales_phone_pod_group_2x1_placement_preview_invalid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x1 销售电话舱组-不可放置预览”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "2x1",
+            "placement_invalid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_idle",
+          "semantic_name": "server_rack_group_1x2_idle",
+          "zh_name": "1x2 服务器机柜组-待机",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_idle.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-待机”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "idle"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_active",
+          "semantic_name": "server_rack_group_1x2_active",
+          "zh_name": "1x2 服务器机柜组-工作中",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_active.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-工作中”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "active"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_upgrading",
+          "semantic_name": "server_rack_group_1x2_upgrading",
+          "zh_name": "1x2 服务器机柜组-升级中",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_upgrading.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-升级中”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_blocked",
+          "semantic_name": "server_rack_group_1x2_blocked",
+          "zh_name": "1x2 服务器机柜组-受阻",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_blocked.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-受阻”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "blocked"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_high_efficiency",
+          "semantic_name": "server_rack_group_1x2_high_efficiency",
+          "zh_name": "1x2 服务器机柜组-高效率",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_high_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-高效率”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "high_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_low_efficiency",
+          "semantic_name": "server_rack_group_1x2_low_efficiency",
+          "zh_name": "1x2 服务器机柜组-低效率",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_low_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-低效率”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "low_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_placement_preview_valid",
+          "semantic_name": "server_rack_group_1x2_placement_preview_valid",
+          "zh_name": "1x2 服务器机柜组-可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_placement_preview_valid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-可放置预览”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "placement_valid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "server_rack_group_1x2-server_rack_group_1x2_placement_preview_invalid",
+          "semantic_name": "server_rack_group_1x2_placement_preview_invalid",
+          "zh_name": "1x2 服务器机柜组-不可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/server_rack_group_1x2-server_rack_group_1x2_placement_preview_invalid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“1x2 服务器机柜组-不可放置预览”使用。",
+          "state_tags": [
+            "server",
+            "rack",
+            "1x2",
+            "placement_invalid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_idle",
+          "semantic_name": "meeting_rest_hybrid_2x2_idle",
+          "zh_name": "2x2 会议休息混合区-待机",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_idle.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-待机”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "idle"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_active",
+          "semantic_name": "meeting_rest_hybrid_2x2_active",
+          "zh_name": "2x2 会议休息混合区-工作中",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_active.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-工作中”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "active"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_upgrading",
+          "semantic_name": "meeting_rest_hybrid_2x2_upgrading",
+          "zh_name": "2x2 会议休息混合区-升级中",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_upgrading.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-升级中”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_blocked",
+          "semantic_name": "meeting_rest_hybrid_2x2_blocked",
+          "zh_name": "2x2 会议休息混合区-受阻",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_blocked.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-受阻”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "blocked"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_high_efficiency",
+          "semantic_name": "meeting_rest_hybrid_2x2_high_efficiency",
+          "zh_name": "2x2 会议休息混合区-高效率",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_high_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-高效率”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "high_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_low_efficiency",
+          "semantic_name": "meeting_rest_hybrid_2x2_low_efficiency",
+          "zh_name": "2x2 会议休息混合区-低效率",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_low_efficiency.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-低效率”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "low_efficiency"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_placement_preview_valid",
+          "semantic_name": "meeting_rest_hybrid_2x2_placement_preview_valid",
+          "zh_name": "2x2 会议休息混合区-可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_placement_preview_valid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-可放置预览”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "placement_valid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_placement_preview_invalid",
+          "semantic_name": "meeting_rest_hybrid_2x2_placement_preview_invalid",
+          "zh_name": "2x2 会议休息混合区-不可放置预览",
+          "category": "facility",
+          "file": "exports/facilities/meeting_rest_hybrid_2x2-meeting_rest_hybrid_2x2_placement_preview_invalid.png",
+          "atlas": "exports/large-facility-sprite-atlas-v1.3.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“2x2 会议休息混合区-不可放置预览”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "2x2",
+            "placement_invalid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        }
+      ],
+      "godot_import": {
+        "resource_type": "Texture2D",
+        "suggested_usage": "Sprite2D/TextureRect regions for large_facility_sprites",
+        "region_size": "222x222",
+        "alternate_usage": "Use individual PNGs from exports/facilities when atlas slicing is not desired."
+      },
+      "notes": [
+        "The atlas and all 32 sliced PNGs are transparent RGBA PNGs.",
+        "No readable text, numbers, logos, or UI labels are intended.",
+        "Use Godot-rendered text for all localized labels and numeric values."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,337 @@
+{
+  "asset_id": "hud-kpi-ui-chrome-atlas-v1.5",
+  "atlas_sha256": "44b3324992cabfe6c85e98e2c9f913c1fecd7ecd356328a2c1dd3a8389aaeac5",
+  "png_count": 33,
+  "checks": [
+    {
+      "file": "exports\\hud-kpi-ui-chrome-atlas-v1.5.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-cash_stack.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-mrr_revenue_chart.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-product_box.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-reputation_star.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-cash_support_clock.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-stability_shield.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-team_pressure_gauge.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\kpi_icons-users_customer_group.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-badge_chip.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-button_disabled.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-button_hover.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-button_normal.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-button_pressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-divider_line.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-panel_corner.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\operations_chrome-selected_tab.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-achievement_medal.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-failure_badge.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-opportunity_card_accent.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-progress_bar_frame.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-right_panel_header.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-risk_card_accent.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-success_card_accent.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\report_chrome-warning_card_accent.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-churn_leak.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-goal_completed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-opportunity.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-risk_spike.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-trend_down.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-trend_flat.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-trend_up.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\ui\\trend_status_icons-warning.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

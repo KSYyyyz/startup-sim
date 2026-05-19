@@ -1,0 +1,2045 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.4-employee-pseudo3d-motion",
+  "version": "1.4",
+  "created_for": "Startup Sim Godot 2.5D employee four-direction movement and activity sprites",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "employee-pseudo3d-motion-atlas-v1.4",
+      "category": "employee_pseudo3d_motion",
+      "file": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+      "sliced_icons_dir": "exports/sprites",
+      "sliced_icon_count": 48,
+      "sliced_icon_naming": "{role}-{action}.png",
+      "source": "sources/employee-pseudo3d-motion-atlas-v1.4-source.png",
+      "raw_source": "sources/employee-pseudo3d-motion-atlas-v1.4-raw-generated.png",
+      "prompt": "prompts/employee-pseudo3d-motion-atlas-v1.4-prompt.md",
+      "slice_guide": "slice-guides/employee-pseudo3d-motion-atlas-v1.4-slice-guide.md",
+      "preview": "previews/employee-pseudo3d-motion-atlas-v1.4-transparent-contact-sheet.png",
+      "validation": "validation-1.4.json",
+      "grid": {
+        "columns": 12,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 192,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 2304,
+        "height": 896
+      },
+      "row_labels": [
+        "product_engineer",
+        "sales_representative",
+        "ops_engineer",
+        "admin_hr_generalist"
+      ],
+      "column_labels": [
+        "walk_down_a",
+        "walk_down_b",
+        "walk_right_a",
+        "walk_right_b",
+        "walk_up_a",
+        "walk_up_b",
+        "walk_left_a",
+        "walk_left_b",
+        "working",
+        "resting",
+        "training",
+        "stressed"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "product_engineer-walk_down_a",
+          "semantic_name": "product_engineer_walk_down_a",
+          "zh_name": "产品工程师-向下行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_down_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向下行走 A”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "down",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-walk_down_b",
+          "semantic_name": "product_engineer_walk_down_b",
+          "zh_name": "产品工程师-向下行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_down_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向下行走 B”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "down",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-walk_right_a",
+          "semantic_name": "product_engineer_walk_right_a",
+          "zh_name": "产品工程师-向右行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_right_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向右行走 A”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "right",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-walk_right_b",
+          "semantic_name": "product_engineer_walk_right_b",
+          "zh_name": "产品工程师-向右行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_right_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向右行走 B”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "right",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-walk_up_a",
+          "semantic_name": "product_engineer_walk_up_a",
+          "zh_name": "产品工程师-向上行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_up_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向上行走 A”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "up",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-walk_up_b",
+          "semantic_name": "product_engineer_walk_up_b",
+          "zh_name": "产品工程师-向上行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_up_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向上行走 B”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "up",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-walk_left_a",
+          "semantic_name": "product_engineer_walk_left_a",
+          "zh_name": "产品工程师-向左行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_left_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向左行走 A”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "left",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-walk_left_b",
+          "semantic_name": "product_engineer_walk_left_b",
+          "zh_name": "产品工程师-向左行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-walk_left_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-向左行走 B”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "left",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-working",
+          "semantic_name": "product_engineer_working",
+          "zh_name": "产品工程师-工作",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-working.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1536,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 8
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-工作”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "stationary",
+            "working",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-resting",
+          "semantic_name": "product_engineer_resting",
+          "zh_name": "产品工程师-休息",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-resting.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1728,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 9
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-休息”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "stationary",
+            "rest",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-training",
+          "semantic_name": "product_engineer_training",
+          "zh_name": "产品工程师-学习训练",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-training.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1920,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 10
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-学习训练”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "stationary",
+            "training",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_engineer-stressed",
+          "semantic_name": "product_engineer_stressed",
+          "zh_name": "产品工程师-压力过载",
+          "category": "employee_sprite",
+          "file": "exports/sprites/product_engineer-stressed.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 2112,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 11
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“产品工程师-压力过载”员工小图使用。",
+          "state_tags": [
+            "product",
+            "engineer",
+            "stationary",
+            "pressure",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_down_a",
+          "semantic_name": "sales_representative_walk_down_a",
+          "zh_name": "销售代表-向下行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_down_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向下行走 A”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "down",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_down_b",
+          "semantic_name": "sales_representative_walk_down_b",
+          "zh_name": "销售代表-向下行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_down_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向下行走 B”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "down",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_right_a",
+          "semantic_name": "sales_representative_walk_right_a",
+          "zh_name": "销售代表-向右行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_right_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向右行走 A”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "right",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_right_b",
+          "semantic_name": "sales_representative_walk_right_b",
+          "zh_name": "销售代表-向右行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_right_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向右行走 B”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "right",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_up_a",
+          "semantic_name": "sales_representative_walk_up_a",
+          "zh_name": "销售代表-向上行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_up_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向上行走 A”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "up",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_up_b",
+          "semantic_name": "sales_representative_walk_up_b",
+          "zh_name": "销售代表-向上行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_up_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向上行走 B”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "up",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_left_a",
+          "semantic_name": "sales_representative_walk_left_a",
+          "zh_name": "销售代表-向左行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_left_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向左行走 A”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "left",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-walk_left_b",
+          "semantic_name": "sales_representative_walk_left_b",
+          "zh_name": "销售代表-向左行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-walk_left_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-向左行走 B”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "left",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-working",
+          "semantic_name": "sales_representative_working",
+          "zh_name": "销售代表-工作",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-working.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1536,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 8
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-工作”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "stationary",
+            "working",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-resting",
+          "semantic_name": "sales_representative_resting",
+          "zh_name": "销售代表-休息",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-resting.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1728,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 9
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-休息”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "stationary",
+            "rest",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-training",
+          "semantic_name": "sales_representative_training",
+          "zh_name": "销售代表-学习训练",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-training.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1920,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 10
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-学习训练”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "stationary",
+            "training",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_representative-stressed",
+          "semantic_name": "sales_representative_stressed",
+          "zh_name": "销售代表-压力过载",
+          "category": "employee_sprite",
+          "file": "exports/sprites/sales_representative-stressed.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 2112,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 11
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“销售代表-压力过载”员工小图使用。",
+          "state_tags": [
+            "sales",
+            "headset",
+            "stationary",
+            "pressure",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_down_a",
+          "semantic_name": "ops_engineer_walk_down_a",
+          "zh_name": "运维工程师-向下行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_down_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向下行走 A”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "down",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_down_b",
+          "semantic_name": "ops_engineer_walk_down_b",
+          "zh_name": "运维工程师-向下行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_down_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向下行走 B”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "down",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_right_a",
+          "semantic_name": "ops_engineer_walk_right_a",
+          "zh_name": "运维工程师-向右行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_right_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向右行走 A”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "right",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_right_b",
+          "semantic_name": "ops_engineer_walk_right_b",
+          "zh_name": "运维工程师-向右行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_right_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向右行走 B”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "right",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_up_a",
+          "semantic_name": "ops_engineer_walk_up_a",
+          "zh_name": "运维工程师-向上行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_up_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向上行走 A”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "up",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_up_b",
+          "semantic_name": "ops_engineer_walk_up_b",
+          "zh_name": "运维工程师-向上行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_up_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向上行走 B”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "up",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_left_a",
+          "semantic_name": "ops_engineer_walk_left_a",
+          "zh_name": "运维工程师-向左行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_left_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向左行走 A”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "left",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-walk_left_b",
+          "semantic_name": "ops_engineer_walk_left_b",
+          "zh_name": "运维工程师-向左行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-walk_left_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-向左行走 B”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "left",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-working",
+          "semantic_name": "ops_engineer_working",
+          "zh_name": "运维工程师-工作",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-working.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1536,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 8
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-工作”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "stationary",
+            "working",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-resting",
+          "semantic_name": "ops_engineer_resting",
+          "zh_name": "运维工程师-休息",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-resting.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1728,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 9
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-休息”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "stationary",
+            "rest",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-training",
+          "semantic_name": "ops_engineer_training",
+          "zh_name": "运维工程师-学习训练",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-training.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1920,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 10
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-学习训练”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "stationary",
+            "training",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "ops_engineer-stressed",
+          "semantic_name": "ops_engineer_stressed",
+          "zh_name": "运维工程师-压力过载",
+          "category": "employee_sprite",
+          "file": "exports/sprites/ops_engineer-stressed.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 2112,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 11
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“运维工程师-压力过载”员工小图使用。",
+          "state_tags": [
+            "operations",
+            "server",
+            "stationary",
+            "pressure",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_down_a",
+          "semantic_name": "admin_hr_generalist_walk_down_a",
+          "zh_name": "行政 HR-向下行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_down_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向下行走 A”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "down",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_down_b",
+          "semantic_name": "admin_hr_generalist_walk_down_b",
+          "zh_name": "行政 HR-向下行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_down_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向下行走 B”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "down",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_right_a",
+          "semantic_name": "admin_hr_generalist_walk_right_a",
+          "zh_name": "行政 HR-向右行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_right_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向右行走 A”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "right",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_right_b",
+          "semantic_name": "admin_hr_generalist_walk_right_b",
+          "zh_name": "行政 HR-向右行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_right_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向右行走 B”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "right",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_up_a",
+          "semantic_name": "admin_hr_generalist_walk_up_a",
+          "zh_name": "行政 HR-向上行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_up_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向上行走 A”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "up",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_up_b",
+          "semantic_name": "admin_hr_generalist_walk_up_b",
+          "zh_name": "行政 HR-向上行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_up_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向上行走 B”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "up",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_left_a",
+          "semantic_name": "admin_hr_generalist_walk_left_a",
+          "zh_name": "行政 HR-向左行走 A",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_left_a.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向左行走 A”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "left",
+            "walk",
+            "a"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-walk_left_b",
+          "semantic_name": "admin_hr_generalist_walk_left_b",
+          "zh_name": "行政 HR-向左行走 B",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-walk_left_b.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-向左行走 B”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "left",
+            "walk",
+            "b"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-working",
+          "semantic_name": "admin_hr_generalist_working",
+          "zh_name": "行政 HR-工作",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-working.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1536,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 8
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-工作”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "stationary",
+            "working",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-resting",
+          "semantic_name": "admin_hr_generalist_resting",
+          "zh_name": "行政 HR-休息",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-resting.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1728,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 9
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-休息”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "stationary",
+            "rest",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-training",
+          "semantic_name": "admin_hr_generalist_training",
+          "zh_name": "行政 HR-学习训练",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-training.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 1920,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 10
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-学习训练”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "stationary",
+            "training",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        },
+        {
+          "id": "admin_hr_generalist-stressed",
+          "semantic_name": "admin_hr_generalist_stressed",
+          "zh_name": "行政 HR-压力过载",
+          "category": "employee_sprite",
+          "file": "exports/sprites/admin_hr_generalist-stressed.png",
+          "atlas": "exports/employee-pseudo3d-motion-atlas-v1.4.png",
+          "atlas_region": {
+            "x": 2112,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 11
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室中作为“行政 HR-压力过载”员工小图使用。",
+          "state_tags": [
+            "admin",
+            "hr",
+            "stationary",
+            "pressure",
+            "single"
+          ],
+          "godot_hint": {
+            "sorting": "sort by projected feet y after placing the feet_center anchor on the office grid cell",
+            "animation": "pair A/B walk frames at a low frame rate; stationary states use a single sprite",
+            "text_policy": "No baked text; render names and stats with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

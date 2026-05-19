@@ -1,0 +1,1279 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.5-hud-kpi-ui-chrome",
+  "version": "1.5",
+  "created_for": "Startup Sim Godot business HUD icons, trend icons, buttons, and report chrome",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/art-resource/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "hud-kpi-ui-chrome-atlas-v1.5",
+      "category": "hud-kpi-ui-chrome",
+      "file": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+      "sliced_icons_dir": "exports/ui",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/hud-kpi-ui-chrome-atlas-v1.5-source.png",
+      "raw_source": "sources/hud-kpi-ui-chrome-atlas-v1.5-raw-generated.png",
+      "prompt": "prompts/hud-kpi-ui-chrome-atlas-v1.5-prompt.md",
+      "slice_guide": "slice-guides/hud-kpi-ui-chrome-atlas-v1.5-slice-guide.md",
+      "preview": "previews/hud-kpi-ui-chrome-atlas-v1.5-transparent-contact-sheet.png",
+      "validation": "validation-1.5.json",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 896
+      },
+      "row_labels": [
+        "kpi_icons",
+        "trend_status_icons",
+        "operations_chrome",
+        "report_chrome"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "kpi_icons-cash_stack",
+          "semantic_name": "cash_stack",
+          "zh_name": "现金",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-cash_stack.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "cash"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "kpi_icons-cash_support_clock",
+          "semantic_name": "cash_support_clock",
+          "zh_name": "现金流可支撑时间",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-cash_support_clock.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "cash_support"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "kpi_icons-mrr_revenue_chart",
+          "semantic_name": "mrr_revenue_chart",
+          "zh_name": "MRR 收入",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-mrr_revenue_chart.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "mrr"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "kpi_icons-users_customer_group",
+          "semantic_name": "users_customer_group",
+          "zh_name": "用户群",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-users_customer_group.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "users"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "kpi_icons-product_box",
+          "semantic_name": "product_box",
+          "zh_name": "产品",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-product_box.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "product"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "kpi_icons-reputation_star",
+          "semantic_name": "reputation_star",
+          "zh_name": "声誉",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-reputation_star.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "reputation"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "kpi_icons-stability_shield",
+          "semantic_name": "stability_shield",
+          "zh_name": "稳定性",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-stability_shield.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "stability"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "kpi_icons-team_pressure_gauge",
+          "semantic_name": "team_pressure_gauge",
+          "zh_name": "团队压力",
+          "category": "hud_kpi_icon",
+          "file": "exports/ui/kpi_icons-team_pressure_gauge.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "kpi",
+            "team_pressure"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-trend_up",
+          "semantic_name": "trend_up",
+          "zh_name": "上升趋势",
+          "category": "hud_trend_icon",
+          "file": "exports/ui/trend_status_icons-trend_up.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "trend",
+            "up"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-trend_down",
+          "semantic_name": "trend_down",
+          "zh_name": "下降趋势",
+          "category": "hud_trend_icon",
+          "file": "exports/ui/trend_status_icons-trend_down.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "trend",
+            "down"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-trend_flat",
+          "semantic_name": "trend_flat",
+          "zh_name": "持平趋势",
+          "category": "hud_trend_icon",
+          "file": "exports/ui/trend_status_icons-trend_flat.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "trend",
+            "flat"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-warning",
+          "semantic_name": "warning",
+          "zh_name": "警告",
+          "category": "hud_status_icon",
+          "file": "exports/ui/trend_status_icons-warning.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "status",
+            "warning"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-goal_completed",
+          "semantic_name": "goal_completed",
+          "zh_name": "目标完成",
+          "category": "hud_status_icon",
+          "file": "exports/ui/trend_status_icons-goal_completed.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "status",
+            "goal"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-risk_spike",
+          "semantic_name": "risk_spike",
+          "zh_name": "风险上升",
+          "category": "hud_status_icon",
+          "file": "exports/ui/trend_status_icons-risk_spike.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "status",
+            "risk"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-opportunity",
+          "semantic_name": "opportunity",
+          "zh_name": "机会",
+          "category": "hud_status_icon",
+          "file": "exports/ui/trend_status_icons-opportunity.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "status",
+            "opportunity"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "trend_status_icons-churn_leak",
+          "semantic_name": "churn_leak",
+          "zh_name": "流失",
+          "category": "hud_status_icon",
+          "file": "exports/ui/trend_status_icons-churn_leak.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "status",
+            "churn"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-button_normal",
+          "semantic_name": "button_normal",
+          "zh_name": "普通按钮",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-button_normal.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "button",
+            "normal"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-button_hover",
+          "semantic_name": "button_hover",
+          "zh_name": "悬停按钮",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-button_hover.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "button",
+            "hover"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-button_pressed",
+          "semantic_name": "button_pressed",
+          "zh_name": "按下按钮",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-button_pressed.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "button",
+            "pressed"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-button_disabled",
+          "semantic_name": "button_disabled",
+          "zh_name": "禁用按钮",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-button_disabled.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "button",
+            "disabled"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-selected_tab",
+          "semantic_name": "selected_tab",
+          "zh_name": "选中标签",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-selected_tab.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "tab",
+            "selected"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-badge_chip",
+          "semantic_name": "badge_chip",
+          "zh_name": "徽章标签",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-badge_chip.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "badge",
+            "chip"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-divider_line",
+          "semantic_name": "divider_line",
+          "zh_name": "分割线",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-divider_line.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "divider",
+            "line"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "operations_chrome-panel_corner",
+          "semantic_name": "panel_corner",
+          "zh_name": "面板角",
+          "category": "hud_operations_chrome",
+          "file": "exports/ui/operations_chrome-panel_corner.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "panel",
+            "corner"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-success_card_accent",
+          "semantic_name": "success_card_accent",
+          "zh_name": "成功卡片强调",
+          "category": "hud_report_chrome",
+          "file": "exports/ui/report_chrome-success_card_accent.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "report",
+            "success"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-warning_card_accent",
+          "semantic_name": "warning_card_accent",
+          "zh_name": "警告卡片强调",
+          "category": "hud_report_chrome",
+          "file": "exports/ui/report_chrome-warning_card_accent.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "report",
+            "warning"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-risk_card_accent",
+          "semantic_name": "risk_card_accent",
+          "zh_name": "风险卡片强调",
+          "category": "hud_report_chrome",
+          "file": "exports/ui/report_chrome-risk_card_accent.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "report",
+            "risk"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-opportunity_card_accent",
+          "semantic_name": "opportunity_card_accent",
+          "zh_name": "机会卡片强调",
+          "category": "hud_report_chrome",
+          "file": "exports/ui/report_chrome-opportunity_card_accent.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "report",
+            "opportunity"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-achievement_medal",
+          "semantic_name": "achievement_medal",
+          "zh_name": "成就奖章",
+          "category": "hud_report_icon",
+          "file": "exports/ui/report_chrome-achievement_medal.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "report",
+            "achievement"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-failure_badge",
+          "semantic_name": "failure_badge",
+          "zh_name": "失败徽章",
+          "category": "hud_report_icon",
+          "file": "exports/ui/report_chrome-failure_badge.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "report",
+            "failure"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-progress_bar_frame",
+          "semantic_name": "progress_bar_frame",
+          "zh_name": "进度条框",
+          "category": "hud_report_chrome",
+          "file": "exports/ui/report_chrome-progress_bar_frame.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "report",
+            "progress"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        },
+        {
+          "id": "report_chrome-right_panel_header",
+          "semantic_name": "right_panel_header",
+          "zh_name": "右侧面板标题",
+          "category": "hud_report_chrome",
+          "file": "exports/ui/report_chrome-right_panel_header.png",
+          "atlas": "exports/hud-kpi-ui-chrome-atlas-v1.5.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "Use in Startup Sim Godot HUD or feedback UI.",
+          "state_tags": [
+            "panel",
+            "header"
+          ],
+          "godot_hint": {
+            "sorting": "HUD assets draw in CanvasLayer; feedback assets draw above office sprites",
+            "animation": "animate opacity/scale/position in Godot when used as transient feedback",
+            "text_policy": "No baked text; render labels, KPI values, months, and numbers with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

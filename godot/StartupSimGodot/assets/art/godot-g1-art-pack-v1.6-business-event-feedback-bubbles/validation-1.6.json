@@ -1,0 +1,337 @@
+{
+  "asset_id": "business-event-feedback-bubble-atlas-v1.6",
+  "atlas_sha256": "8746e3f622095fa7d5c47a721e988e62afe6af0123356b14ac7f31732e5b35c6",
+  "png_count": 33,
+  "checks": [
+    {
+      "file": "exports\\bubbles\\business_events-cash_crunch.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\business_events-competitor_alert.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\business_events-customer_complaint.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\business_events-customer_praise.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\business_events-hiring_candidate.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\business_events-investor_interest.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\business_events-product_breakthrough.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\business_events-server_outage.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-conflict_sparks_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-fatigue_sleep_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-focus_work_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-idea_bulb_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-morale_smile_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-sick_health_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-stress_pressure_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\employee_bubbles-training_book_bubble.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-churn_loss_pulse.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-money_gain_burst.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-money_loss_burst.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-mrr_growth_pulse.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-product_progress_pulse.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-reputation_gain_sparkle.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-risk_warning_pulse.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\floating_metric_fx-user_growth_pulse.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-achievement_unlock.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-board_meeting_marker.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-crisis_review.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-failed_strategy.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-monthly_report_stamp.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-next_month_pressure.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-objective_milestone.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\bubbles\\review_markers-opportunity_review.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\business-event-feedback-bubble-atlas-v1.6.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

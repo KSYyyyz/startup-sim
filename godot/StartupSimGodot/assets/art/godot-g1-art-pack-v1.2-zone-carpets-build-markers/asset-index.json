@@ -1,0 +1,1295 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.2-zone-carpets-build-markers",
+  "version": "1.2",
+  "created_for": "Startup Sim Godot 2.5D department carpets and projected build markers",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow resize to 1776x888, border-connected #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "zone-carpet-build-marker-atlas-v1.2",
+      "category": "zone_carpets_build_markers",
+      "file": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+      "sliced_icons_dir": "exports/overlays",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/zone-carpet-build-marker-atlas-v1.2-source.png",
+      "raw_source": "sources/zone-carpet-build-marker-atlas-v1.2-raw-generated.png",
+      "prompt": "prompts/zone-carpet-build-marker-atlas-v1.2-prompt.md",
+      "slice_guide": "slice-guides/zone-carpet-build-marker-atlas-v1.2-slice-guide.md",
+      "preview": "previews/zone-carpet-build-marker-atlas-v1.2-transparent-contact-sheet.png",
+      "validation": "validation-1.2.json",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 222,
+        "cell_height_px": 222
+      },
+      "image": {
+        "width": 1776,
+        "height": 888
+      },
+      "row_labels": [
+        "department_carpet_centers",
+        "department_carpet_edges_corners",
+        "projected_build_markers",
+        "zone_status_overlays"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "department_carpet_centers-product_zone_carpet_center",
+          "semantic_name": "product_zone_carpet_center",
+          "zh_name": "产品区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-product_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“产品区地毯中心”使用。",
+          "state_tags": [
+            "product",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_centers-sales_zone_carpet_center",
+          "semantic_name": "sales_zone_carpet_center",
+          "zh_name": "销售区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-sales_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“销售区地毯中心”使用。",
+          "state_tags": [
+            "sales",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_centers-server_zone_carpet_center",
+          "semantic_name": "server_zone_carpet_center",
+          "zh_name": "服务器区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-server_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“服务器区地毯中心”使用。",
+          "state_tags": [
+            "server",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_centers-meeting_zone_carpet_center",
+          "semantic_name": "meeting_zone_carpet_center",
+          "zh_name": "会议区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-meeting_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“会议区地毯中心”使用。",
+          "state_tags": [
+            "meeting",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_centers-recruiting_zone_carpet_center",
+          "semantic_name": "recruiting_zone_carpet_center",
+          "zh_name": "招聘区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-recruiting_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“招聘区地毯中心”使用。",
+          "state_tags": [
+            "recruiting",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_centers-rest_zone_carpet_center",
+          "semantic_name": "rest_zone_carpet_center",
+          "zh_name": "休息区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-rest_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“休息区地毯中心”使用。",
+          "state_tags": [
+            "rest",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_centers-market_zone_carpet_center",
+          "semantic_name": "market_zone_carpet_center",
+          "zh_name": "市场区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-market_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“市场区地毯中心”使用。",
+          "state_tags": [
+            "market",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_centers-admin_zone_carpet_center",
+          "semantic_name": "admin_zone_carpet_center",
+          "zh_name": "行政区地毯中心",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_centers-admin_zone_carpet_center.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“行政区地毯中心”使用。",
+          "state_tags": [
+            "admin",
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-product_carpet_edge",
+          "semantic_name": "product_carpet_edge",
+          "zh_name": "产品区地毯边",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-product_carpet_edge.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 0.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“产品区地毯边”使用。",
+          "state_tags": [
+            "product",
+            "edge"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-sales_carpet_edge",
+          "semantic_name": "sales_carpet_edge",
+          "zh_name": "销售区地毯边",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-sales_carpet_edge.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 0.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“销售区地毯边”使用。",
+          "state_tags": [
+            "sales",
+            "edge"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-server_carpet_edge",
+          "semantic_name": "server_carpet_edge",
+          "zh_name": "服务器区地毯边",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-server_carpet_edge.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 0.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“服务器区地毯边”使用。",
+          "state_tags": [
+            "server",
+            "edge"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-meeting_carpet_edge",
+          "semantic_name": "meeting_carpet_edge",
+          "zh_name": "会议区地毯边",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-meeting_carpet_edge.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 0.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“会议区地毯边”使用。",
+          "state_tags": [
+            "meeting",
+            "edge"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-recruiting_carpet_corner",
+          "semantic_name": "recruiting_carpet_corner",
+          "zh_name": "招聘区地毯角",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-recruiting_carpet_corner.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“招聘区地毯角”使用。",
+          "state_tags": [
+            "recruiting",
+            "corner"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-rest_carpet_corner",
+          "semantic_name": "rest_carpet_corner",
+          "zh_name": "休息区地毯角",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-rest_carpet_corner.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“休息区地毯角”使用。",
+          "state_tags": [
+            "rest",
+            "corner"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-market_carpet_corner",
+          "semantic_name": "market_carpet_corner",
+          "zh_name": "市场区地毯角",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-market_carpet_corner.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“市场区地毯角”使用。",
+          "state_tags": [
+            "market",
+            "corner"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "department_carpet_edges_corners-admin_carpet_corner",
+          "semantic_name": "admin_carpet_corner",
+          "zh_name": "行政区地毯角",
+          "category": "zone_overlay",
+          "file": "exports/overlays/department_carpet_edges_corners-admin_carpet_corner.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“行政区地毯角”使用。",
+          "state_tags": [
+            "admin",
+            "corner"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-hover_diamond",
+          "semantic_name": "hover_diamond",
+          "zh_name": "悬停菱形",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-hover_diamond.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“悬停菱形”使用。",
+          "state_tags": [
+            "hover"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-selected_diamond",
+          "semantic_name": "selected_diamond",
+          "zh_name": "选中菱形",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-selected_diamond.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“选中菱形”使用。",
+          "state_tags": [
+            "selected"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-placement_valid_diamond",
+          "semantic_name": "placement_valid_diamond",
+          "zh_name": "可放置菱形",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-placement_valid_diamond.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“可放置菱形”使用。",
+          "state_tags": [
+            "placement",
+            "valid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-placement_invalid_diamond",
+          "semantic_name": "placement_invalid_diamond",
+          "zh_name": "不可放置菱形",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-placement_invalid_diamond.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“不可放置菱形”使用。",
+          "state_tags": [
+            "placement",
+            "invalid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-blocked_diamond",
+          "semantic_name": "blocked_diamond",
+          "zh_name": "阻塞菱形",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-blocked_diamond.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“阻塞菱形”使用。",
+          "state_tags": [
+            "blocked"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-upgrade_target_ring",
+          "semantic_name": "upgrade_target_ring",
+          "zh_name": "升级目标环",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-upgrade_target_ring.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“升级目标环”使用。",
+          "state_tags": [
+            "upgrade",
+            "target"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-sell_remove_marker",
+          "semantic_name": "sell_remove_marker",
+          "zh_name": "出售移除标记",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-sell_remove_marker.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“出售移除标记”使用。",
+          "state_tags": [
+            "sell",
+            "remove"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "projected_build_markers-move_relocate_marker",
+          "semantic_name": "move_relocate_marker",
+          "zh_name": "移动重定位标记",
+          "category": "build_marker",
+          "file": "exports/overlays/projected_build_markers-move_relocate_marker.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“移动重定位标记”使用。",
+          "state_tags": [
+            "move",
+            "relocate"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-capacity_healthy_overlay",
+          "semantic_name": "capacity_healthy_overlay",
+          "zh_name": "容量健康叠层",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-capacity_healthy_overlay.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“容量健康叠层”使用。",
+          "state_tags": [
+            "capacity",
+            "healthy"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-capacity_tight_warning_overlay",
+          "semantic_name": "capacity_tight_warning_overlay",
+          "zh_name": "容量紧张警告叠层",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-capacity_tight_warning_overlay.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“容量紧张警告叠层”使用。",
+          "state_tags": [
+            "capacity",
+            "warning"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-production_active_pulse",
+          "semantic_name": "production_active_pulse",
+          "zh_name": "生产活跃脉冲",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-production_active_pulse.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“生产活跃脉冲”使用。",
+          "state_tags": [
+            "production",
+            "active"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-morale_boost_pulse",
+          "semantic_name": "morale_boost_pulse",
+          "zh_name": "士气提升脉冲",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-morale_boost_pulse.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“士气提升脉冲”使用。",
+          "state_tags": [
+            "morale",
+            "boost"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-risk_incident_pulse",
+          "semantic_name": "risk_incident_pulse",
+          "zh_name": "风险事件脉冲",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-risk_incident_pulse.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“风险事件脉冲”使用。",
+          "state_tags": [
+            "risk",
+            "incident"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-under_construction_hatch",
+          "semantic_name": "under_construction_hatch",
+          "zh_name": "施工斜线叠层",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-under_construction_hatch.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“施工斜线叠层”使用。",
+          "state_tags": [
+            "construction",
+            "hatch"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-high_efficiency_sparkle_tile",
+          "semantic_name": "high_efficiency_sparkle_tile",
+          "zh_name": "高效率闪光地块",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-high_efficiency_sparkle_tile.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“高效率闪光地块”使用。",
+          "state_tags": [
+            "efficiency",
+            "high"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "zone_status_overlays-low_efficiency_dim_tile",
+          "semantic_name": "low_efficiency_dim_tile",
+          "zh_name": "低效率变暗地块",
+          "category": "zone_status",
+          "file": "exports/overlays/zone_status_overlays-low_efficiency_dim_tile.png",
+          "atlas": "exports/zone-carpet-build-marker-atlas-v1.2.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“低效率变暗地块”使用。",
+          "state_tags": [
+            "efficiency",
+            "low"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        }
+      ],
+      "godot_import": {
+        "resource_type": "Texture2D",
+        "suggested_usage": "Sprite2D/TextureRect regions for zone_carpets_build_markers",
+        "region_size": "222x222",
+        "alternate_usage": "Use individual PNGs from exports/overlays when atlas slicing is not desired."
+      },
+      "notes": [
+        "The atlas and all 32 sliced PNGs are transparent RGBA PNGs.",
+        "No readable text, numbers, logos, or UI labels are intended.",
+        "Use Godot-rendered text for all localized labels and numeric values."
+      ]
+    }
+  ]
+}

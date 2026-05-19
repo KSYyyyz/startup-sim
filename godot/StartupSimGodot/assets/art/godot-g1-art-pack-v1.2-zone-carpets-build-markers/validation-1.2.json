@@ -1,0 +1,18 @@
+{
+  "atlas_size": [
+    1776,
+    888
+  ],
+  "icon_count": 32,
+  "cell_size": [
+    222,
+    222
+  ],
+  "atlas_sha256": "5dde68708622cb8d85e61678a3b634fefef4078b7c682aff5c7ddc2026138aa5",
+  "corner_alpha": [
+    0,
+    0,
+    0,
+    0
+  ]
+}

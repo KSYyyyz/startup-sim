@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -19,6 +20,12 @@ public partial class OfficeGridView : Node2D
         public string RoleId { get; init; } = string.Empty;
         public int X { get; init; }
         public int Y { get; init; }
+    }
+
+    private sealed class VisualStackItem
+    {
+        public int SortKey { get; init; }
+        public Action Draw { get; init; } = () => { };
     }
 
     [Signal]
@@ -49,6 +56,11 @@ public partial class OfficeGridView : Node2D
     [Export] public Texture2D? FacilityAtlas { get; set; }
     [Export] public Texture2D? EmployeeAtlas { get; set; }
     [Export] public Texture2D? StatusIconAtlas { get; set; }
+    [Export] public Texture2D? Pseudo3DStructureAtlas { get; set; }
+    [Export] public Texture2D? ZoneCarpetAtlas { get; set; }
+    [Export] public Texture2D? LargeFacilityAtlas { get; set; }
+    [Export] public Texture2D? EmployeePseudo3DAtlas { get; set; }
+    [Export] public Texture2D? BusinessFeedbackBubbleAtlas { get; set; }
     [Export] public bool GridVisibleByDefault { get; set; } = true;
     [Export] public float DefaultGridAlpha { get; set; } = 0.08f;
     [Export] public float BuildModeGridAlpha { get; set; } = 0.24f;
@@ -224,8 +236,16 @@ public partial class OfficeGridView : Node2D
         DrawOfficeFrame();
         DrawOccupiedCells();
         DrawBuildPreviews();
-        DrawFacilityVisuals();
-        DrawEmployeeVisuals();
+        if (UsePseudo3DProjection)
+        {
+            DrawPseudo3DVisualStack();
+        }
+        else
+        {
+            DrawFacilityVisuals();
+            DrawEmployeeVisuals();
+        }
+
         if (ShouldDrawGrid())
         {
             DrawGridLines();
@@ -303,7 +323,8 @@ public partial class OfficeGridView : Node2D
         {
             var projection = BuildProjection();
             DrawOfficeShellFoundation(projection);
-            DrawProjectedFloorTiles(projection);
+            DrawPseudo3DFloorTiles(projection);
+            DrawPseudo3DOfficeShell(projection);
             return;
         }
 
@@ -383,18 +404,35 @@ public partial class OfficeGridView : Node2D
 
     private void DrawProjectedFloorTiles(OfficeProjection projection)
     {
+        DrawPseudo3DFloorTiles(projection);
+    }
+
+    private void DrawPseudo3DFloorTiles(OfficeProjection projection)
+    {
         for (var x = 0; x < GridWidth; x++)
         {
             for (var y = 0; y < GridHeight; y++)
             {
                 var diamond = projection.CellDiamond(x, y);
-                var shade = (x + y) % 2 == 0 ? 0.02f : -0.02f;
-                var tileColor = new Color(
-                    Mathf.Clamp(FloorBaseColor.R + shade, 0f, 1f),
-                    Mathf.Clamp(FloorBaseColor.G + shade, 0f, 1f),
-                    Mathf.Clamp(FloorBaseColor.B + shade, 0f, 1f),
-                    FloorBaseColor.A);
-                DrawPolygon(diamond, Fill(tileColor, diamond.Length));
+                if (Pseudo3DStructureAtlas != null)
+                {
+                    var sourceColumn = (x + y) % 5 == 0 ? 1 : 0;
+                    DrawTextureRectRegion(
+                        Pseudo3DStructureAtlas,
+                        ProjectedTileAtlasSlot(projection, x, y, 1.18f, 2.08f),
+                        AtlasCell(Pseudo3DStructureAtlas, columns: 8, rows: 4, column: sourceColumn, row: 0),
+                        Colors.White);
+                }
+                else
+                {
+                    var shade = (x + y) % 2 == 0 ? 0.02f : -0.02f;
+                    var tileColor = new Color(
+                        Mathf.Clamp(FloorBaseColor.R + shade, 0f, 1f),
+                        Mathf.Clamp(FloorBaseColor.G + shade, 0f, 1f),
+                        Mathf.Clamp(FloorBaseColor.B + shade, 0f, 1f),
+                        FloorBaseColor.A);
+                    DrawPolygon(diamond, Fill(tileColor, diamond.Length));
+                }
 
                 if (ShouldDrawDecorativeFloorTile(x, y))
                 {
@@ -402,6 +440,49 @@ public partial class OfficeGridView : Node2D
                 }
             }
         }
+    }
+
+    private void DrawPseudo3DOfficeShell(OfficeProjection projection)
+    {
+        if (Pseudo3DStructureAtlas == null)
+        {
+            return;
+        }
+
+        for (var x = 0; x < GridWidth; x++)
+        {
+            DrawStructureTile(projection, x, 0, column: x % 4 == 1 ? 2 : 0, row: 1, widthScale: 1.2f, heightScale: 2.2f);
+        }
+
+        for (var y = 1; y < GridHeight; y++)
+        {
+            DrawStructureTile(projection, 0, y, column: y % 3 == 0 ? 6 : 3, row: 1, widthScale: 1.2f, heightScale: 2.2f);
+        }
+
+        DrawStructureTile(projection, 0, 0, column: 5, row: 1, widthScale: 1.24f, heightScale: 2.3f);
+        DrawStructureTile(projection, GridWidth - 1, 0, column: 4, row: 1, widthScale: 1.24f, heightScale: 2.3f);
+        DrawStructureTile(projection, GridWidth - 2, GridHeight - 1, column: 1, row: 2, widthScale: 1.55f, heightScale: 2.25f);
+    }
+
+    private void DrawStructureTile(
+        OfficeProjection projection,
+        int x,
+        int y,
+        int column,
+        int row,
+        float widthScale,
+        float heightScale)
+    {
+        if (Pseudo3DStructureAtlas == null)
+        {
+            return;
+        }
+
+        DrawTextureRectRegion(
+            Pseudo3DStructureAtlas,
+            ProjectedTileAtlasSlot(projection, x, y, widthScale, heightScale),
+            AtlasCell(Pseudo3DStructureAtlas, columns: 8, rows: 4, column: column, row: row),
+            Colors.White);
     }
 
     private static bool ShouldDrawDecorativeFloorTile(int x, int y)
@@ -416,7 +497,7 @@ public partial class OfficeGridView : Node2D
         {
             if (UsePseudo3DProjection)
             {
-                DrawProjectedZoneOverlay(projection, cell.X, cell.Y, cell.OccupantId);
+                DrawZoneCarpets(projection, cell.X, cell.Y, cell.OccupantId);
                 continue;
             }
 
@@ -438,6 +519,28 @@ public partial class OfficeGridView : Node2D
     }
 
     private void DrawProjectedZoneOverlay(OfficeProjection projection, int x, int y, string occupantId)
+    {
+        DrawZoneCarpets(projection, x, y, occupantId);
+    }
+
+    private void DrawZoneCarpets(OfficeProjection projection, int x, int y, string occupantId)
+    {
+        if (ZoneCarpetAtlas != null)
+        {
+            var sourceColumn = ZoneOverlayColumn(occupantId);
+            DrawTextureRectRegion(
+                ZoneCarpetAtlas,
+                ProjectedTileAtlasSlot(projection, x, y, 1.24f, 2.14f),
+                AtlasCell(ZoneCarpetAtlas, columns: 8, rows: 4, column: sourceColumn, row: 0),
+                new Color(1f, 1f, 1f, 0.92f));
+
+            return;
+        }
+
+        DrawProjectedZoneOverlayFallback(projection, x, y, occupantId);
+    }
+
+    private void DrawProjectedZoneOverlayFallback(OfficeProjection projection, int x, int y, string occupantId)
     {
         var zoneColor = ZoneOverlayColor(occupantId);
         var diamond = projection.CellDiamond(x, y);
@@ -549,6 +652,148 @@ public partial class OfficeGridView : Node2D
         }
     }
 
+    private void DrawPseudo3DVisualStack()
+    {
+        var projection = BuildProjection();
+        var stack = new List<VisualStackItem>();
+
+        foreach (var visual in facilityVisuals.Values)
+        {
+            stack.Add(new VisualStackItem
+            {
+                SortKey = RenderDepthKey(visual.X, visual.Y, 0),
+                Draw = () => DrawLargeFacilityVisual(projection, visual)
+            });
+        }
+
+        var offset = 0;
+        foreach (var visual in employeeVisuals.Values)
+        {
+            var employeeOffset = offset;
+            stack.Add(new VisualStackItem
+            {
+                SortKey = RenderDepthKey(visual.X, visual.Y, 20 + employeeOffset),
+                Draw = () => DrawPseudo3DEmployeeVisual(projection, visual, employeeOffset)
+            });
+            offset++;
+        }
+
+        foreach (var item in stack.OrderBy(item => item.SortKey))
+        {
+            item.Draw();
+        }
+    }
+
+    private static int RenderDepthKey(int x, int y, int layerOffset = 0)
+    {
+        return (x + y) * 1000 + x * 16 + layerOffset;
+    }
+
+    private void DrawLargeFacilityVisual(OfficeProjection projection, FacilityVisual visual)
+    {
+        if (LargeFacilityAtlas != null)
+        {
+            var (row, column, widthScale, heightScale) = LargeFacilityCell(visual.FacilityTypeId);
+            DrawTextureRectRegion(
+                LargeFacilityAtlas,
+                ProjectedTileAtlasSlot(projection, visual.X, visual.Y, widthScale, heightScale),
+                AtlasCell(LargeFacilityAtlas, columns: 8, rows: 4, column: column, row: row),
+                Colors.White);
+            return;
+        }
+
+        if (FacilityAtlas == null)
+        {
+            return;
+        }
+
+        var sourceColumn = visual.FacilityTypeId switch
+        {
+            "basic_desk" => 0,
+            "product_whiteboard" => 1,
+            "starter_server_rack" => 2,
+            _ => 0
+        };
+        DrawTextureRectRegion(
+            FacilityAtlas,
+            FacilityVisualSlot(projection, visual.X, visual.Y),
+            AtlasCell(FacilityAtlas, columns: 6, rows: 3, sourceColumn, row: 0),
+            Colors.White);
+    }
+
+    private static (int Row, int Column, float WidthScale, float HeightScale) LargeFacilityCell(string facilityTypeId)
+    {
+        return facilityTypeId switch
+        {
+            "basic_desk" => (0, 1, 1.78f, 2.55f),
+            "product_whiteboard" => (0, 4, 1.78f, 2.55f),
+            "starter_server_rack" => (2, 1, 1.42f, 3.45f),
+            _ => (3, 0, 1.9f, 2.85f)
+        };
+    }
+
+    private void DrawPseudo3DEmployeeVisual(OfficeProjection projection, EmployeeVisual visual, int offset)
+    {
+        if (EmployeePseudo3DAtlas != null)
+        {
+            var sourceRow = visual.RoleId switch
+            {
+                "product_engineer" => 0,
+                "sales_specialist" => 1,
+                "ops_engineer" => 2,
+                _ => 3
+            };
+            var destination = EmployeeVisualSlot(projection, visual.X, visual.Y);
+            destination.Position += new Vector2(offset * 4, -offset * 3);
+            DrawTextureRectRegion(
+                EmployeePseudo3DAtlas,
+                destination,
+                AtlasCell(EmployeePseudo3DAtlas, columns: 12, rows: 4, column: 8, row: sourceRow),
+                Colors.White);
+
+            DrawBusinessFeedbackBubble(projection, visual.X, visual.Y, offset);
+            return;
+        }
+
+        if (EmployeeAtlas == null)
+        {
+            return;
+        }
+
+        var fallbackRow = visual.RoleId switch
+        {
+            "product_engineer" => 0,
+            "sales_specialist" => 2,
+            "ops_engineer" => 4,
+            _ => 0
+        };
+        var sourceColumn = 9;
+        var fallbackDestination = EmployeeVisualSlot(projection, visual.X, visual.Y);
+        fallbackDestination.Position += new Vector2(offset * 4, -offset * 3);
+        DrawTextureRectRegion(
+            EmployeeAtlas,
+            fallbackDestination,
+            AtlasCell(EmployeeAtlas, columns: 12, rows: 6, sourceColumn, row: fallbackRow),
+            Colors.White);
+
+        DrawStatusIcon(projection, visual.X, visual.Y, offset);
+    }
+
+    private void DrawBusinessFeedbackBubble(OfficeProjection projection, int x, int y, int offset)
+    {
+        if (BusinessFeedbackBubbleAtlas != null)
+        {
+            DrawTextureRectRegion(
+                BusinessFeedbackBubbleAtlas,
+                ProjectedBubbleSlot(projection, x, y, offset),
+                AtlasCell(BusinessFeedbackBubbleAtlas, columns: 8, rows: 4, column: 0, row: 0),
+                Colors.White);
+            return;
+        }
+
+        DrawStatusIcon(projection, x, y, offset);
+    }
+
     private void DrawEmployeeVisuals()
     {
         if (EmployeeAtlas == null)
@@ -607,7 +852,7 @@ public partial class OfficeGridView : Node2D
     {
         if (UsePseudo3DProjection)
         {
-            return ProjectedVisualSlot(projection, x, y, 0.58f, 1.28f);
+            return ProjectedVisualSlot(projection, x, y, 0.82f, 1.82f);
         }
 
         return new Rect2(
@@ -615,6 +860,19 @@ public partial class OfficeGridView : Node2D
             y * CellSize + CellSize * 0.04f,
             CellSize * 0.52f,
             CellSize * 0.78f);
+    }
+
+    private Rect2 ProjectedTileAtlasSlot(
+        OfficeProjection projection,
+        int x,
+        int y,
+        float widthScale,
+        float heightScale)
+    {
+        var width = projection.TileWidth * widthScale;
+        var height = projection.TileHeight * heightScale;
+        var anchor = projection.CellCenter(x, y);
+        return new Rect2(anchor.X - width * 0.5f, anchor.Y - height * 0.52f, width, height);
     }
 
     private Rect2 ProjectedVisualSlot(OfficeProjection projection, int x, int y, float widthScale, float heightScale)
@@ -640,6 +898,17 @@ public partial class OfficeGridView : Node2D
         var iconSize = projection.TileHeight * 0.56f;
         var anchor = projection.CellCenter(x, y);
         return new Rect2(anchor.X + projection.TileWidth * 0.16f, anchor.Y - projection.TileHeight * 1.08f + offset * 3, iconSize, iconSize);
+    }
+
+    private Rect2 ProjectedBubbleSlot(OfficeProjection projection, int x, int y, int offset)
+    {
+        var iconSize = projection.TileHeight * 0.78f;
+        var anchor = projection.CellCenter(x, y);
+        return new Rect2(
+            anchor.X + projection.TileWidth * 0.14f,
+            anchor.Y - projection.TileHeight * 1.55f + offset * 3,
+            iconSize,
+            iconSize);
     }
 
     private void DrawHoverCell()

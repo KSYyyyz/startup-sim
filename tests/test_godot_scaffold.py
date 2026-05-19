@@ -132,6 +132,57 @@ def test_godot_main_scene_uses_art_atlases_for_office_visuals():
     assert "ShowEmployeeVisual" in panel_script
 
 
+def test_godot_main_scene_uses_pseudo3d_art_pack_layers():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+
+    for atlas in [
+        "pseudo3d-office-structure-atlas-v1.1b.png",
+        "zone-carpet-build-marker-atlas-v1.2.png",
+        "large-facility-sprite-atlas-v1.3.png",
+        "employee-pseudo3d-motion-atlas-v1.4.png",
+        "business-event-feedback-bubble-atlas-v1.6.png",
+    ]:
+        assert atlas in scene
+
+    assert "company-main-scene-background" not in scene
+    assert "Pseudo3DStructureAtlas = ExtResource" in scene
+    assert "ZoneCarpetAtlas = ExtResource" in scene
+    assert "LargeFacilityAtlas = ExtResource" in scene
+    assert "EmployeePseudo3DAtlas = ExtResource" in scene
+    assert "BusinessFeedbackBubbleAtlas = ExtResource" in scene
+
+    for symbol in [
+        "Pseudo3DStructureAtlas",
+        "ZoneCarpetAtlas",
+        "LargeFacilityAtlas",
+        "EmployeePseudo3DAtlas",
+        "BusinessFeedbackBubbleAtlas",
+        "DrawPseudo3DOfficeShell",
+        "DrawPseudo3DFloorTiles",
+        "DrawZoneCarpets",
+        "DrawPseudo3DVisualStack",
+        "RenderDepthKey",
+        "DrawLargeFacilityVisual",
+        "DrawPseudo3DEmployeeVisual",
+    ]:
+        assert symbol in grid_script
+
+
+def test_godot_hud_kpi_assets_use_cash_support_semantics():
+    art_pack = GODOT / "assets" / "art" / "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome"
+    index = (art_pack / "asset-index.json").read_text(encoding="utf-8")
+    guide = (art_pack / "slice-guides" / "hud-kpi-ui-chrome-atlas-v1.5-slice-guide.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "cash_support_clock" in index
+    assert "kpi_icons-cash_support_clock.png" in index
+    assert "cash_support_clock" in guide
+    assert "runway_clock" not in index
+    assert "runway_clock" not in guide
+
+
 def test_godot_main_scene_links_named_art_packs_by_function_and_use():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
