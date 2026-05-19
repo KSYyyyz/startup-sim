@@ -32,6 +32,7 @@ public partial class G2OperationsPanelController : Control
     [Export] public NodePath MetricsLabelPath { get; set; } = new NodePath("TopStatusBar/MetricsLabel");
     [Export] public NodePath GoalsLabelPath { get; set; } = new NodePath("RoomContextPanel/GoalsLabel");
     [Export] public NodePath CapacityLabelPath { get; set; } = new NodePath("RoomContextPanel/CapacityLabel");
+    [Export] public NodePath ContextLabelPath { get; set; } = new NodePath("RoomContextPanel/ContextLabel");
     [Export] public NodePath ReportLabelPath { get; set; } = new NodePath("MonthlyReportModal/ReportLabel");
     [Export] public NodePath ReplayLabelPath { get; set; } = new NodePath("MonthlyReportModal/ReplayLabel");
 
@@ -48,11 +49,13 @@ public partial class G2OperationsPanelController : Control
 
     private TurnResultSnapshot? lastResult;
     private BusinessIntentSnapshot? lastIntent;
+    private bool reportAvailable;
 
     private Label? StatusLabel => GetNodeOrNull<Label>(StatusLabelPath);
     private Label? MetricsLabel => GetNodeOrNull<Label>(MetricsLabelPath);
     private Label? GoalsLabel => GetNodeOrNull<Label>(GoalsLabelPath);
     private Label? CapacityLabel => GetNodeOrNull<Label>(CapacityLabelPath);
+    private Label? ContextLabel => GetNodeOrNull<Label>(ContextLabelPath);
     private Label? ReportLabel => GetNodeOrNull<Label>(ReportLabelPath);
     private Label? ReplayLabel => GetNodeOrNull<Label>(ReplayLabelPath);
 
@@ -97,8 +100,10 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("TopStatusBar/TimeButtons/AdvanceMonthButton", AdvanceMonth);
         ConnectButton("BottomActionDock/MetaTools/SaveButton", SaveRun);
         ConnectButton("BottomActionDock/MetaTools/LoadButton", LoadRun);
+        ConnectButton("FloatingEventFeed/OpenReportButton", ShowMonthlyReport);
         ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport);
         SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 1f);
+        SetReportAvailable(false);
         if (TimeProgressController != null)
         {
             TimeProgressController.MonthReady += OnMonthReady;
@@ -237,7 +242,7 @@ public partial class G2OperationsPanelController : Control
 
     public void AdvanceMonth()
     {
-        SettleMonthFromCurrentIntent(clearBuildMode: true);
+        SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true);
     }
 
     public void SaveRun()
@@ -259,13 +264,22 @@ public partial class G2OperationsPanelController : Control
         UpdateStatus("已读取本地存档复盘。");
     }
 
+    public void ShowMonthlyReport()
+    {
+        SetNodeVisible("MonthlyReportModal", true);
+        SetReportButtonVisible(false);
+    }
+
     public void HideMonthlyReport()
     {
         SetNodeVisible("MonthlyReportModal", false);
+        SetReportButtonVisible(reportAvailable);
     }
 
     private void OnGridCellSelected(int x, int y, string occupantId)
     {
+        UpdateRoomContext(x, y, occupantId);
+
         if (activeMode == PaintZoneMode)
         {
             PaintZoneByGridClick(x, y);
@@ -294,6 +308,19 @@ public partial class G2OperationsPanelController : Control
         };
 
         UpdateStatus($"悬停格子 ({x}, {y})，{occupancyHint}。{actionHint}");
+    }
+
+    private void UpdateRoomContext(int x, int y, string occupantId)
+    {
+        var zone = FindZoneAt(x, y);
+        var facility = FindFacilityAt(x, y);
+        var zoneText = zone == null ? "未划分房间" : zone.DisplayName;
+        var facilityText = facility == null ? "无设施" : FacilityDisplayName(facility.FacilityTypeId);
+        var occupantText = string.IsNullOrWhiteSpace(occupantId) ? "空闲格" : occupantId;
+
+        SetLabel(
+            ContextLabel,
+            $"选中：({x}, {y}) / {zoneText}\n内容：{occupantText} / {facilityText}");
     }
 
     private void UpdateBuildPreview(int x, int y)
@@ -570,10 +597,10 @@ public partial class G2OperationsPanelController : Control
 
     private void OnMonthReady(int monthIndex)
     {
-        SettleMonthFromCurrentIntent(clearBuildMode: false);
+        SettleMonthFromCurrentIntent(clearBuildMode: false, showReport: false);
     }
 
-    private void SettleMonthFromCurrentIntent(bool clearBuildMode)
+    private void SettleMonthFromCurrentIntent(bool clearBuildMode, bool showReport)
     {
         if (clearBuildMode)
         {
@@ -601,9 +628,16 @@ public partial class G2OperationsPanelController : Control
         var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
         SetLabel(MetricsLabel, BuildMetricsText(result));
         SetLabel(ReportLabel, BuildReportText(result, report));
-        ShowMonthlyReport();
+        SetReportAvailable(true);
+        if (showReport)
+        {
+            ShowMonthlyReport();
+        }
+
         RefreshCompanyProgress();
-        UpdateStatus($"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。");
+        UpdateStatus(showReport
+            ? $"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。"
+            : $"第 {result.Month} 月已结算，点击查看月报。");
     }
 
     private void SetSpeedButtonState(float speedMultiplier)
@@ -629,9 +663,21 @@ public partial class G2OperationsPanelController : Control
         SetLabel(StatusLabel, message);
     }
 
-    private void ShowMonthlyReport()
+    private void SetReportAvailable(bool available)
     {
-        SetNodeVisible("MonthlyReportModal", true);
+        reportAvailable = available;
+        SetReportButtonVisible(available && !IsNodeVisible("MonthlyReportModal"));
+    }
+
+    private void SetReportButtonVisible(bool visible)
+    {
+        SetNodeVisible("FloatingEventFeed/OpenReportButton", visible);
+    }
+
+    private bool IsNodeVisible(string path)
+    {
+        var node = GetNodeOrNull<CanvasItem>(new NodePath(path));
+        return node?.Visible ?? false;
     }
 
     private void SetNodeVisible(string path, bool visible)
@@ -714,5 +760,30 @@ public partial class G2OperationsPanelController : Control
             "basic_desk" => "研发区或销售区",
             _ => "匹配区域"
         };
+    }
+
+    private static string FacilityDisplayName(string facilityTypeId)
+    {
+        return facilityTypeId switch
+        {
+            "product_whiteboard" => "产品白板",
+            "starter_server_rack" => "服务器机柜",
+            "basic_desk" => "办公桌",
+            _ => facilityTypeId
+        };
+    }
+
+    private OfficeFacility? FindFacilityAt(int x, int y)
+    {
+        if (ZonePaintingController == null)
+        {
+            return null;
+        }
+
+        return ZonePaintingController.Layout.Facilities.FirstOrDefault(
+            facility => x >= facility.X
+                && x < facility.X + facility.Width
+                && y >= facility.Y
+                && y < facility.Y + facility.Height);
     }
 }

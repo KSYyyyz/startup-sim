@@ -86,6 +86,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
+mouse_filter = 2
 script = ExtResource("10")
 ZonePaintingControllerPath = NodePath("../ZonePaintingController")
 FacilityPlacementControllerPath = NodePath("../FacilityPlacementController")
@@ -152,11 +153,21 @@ color = Color(0.92, 0.92, 0.86, 0.9)
 [node name="StatusLabel" type="Label" parent="G2OperationsPanel/FloatingEventFeed" unique_id=1887555158]
 layout_mode = 0
 offset_left = 14.0
-offset_top = 10.0
-offset_right = 552.0
-offset_bottom = 64.0
+offset_top = 8.0
+offset_right = 432.0
+offset_bottom = 66.0
 text = "办公室运行中：用底部工具栏建房间、放设施、招员工，经营结果由 C# Core 月结。"
 autowrap_mode = 3
+clip_text = true
+
+[node name="OpenReportButton" type="Button" parent="G2OperationsPanel/FloatingEventFeed" unique_id=2075929644]
+visible = false
+layout_mode = 0
+offset_left = 456.0
+offset_top = 38.0
+offset_right = 552.0
+offset_bottom = 66.0
+text = "查看月报"
 
 [node name="BottomActionDock" type="ColorRect" parent="G2OperationsPanel" unique_id=2094687373]
 layout_mode = 0
@@ -254,9 +265,9 @@ color = Color(0.075, 0.085, 0.082, 0.78)
 [node name="GoalsLabel" type="Label" parent="G2OperationsPanel/RoomContextPanel" unique_id=1630133752]
 layout_mode = 0
 offset_left = 14.0
-offset_top = 12.0
+offset_top = 58.0
 offset_right = 336.0
-offset_bottom = 74.0
+offset_bottom = 92.0
 text = "公司目标：等待目标数据。"
 autowrap_mode = 3
 clip_text = true
@@ -264,10 +275,20 @@ clip_text = true
 [node name="CapacityLabel" type="Label" parent="G2OperationsPanel/RoomContextPanel" unique_id=1796383618]
 layout_mode = 0
 offset_left = 14.0
-offset_top = 82.0
+offset_top = 98.0
 offset_right = 336.0
-offset_bottom = 132.0
+offset_bottom = 134.0
 text = "产能预览：等待区域、设施和员工。"
+autowrap_mode = 3
+clip_text = true
+
+[node name="ContextLabel" type="Label" parent="G2OperationsPanel/RoomContextPanel" unique_id=1089941872]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 336.0
+offset_bottom = 52.0
+text = "选中：等待玩家选择办公室格子。"
 autowrap_mode = 3
 clip_text = true
 

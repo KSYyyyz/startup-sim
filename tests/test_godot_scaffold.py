@@ -277,6 +277,10 @@ def test_godot_main_scene_uses_mad_games_tycoon_style_hud_layout():
     assert "offset_bottom = 648.0" in scene
     assert "offset_left = 816.0" not in scene
     assert "offset_top = 24.0" not in scene
+    panel_block = scene.split('[node name="G2OperationsPanel" type="Control" parent="."', 1)[
+        1
+    ].split("\n\n", 1)[0]
+    assert "mouse_filter = 2" in panel_block
     assert 'node name="TopStatusBar" type="ColorRect" parent="G2OperationsPanel"' in scene
     assert 'node name="BottomActionDock" type="ColorRect" parent="G2OperationsPanel"' in scene
     assert 'node name="FloatingEventFeed" type="ColorRect" parent="G2OperationsPanel"' in scene
@@ -305,6 +309,39 @@ def test_godot_main_scene_uses_mad_games_tycoon_style_hud_layout():
         'ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport)' in panel_script
     )
     assert "ShowMonthlyReport()" in panel_script
+
+
+def test_godot_auto_month_report_is_non_blocking_and_reopenable():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert (
+        'node name="OpenReportButton" type="Button" parent="G2OperationsPanel/FloatingEventFeed"'
+        in scene
+    )
+    assert 'ConnectButton("FloatingEventFeed/OpenReportButton", ShowMonthlyReport)' in panel_script
+    assert "SetReportAvailable(false)" in panel_script
+    assert "SetReportAvailable(true)" in panel_script
+    assert "SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true)" in panel_script
+    assert "SettleMonthFromCurrentIntent(clearBuildMode: false, showReport: false)" in panel_script
+    assert "if (showReport)" in panel_script
+    assert "第 {result.Month} 月已结算，点击查看月报。" in panel_script
+
+
+def test_godot_room_context_panel_tracks_selected_office_cell():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert (
+        'node name="ContextLabel" type="Label" parent="G2OperationsPanel/RoomContextPanel"' in scene
+    )
+    assert 'new NodePath("RoomContextPanel/ContextLabel")' in panel_script
+    assert "private Label? ContextLabel" in panel_script
+    assert "UpdateRoomContext(x, y, occupantId);" in panel_script
+    assert "private void UpdateRoomContext(int x, int y, string occupantId)" in panel_script
+    assert "FindZoneAt(x, y)" in panel_script
+    assert "FindFacilityAt(x, y)" in panel_script
+    assert "ContextLabel," in panel_script
 
 
 def test_godot_office_view_keeps_kairosoft_style_grid_interaction_readable():
@@ -587,7 +624,7 @@ def test_godot_time_loop_drives_monthly_business_settlement():
 
     assert "TimeProgressController.MonthReady += OnMonthReady" in panel_script
     assert "private void OnMonthReady(int monthIndex)" in panel_script
-    assert "SettleMonthFromCurrentIntent(clearBuildMode: false)" in panel_script
+    assert "SettleMonthFromCurrentIntent(clearBuildMode: false, showReport: false)" in panel_script
     assert "TimeProgressController.SubmitBusinessIntent(lastIntent)" in panel_script
 
 
