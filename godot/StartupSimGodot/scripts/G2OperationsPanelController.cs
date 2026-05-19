@@ -28,12 +28,12 @@ public partial class G2OperationsPanelController : Control
     [Export] public NodePath CompanyProgressControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath LocalSaveControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath OfficeGridViewPath { get; set; } = new NodePath("");
-    [Export] public NodePath StatusLabelPath { get; set; } = new NodePath("StatusLabel");
-    [Export] public NodePath MetricsLabelPath { get; set; } = new NodePath("MetricsLabel");
-    [Export] public NodePath GoalsLabelPath { get; set; } = new NodePath("GoalsLabel");
-    [Export] public NodePath CapacityLabelPath { get; set; } = new NodePath("CapacityLabel");
-    [Export] public NodePath ReportLabelPath { get; set; } = new NodePath("ReportLabel");
-    [Export] public NodePath ReplayLabelPath { get; set; } = new NodePath("ReplayLabel");
+    [Export] public NodePath StatusLabelPath { get; set; } = new NodePath("FloatingEventFeed/StatusLabel");
+    [Export] public NodePath MetricsLabelPath { get; set; } = new NodePath("TopStatusBar/MetricsLabel");
+    [Export] public NodePath GoalsLabelPath { get; set; } = new NodePath("RoomContextPanel/GoalsLabel");
+    [Export] public NodePath CapacityLabelPath { get; set; } = new NodePath("RoomContextPanel/CapacityLabel");
+    [Export] public NodePath ReportLabelPath { get; set; } = new NodePath("MonthlyReportModal/ReportLabel");
+    [Export] public NodePath ReplayLabelPath { get; set; } = new NodePath("MonthlyReportModal/ReplayLabel");
 
     public ZonePaintingController? ZonePaintingController { get; private set; }
     public FacilityPlacementController? FacilityPlacementController { get; private set; }
@@ -80,23 +80,24 @@ public partial class G2OperationsPanelController : Control
             OfficeGridView.GridCellHovered += OnGridCellHovered;
         }
 
-        ConnectButton("ZoneButtons/ProductZoneButton", SelectProductZoneTool);
-        ConnectButton("ZoneButtons/SalesZoneButton", SelectSalesZoneTool);
-        ConnectButton("ZoneButtons/ServerZoneButton", SelectServerZoneTool);
-        ConnectButton("FacilityButtons/DeskButton", SelectDeskFacilityTool);
-        ConnectButton("FacilityButtons/WhiteboardButton", SelectWhiteboardFacilityTool);
-        ConnectButton("FacilityButtons/ServerRackButton", SelectServerFacilityTool);
-        ConnectButton("EmployeeButtons/HireProductButton", HireProductEmployee);
-        ConnectButton("EmployeeButtons/HireSalesButton", HireSalesEmployee);
-        ConnectButton("EmployeeButtons/HireOpsButton", HireOpsEmployee);
-        ConnectButton("EmployeeButtons/TrainButton", TrainSelectedEmployee);
-        ConnectButton("TimeButtons/PauseButton", SetPaused);
-        ConnectButton("TimeButtons/NormalSpeedButton", SetNormalSpeed);
-        ConnectButton("TimeButtons/DoubleSpeedButton", SetDoubleSpeed);
-        ConnectButton("TimeButtons/TripleSpeedButton", SetTripleSpeed);
-        ConnectButton("TimeButtons/AdvanceMonthButton", AdvanceMonth);
-        ConnectButton("MetaButtons/SaveButton", SaveRun);
-        ConnectButton("MetaButtons/LoadButton", LoadRun);
+        ConnectButton("BottomActionDock/BuildTools/ProductZoneButton", SelectProductZoneTool);
+        ConnectButton("BottomActionDock/BuildTools/SalesZoneButton", SelectSalesZoneTool);
+        ConnectButton("BottomActionDock/BuildTools/ServerZoneButton", SelectServerZoneTool);
+        ConnectButton("BottomActionDock/FacilityTools/DeskButton", SelectDeskFacilityTool);
+        ConnectButton("BottomActionDock/FacilityTools/WhiteboardButton", SelectWhiteboardFacilityTool);
+        ConnectButton("BottomActionDock/FacilityTools/ServerRackButton", SelectServerFacilityTool);
+        ConnectButton("BottomActionDock/EmployeeTools/HireProductButton", HireProductEmployee);
+        ConnectButton("BottomActionDock/EmployeeTools/HireSalesButton", HireSalesEmployee);
+        ConnectButton("BottomActionDock/EmployeeTools/HireOpsButton", HireOpsEmployee);
+        ConnectButton("BottomActionDock/EmployeeTools/TrainButton", TrainSelectedEmployee);
+        ConnectButton("TopStatusBar/TimeButtons/PauseButton", SetPaused);
+        ConnectButton("TopStatusBar/TimeButtons/NormalSpeedButton", SetNormalSpeed);
+        ConnectButton("TopStatusBar/TimeButtons/DoubleSpeedButton", SetDoubleSpeed);
+        ConnectButton("TopStatusBar/TimeButtons/TripleSpeedButton", SetTripleSpeed);
+        ConnectButton("TopStatusBar/TimeButtons/AdvanceMonthButton", AdvanceMonth);
+        ConnectButton("BottomActionDock/MetaTools/SaveButton", SaveRun);
+        ConnectButton("BottomActionDock/MetaTools/LoadButton", LoadRun);
+        ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport);
         SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 1f);
         if (TimeProgressController != null)
         {
@@ -254,7 +255,13 @@ public partial class G2OperationsPanelController : Control
     {
         var summary = LocalSaveController?.LoadCurrentRun() ?? "本地存档控制器未就绪。";
         SetLabel(ReplayLabel, summary);
+        ShowMonthlyReport();
         UpdateStatus("已读取本地存档复盘。");
+    }
+
+    public void HideMonthlyReport()
+    {
+        SetNodeVisible("MonthlyReportModal", false);
     }
 
     private void OnGridCellSelected(int x, int y, string occupantId)
@@ -556,7 +563,7 @@ public partial class G2OperationsPanelController : Control
         var button = GetNodeOrNull<Button>(path);
         if (button != null)
         {
-            button.ToggleMode = path.StartsWith("TimeButtons/", StringComparison.Ordinal);
+            button.ToggleMode = path.Contains("/TimeButtons/", StringComparison.Ordinal);
             button.Pressed += action;
         }
     }
@@ -594,16 +601,17 @@ public partial class G2OperationsPanelController : Control
         var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
         SetLabel(MetricsLabel, BuildMetricsText(result));
         SetLabel(ReportLabel, BuildReportText(result, report));
+        ShowMonthlyReport();
         RefreshCompanyProgress();
         UpdateStatus($"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。");
     }
 
     private void SetSpeedButtonState(float speedMultiplier)
     {
-        SetSpeedButtonPressed("TimeButtons/PauseButton", speedMultiplier, 0f);
-        SetSpeedButtonPressed("TimeButtons/NormalSpeedButton", speedMultiplier, 1f);
-        SetSpeedButtonPressed("TimeButtons/DoubleSpeedButton", speedMultiplier, 2f);
-        SetSpeedButtonPressed("TimeButtons/TripleSpeedButton", speedMultiplier, 3f);
+        SetSpeedButtonPressed("TopStatusBar/TimeButtons/PauseButton", speedMultiplier, 0f);
+        SetSpeedButtonPressed("TopStatusBar/TimeButtons/NormalSpeedButton", speedMultiplier, 1f);
+        SetSpeedButtonPressed("TopStatusBar/TimeButtons/DoubleSpeedButton", speedMultiplier, 2f);
+        SetSpeedButtonPressed("TopStatusBar/TimeButtons/TripleSpeedButton", speedMultiplier, 3f);
     }
 
     private void SetSpeedButtonPressed(string path, float speedMultiplier, float expectedSpeed)
@@ -621,6 +629,20 @@ public partial class G2OperationsPanelController : Control
         SetLabel(StatusLabel, message);
     }
 
+    private void ShowMonthlyReport()
+    {
+        SetNodeVisible("MonthlyReportModal", true);
+    }
+
+    private void SetNodeVisible(string path, bool visible)
+    {
+        var node = GetNodeOrNull<CanvasItem>(new NodePath(path));
+        if (node != null)
+        {
+            node.Visible = visible;
+        }
+    }
+
     private static void SetLabel(Label? label, string text)
     {
         if (label != null)
@@ -632,7 +654,7 @@ public partial class G2OperationsPanelController : Control
     private static string BuildMetricsText(TurnResultSnapshot result)
     {
         return string.Join(
-            "\n",
+            "    ",
             $"现金：{result.Cash}",
             $"现金流可支撑时间：{BuildCashSupportTimeText(result)}",
             $"MRR：{result.MonthlyRecurringRevenue}",
@@ -643,7 +665,7 @@ public partial class G2OperationsPanelController : Control
     private static string BuildMetricsText(GameMetrics metrics)
     {
         return string.Join(
-            "\n",
+            "    ",
             $"现金：{metrics.Cash}",
             $"现金流可支撑时间：{BuildCashSupportTimeText(metrics)}",
             $"MRR：{metrics.MonthlyRecurringRevenue}",

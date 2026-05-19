@@ -223,7 +223,7 @@ def test_godot_main_scene_links_named_art_packs_by_function_and_use():
     assert "GridView?.ClearZoneVisual(zoneId);" in zone_script
 
 
-def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
+def test_godot_main_scene_looks_like_tycoon_office_scene_not_grid_editor():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
@@ -241,7 +241,13 @@ def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
         "BuildModeGridAlpha = 0.24" in scene
         or "BuildModeGridAlpha { get; set; } = 0.24f" in grid_script
     )
-    assert 'text = "公司经营面板"' in scene
+    assert "TopStatusBar" in scene
+    assert "BottomActionDock" in scene
+    assert "FloatingEventFeed" in scene
+    assert "RoomContextPanel" in scene
+    assert "MonthlyReportModal" in scene
+    assert "PanelBacking" not in scene
+    assert 'text = "公司经营面板"' not in scene
     for label in ["现金：", "现金流可支撑时间：", "MRR：", "用户：", "产品："]:
         assert label in scene
     assert "G2 最小操作台" not in scene
@@ -255,6 +261,50 @@ def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
 
     assert "OfficeGridView?.SetBuildMode(true)" in panel_script
     assert "OfficeGridView?.SetBuildMode(false)" in panel_script
+
+
+def test_godot_main_scene_uses_mad_games_tycoon_style_hud_layout():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    design = (ROOT / "docs" / "godot_tycoon_main_ui_design.md").read_text(encoding="utf-8")
+
+    assert "疯狂游戏大亨 2" in design
+    assert "房间主导" in design
+    assert "底部工具栏" in design
+    assert "右侧常驻看板退场" in design
+
+    assert "offset_right = 1152.0" in scene
+    assert "offset_bottom = 648.0" in scene
+    assert "offset_left = 816.0" not in scene
+    assert "offset_top = 24.0" not in scene
+    assert 'node name="TopStatusBar" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert 'node name="BottomActionDock" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert 'node name="FloatingEventFeed" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert 'node name="RoomContextPanel" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert 'node name="MonthlyReportModal" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert "visible = false" in scene
+
+    assert 'new NodePath("TopStatusBar/MetricsLabel")' in panel_script
+    assert 'new NodePath("FloatingEventFeed/StatusLabel")' in panel_script
+    assert 'new NodePath("RoomContextPanel/CapacityLabel")' in panel_script
+    assert 'new NodePath("MonthlyReportModal/ReportLabel")' in panel_script
+
+    assert (
+        'ConnectButton("BottomActionDock/BuildTools/ProductZoneButton", SelectProductZoneTool)'
+        in panel_script
+    )
+    assert (
+        'ConnectButton("BottomActionDock/EmployeeTools/HireProductButton", HireProductEmployee)'
+        in panel_script
+    )
+    assert (
+        'ConnectButton("TopStatusBar/TimeButtons/TripleSpeedButton", SetTripleSpeed)'
+        in panel_script
+    )
+    assert (
+        'ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport)' in panel_script
+    )
+    assert "ShowMonthlyReport()" in panel_script
 
 
 def test_godot_office_view_keeps_kairosoft_style_grid_interaction_readable():
@@ -454,8 +504,8 @@ def test_godot_g2_local_save_and_replay_panel_are_mounted():
     assert "ReplayLabel" in scene
     assert "SaveButton" in scene
     assert "LoadButton" in scene
-    assert "GoalsLabelPath" in scene
-    assert "ReplayLabelPath" in scene
+    assert "GoalsLabelPath" in panel_script
+    assert "ReplayLabelPath" in panel_script
     assert "LocalSaveControllerPath" in scene
     assert "CompanyProgressControllerPath" in scene
     assert "BusinessIntentControllerPath" in scene
@@ -472,20 +522,21 @@ def test_godot_g2_local_save_and_replay_panel_are_mounted():
     assert "现金流可支撑时间" in progress_script
     assert "Runway" not in progress_script
 
-    assert 'ConnectButton("MetaButtons/SaveButton", SaveRun)' in panel_script
-    assert 'ConnectButton("MetaButtons/LoadButton", LoadRun)' in panel_script
+    assert 'ConnectButton("BottomActionDock/MetaTools/SaveButton", SaveRun)' in panel_script
+    assert 'ConnectButton("BottomActionDock/MetaTools/LoadButton", LoadRun)' in panel_script
     assert "SetLabel(GoalsLabel" in panel_script
     assert "SetLabel(ReplayLabel" in panel_script
 
 
-def test_godot_main_scene_keeps_operations_panel_inside_default_viewport():
+def test_godot_main_scene_keeps_operations_hud_inside_default_viewport():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
 
-    assert 'node name="PanelBacking" type="ColorRect" parent="G2OperationsPanel"' in scene
-    assert "offset_left = 816.0" in scene
-    assert "offset_top = 24.0" in scene
-    assert "offset_right = 1136.0" in scene
-    assert "offset_bottom = 634.0" in scene
+    assert 'node name="TopStatusBar" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert 'node name="BottomActionDock" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert "offset_right = 1152.0" in scene
+    assert "offset_bottom = 648.0" in scene
+    assert "offset_left = 816.0" not in scene
+    assert "offset_top = 24.0" not in scene
     assert "offset_left = 840.0" not in scene
     assert "offset_right = 1240.0" not in scene
 

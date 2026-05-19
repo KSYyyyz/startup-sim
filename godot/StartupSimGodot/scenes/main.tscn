@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dkjgn6aepqybh"]
+[gd_scene format=3 uid="uid://dsu26vvydysox"]
 
 [ext_resource type="Script" uid="uid://chf6o66ff3p6r" path="res://scripts/StartupSimController.cs" id="1"]
 [ext_resource type="Script" uid="uid://ddugeuk48aqjg" path="res://scripts/OfficeGridView.cs" id="2"]
@@ -19,12 +19,11 @@
 [ext_resource type="Script" uid="uid://b6h5g4wlme18d" path="res://scripts/BusinessIntentController.cs" id="17_muem4"]
 [ext_resource type="Script" uid="uid://ix5afjinatl2" path="res://scripts/CompanyProgressController.cs" id="18_dp3eg"]
 [ext_resource type="Script" uid="uid://dqtfgqyknfjgk" path="res://scripts/LocalSaveController.cs" id="19_0ld40"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.1b-pseudo3d-office-structure/exports/pseudo3d-office-structure-atlas-v1.1b.png" id="20"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.2-zone-carpets-build-markers/exports/zone-carpet-build-marker-atlas-v1.2.png" id="21"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.3-large-facility-sprites/exports/large-facility-sprite-atlas-v1.3.png" id="22"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.4-employee-pseudo3d-motion/exports/employee-pseudo3d-motion-atlas-v1.4.png" id="23"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.5-hud-kpi-ui-chrome/exports/hud-kpi-ui-chrome-atlas-v1.5.png" id="24"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.6-business-event-feedback-bubbles/exports/business-event-feedback-bubble-atlas-v1.6.png" id="25"]
+[ext_resource type="Texture2D" uid="uid://f2isd8mkmrb1" path="res://assets/art/godot-g1-art-pack-v1.1b-pseudo3d-office-structure/exports/pseudo3d-office-structure-atlas-v1.1b.png" id="20"]
+[ext_resource type="Texture2D" uid="uid://cvieh838s113" path="res://assets/art/godot-g1-art-pack-v1.2-zone-carpets-build-markers/exports/zone-carpet-build-marker-atlas-v1.2.png" id="21"]
+[ext_resource type="Texture2D" uid="uid://cfnipaqrp7eto" path="res://assets/art/godot-g1-art-pack-v1.3-large-facility-sprites/exports/large-facility-sprite-atlas-v1.3.png" id="22"]
+[ext_resource type="Texture2D" uid="uid://dnvgiy27lxe1f" path="res://assets/art/godot-g1-art-pack-v1.4-employee-pseudo3d-motion/exports/employee-pseudo3d-motion-atlas-v1.4.png" id="23"]
+[ext_resource type="Texture2D" uid="uid://dvbqpti657fm" path="res://assets/art/godot-g1-art-pack-v1.6-business-event-feedback-bubbles/exports/business-event-feedback-bubble-atlas-v1.6.png" id="25"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_feedback_portrait"]
 atlas = ExtResource("17")
@@ -85,10 +84,8 @@ script = ExtResource("9")
 [node name="G2OperationsPanel" type="Control" parent="." unique_id=24335746]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 816.0
-offset_top = 24.0
-offset_right = 1136.0
-offset_bottom = 634.0
+offset_right = 1152.0
+offset_bottom = 648.0
 script = ExtResource("10")
 ZonePaintingControllerPath = NodePath("../ZonePaintingController")
 FacilityPlacementControllerPath = NodePath("../FacilityPlacementController")
@@ -100,187 +97,232 @@ BusinessIntentControllerPath = NodePath("../BusinessIntentController")
 CompanyProgressControllerPath = NodePath("../CompanyProgressController")
 LocalSaveControllerPath = NodePath("../LocalSaveController")
 OfficeGridViewPath = NodePath("../OfficeGridView")
-GoalsLabelPath = NodePath("GoalsLabel")
-ReportLabelPath = NodePath("ReportLabel")
-ReplayLabelPath = NodePath("ReplayLabel")
 
-[node name="PanelBacking" type="ColorRect" parent="G2OperationsPanel" unique_id=816224283]
+[node name="TopStatusBar" type="ColorRect" parent="G2OperationsPanel" unique_id=204224979]
 layout_mode = 0
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 306.0
-offset_bottom = 616.0
+offset_right = 1152.0
+offset_bottom = 54.0
 mouse_filter = 2
-color = Color(0.07, 0.08, 0.075, 0.62)
+color = Color(0.055, 0.065, 0.07, 0.86)
 
-[node name="TitleLabel" type="Label" parent="G2OperationsPanel" unique_id=1018679144]
+[node name="MetricsLabel" type="Label" parent="G2OperationsPanel/TopStatusBar" unique_id=681637200]
 layout_mode = 0
-offset_right = 360.0
-offset_bottom = 28.0
-text = "公司经营面板"
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 770.0
+offset_bottom = 42.0
+text = "现金：1000000    现金流可支撑时间：8.3 个月    MRR：0    用户：0    产品：20"
 
-[node name="StatusLabel" type="Label" parent="G2OperationsPanel" unique_id=1887555158]
+[node name="TimeButtons" type="HBoxContainer" parent="G2OperationsPanel/TopStatusBar" unique_id=662512030]
 layout_mode = 0
-offset_top = 36.0
-offset_right = 304.0
-offset_bottom = 96.0
-text = "围绕产品、用户、收入和现金流安排办公室。建造辅助网格只在划区和摆设施时显示。"
-autowrap_mode = 3
+offset_left = 792.0
+offset_top = 10.0
+offset_right = 1136.0
+offset_bottom = 44.0
 
-[node name="MetricsLabel" type="Label" parent="G2OperationsPanel" unique_id=681637200]
-layout_mode = 0
-offset_top = 108.0
-offset_right = 304.0
-offset_bottom = 236.0
-text = "现金：1000000
-现金流可支撑时间：8.3 个月
-MRR：0
-用户：0
-产品：20"
-autowrap_mode = 3
-
-[node name="ZoneButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=952563871]
-layout_mode = 0
-offset_top = 300.0
-offset_right = 304.0
-offset_bottom = 332.0
-
-[node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons" unique_id=1320403870]
-layout_mode = 2
-text = "研发区"
-
-[node name="SalesZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons" unique_id=1286078008]
-layout_mode = 2
-text = "销售区"
-
-[node name="ServerZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons" unique_id=1122815278]
-layout_mode = 2
-text = "服务器区"
-
-[node name="FacilityButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=741361227]
-layout_mode = 0
-offset_top = 336.0
-offset_right = 304.0
-offset_bottom = 368.0
-
-[node name="DeskButton" type="Button" parent="G2OperationsPanel/FacilityButtons" unique_id=529168171]
-layout_mode = 2
-text = "办公桌"
-
-[node name="WhiteboardButton" type="Button" parent="G2OperationsPanel/FacilityButtons" unique_id=693717160]
-layout_mode = 2
-text = "白板"
-
-[node name="ServerRackButton" type="Button" parent="G2OperationsPanel/FacilityButtons" unique_id=627315752]
-layout_mode = 2
-text = "机柜"
-
-[node name="EmployeeButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=1694857138]
-layout_mode = 0
-offset_top = 372.0
-offset_right = 304.0
-offset_bottom = 404.0
-
-[node name="HireProductButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=369488227]
-layout_mode = 2
-text = "招研发"
-
-[node name="HireSalesButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=2108880734]
-layout_mode = 2
-text = "招销售"
-
-[node name="HireOpsButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=58007684]
-layout_mode = 2
-text = "招运维"
-
-[node name="TrainButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=1491081058]
-layout_mode = 2
-text = "训练"
-
-[node name="TimeButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=662512030]
-layout_mode = 0
-offset_top = 408.0
-offset_right = 304.0
-offset_bottom = 440.0
-
-[node name="PauseButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=1810753262]
+[node name="PauseButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=1810753262]
 layout_mode = 2
 text = "暂停"
 
-[node name="NormalSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=918911404]
+[node name="NormalSpeedButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=918911404]
 layout_mode = 2
 text = "1x"
 
-[node name="DoubleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=690320320]
+[node name="DoubleSpeedButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=690320320]
 layout_mode = 2
 text = "2x"
 
-[node name="TripleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=127748113]
+[node name="TripleSpeedButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=127748113]
 layout_mode = 2
 text = "3x"
 
-[node name="AdvanceMonthButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=694755657]
+[node name="AdvanceMonthButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=694755657]
 layout_mode = 2
 text = "推进月份"
 
-[node name="CapacityLabel" type="Label" parent="G2OperationsPanel" unique_id=1796383618]
+[node name="FloatingEventFeed" type="ColorRect" parent="G2OperationsPanel" unique_id=1663353251]
 layout_mode = 0
-offset_top = 502.0
-offset_right = 304.0
-offset_bottom = 532.0
-text = "产能预览：等待区域、设施和员工。"
+offset_left = 292.0
+offset_top = 64.0
+offset_right = 860.0
+offset_bottom = 138.0
+mouse_filter = 2
+color = Color(0.92, 0.92, 0.86, 0.9)
+
+[node name="StatusLabel" type="Label" parent="G2OperationsPanel/FloatingEventFeed" unique_id=1887555158]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 552.0
+offset_bottom = 64.0
+text = "办公室运行中：用底部工具栏建房间、放设施、招员工，经营结果由 C# Core 月结。"
 autowrap_mode = 3
 
-[node name="ReportLabel" type="Label" parent="G2OperationsPanel" unique_id=1906407572]
+[node name="BottomActionDock" type="ColorRect" parent="G2OperationsPanel" unique_id=2094687373]
 layout_mode = 0
-offset_top = 532.0
-offset_right = 212.0
-offset_bottom = 580.0
-text = "月报将在推进月份后出现。"
-autowrap_mode = 3
-clip_text = true
+offset_top = 584.0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.8, 0.8, 0.76, 0.92)
 
-[node name="FeedbackPortrait" type="TextureRect" parent="G2OperationsPanel" unique_id=1021164674]
+[node name="BuildTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=952563871]
 layout_mode = 0
-offset_left = 224.0
-offset_top = 544.0
-offset_right = 288.0
-offset_bottom = 608.0
-texture = SubResource("AtlasTexture_feedback_portrait")
-expand_mode = 1
-stretch_mode = 5
+offset_left = 88.0
+offset_top = 14.0
+offset_right = 324.0
+offset_bottom = 50.0
 
-[node name="GoalsLabel" type="Label" parent="G2OperationsPanel" unique_id=1630133752]
+[node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/BottomActionDock/BuildTools" unique_id=1320403870]
+layout_mode = 2
+text = "研发区"
+
+[node name="SalesZoneButton" type="Button" parent="G2OperationsPanel/BottomActionDock/BuildTools" unique_id=1286078008]
+layout_mode = 2
+text = "销售区"
+
+[node name="ServerZoneButton" type="Button" parent="G2OperationsPanel/BottomActionDock/BuildTools" unique_id=1122815278]
+layout_mode = 2
+text = "服务器区"
+
+[node name="FacilityTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=741361227]
 layout_mode = 0
-offset_top = 236.0
-offset_right = 304.0
-offset_bottom = 292.0
+offset_left = 340.0
+offset_top = 14.0
+offset_right = 556.0
+offset_bottom = 50.0
+
+[node name="DeskButton" type="Button" parent="G2OperationsPanel/BottomActionDock/FacilityTools" unique_id=529168171]
+layout_mode = 2
+text = "办公桌"
+
+[node name="WhiteboardButton" type="Button" parent="G2OperationsPanel/BottomActionDock/FacilityTools" unique_id=693717160]
+layout_mode = 2
+text = "白板"
+
+[node name="ServerRackButton" type="Button" parent="G2OperationsPanel/BottomActionDock/FacilityTools" unique_id=627315752]
+layout_mode = 2
+text = "机柜"
+
+[node name="EmployeeTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=1694857138]
+layout_mode = 0
+offset_left = 574.0
+offset_top = 14.0
+offset_right = 876.0
+offset_bottom = 50.0
+
+[node name="HireProductButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=369488227]
+layout_mode = 2
+text = "招研发"
+
+[node name="HireSalesButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=2108880734]
+layout_mode = 2
+text = "招销售"
+
+[node name="HireOpsButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=58007684]
+layout_mode = 2
+text = "招运维"
+
+[node name="TrainButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=1491081058]
+layout_mode = 2
+text = "训练"
+
+[node name="MetaTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=249058179]
+layout_mode = 0
+offset_left = 910.0
+offset_top = 14.0
+offset_right = 1060.0
+offset_bottom = 50.0
+
+[node name="SaveButton" type="Button" parent="G2OperationsPanel/BottomActionDock/MetaTools" unique_id=35149053]
+layout_mode = 2
+text = "存档"
+
+[node name="LoadButton" type="Button" parent="G2OperationsPanel/BottomActionDock/MetaTools" unique_id=442249202]
+layout_mode = 2
+text = "读取"
+
+[node name="RoomContextPanel" type="ColorRect" parent="G2OperationsPanel" unique_id=1166074942]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 430.0
+offset_right = 372.0
+offset_bottom = 574.0
+mouse_filter = 2
+color = Color(0.075, 0.085, 0.082, 0.78)
+
+[node name="GoalsLabel" type="Label" parent="G2OperationsPanel/RoomContextPanel" unique_id=1630133752]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 336.0
+offset_bottom = 74.0
 text = "公司目标：等待目标数据。"
 autowrap_mode = 3
 clip_text = true
 
-[node name="MetaButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=249058179]
+[node name="CapacityLabel" type="Label" parent="G2OperationsPanel/RoomContextPanel" unique_id=1796383618]
 layout_mode = 0
-offset_top = 468.0
-offset_right = 304.0
-offset_bottom = 500.0
-
-[node name="SaveButton" type="Button" parent="G2OperationsPanel/MetaButtons" unique_id=35149053]
-layout_mode = 2
-text = "存档"
-
-[node name="LoadButton" type="Button" parent="G2OperationsPanel/MetaButtons" unique_id=442249202]
-layout_mode = 2
-text = "读取"
-
-[node name="ReplayLabel" type="Label" parent="G2OperationsPanel" unique_id=45727514]
-layout_mode = 0
-offset_top = 582.0
-offset_right = 212.0
-offset_bottom = 610.0
-text = "复盘记录：等待存档或月结。"
+offset_left = 14.0
+offset_top = 82.0
+offset_right = 336.0
+offset_bottom = 132.0
+text = "产能预览：等待区域、设施和员工。"
 autowrap_mode = 3
 clip_text = true
+
+[node name="MonthlyReportModal" type="ColorRect" parent="G2OperationsPanel" unique_id=695110329]
+visible = false
+layout_mode = 0
+offset_left = 320.0
+offset_top = 150.0
+offset_right = 846.0
+offset_bottom = 520.0
+color = Color(0.96, 0.93, 0.84, 0.96)
+
+[node name="ReportLabel" type="Label" parent="G2OperationsPanel/MonthlyReportModal" unique_id=1906407572]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 56.0
+offset_right = 398.0
+offset_bottom = 276.0
+text = "月报将在推进月份后出现。"
+autowrap_mode = 3
+
+[node name="ReplayLabel" type="Label" parent="G2OperationsPanel/MonthlyReportModal" unique_id=45727514]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 288.0
+offset_right = 398.0
+offset_bottom = 348.0
+text = "复盘记录：等待存档或月结。"
+autowrap_mode = 3
+
+[node name="FeedbackPortrait" type="TextureRect" parent="G2OperationsPanel/MonthlyReportModal" unique_id=1021164674]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 68.0
+offset_right = 502.0
+offset_bottom = 152.0
+texture = SubResource("AtlasTexture_feedback_portrait")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ReportTitle" type="Label" parent="G2OperationsPanel/MonthlyReportModal" unique_id=985303982]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 14.0
+offset_right = 430.0
+offset_bottom = 42.0
+text = "月度经营报告"
+
+[node name="ReportCloseButton" type="Button" parent="G2OperationsPanel/MonthlyReportModal" unique_id=482340348]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 12.0
+offset_right = 514.0
+offset_bottom = 44.0
+text = "×"
 
 [node name="BusinessIntentController" type="Node" parent="." unique_id=1321224658]
 script = ExtResource("17_muem4")
