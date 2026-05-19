@@ -447,6 +447,99 @@ def test_godot_company_main_scene_background_pack_is_import_ready():
     assert (width, height) == (1920, 1080)
 
 
+def test_godot_tycoon_action_icon_pack_is_import_ready():
+    pack_name = "godot-g1-art-pack-v2.2-tycoon-action-icons"
+    pack = GODOT_ART_ROOT / pack_name
+    index_path = pack / "asset-index.json"
+
+    assert index_path.is_file()
+    assert (pack / "ART_PACK_SPEC.md").is_file()
+    assert (pack / "GODOT_IMPORT_NOTES.md").is_file()
+
+    index_text = index_path.read_text(encoding="utf-8")
+    assert "现金流可支撑时间" in index_text
+    assert "跑道" not in index_text
+    assert "Runway" not in index_text
+
+    index = json.loads(index_text)
+    assert index["pack_id"] == f"startup-sim-{pack_name}"
+    assert "backup only" in index["storage_policy"]
+
+    assert [asset["id"] for asset in index["assets"]] == ["tycoon-action-icon-atlas-v2.2"]
+    asset = index["assets"][0]
+    export_path = pack / asset["file"]
+    source_path = pack / asset["source"]
+    raw_source_path = pack / asset["raw_source"]
+    prompt_path = pack / asset["prompt"]
+    slice_guide_path = pack / asset["slice_guide"]
+    preview_path = pack / asset["preview"]
+
+    assert export_path.is_file()
+    assert export_path.with_name(f"{export_path.name}.import").is_file()
+    assert source_path.is_file()
+    assert raw_source_path.is_file()
+    assert prompt_path.is_file()
+    assert slice_guide_path.is_file()
+    assert preview_path.is_file()
+    assert asset["grid"] == {"columns": 8, "rows": 3}
+    assert asset["slice"] == {"cell_width_px": 224, "cell_height_px": 224}
+    assert asset["image"] == {"width": 1792, "height": 672}
+    assert asset["text_policy"]["cash_support_wording"] == "现金流可支撑时间"
+    assert asset["sliced_icon_count"] == 24
+
+    assert read_png_size(export_path) == (1792, 672)
+    for icon_dir, icon_size in [
+        ("exports/icons_224", (224, 224)),
+        ("exports/icons_64", (64, 64)),
+        ("exports/icons_48", (48, 48)),
+    ]:
+        icon_paths = sorted((pack / icon_dir).glob("*.png"))
+        assert len(icon_paths) == 24
+        assert all(read_png_size(path) == icon_size for path in icon_paths)
+        assert all(path.with_name(f"{path.name}.import").is_file() for path in icon_paths)
+
+    required_texture_fields = {
+        "id",
+        "semantic_name",
+        "zh_name",
+        "category",
+        "file",
+        "file_64",
+        "file_48",
+        "atlas",
+        "atlas_region",
+        "grid_position",
+        "intended_layer",
+        "anchor",
+        "footprint_cells",
+        "visual_size_cells",
+        "usage",
+        "state_tags",
+        "godot_hint",
+    }
+    assert len(asset["textures"]) == 24
+    for texture in asset["textures"]:
+        assert required_texture_fields <= set(texture), texture["id"]
+        assert (pack / texture["file"]).is_file()
+        assert (pack / texture["file_64"]).is_file()
+        assert (pack / texture["file_48"]).is_file()
+        assert texture["atlas"] == asset["file"]
+        assert texture["anchor"] == "center"
+        assert texture["intended_layer"] == "HudLayer"
+        assert texture["zh_name"]
+        assert "跑道" not in texture["zh_name"]
+        assert "Runway" not in texture["zh_name"]
+        assert "跑道" not in texture["usage"]
+        assert "Runway" not in texture["usage"]
+        assert texture["godot_hint"]["text_policy"].startswith("No baked text")
+
+        region = texture["atlas_region"]
+        assert region["w"] == 224
+        assert region["h"] == 224
+        assert region["x"] == texture["grid_position"]["column"] * 224
+        assert region["y"] == texture["grid_position"]["row"] * 224
+
+
 def read_png_size(path: Path) -> tuple[int, int]:
     header = path.read_bytes()[:24]
     assert header[:8] == b"\x89PNG\r\n\x1a\n", f"{path.name} is not a PNG"

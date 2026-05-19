@@ -128,8 +128,9 @@ public partial class G2OperationsPanelController : Control
 
         RefreshInitialMetrics();
         RefreshCompanyProgress();
+        ConstrainHudButtons();
 
-        SetEventCue("开局", "游戏已暂停。先布置办公室，再推进月份；现金流可支撑时间由 C# Core 月结结果解释。");
+        SetEventCue("开局", "先布置办公室，再推进月份查看经营反馈。");
     }
 
     public void SelectProductZoneTool()
@@ -223,6 +224,7 @@ public partial class G2OperationsPanelController : Control
         selectedEmployeeId = employee.Id;
         RefreshCapacity();
         UpdateStatus($"{employee.Name} 已训练，短期效率会下降，但长期产能会提升。");
+        ShowEmployeeObjectActionPanel(employee, FindZoneForEmployee(employee));
     }
 
     public void SellSelectedFacility()
@@ -277,7 +279,7 @@ public partial class G2OperationsPanelController : Control
         }
 
         RefreshCapacity();
-        SetEventCue("升级", "设施等级提升，月固定成本和产能已更新。");
+        SetEventCue("升级", BuildFacilityUpgradeStatus(facility));
     }
 
     public void ReduceFixedCost()
@@ -450,7 +452,9 @@ public partial class G2OperationsPanelController : Control
         selectedCellY = y;
         var zone = FindZoneAt(x, y);
         var facility = FindFacilityAt(x, y);
+        var employee = FindEmployee(occupantId);
         selectedFacilityId = facility?.Id ?? string.Empty;
+        selectedEmployeeId = employee?.Id ?? string.Empty;
         var zoneText = zone == null ? "未划分房间" : zone.DisplayName;
         var facilityText = facility == null ? "无设施" : FacilityDisplayName(facility.FacilityTypeId);
         var occupantText = string.IsNullOrWhiteSpace(occupantId) ? "空闲格" : occupantId;
@@ -549,6 +553,8 @@ public partial class G2OperationsPanelController : Control
         }
 
         var zoneId = ZonePaintingController.CommitSelection(x, y);
+        var startX = zoneStartX;
+        var startY = zoneStartY;
         hasZoneStart = false;
         if (!string.IsNullOrWhiteSpace(zoneId))
         {
@@ -560,9 +566,14 @@ public partial class G2OperationsPanelController : Control
         }
 
         RefreshCapacity();
+        if (!string.IsNullOrWhiteSpace(zoneId))
+        {
+            UpdateRoomContext(x, y, string.Empty);
+        }
+
         UpdateStatus(string.IsNullOrWhiteSpace(zoneId)
             ? "区域创建失败，请避开已有区域或边界。"
-            : $"已创建区域 {zoneId}，范围从 ({zoneStartX}, {zoneStartY}) 到 ({x}, {y})。");
+            : BuildZoneCreatedStatus(zoneId, startX, startY, x, y));
     }
 
     private void PlaceFacilityByGridClick(int x, int y)
@@ -601,7 +612,8 @@ public partial class G2OperationsPanelController : Control
             y);
         RefreshCapacity();
         UpdateObjectActionPanel(zone, FindFacility(facilityId), facilityId);
-        UpdateStatus($"已摆放设施 {facilityId}。");
+        UpdateRoomContext(x, y, facilityId);
+        UpdateStatus(BuildFacilityPlacedStatus(FindFacility(facilityId), zone));
     }
 
     private void HireAndAssignEmployee(
@@ -632,13 +644,15 @@ public partial class G2OperationsPanelController : Control
         {
             EmployeeManagementController.AssignEmployeeToZone(employeeId, zone.Id);
             var employee = FindEmployee(employeeId);
+            var employeeCell = FindEmployeeVisualCell(zone);
             OfficeGridView?.ShowEmployeeVisual(
                 employeeId,
                 employee?.RoleId ?? string.Empty,
-                FindEmployeeVisualCellX(zone),
-                FindEmployeeVisualCellY(zone));
+                employeeCell.X,
+                employeeCell.Y);
             if (employee != null)
             {
+                UpdateRoomContext(employeeCell.X, employeeCell.Y, employeeId);
                 ShowEmployeeObjectActionPanel(employee, zone);
             }
         }
@@ -647,7 +661,7 @@ public partial class G2OperationsPanelController : Control
         RefreshCapacity();
         UpdateStatus(zone == null
             ? $"已招聘{displayName}，请先创建匹配区域再分配。"
-            : $"已招聘并分配{displayName}到{zone.DisplayName}。");
+            : BuildEmployeeAssignedStatus(FindEmployee(employeeId), zone));
     }
 
     private OfficeZone? FindZoneAt(int x, int y)
@@ -684,6 +698,17 @@ public partial class G2OperationsPanelController : Control
 
         return ZonePaintingController.Layout.Facilities.FirstOrDefault(
             facility => facility.Id == facilityId);
+    }
+
+    private OfficeZone? FindZoneForEmployee(OfficeEmployee employee)
+    {
+        if (ZonePaintingController == null || string.IsNullOrWhiteSpace(employee.AssignedZoneId))
+        {
+            return null;
+        }
+
+        return ZonePaintingController.Layout.Zones.FirstOrDefault(
+            zone => zone.Id == employee.AssignedZoneId);
     }
 
     private int FindEmployeeVisualCellX(OfficeZone zone)
@@ -726,6 +751,7 @@ public partial class G2OperationsPanelController : Control
             ? "产能预览：等待区域、设施和员工。"
             : $"产能预览：{summary}");
         RefreshCompanyProgress();
+        RefreshSelectedObjectContext();
     }
 
     private void RefreshInitialMetrics()
@@ -745,6 +771,29 @@ public partial class G2OperationsPanelController : Control
         UpdateObjectiveProgressBar();
     }
 
+    private void RefreshSelectedObjectContext()
+    {
+        if (selectedCellX < 0 || selectedCellY < 0)
+        {
+            return;
+        }
+
+        var facility = FindFacilityAt(selectedCellX, selectedCellY);
+        var employee = FindEmployee(selectedEmployeeId);
+        var employeeZone = employee == null ? null : FindZoneForEmployee(employee);
+        var occupantId = facility?.Id ?? string.Empty;
+        if (employee != null && employeeZone != null && facility == null)
+        {
+            occupantId = employee.Id;
+        }
+
+        UpdateRoomContext(selectedCellX, selectedCellY, occupantId);
+        if (employee != null && employeeZone != null && facility == null)
+        {
+            ShowEmployeeObjectActionPanel(employee, employeeZone);
+        }
+    }
+
     private void UpdateObjectiveProgressBar()
     {
         var progress = CompanyProgressController?.LastStageProgressPercent ?? 0;
@@ -756,12 +805,96 @@ public partial class G2OperationsPanelController : Control
         SetLabel(ObjectiveTitleLabel, $"阶段目标 {progress}%");
     }
 
+    private void ConstrainHudButtons()
+    {
+        ApplyButtonChrome("TopStatusBar/TimeButtons/PauseButton", new Vector2(56f, 36f));
+        ApplyButtonIcon("TopStatusBar/TimeButtons/PauseButton", ActionIcon("pause_usage_icon.png"));
+        ApplyButtonChrome("TopStatusBar/TimeButtons/NormalSpeedButton", new Vector2(56f, 36f));
+        ApplyButtonChrome("TopStatusBar/TimeButtons/DoubleSpeedButton", new Vector2(56f, 36f));
+        ApplyButtonChrome("TopStatusBar/TimeButtons/TripleSpeedButton", new Vector2(56f, 36f));
+        ApplyButtonChrome("TopStatusBar/TimeButtons/AdvanceMonthButton", new Vector2(112f, 36f));
+        ApplyButtonIcon("TopStatusBar/TimeButtons/AdvanceMonthButton", ActionIcon("monthly_report_icon.png"));
+        SetButtonIconExpand("TopStatusBar/TimeButtons/AdvanceMonthButton");
+
+        foreach (var (path, iconName) in new[]
+        {
+            ("BottomActionDock/BuildTools/ProductZoneButton", "product_room_icon.png"),
+            ("BottomActionDock/BuildTools/SalesZoneButton", "sales_room_icon.png"),
+            ("BottomActionDock/BuildTools/ServerZoneButton", "server_room_icon.png"),
+            ("BottomActionDock/FacilityTools/DeskButton", "facility_upgrade_icon.png"),
+            ("BottomActionDock/FacilityTools/WhiteboardButton", "product_progress_icon.png"),
+            ("BottomActionDock/FacilityTools/ServerRackButton", "server_stability_icon.png"),
+            ("BottomActionDock/EmployeeTools/HireProductButton", "recruiting_icon.png"),
+            ("BottomActionDock/EmployeeTools/HireSalesButton", "recruiting_icon.png"),
+            ("BottomActionDock/EmployeeTools/HireOpsButton", "recruiting_icon.png"),
+            ("BottomActionDock/EmployeeTools/TrainButton", "training_icon.png"),
+            ("BottomActionDock/CrisisTools/SellFacilityButton", "facility_sell_icon.png"),
+            ("BottomActionDock/CrisisTools/ReduceCostButton", "cost_cutting_icon.png"),
+            ("BottomActionDock/CrisisTools/BridgeFundingButton", "bridge_funding_icon.png"),
+            ("BottomActionDock/MetaTools/SaveButton", "view_detail_icon.png"),
+            ("BottomActionDock/MetaTools/LoadButton", "view_detail_icon.png"),
+        })
+        {
+            ApplyButtonChrome(path, new Vector2(72f, 48f));
+            ApplyButtonIcon(path, ActionIcon(iconName));
+        }
+
+        foreach (var (path, iconName) in new[]
+        {
+            ("ObjectActionPanel/UpgradeSelectedFacilityButton", "facility_upgrade_icon.png"),
+            ("ObjectActionPanel/SellSelectedFacilityButton", "facility_sell_icon.png"),
+            ("ObjectActionPanel/TrainSelectedObjectButton", "training_icon.png"),
+        })
+        {
+            ApplyButtonChrome(path, new Vector2(74f, 36f));
+            ApplyButtonIcon(path, ActionIcon(iconName));
+        }
+    }
+
+    private void ApplyButtonChrome(string path, Vector2 minimumSize)
+    {
+        var button = GetNodeOrNull<Button>(path);
+        if (button == null)
+        {
+            return;
+        }
+
+        button.CustomMinimumSize = minimumSize;
+        button.ClipText = true;
+        SetButtonIconExpand(path);
+    }
+
+    private void ApplyButtonIcon(string path, string resourcePath)
+    {
+        var button = GetNodeOrNull<Button>(path);
+        var icon = GD.Load<Texture2D>(resourcePath);
+        if (button != null && icon != null)
+        {
+            button.Icon = icon;
+        }
+    }
+
+    private static string ActionIcon(string filename)
+    {
+        return $"res://assets/art/godot-g1-art-pack-v2.2-tycoon-action-icons/exports/icons_48/{filename}";
+    }
+
+    private void SetButtonIconExpand(string path)
+    {
+        var button = GetNodeOrNull<Button>(path);
+        if (button != null)
+        {
+            button.ExpandIcon = true;
+        }
+    }
+
     private void ConnectButton(string path, Action action)
     {
         var button = GetNodeOrNull<Button>(path);
         if (button != null)
         {
-            button.ToggleMode = path.Contains("/TimeButtons/", StringComparison.Ordinal);
+            button.ToggleMode = path.Contains("/TimeButtons/", StringComparison.Ordinal)
+                && !path.EndsWith("AdvanceMonthButton", StringComparison.Ordinal);
             button.Pressed += action;
         }
     }
@@ -819,7 +952,7 @@ public partial class G2OperationsPanelController : Control
         }
 
         UpdateStatus(showReport
-            ? $"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。"
+            ? $"第 {result.Month} 月已结算，查看月报。"
             : $"第 {result.Month} 月已结算，点击查看月报。");
     }
 
@@ -864,7 +997,7 @@ public partial class G2OperationsPanelController : Control
 
     private void UpdateStatus(string message)
     {
-        SetEventCue("经营提示", message);
+        SetEventCue("提示", message);
     }
 
     private void SetEventCue(string title, string message)
@@ -1028,6 +1161,47 @@ public partial class G2OperationsPanelController : Control
             : reason;
     }
 
+    private string BuildZoneCreatedStatus(string zoneId, int startX, int startY, int endX, int endY)
+    {
+        var minX = Math.Min(startX, endX);
+        var maxX = Math.Max(startX, endX);
+        var minY = Math.Min(startY, endY);
+        var maxY = Math.Max(startY, endY);
+        var zone = ZonePaintingController?.Layout.Zones.FirstOrDefault(item => item.Id == zoneId);
+        var zoneName = zone?.DisplayName ?? "区域";
+        return $"已创建{zoneName}：{maxX - minX + 1}x{maxY - minY + 1} 格，覆盖 x={minX}..{maxX} / y={minY}..{maxY}。";
+    }
+
+    private static string BuildFacilityPlacedStatus(OfficeFacility? facility, OfficeZone? zone)
+    {
+        if (facility == null)
+        {
+            return "已摆放设施，产能预览已更新。";
+        }
+
+        return $"已摆放{FacilityDisplayName(facility.FacilityTypeId)}：月成本 +{facility.MonthlyCost}，{zone?.DisplayName ?? "房间"}产能已更新。";
+    }
+
+    private static string BuildFacilityUpgradeStatus(OfficeFacility? facility)
+    {
+        if (facility == null)
+        {
+            return "设施等级提升，产能已更新。";
+        }
+
+        return $"{FacilityDisplayName(facility.FacilityTypeId)}升至 {facility.Level} 级：月成本 {facility.MonthlyCost}，产能已更新。";
+    }
+
+    private static string BuildEmployeeAssignedStatus(OfficeEmployee? employee, OfficeZone? zone)
+    {
+        if (employee == null)
+        {
+            return $"员工已分配到{zone?.DisplayName ?? "房间"}，产能预览已更新。";
+        }
+
+        return $"已分配{employee.Name}：{EmployeeRoleName(employee.RoleId)} / {zone?.DisplayName ?? "未分配"}，训练会先压低效率再提升产能。";
+    }
+
     private static string BuildRoomAdvice(
         OfficeZone? zone,
         OfficeFacility? facility,
@@ -1035,19 +1209,34 @@ public partial class G2OperationsPanelController : Control
     {
         if (zone == null)
         {
-            return "房间产出：无\n推荐操作：先从底部工具栏划分研发区、销售区或服务器区";
+            return "房间产出：无\n推荐操作：先从底部经营菜单划分研发区、销售区或服务器区";
         }
 
-        var output = zone.ZoneTypeId switch
+        var output = ZoneOutputText(zone);
+        var hasFacility = facility != null;
+        var hasOccupant = occupantText != "空闲格";
+        var advice = BuildRoomActionRecommendation(zone, hasFacility, hasOccupant);
+
+        return $"房间产出：{output}\n推荐操作：{advice}";
+    }
+
+    private static string ZoneOutputText(OfficeZone zone)
+    {
+        return zone.ZoneTypeId switch
         {
             "product_zone" => "产品分和研发产能",
             "sales_zone" => "用户增长和 MRR",
             "server_zone" => "稳定性和运维余量",
             _ => "基础办公产能"
         };
-        var hasFacility = facility != null;
-        var hasOccupant = occupantText != "空闲格";
-        var advice = zone.ZoneTypeId switch
+    }
+
+    private static string BuildRoomActionRecommendation(
+        OfficeZone zone,
+        bool hasFacility,
+        bool hasOccupant)
+    {
+        return zone.ZoneTypeId switch
         {
             "product_zone" when !hasFacility => "摆放办公桌或产品白板",
             "product_zone" when !hasOccupant => "招研发员工并训练",
@@ -1057,8 +1246,6 @@ public partial class G2OperationsPanelController : Control
             "server_zone" when !hasOccupant => "招运维员工降低稳定性风险",
             _ => "继续观察月报瓶颈，再决定扩建或节流"
         };
-
-        return $"房间产出：{output}\n推荐操作：{advice}";
     }
 
     private static string FacilityDisplayName(string facilityTypeId)
@@ -1097,9 +1284,9 @@ public partial class G2OperationsPanelController : Control
                 $"设施：{FacilityDisplayName(facility.FacilityTypeId)}",
                 string.Join(
                     "\n",
-                    $"坐标：({facility.X}, {facility.Y})  等级：{facility.Level}",
-                    $"月成本：{facility.MonthlyCost}  房间：{zone?.DisplayName ?? "未划分"}",
-                    "可操作：升级、出售、围绕该设施调整房间。"),
+                    $"等级：{facility.Level}  月成本：{facility.MonthlyCost}",
+                    $"房间：{zone?.DisplayName ?? "未划分"}  坐标：({facility.X}, {facility.Y})",
+                    "影响：提升房间产能；升级更强，出售降低月成本。"),
                 upgradeVisible: true,
                 sellVisible: true,
                 trainVisible: false);
@@ -1113,7 +1300,8 @@ public partial class G2OperationsPanelController : Control
                 string.Join(
                     "\n",
                     $"范围：{zone.Width}x{zone.Height}  当前：{occupantText}",
-                    BuildRoomAdvice(zone, null, occupantText)),
+                    $"产出：{ZoneOutputText(zone)}",
+                    BuildRoomActionRecommendation(zone, hasFacility: false, hasOccupant: occupantText != "空闲格")),
                 upgradeVisible: false,
                 sellVisible: false,
                 trainVisible: false);
@@ -1136,7 +1324,7 @@ public partial class G2OperationsPanelController : Control
                 "\n",
                 $"岗位：{EmployeeRoleName(employee.RoleId)}  等级：{employee.Level}",
                 $"分配：{zone?.DisplayName ?? "未分配"}  心情：{employee.Mood}  疲劳：{employee.Fatigue}",
-                "可操作：训练员工，或扩建匹配房间提升产能。"),
+                "训练：短期效率下降，长期产能提升。"),
             upgradeVisible: false,
             sellVisible: false,
             trainVisible: true);

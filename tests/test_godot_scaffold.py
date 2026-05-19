@@ -615,7 +615,10 @@ def test_godot_endgame_loop_starts_paused_and_stops_on_terminal_month():
     time_script = (SCRIPTS / "TimeProgressController.cs").read_text(encoding="utf-8")
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
 
-    assert "SpeedMultiplier = 0.0" in scene
+    assert (
+        "SpeedMultiplier = 0.0" in scene
+        or "[Export] public float SpeedMultiplier { get; set; } = 0f;" in time_script
+    )
     assert "public float SpeedMultiplier { get; set; } = 0f;" in time_script
     assert "IsEndgameResult(result)" in panel_script
     assert "ShowEndingReview(result)" in panel_script
@@ -673,6 +676,28 @@ def test_godot_tycoon_hud_uses_management_art_for_iconized_controls():
         assert icon_assignment in scene
 
 
+def test_godot_tycoon_icon_buttons_are_size_constrained_for_1152px_viewport():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "custom_minimum_size = Vector2(56, 36)" in scene
+    assert "custom_minimum_size = Vector2(72, 48)" in scene
+    assert "custom_minimum_size = Vector2(74, 36)" in scene
+    assert "expand_icon = true" in scene
+    assert "ConstrainHudButtons()" in panel_script
+    assert "ApplyButtonChrome(" in panel_script
+    assert "ApplyButtonIcon(" in panel_script
+    assert "godot-g1-art-pack-v2.2-tycoon-action-icons/exports/icons_48" in panel_script
+    assert '"product_room_icon.png"' in panel_script
+    assert '"facility_sell_icon.png"' in panel_script
+    assert 'ActionIcon("monthly_report_icon.png")' in panel_script
+    assert "new Vector2(56f, 36f)" in panel_script
+    assert "new Vector2(72f, 48f)" in panel_script
+    assert "new Vector2(74f, 36f)" in panel_script
+    assert 'SetButtonIconExpand("TopStatusBar/TimeButtons/AdvanceMonthButton")' in panel_script
+    assert '!path.EndsWith("AdvanceMonthButton", StringComparison.Ordinal)' in panel_script
+
+
 def test_godot_selected_object_panel_is_wired_to_room_facility_and_employee_actions():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
@@ -702,6 +727,11 @@ def test_godot_selected_object_panel_is_wired_to_room_facility_and_employee_acti
         'ConnectButton("ObjectActionPanel/TrainSelectedObjectButton", TrainSelectedEmployee)'
         in panel_script
     )
+    assert "RefreshSelectedObjectContext()" in panel_script
+    assert "BuildZoneCreatedStatus(" in panel_script
+    assert "BuildFacilityPlacedStatus(" in panel_script
+    assert "BuildEmployeeAssignedStatus(" in panel_script
+    assert "经营菜单" in panel_script
 
 
 def test_godot_selected_facility_sell_removes_core_layout_and_visual_object():

@@ -1,0 +1,1139 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v2.2-tycoon-action-icons",
+  "version": "2.2",
+  "created_for": "Startup Sim Godot desktop tycoon HUD category, operation, and status icon expansion",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, and 224/64/48 transparent icon slicing",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "tycoon-action-icon-atlas-v2.2",
+      "category": "tycoon_action_icons",
+      "file": "exports/tycoon-action-icon-atlas-v2.2.png",
+      "icon_dirs": {
+        "source_cell_224": "exports/icons_224",
+        "hud_64": "exports/icons_64",
+        "compact_48": "exports/icons_48"
+      },
+      "sliced_icon_count": 24,
+      "sliced_icon_naming": "{semantic_name}.png",
+      "source": "sources/tycoon-action-icon-atlas-v2.2-source.png",
+      "raw_source": "sources/tycoon-action-icon-atlas-v2.2-raw-generated.png",
+      "prompt": "prompts/tycoon-action-icon-atlas-v2.2-prompt.md",
+      "slice_guide": "slice-guides/tycoon-action-icon-atlas-v2.2-slice-guide.md",
+      "preview": "previews/tycoon-action-icon-atlas-v2.2-transparent-contact-sheet.png",
+      "validation": "validation-2.2.json",
+      "grid": {
+        "columns": 8,
+        "rows": 3
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 672
+      },
+      "row_labels": [
+        "business_categories",
+        "object_operations",
+        "status_hints"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual 224px transparent PNG path",
+        "file_64": "64x64 transparent PNG path for HUD buttons",
+        "file_48": "48x48 transparent PNG path for compact HUD buttons",
+        "atlas": "atlas PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "text_policy": {
+        "no_baked_text": true,
+        "cash_support_wording": "现金流可支撑时间",
+        "legacy_cash_wording_is_not_used": true
+      },
+      "textures": [
+        {
+          "id": "business_categories-product_room_icon",
+          "semantic_name": "product_room_icon",
+          "zh_name": "研发房间",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/product_room_icon.png",
+          "file_64": "exports/icons_64/product_room_icon.png",
+          "file_48": "exports/icons_48/product_room_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“研发房间”图标使用。",
+          "state_tags": [
+            "business_category",
+            "product",
+            "room"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "business_categories-sales_room_icon",
+          "semantic_name": "sales_room_icon",
+          "zh_name": "销售房间",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/sales_room_icon.png",
+          "file_64": "exports/icons_64/sales_room_icon.png",
+          "file_48": "exports/icons_48/sales_room_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“销售房间”图标使用。",
+          "state_tags": [
+            "business_category",
+            "sales",
+            "room"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "business_categories-server_room_icon",
+          "semantic_name": "server_room_icon",
+          "zh_name": "服务器房间",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/server_room_icon.png",
+          "file_64": "exports/icons_64/server_room_icon.png",
+          "file_48": "exports/icons_48/server_room_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“服务器房间”图标使用。",
+          "state_tags": [
+            "business_category",
+            "server",
+            "room"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "business_categories-recruiting_icon",
+          "semantic_name": "recruiting_icon",
+          "zh_name": "招聘",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/recruiting_icon.png",
+          "file_64": "exports/icons_64/recruiting_icon.png",
+          "file_48": "exports/icons_48/recruiting_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“招聘”图标使用。",
+          "state_tags": [
+            "business_category",
+            "recruiting"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "business_categories-training_icon",
+          "semantic_name": "training_icon",
+          "zh_name": "培训",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/training_icon.png",
+          "file_64": "exports/icons_64/training_icon.png",
+          "file_48": "exports/icons_48/training_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“培训”图标使用。",
+          "state_tags": [
+            "business_category",
+            "training"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "business_categories-finance_funding_icon",
+          "semantic_name": "finance_funding_icon",
+          "zh_name": "财务/融资",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/finance_funding_icon.png",
+          "file_64": "exports/icons_64/finance_funding_icon.png",
+          "file_48": "exports/icons_48/finance_funding_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“财务/融资”图标使用。",
+          "state_tags": [
+            "business_category",
+            "finance",
+            "funding"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "business_categories-monthly_report_icon",
+          "semantic_name": "monthly_report_icon",
+          "zh_name": "月报",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/monthly_report_icon.png",
+          "file_64": "exports/icons_64/monthly_report_icon.png",
+          "file_48": "exports/icons_48/monthly_report_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“月报”图标使用。",
+          "state_tags": [
+            "business_category",
+            "monthly_report"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "business_categories-stage_goal_icon",
+          "semantic_name": "stage_goal_icon",
+          "zh_name": "阶段目标",
+          "category": "business_category_icon",
+          "file": "exports/icons_224/stage_goal_icon.png",
+          "file_64": "exports/icons_64/stage_goal_icon.png",
+          "file_48": "exports/icons_48/stage_goal_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“阶段目标”图标使用。",
+          "state_tags": [
+            "business_category",
+            "stage_goal"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-facility_upgrade_icon",
+          "semantic_name": "facility_upgrade_icon",
+          "zh_name": "升级设施",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/facility_upgrade_icon.png",
+          "file_64": "exports/icons_64/facility_upgrade_icon.png",
+          "file_48": "exports/icons_48/facility_upgrade_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“升级设施”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "facility",
+            "upgrade"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-facility_sell_icon",
+          "semantic_name": "facility_sell_icon",
+          "zh_name": "出售设施",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/facility_sell_icon.png",
+          "file_64": "exports/icons_64/facility_sell_icon.png",
+          "file_48": "exports/icons_48/facility_sell_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“出售设施”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "facility",
+            "sell"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-facility_move_icon",
+          "semantic_name": "facility_move_icon",
+          "zh_name": "移动设施",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/facility_move_icon.png",
+          "file_64": "exports/icons_64/facility_move_icon.png",
+          "file_48": "exports/icons_48/facility_move_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“移动设施”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "facility",
+            "move"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-facility_repair_icon",
+          "semantic_name": "facility_repair_icon",
+          "zh_name": "维修设施",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/facility_repair_icon.png",
+          "file_64": "exports/icons_64/facility_repair_icon.png",
+          "file_48": "exports/icons_48/facility_repair_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“维修设施”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "facility",
+            "repair"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-pause_usage_icon",
+          "semantic_name": "pause_usage_icon",
+          "zh_name": "暂停使用",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/pause_usage_icon.png",
+          "file_64": "exports/icons_64/pause_usage_icon.png",
+          "file_48": "exports/icons_48/pause_usage_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“暂停使用”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "pause_usage"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-cost_cutting_icon",
+          "semantic_name": "cost_cutting_icon",
+          "zh_name": "成本削减",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/cost_cutting_icon.png",
+          "file_64": "exports/icons_64/cost_cutting_icon.png",
+          "file_48": "exports/icons_48/cost_cutting_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“成本削减”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "cost_cutting"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-bridge_funding_icon",
+          "semantic_name": "bridge_funding_icon",
+          "zh_name": "过桥融资",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/bridge_funding_icon.png",
+          "file_64": "exports/icons_64/bridge_funding_icon.png",
+          "file_48": "exports/icons_48/bridge_funding_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“过桥融资”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "bridge_funding"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "object_operations-view_detail_icon",
+          "semantic_name": "view_detail_icon",
+          "zh_name": "查看详情",
+          "category": "object_operation_icon",
+          "file": "exports/icons_224/view_detail_icon.png",
+          "file_64": "exports/icons_64/view_detail_icon.png",
+          "file_48": "exports/icons_48/view_detail_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“查看详情”图标使用。",
+          "state_tags": [
+            "object_operation",
+            "view_detail"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-cash_support_warning_icon",
+          "semantic_name": "cash_support_warning_icon",
+          "zh_name": "现金流可支撑时间预警",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/cash_support_warning_icon.png",
+          "file_64": "exports/icons_64/cash_support_warning_icon.png",
+          "file_48": "exports/icons_48/cash_support_warning_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“现金流可支撑时间预警”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "cash_support_time",
+            "warning"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-customer_growth_icon",
+          "semantic_name": "customer_growth_icon",
+          "zh_name": "客户增长",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/customer_growth_icon.png",
+          "file_64": "exports/icons_64/customer_growth_icon.png",
+          "file_48": "exports/icons_48/customer_growth_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“客户增长”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "customer_growth"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-revenue_growth_icon",
+          "semantic_name": "revenue_growth_icon",
+          "zh_name": "收入增长",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/revenue_growth_icon.png",
+          "file_64": "exports/icons_64/revenue_growth_icon.png",
+          "file_48": "exports/icons_48/revenue_growth_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“收入增长”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "revenue_growth"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-product_progress_icon",
+          "semantic_name": "product_progress_icon",
+          "zh_name": "产品进展",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/product_progress_icon.png",
+          "file_64": "exports/icons_64/product_progress_icon.png",
+          "file_48": "exports/icons_48/product_progress_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“产品进展”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "product_progress"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-server_stability_icon",
+          "semantic_name": "server_stability_icon",
+          "zh_name": "服务器稳定性",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/server_stability_icon.png",
+          "file_64": "exports/icons_64/server_stability_icon.png",
+          "file_48": "exports/icons_48/server_stability_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“服务器稳定性”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "server_stability"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-employee_fatigue_icon",
+          "semantic_name": "employee_fatigue_icon",
+          "zh_name": "员工疲劳",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/employee_fatigue_icon.png",
+          "file_64": "exports/icons_64/employee_fatigue_icon.png",
+          "file_48": "exports/icons_48/employee_fatigue_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“员工疲劳”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "employee_fatigue"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-employee_morale_icon",
+          "semantic_name": "employee_morale_icon",
+          "zh_name": "员工士气",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/employee_morale_icon.png",
+          "file_64": "exports/icons_64/employee_morale_icon.png",
+          "file_48": "exports/icons_48/employee_morale_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“员工士气”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "employee_morale"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        },
+        {
+          "id": "status_hints-facility_blocked_icon",
+          "semantic_name": "facility_blocked_icon",
+          "zh_name": "设施阻塞",
+          "category": "status_hint_icon",
+          "file": "exports/icons_224/facility_blocked_icon.png",
+          "file_64": "exports/icons_64/facility_blocked_icon.png",
+          "file_48": "exports/icons_48/facility_blocked_icon.png",
+          "atlas": "exports/tycoon-action-icon-atlas-v2.2.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim Godot 桌面版 HUD、对象面板或状态提示中作为“设施阻塞”图标使用。",
+          "state_tags": [
+            "status_hint",
+            "facility_blocked"
+          ],
+          "godot_hint": {
+            "sorting": "Draw in CanvasLayer HUD or object panel controls; no world y-sorting required.",
+            "button_sizes": {
+              "standard": "Use file_64 for normal desktop HUD buttons.",
+              "compact": "Use file_48 for dense object panels and table rows.",
+              "atlas": "Use the 224px atlas cell if Godot theme scaling or shader treatment is preferred."
+            },
+            "text_policy": "No baked text; render all Chinese labels, numbers, KPI values, months, and names with Godot Label nodes. Use the label 现金流可支撑时间 for cash support time UI."
+          }
+        }
+      ]
+    }
+  ]
+}
