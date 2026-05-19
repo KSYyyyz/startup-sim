@@ -33,6 +33,7 @@ def test_godot_project_scaffold_exists():
         SCRIPTS / "TurnResultSnapshot.cs",
         SCRIPTS / "GodotTurnBridge.cs",
         SCRIPTS / "OfficeRoomHotspot.cs",
+        SCRIPTS / "OfficeProjection.cs",
         SCRIPTS / "OfficeGridView.cs",
         SCRIPTS / "ZonePaintingController.cs",
         SCRIPTS / "FacilityPlacementController.cs",
@@ -137,7 +138,6 @@ def test_godot_main_scene_links_named_art_packs_by_function_and_use():
     zone_script = (SCRIPTS / "ZonePaintingController.cs").read_text(encoding="utf-8")
 
     for asset_path in [
-        "company-main-scene-background-v0.7.1.png",
         "office-tile-expansion-atlas-v0.4.png",
         "zone-state-overlay-atlas-v0.6.png",
         "facility-placement-atlas-v0.3.png",
@@ -147,7 +147,7 @@ def test_godot_main_scene_links_named_art_packs_by_function_and_use():
     ]:
         assert asset_path in scene
 
-    assert 'texture = ExtResource("16")' in scene
+    assert "company-main-scene-background-v0.7.1.png" not in scene
     assert 'texture = SubResource("AtlasTexture_feedback_portrait")' in scene
 
     assert "RegisterZoneVisual" in grid_script
@@ -226,8 +226,11 @@ def test_godot_office_view_keeps_kairosoft_style_grid_interaction_readable():
 
     assert "DefaultGridAlpha" in grid_script
     assert "DrawOfficeFrame" in grid_script
+    assert "UsePseudo3DProjection" in grid_script
+    assert "DrawProjectedFloorTiles" in grid_script
+    assert "DrawProjectedGridLines" in grid_script
+    assert "DrawProjectedCellMarker" in grid_script
     assert "DrawTextureRectRegion(" in grid_script
-    assert "cell.Grow(1f)" in grid_script
     assert "for (var x = 0; x < GridWidth; x++)" in grid_script
     assert "for (var y = 0; y < GridHeight; y++)" in grid_script
     assert "buildModeEnabled ? BuildModeGridAlpha : DefaultGridAlpha" in grid_script
@@ -242,7 +245,7 @@ def test_godot_office_view_keeps_selection_feedback_after_grid_click():
     assert "selectedCell = cell;" in grid_script
     assert "DrawSelectedCell();" in grid_script
     assert "private void DrawSelectedCell()" in grid_script
-    assert "new Rect2(selectedCell.X * CellSize" in grid_script
+    assert "DrawProjectedCellMarker(selectedCell" in grid_script
 
     assert "OfficeGridView.GridCellHovered += OnGridCellHovered;" in panel_script
     assert "private void OnGridCellHovered(int x, int y, string occupantId)" in panel_script
@@ -255,6 +258,34 @@ def test_godot_office_view_uses_mouse_event_position_for_grid_automation():
     assert "GetCellAtEventPosition(InputEventMouse inputEvent)" in grid_script
     assert "inputEvent.Position" in grid_script
     assert "GetCellAtWorldPosition(GetGlobalMousePosition())" not in grid_script
+
+
+def test_godot_office_view_has_projection_foundation_not_static_background():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    projection_script = (SCRIPTS / "OfficeProjection.cs").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+
+    assert "public readonly struct OfficeProjection" in projection_script
+    assert "CellToScreen" in projection_script
+    assert "ScreenToCell" in projection_script
+    assert "CellDiamond" in projection_script
+    assert "CellBounds" in projection_script
+
+    assert "UsePseudo3DProjection { get; set; } = true" in grid_script
+    assert "ProjectedTileWidth" in grid_script
+    assert "ProjectedTileHeight" in grid_script
+    assert "ProjectedOrigin" in grid_script
+    assert "GetProjectedCellAtLocalPosition" in grid_script
+    assert "BuildProjection()" in grid_script
+    assert "DrawOfficeShellFoundation" in grid_script
+    assert "DrawProjectedFloorTiles" in grid_script
+    assert "DrawProjectedZoneOverlay" in grid_script
+    assert "ProjectedVisualSlot" in grid_script
+    assert "ScreenToCell(local)" in grid_script
+
+    assert 'node name="OfficeBackdrop" type="ColorRect"' in scene
+    assert "company-main-scene-background-v0.7.1.png" not in scene
+    assert 'texture = ExtResource("16")' not in scene
 
 
 def test_godot_main_scene_keeps_operations_panel_inside_default_viewport():

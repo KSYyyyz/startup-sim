@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using StartupSim.Core.Office;
 
@@ -36,6 +37,10 @@ public partial class OfficeGridView : Node2D
     [Export] public int GridWidth { get; set; } = 12;
     [Export] public int GridHeight { get; set; } = 8;
     [Export] public int CellSize { get; set; } = 64;
+    [Export] public bool UsePseudo3DProjection { get; set; } = true;
+    [Export] public float ProjectedTileWidth { get; set; } = 72f;
+    [Export] public float ProjectedTileHeight { get; set; } = 40f;
+    [Export] public Vector2 ProjectedOrigin { get; set; } = new(330f, 42f);
     [Export] public Texture2D? OfficeTileAtlas { get; set; }
     [Export] public Texture2D? ZoneOverlayAtlas { get; set; }
     [Export] public Texture2D? FacilityAtlas { get; set; }
@@ -45,8 +50,8 @@ public partial class OfficeGridView : Node2D
     [Export] public float DefaultGridAlpha { get; set; } = 0.08f;
     [Export] public float BuildModeGridAlpha { get; set; } = 0.24f;
     [Export] public float FloorTileTextureAlpha { get; set; } = 0.38f;
-    [Export] public Color OfficeBackdropColor { get; set; } = new(0.17f, 0.19f, 0.18f, 1f);
-    [Export] public Color FloorBaseColor { get; set; } = new(0.72f, 0.69f, 0.62f, 1f);
+    [Export] public Color OfficeBackdropColor { get; set; } = new(0.16f, 0.18f, 0.17f, 1f);
+    [Export] public Color FloorBaseColor { get; set; } = new(0.73f, 0.70f, 0.64f, 1f);
     [Export] public Color GridColor { get; set; } = new(0.25f, 0.42f, 0.66f, 0.55f);
     [Export] public Color HoverColor { get; set; } = new(0.2f, 0.55f, 0.95f, 0.22f);
     [Export] public Color SelectionColor { get; set; } = new(0.98f, 0.86f, 0.28f, 0.75f);
@@ -87,7 +92,12 @@ public partial class OfficeGridView : Node2D
     public OfficeCell GetCellAtWorldPosition(Vector2 worldPosition)
     {
         var local = ToLocal(worldPosition);
-        return grid.WorldToCell(local.X, local.Y);
+        return UsePseudo3DProjection ? GetProjectedCellAtLocalPosition(local) : grid.WorldToCell(local.X, local.Y);
+    }
+
+    public OfficeCell GetProjectedCellAtLocalPosition(Vector2 local)
+    {
+        return BuildProjection().ScreenToCell(local);
     }
 
     public OfficeCell GetCellAtEventPosition(InputEventMouse inputEvent)
@@ -190,6 +200,11 @@ public partial class OfficeGridView : Node2D
         DrawHoverCell();
     }
 
+    private OfficeProjection BuildProjection()
+    {
+        return new OfficeProjection(ProjectedTileWidth, ProjectedTileHeight, ProjectedOrigin);
+    }
+
     private void UpdateHoveredCell(InputEventMouse inputEvent)
     {
         var cell = GetCellAtEventPosition(inputEvent);
@@ -209,6 +224,12 @@ public partial class OfficeGridView : Node2D
 
     private void DrawGridLines()
     {
+        if (UsePseudo3DProjection)
+        {
+            DrawProjectedGridLines(BuildProjection());
+            return;
+        }
+
         var widthPixels = GridWidth * CellSize;
         var heightPixels = GridHeight * CellSize;
         var alpha = buildModeEnabled ? BuildModeGridAlpha : DefaultGridAlpha;
@@ -227,15 +248,70 @@ public partial class OfficeGridView : Node2D
         }
     }
 
+    private void DrawProjectedGridLines(OfficeProjection projection)
+    {
+        var alpha = buildModeEnabled ? BuildModeGridAlpha : DefaultGridAlpha;
+        var gridColor = new Color(GridColor.R, GridColor.G, GridColor.B, alpha);
+
+        for (var x = 0; x < GridWidth; x++)
+        {
+            for (var y = 0; y < GridHeight; y++)
+            {
+                DrawDiamondOutline(projection.CellDiamond(x, y), gridColor, 1f);
+            }
+        }
+    }
+
     private void DrawOfficeBackdrop()
     {
+        if (UsePseudo3DProjection)
+        {
+            var projection = BuildProjection();
+            DrawOfficeShellFoundation(projection);
+            DrawProjectedFloorTiles(projection);
+            return;
+        }
+
         var officeRect = new Rect2(0, 0, GridWidth * CellSize, GridHeight * CellSize);
         DrawRect(officeRect.Grow(14f), OfficeBackdropColor, filled: true);
         DrawFloorTiles(officeRect);
     }
 
+    private void DrawOfficeShellFoundation(OfficeProjection projection)
+    {
+        var floor = new[]
+        {
+            projection.CellToScreen(0, 0),
+            projection.CellToScreen(GridWidth, 0),
+            projection.CellToScreen(GridWidth, GridHeight),
+            projection.CellToScreen(0, GridHeight)
+        };
+        DrawPolygon(floor, Fill(OfficeBackdropColor, floor.Length));
+
+        var wallColor = new Color(0.28f, 0.30f, 0.28f, 0.92f);
+        var rimColor = new Color(0.08f, 0.09f, 0.08f, 0.78f);
+        DrawLine(floor[0], floor[1], wallColor, 10f);
+        DrawLine(floor[0], floor[3], wallColor, 10f);
+        DrawLine(floor[2], floor[3], rimColor, 6f);
+        DrawLine(floor[1], floor[2], rimColor, 6f);
+    }
+
     private void DrawOfficeFrame()
     {
+        if (UsePseudo3DProjection)
+        {
+            var projection = BuildProjection();
+            var floor = new[]
+            {
+                projection.CellToScreen(0, 0),
+                projection.CellToScreen(GridWidth, 0),
+                projection.CellToScreen(GridWidth, GridHeight),
+                projection.CellToScreen(0, GridHeight)
+            };
+            DrawDiamondOutline(floor, new Color(0.08f, 0.09f, 0.08f, 0.8f), 3f);
+            return;
+        }
+
         var officeRect = new Rect2(0, 0, GridWidth * CellSize, GridHeight * CellSize);
         DrawRect(officeRect.Grow(3f), new Color(0.08f, 0.09f, 0.08f, 0.8f), filled: false, width: 3f);
         DrawLine(
@@ -263,9 +339,32 @@ public partial class OfficeGridView : Node2D
                 var sourceRow = 0;
                 DrawTextureRectRegion(
                     OfficeTileAtlas,
-                    cell.Grow(1f),
+                    cell,
                     AtlasCell(OfficeTileAtlas, columns: 8, rows: 5, column: sourceColumn, row: sourceRow),
                     new Color(1f, 1f, 1f, FloorTileTextureAlpha));
+            }
+        }
+    }
+
+    private void DrawProjectedFloorTiles(OfficeProjection projection)
+    {
+        for (var x = 0; x < GridWidth; x++)
+        {
+            for (var y = 0; y < GridHeight; y++)
+            {
+                var diamond = projection.CellDiamond(x, y);
+                var shade = (x + y) % 2 == 0 ? 0.02f : -0.02f;
+                var tileColor = new Color(
+                    Mathf.Clamp(FloorBaseColor.R + shade, 0f, 1f),
+                    Mathf.Clamp(FloorBaseColor.G + shade, 0f, 1f),
+                    Mathf.Clamp(FloorBaseColor.B + shade, 0f, 1f),
+                    FloorBaseColor.A);
+                DrawPolygon(diamond, Fill(tileColor, diamond.Length));
+
+                if (ShouldDrawDecorativeFloorTile(x, y))
+                {
+                    DrawDiamondOutline(diamond, new Color(0.9f, 0.86f, 0.74f, 0.18f), 1.5f);
+                }
             }
         }
     }
@@ -277,20 +376,19 @@ public partial class OfficeGridView : Node2D
 
     private void DrawOccupiedCells()
     {
-        foreach (var cell in grid.ToSnapshot().OccupiedCells)
+        var projection = BuildProjection();
+        foreach (var cell in grid.ToSnapshot().OccupiedCells.OrderBy(cell => cell.X + cell.Y).ThenBy(cell => cell.X))
         {
+            if (UsePseudo3DProjection)
+            {
+                DrawProjectedZoneOverlay(projection, cell.X, cell.Y, cell.OccupantId);
+                continue;
+            }
+
             var rect = CellRect(cell.X, cell.Y);
             if (ZoneOverlayAtlas != null)
             {
-                var sourceColumn = zoneTypeByZoneId.TryGetValue(cell.OccupantId, out var zoneTypeId)
-                    ? zoneTypeId switch
-                    {
-                        "product_zone" => 0,
-                        "sales_zone" => 1,
-                        "server_zone" => 2,
-                        _ => 0
-                    }
-                    : 0;
+                var sourceColumn = ZoneOverlayColumn(cell.OccupantId);
                 DrawTextureRectRegion(
                     ZoneOverlayAtlas,
                     rect,
@@ -304,6 +402,40 @@ public partial class OfficeGridView : Node2D
         }
     }
 
+    private void DrawProjectedZoneOverlay(OfficeProjection projection, int x, int y, string occupantId)
+    {
+        var zoneColor = ZoneOverlayColor(occupantId);
+        var diamond = projection.CellDiamond(x, y);
+        DrawPolygon(diamond, Fill(zoneColor, diamond.Length));
+        DrawDiamondOutline(diamond, new Color(zoneColor.R, zoneColor.G, zoneColor.B, 0.58f), 1.5f);
+    }
+
+    private int ZoneOverlayColumn(string occupantId)
+    {
+        return zoneTypeByZoneId.TryGetValue(occupantId, out var zoneTypeId)
+            ? zoneTypeId switch
+            {
+                "product_zone" => 0,
+                "sales_zone" => 1,
+                "server_zone" => 2,
+                _ => 0
+            }
+            : 0;
+    }
+
+    private Color ZoneOverlayColor(string occupantId)
+    {
+        return zoneTypeByZoneId.TryGetValue(occupantId, out var zoneTypeId)
+            ? zoneTypeId switch
+            {
+                "product_zone" => new Color(0.18f, 0.42f, 0.78f, 0.30f),
+                "sales_zone" => new Color(0.28f, 0.62f, 0.34f, 0.30f),
+                "server_zone" => new Color(0.44f, 0.32f, 0.68f, 0.32f),
+                _ => OccupiedColor
+            }
+            : OccupiedColor;
+    }
+
     private void DrawFacilityVisuals()
     {
         if (FacilityAtlas == null)
@@ -311,7 +443,8 @@ public partial class OfficeGridView : Node2D
             return;
         }
 
-        foreach (var visual in facilityVisuals.Values)
+        var projection = BuildProjection();
+        foreach (var visual in facilityVisuals.Values.OrderBy(visual => visual.X + visual.Y).ThenBy(visual => visual.X))
         {
             var sourceColumn = visual.FacilityTypeId switch
             {
@@ -322,7 +455,7 @@ public partial class OfficeGridView : Node2D
             };
             DrawTextureRectRegion(
                 FacilityAtlas,
-                FacilityVisualSlot(visual.X, visual.Y),
+                FacilityVisualSlot(projection, visual.X, visual.Y),
                 AtlasCell(FacilityAtlas, columns: 6, rows: 3, sourceColumn, row: 0),
                 Colors.White);
         }
@@ -335,8 +468,9 @@ public partial class OfficeGridView : Node2D
             return;
         }
 
+        var projection = BuildProjection();
         var offset = 0;
-        foreach (var visual in employeeVisuals.Values)
+        foreach (var visual in employeeVisuals.Values.OrderBy(visual => visual.X + visual.Y).ThenBy(visual => visual.X))
         {
             var sourceRow = visual.RoleId switch
             {
@@ -346,7 +480,7 @@ public partial class OfficeGridView : Node2D
                 _ => 0
             };
             var sourceColumn = 9;
-            var destination = EmployeeVisualSlot(visual.X, visual.Y);
+            var destination = EmployeeVisualSlot(projection, visual.X, visual.Y);
             destination.Position += new Vector2(offset * 4, -offset * 3);
             DrawTextureRectRegion(
                 EmployeeAtlas,
@@ -354,24 +488,21 @@ public partial class OfficeGridView : Node2D
                 AtlasCell(EmployeeAtlas, columns: 12, rows: 6, sourceColumn, row: sourceRow),
                 Colors.White);
 
-            DrawStatusIcon(visual.X, visual.Y, offset);
+            DrawStatusIcon(projection, visual.X, visual.Y, offset);
             offset++;
         }
     }
 
-    private void DrawStatusIcon(int x, int y, int offset)
+    private void DrawStatusIcon(OfficeProjection projection, int x, int y, int offset)
     {
         if (StatusIconAtlas == null)
         {
             return;
         }
 
-        var iconSize = CellSize * 0.28f;
-        var destination = new Rect2(
-            x * CellSize + CellSize - iconSize - 4,
-            y * CellSize + 4 + offset * 3,
-            iconSize,
-            iconSize);
+        var destination = UsePseudo3DProjection
+            ? ProjectedStatusIconSlot(projection, x, y, offset)
+            : FlatStatusIconSlot(x, y, offset);
         DrawTextureRectRegion(
             StatusIconAtlas,
             destination,
@@ -379,18 +510,48 @@ public partial class OfficeGridView : Node2D
             Colors.White);
     }
 
-    private Rect2 FacilityVisualSlot(int x, int y)
+    private Rect2 FacilityVisualSlot(OfficeProjection projection, int x, int y)
     {
-        return CellRect(x, y).Grow(-6f);
+        return UsePseudo3DProjection ? ProjectedVisualSlot(projection, x, y, 1.08f, 1.06f) : CellRect(x, y).Grow(-6f);
     }
 
-    private Rect2 EmployeeVisualSlot(int x, int y)
+    private Rect2 EmployeeVisualSlot(OfficeProjection projection, int x, int y)
     {
+        if (UsePseudo3DProjection)
+        {
+            return ProjectedVisualSlot(projection, x, y, 0.58f, 1.28f);
+        }
+
         return new Rect2(
             x * CellSize + CellSize * 0.1f,
             y * CellSize + CellSize * 0.04f,
             CellSize * 0.52f,
             CellSize * 0.78f);
+    }
+
+    private Rect2 ProjectedVisualSlot(OfficeProjection projection, int x, int y, float widthScale, float heightScale)
+    {
+        var width = projection.TileWidth * widthScale;
+        var height = projection.TileHeight * heightScale;
+        var anchor = projection.FootAnchor(x, y);
+        return new Rect2(anchor.X - width * 0.5f, anchor.Y - height, width, height);
+    }
+
+    private Rect2 FlatStatusIconSlot(int x, int y, int offset)
+    {
+        var iconSize = CellSize * 0.28f;
+        return new Rect2(
+            x * CellSize + CellSize - iconSize - 4,
+            y * CellSize + 4 + offset * 3,
+            iconSize,
+            iconSize);
+    }
+
+    private Rect2 ProjectedStatusIconSlot(OfficeProjection projection, int x, int y, int offset)
+    {
+        var iconSize = projection.TileHeight * 0.56f;
+        var anchor = projection.CellCenter(x, y);
+        return new Rect2(anchor.X + projection.TileWidth * 0.16f, anchor.Y - projection.TileHeight * 1.08f + offset * 3, iconSize, iconSize);
     }
 
     private void DrawHoverCell()
@@ -402,6 +563,12 @@ public partial class OfficeGridView : Node2D
 
         if (!grid.Contains(hoveredCell))
         {
+            return;
+        }
+
+        if (UsePseudo3DProjection)
+        {
+            DrawProjectedCellMarker(hoveredCell, HoverColor, filled: true, width: 1f);
             return;
         }
 
@@ -418,9 +585,28 @@ public partial class OfficeGridView : Node2D
             return;
         }
 
+        if (UsePseudo3DProjection)
+        {
+            DrawProjectedCellMarker(selectedCell, new Color(SelectionColor.R, SelectionColor.G, SelectionColor.B, 0.16f), filled: true, width: 1f);
+            DrawProjectedCellMarker(selectedCell, SelectionColor, filled: false, width: 3f);
+            return;
+        }
+
         var rect = new Rect2(selectedCell.X * CellSize, selectedCell.Y * CellSize, CellSize, CellSize);
         DrawRect(rect.Grow(-3f), new Color(SelectionColor.R, SelectionColor.G, SelectionColor.B, 0.16f), filled: true);
         DrawRect(rect.Grow(-2f), SelectionColor, filled: false, width: 3f);
+    }
+
+    private void DrawProjectedCellMarker(OfficeCell cell, Color color, bool filled, float width)
+    {
+        var diamond = BuildProjection().CellDiamond(cell.X, cell.Y);
+        if (filled)
+        {
+            DrawPolygon(diamond, Fill(color, diamond.Length));
+            return;
+        }
+
+        DrawDiamondOutline(diamond, color, width);
     }
 
     private bool ShouldDrawGrid()
@@ -431,6 +617,24 @@ public partial class OfficeGridView : Node2D
     private Rect2 CellRect(int x, int y)
     {
         return new Rect2(x * CellSize, y * CellSize, CellSize, CellSize);
+    }
+
+    private static void DrawDiamondOutline(Node2D canvas, Vector2[] points, Color color, float width)
+    {
+        for (var index = 0; index < points.Length; index++)
+        {
+            canvas.DrawLine(points[index], points[(index + 1) % points.Length], color, width);
+        }
+    }
+
+    private void DrawDiamondOutline(Vector2[] points, Color color, float width)
+    {
+        DrawDiamondOutline(this, points, color, width);
+    }
+
+    private static Color[] Fill(Color color, int count)
+    {
+        return Enumerable.Repeat(color, count).ToArray();
     }
 
     private static Rect2 AtlasCell(Texture2D atlas, int columns, int rows, int column, int row)
