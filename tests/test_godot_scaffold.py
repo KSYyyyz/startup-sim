@@ -178,9 +178,18 @@ def test_godot_main_scene_looks_like_office_management_scene_not_grid_editor():
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
 
     assert "OfficeBackdrop" in scene
-    assert "GridVisibleByDefault = true" in scene
-    assert "DefaultGridAlpha = 0.08" in scene
-    assert "BuildModeGridAlpha = 0.24" in scene
+    assert (
+        "GridVisibleByDefault = true" in scene
+        or "GridVisibleByDefault { get; set; } = true" in grid_script
+    )
+    assert (
+        "DefaultGridAlpha = 0.08" in scene
+        or "DefaultGridAlpha { get; set; } = 0.08f" in grid_script
+    )
+    assert (
+        "BuildModeGridAlpha = 0.24" in scene
+        or "BuildModeGridAlpha { get; set; } = 0.24f" in grid_script
+    )
     assert 'text = "公司经营面板"' in scene
     for label in ["现金：", "现金流可支撑时间：", "MRR：", "用户：", "产品："]:
         assert label in scene
@@ -202,14 +211,23 @@ def test_godot_office_view_keeps_kairosoft_style_grid_interaction_readable():
     grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
 
     assert "mouse_filter = 2" in scene
-    assert "GridVisibleByDefault = true" in scene
-    assert "DefaultGridAlpha = 0.08" in scene
-    assert "BuildModeGridAlpha = 0.24" in scene
+    assert (
+        "GridVisibleByDefault = true" in scene
+        or "GridVisibleByDefault { get; set; } = true" in grid_script
+    )
+    assert (
+        "DefaultGridAlpha = 0.08" in scene
+        or "DefaultGridAlpha { get; set; } = 0.08f" in grid_script
+    )
+    assert (
+        "BuildModeGridAlpha = 0.24" in scene
+        or "BuildModeGridAlpha { get; set; } = 0.24f" in grid_script
+    )
 
     assert "DefaultGridAlpha" in grid_script
     assert "DrawOfficeFrame" in grid_script
     assert "DrawTextureRectRegion(" in grid_script
-    assert "CellRect(x, y).Grow(1f)" in grid_script
+    assert "cell.Grow(1f)" in grid_script
     assert "for (var x = 0; x < GridWidth; x++)" in grid_script
     assert "for (var y = 0; y < GridHeight; y++)" in grid_script
     assert "buildModeEnabled ? BuildModeGridAlpha : DefaultGridAlpha" in grid_script
@@ -237,6 +255,62 @@ def test_godot_office_view_uses_mouse_event_position_for_grid_automation():
     assert "GetCellAtEventPosition(InputEventMouse inputEvent)" in grid_script
     assert "inputEvent.Position" in grid_script
     assert "GetCellAtWorldPosition(GetGlobalMousePosition())" not in grid_script
+
+
+def test_godot_main_scene_keeps_operations_panel_inside_default_viewport():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+
+    assert 'node name="PanelBacking" type="ColorRect" parent="G2OperationsPanel"' in scene
+    assert "offset_left = 816.0" in scene
+    assert "offset_top = 24.0" in scene
+    assert "offset_right = 1136.0" in scene
+    assert "offset_bottom = 634.0" in scene
+    assert "offset_left = 840.0" not in scene
+    assert "offset_right = 1240.0" not in scene
+
+
+def test_godot_month_settlement_updates_top_metrics_snapshot():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "MetricsLabelPath" in panel_script
+    assert "private Label? MetricsLabel" in panel_script
+    assert "SetLabel(MetricsLabel, BuildMetricsText(result));" in panel_script
+    assert "private static string BuildMetricsText(TurnResultSnapshot result)" in panel_script
+    assert "BuildCashSupportTimeText(result)" in panel_script
+    assert "现金流可支撑时间" in panel_script
+    assert "Runway" not in panel_script
+    assert "跑道" not in panel_script
+
+
+def test_godot_facility_failure_feedback_names_valid_zone():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "RequiredZoneText(FacilityPlacementController.SelectedFacilityTypeId)" in panel_script
+    assert "只能放在" in panel_script
+    assert '"product_whiteboard" => "研发区"' in panel_script
+    assert '"starter_server_rack" => "服务器区"' in panel_script
+
+
+def test_godot_speed_buttons_show_persistent_selected_state():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "SetSpeedButtonState(3f)" in panel_script
+    assert "SetSpeedButtonState(2f)" in panel_script
+    assert "SetSpeedButtonState(1f)" in panel_script
+    assert "SetSpeedButtonState(0f)" in panel_script
+    assert ".ButtonPressed = speedMultiplier" in panel_script
+
+
+def test_godot_office_grid_uses_low_noise_floor_and_separate_visual_slots():
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+
+    assert "FloorTileTextureAlpha" in grid_script
+    assert "ShouldDrawDecorativeFloorTile(x, y)" in grid_script
+    assert "var sourceColumn = 0;" in grid_script
+    assert "var sourceRow = 0;" in grid_script
+    assert "new Color(1f, 1f, 1f, FloorTileTextureAlpha)" in grid_script
+    assert "EmployeeVisualSlot" in grid_script
+    assert "FacilityVisualSlot" in grid_script
 
 
 def test_godot_main_scene_mounts_zone_painting_controller():

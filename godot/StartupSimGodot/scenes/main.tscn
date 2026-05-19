@@ -1,35 +1,34 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene format=3 uid="uid://dkjgn6aepqybh"]
 
-[ext_resource type="Script" path="res://scripts/StartupSimController.cs" id="1"]
-[ext_resource type="Script" path="res://scripts/OfficeGridView.cs" id="2"]
-[ext_resource type="Script" path="res://scripts/ZonePaintingController.cs" id="3"]
-[ext_resource type="Script" path="res://scripts/FacilityPlacementController.cs" id="4"]
-[ext_resource type="Script" path="res://scripts/EmployeeManagementController.cs" id="5"]
-[ext_resource type="Script" path="res://scripts/CapacityPreviewController.cs" id="6"]
-[ext_resource type="Script" path="res://scripts/TimeProgressController.cs" id="7"]
-[ext_resource type="Script" path="res://scripts/GodotTurnBridge.cs" id="8"]
-[ext_resource type="Script" path="res://scripts/MonthlyReportController.cs" id="9"]
-[ext_resource type="Script" path="res://scripts/G2OperationsPanelController.cs" id="10"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.4-office-tiles/exports/office-tile-expansion-atlas-v0.4.png" id="11"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.6-zone-state-overlays/exports/zone-state-overlay-atlas-v0.6.png" id="12"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.3-facility-placements/exports/facility-placement-atlas-v0.3.png" id="13"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.2-employee-motion/exports/employee-motion-atlas-v0.2.png" id="14"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.5-employee-status-icons/exports/employee-status-icon-atlas-v0.5.png" id="15"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.7.1-company-main-scene-background/exports/company-main-scene-background-v0.7.1.png" id="16"]
-[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v0.7-feedback-portraits/exports/feedback-portrait-sheet-v0.7.png" id="17"]
+[ext_resource type="Script" uid="uid://chf6o66ff3p6r" path="res://scripts/StartupSimController.cs" id="1"]
+[ext_resource type="Script" uid="uid://ddugeuk48aqjg" path="res://scripts/OfficeGridView.cs" id="2"]
+[ext_resource type="Script" uid="uid://c62jid31d2j1f" path="res://scripts/ZonePaintingController.cs" id="3"]
+[ext_resource type="Script" uid="uid://bip5a41eisn8i" path="res://scripts/FacilityPlacementController.cs" id="4"]
+[ext_resource type="Script" uid="uid://cegcy3dlpxotf" path="res://scripts/EmployeeManagementController.cs" id="5"]
+[ext_resource type="Script" uid="uid://kvbwk1aqjrrd" path="res://scripts/CapacityPreviewController.cs" id="6"]
+[ext_resource type="Script" uid="uid://bmdyttfy25bv3" path="res://scripts/TimeProgressController.cs" id="7"]
+[ext_resource type="Script" uid="uid://b18adj3cwq6se" path="res://scripts/GodotTurnBridge.cs" id="8"]
+[ext_resource type="Script" uid="uid://bjhk86vqh4877" path="res://scripts/MonthlyReportController.cs" id="9"]
+[ext_resource type="Script" uid="uid://dgti4glfr3q2v" path="res://scripts/G2OperationsPanelController.cs" id="10"]
+[ext_resource type="Texture2D" uid="uid://dpeatc68i4knv" path="res://assets/art/godot-g1-art-pack-v0.4-office-tiles/exports/office-tile-expansion-atlas-v0.4.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://bnnnlxo4ha7d" path="res://assets/art/godot-g1-art-pack-v0.6-zone-state-overlays/exports/zone-state-overlay-atlas-v0.6.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://ddqc2k6qye7a4" path="res://assets/art/godot-g1-art-pack-v0.3-facility-placements/exports/facility-placement-atlas-v0.3.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://b8te6oq3epjjr" path="res://assets/art/godot-g1-art-pack-v0.2-employee-motion/exports/employee-motion-atlas-v0.2.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://bxoqsaedn2tuv" path="res://assets/art/godot-g1-art-pack-v0.5-employee-status-icons/exports/employee-status-icon-atlas-v0.5.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://bftbbdpbqw5q7" path="res://assets/art/godot-g1-art-pack-v0.7.1-company-main-scene-background/exports/company-main-scene-background-v0.7.1.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://gll0e2ycr5q7" path="res://assets/art/godot-g1-art-pack-v0.7-feedback-portraits/exports/feedback-portrait-sheet-v0.7.png" id="17"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_feedback_portrait"]
 atlas = ExtResource("17")
 region = Rect2(0, 0, 384, 384)
 
-[node name="StartupSimMain" type="Node"]
+[node name="StartupSimMain" type="Node" unique_id=1713293948]
 script = ExtResource("1")
 
-[node name="GodotTurnBridge" type="Node" parent="."]
+[node name="GodotTurnBridge" type="Node" parent="." unique_id=714353586]
 script = ExtResource("8")
 
-[node name="OfficeBackdrop" type="TextureRect" parent="."]
-layout_mode = 0
+[node name="OfficeBackdrop" type="TextureRect" parent="." unique_id=1066239570]
 offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
@@ -37,59 +36,48 @@ texture = ExtResource("16")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OfficeGridView" type="Node2D" parent="."]
-script = ExtResource("2")
+[node name="OfficeGridView" type="Node2D" parent="." unique_id=1798392141]
 position = Vector2(32, 32)
-GridWidth = 12
-GridHeight = 8
-CellSize = 64
+script = ExtResource("2")
 OfficeTileAtlas = ExtResource("11")
 ZoneOverlayAtlas = ExtResource("12")
 FacilityAtlas = ExtResource("13")
 EmployeeAtlas = ExtResource("14")
 StatusIconAtlas = ExtResource("15")
-GridVisibleByDefault = true
-DefaultGridAlpha = 0.08
-BuildModeGridAlpha = 0.24
-FloorBaseColor = Color(0.72, 0.69, 0.62, 1)
 GridColor = Color(0.36, 0.55, 0.74, 0.24)
 OccupiedColor = Color(0.95, 0.72, 0.25, 0.2)
 
-[node name="ZonePaintingController" type="Node" parent="."]
+[node name="ZonePaintingController" type="Node" parent="." unique_id=1936777913]
 script = ExtResource("3")
 GridViewPath = NodePath("../OfficeGridView")
-SelectedZoneTypeId = "product_zone"
 
-[node name="FacilityPlacementController" type="Node" parent="."]
+[node name="FacilityPlacementController" type="Node" parent="." unique_id=1981271932]
 script = ExtResource("4")
 ZonePaintingControllerPath = NodePath("../ZonePaintingController")
-SelectedFacilityTypeId = "basic_desk"
 
-[node name="EmployeeManagementController" type="Node" parent="."]
+[node name="EmployeeManagementController" type="Node" parent="." unique_id=971363978]
 script = ExtResource("5")
 ZonePaintingControllerPath = NodePath("../ZonePaintingController")
 
-[node name="CapacityPreviewController" type="Node" parent="."]
+[node name="CapacityPreviewController" type="Node" parent="." unique_id=1192966556]
 script = ExtResource("6")
 ZonePaintingControllerPath = NodePath("../ZonePaintingController")
 
-[node name="TimeProgressController" type="Node" parent="."]
+[node name="TimeProgressController" type="Node" parent="." unique_id=1721581083]
 script = ExtResource("7")
 TurnBridgePath = NodePath("../GodotTurnBridge")
 EmployeeManagementControllerPath = NodePath("../EmployeeManagementController")
-SpeedMultiplier = 1.0
-MonthIndex = 1
 
-[node name="MonthlyReportController" type="Node" parent="."]
+[node name="MonthlyReportController" type="Node" parent="." unique_id=1443830916]
 script = ExtResource("9")
 
-[node name="G2OperationsPanel" type="Control" parent="."]
+[node name="G2OperationsPanel" type="Control" parent="." unique_id=24335746]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 840.0
-offset_top = 32.0
-offset_right = 1240.0
-offset_bottom = 680.0
+offset_left = 816.0
+offset_top = 24.0
+offset_right = 1136.0
+offset_bottom = 634.0
 script = ExtResource("10")
 ZonePaintingControllerPath = NodePath("../ZonePaintingController")
 FacilityPlacementControllerPath = NodePath("../FacilityPlacementController")
@@ -99,138 +87,147 @@ TimeProgressControllerPath = NodePath("../TimeProgressController")
 MonthlyReportControllerPath = NodePath("../MonthlyReportController")
 OfficeGridViewPath = NodePath("../OfficeGridView")
 
-[node name="TitleLabel" type="Label" parent="G2OperationsPanel"]
+[node name="PanelBacking" type="ColorRect" parent="G2OperationsPanel" unique_id=816224283]
+layout_mode = 0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 306.0
+offset_bottom = 616.0
+mouse_filter = 2
+color = Color(0.07, 0.08, 0.075, 0.62)
+
+[node name="TitleLabel" type="Label" parent="G2OperationsPanel" unique_id=1018679144]
 layout_mode = 0
 offset_right = 360.0
 offset_bottom = 28.0
 text = "公司经营面板"
 
-[node name="StatusLabel" type="Label" parent="G2OperationsPanel"]
+[node name="StatusLabel" type="Label" parent="G2OperationsPanel" unique_id=1887555158]
 layout_mode = 0
 offset_top = 36.0
-offset_right = 360.0
+offset_right = 304.0
 offset_bottom = 96.0
-autowrap_mode = 3
 text = "围绕产品、用户、收入和现金流安排办公室。建造辅助网格只在划区和摆设施时显示。"
+autowrap_mode = 3
 
-[node name="MetricsLabel" type="Label" parent="G2OperationsPanel"]
+[node name="MetricsLabel" type="Label" parent="G2OperationsPanel" unique_id=681637200]
 layout_mode = 0
 offset_top = 108.0
-offset_right = 360.0
-offset_bottom = 208.0
-autowrap_mode = 3
+offset_right = 304.0
+offset_bottom = 236.0
 text = "现金：等待月结
 现金流可支撑时间：等待月结
 MRR：等待月结
 用户：等待月结
 产品：等待月结"
+autowrap_mode = 3
 
-[node name="ZoneButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+[node name="ZoneButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=952563871]
 layout_mode = 0
-offset_top = 224.0
-offset_right = 360.0
-offset_bottom = 260.0
+offset_top = 260.0
+offset_right = 304.0
+offset_bottom = 296.0
 
-[node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons"]
+[node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons" unique_id=1320403870]
 layout_mode = 2
 text = "研发区"
 
-[node name="SalesZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons"]
+[node name="SalesZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons" unique_id=1286078008]
 layout_mode = 2
 text = "销售区"
 
-[node name="ServerZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons"]
+[node name="ServerZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons" unique_id=1122815278]
 layout_mode = 2
 text = "服务器区"
 
-[node name="FacilityButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+[node name="FacilityButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=741361227]
 layout_mode = 0
-offset_top = 272.0
-offset_right = 360.0
-offset_bottom = 308.0
+offset_top = 308.0
+offset_right = 304.0
+offset_bottom = 344.0
 
-[node name="DeskButton" type="Button" parent="G2OperationsPanel/FacilityButtons"]
+[node name="DeskButton" type="Button" parent="G2OperationsPanel/FacilityButtons" unique_id=529168171]
 layout_mode = 2
 text = "办公桌"
 
-[node name="WhiteboardButton" type="Button" parent="G2OperationsPanel/FacilityButtons"]
+[node name="WhiteboardButton" type="Button" parent="G2OperationsPanel/FacilityButtons" unique_id=693717160]
 layout_mode = 2
 text = "白板"
 
-[node name="ServerRackButton" type="Button" parent="G2OperationsPanel/FacilityButtons"]
+[node name="ServerRackButton" type="Button" parent="G2OperationsPanel/FacilityButtons" unique_id=627315752]
 layout_mode = 2
 text = "机柜"
 
-[node name="EmployeeButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+[node name="EmployeeButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=1694857138]
 layout_mode = 0
-offset_top = 320.0
-offset_right = 360.0
-offset_bottom = 356.0
+offset_top = 356.0
+offset_right = 304.0
+offset_bottom = 392.0
 
-[node name="HireProductButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+[node name="HireProductButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=369488227]
 layout_mode = 2
 text = "招研发"
 
-[node name="HireSalesButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+[node name="HireSalesButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=2108880734]
 layout_mode = 2
 text = "招销售"
 
-[node name="HireOpsButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+[node name="HireOpsButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=58007684]
 layout_mode = 2
 text = "招运维"
 
-[node name="TrainButton" type="Button" parent="G2OperationsPanel/EmployeeButtons"]
+[node name="TrainButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=1491081058]
 layout_mode = 2
 text = "训练"
 
-[node name="TimeButtons" type="HBoxContainer" parent="G2OperationsPanel"]
+[node name="TimeButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=662512030]
 layout_mode = 0
-offset_top = 368.0
-offset_right = 360.0
-offset_bottom = 404.0
+offset_top = 404.0
+offset_right = 304.0
+offset_bottom = 440.0
 
-[node name="PauseButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+[node name="PauseButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=1810753262]
 layout_mode = 2
 text = "暂停"
 
-[node name="NormalSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+[node name="NormalSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=918911404]
 layout_mode = 2
 text = "1x"
 
-[node name="DoubleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+[node name="DoubleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=690320320]
 layout_mode = 2
 text = "2x"
 
-[node name="TripleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+[node name="TripleSpeedButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=127748113]
 layout_mode = 2
 text = "3x"
 
-[node name="AdvanceMonthButton" type="Button" parent="G2OperationsPanel/TimeButtons"]
+[node name="AdvanceMonthButton" type="Button" parent="G2OperationsPanel/TimeButtons" unique_id=694755657]
 layout_mode = 2
 text = "推进月份"
 
-[node name="CapacityLabel" type="Label" parent="G2OperationsPanel"]
+[node name="CapacityLabel" type="Label" parent="G2OperationsPanel" unique_id=1796383618]
 layout_mode = 0
-offset_top = 424.0
-offset_right = 360.0
-offset_bottom = 504.0
-autowrap_mode = 3
+offset_top = 472.0
+offset_right = 304.0
+offset_bottom = 508.0
 text = "产能预览：等待区域、设施和员工。"
-
-[node name="ReportLabel" type="Label" parent="G2OperationsPanel"]
-layout_mode = 0
-offset_top = 520.0
-offset_right = 252.0
-offset_bottom = 620.0
 autowrap_mode = 3
-text = "月报将在推进月份后出现。"
 
-[node name="FeedbackPortrait" type="TextureRect" parent="G2OperationsPanel"]
+[node name="ReportLabel" type="Label" parent="G2OperationsPanel" unique_id=1906407572]
 layout_mode = 0
-offset_left = 264.0
-offset_top = 520.0
-offset_right = 360.0
-offset_bottom = 616.0
+offset_top = 500.0
+offset_right = 198.0
+offset_bottom = 610.0
+text = "月报将在推进月份后出现。"
+autowrap_mode = 3
+
+[node name="FeedbackPortrait" type="TextureRect" parent="G2OperationsPanel" unique_id=1021164674]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 536.0
+offset_right = 288.0
+offset_bottom = 600.0
 texture = SubResource("AtlasTexture_feedback_portrait")
 expand_mode = 1
 stretch_mode = 5

@@ -25,6 +25,7 @@ public partial class G2OperationsPanelController : Control
     [Export] public NodePath MonthlyReportControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath OfficeGridViewPath { get; set; } = new NodePath("");
     [Export] public NodePath StatusLabelPath { get; set; } = new NodePath("StatusLabel");
+    [Export] public NodePath MetricsLabelPath { get; set; } = new NodePath("MetricsLabel");
     [Export] public NodePath CapacityLabelPath { get; set; } = new NodePath("CapacityLabel");
     [Export] public NodePath ReportLabelPath { get; set; } = new NodePath("ReportLabel");
 
@@ -37,6 +38,7 @@ public partial class G2OperationsPanelController : Control
     public OfficeGridView? OfficeGridView { get; private set; }
 
     private Label? StatusLabel => GetNodeOrNull<Label>(StatusLabelPath);
+    private Label? MetricsLabel => GetNodeOrNull<Label>(MetricsLabelPath);
     private Label? CapacityLabel => GetNodeOrNull<Label>(CapacityLabelPath);
     private Label? ReportLabel => GetNodeOrNull<Label>(ReportLabelPath);
 
@@ -74,6 +76,7 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("TimeButtons/DoubleSpeedButton", SetDoubleSpeed);
         ConnectButton("TimeButtons/TripleSpeedButton", SetTripleSpeed);
         ConnectButton("TimeButtons/AdvanceMonthButton", AdvanceMonth);
+        SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 1f);
 
         UpdateStatus("选择区域、设施或员工操作，现金流可支撑时间由 C# Core 月结结果解释。");
     }
@@ -175,6 +178,7 @@ public partial class G2OperationsPanelController : Control
     {
         OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetPaused();
+        SetSpeedButtonState(0f);
         UpdateStatus("已暂停。");
     }
 
@@ -182,6 +186,7 @@ public partial class G2OperationsPanelController : Control
     {
         OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetNormalSpeed();
+        SetSpeedButtonState(1f);
         UpdateStatus("正常速度推进。");
     }
 
@@ -189,6 +194,7 @@ public partial class G2OperationsPanelController : Control
     {
         OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetDoubleSpeed();
+        SetSpeedButtonState(2f);
         UpdateStatus("二倍速推进。");
     }
 
@@ -196,6 +202,7 @@ public partial class G2OperationsPanelController : Control
     {
         OfficeGridView?.SetBuildMode(false);
         TimeProgressController?.SetTripleSpeed();
+        SetSpeedButtonState(3f);
         UpdateStatus("三倍速推进。");
     }
 
@@ -218,6 +225,7 @@ public partial class G2OperationsPanelController : Control
         }
 
         var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
+        SetLabel(MetricsLabel, BuildMetricsText(result));
         SetLabel(ReportLabel, report);
         UpdateStatus($"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。");
     }
@@ -330,7 +338,8 @@ public partial class G2OperationsPanelController : Control
         var facilityId = FacilityPlacementController.PlaceFacility(zone.Id, x, y);
         if (string.IsNullOrWhiteSpace(facilityId))
         {
-            UpdateStatus("设施摆放失败，请确认设施和区域匹配。");
+            var requiredZone = RequiredZoneText(FacilityPlacementController.SelectedFacilityTypeId);
+            UpdateStatus($"设施摆放失败：当前设施只能放在{requiredZone}。");
             return;
         }
 
@@ -376,8 +385,8 @@ public partial class G2OperationsPanelController : Control
             OfficeGridView?.ShowEmployeeVisual(
                 employeeId,
                 employee?.RoleId ?? string.Empty,
-                zone.X,
-                zone.Y);
+                FindEmployeeVisualCellX(zone),
+                FindEmployeeVisualCellY(zone));
         }
 
         EmployeeManagementController.TrainEmployee(employeeId, skillId);
@@ -412,6 +421,38 @@ public partial class G2OperationsPanelController : Control
             employee => employee.Id == employeeId);
     }
 
+    private int FindEmployeeVisualCellX(OfficeZone zone)
+    {
+        return FindEmployeeVisualCell(zone).X;
+    }
+
+    private int FindEmployeeVisualCellY(OfficeZone zone)
+    {
+        return FindEmployeeVisualCell(zone).Y;
+    }
+
+    private OfficeCell FindEmployeeVisualCell(OfficeZone zone)
+    {
+        for (var y = zone.Y; y < zone.Y + zone.Height; y++)
+        {
+            for (var x = zone.X; x < zone.X + zone.Width; x++)
+            {
+                var hasFacility = ZonePaintingController?.Layout.Facilities.Any(
+                    facility => facility.ZoneId == zone.Id
+                        && x >= facility.X
+                        && x < facility.X + facility.Width
+                        && y >= facility.Y
+                        && y < facility.Y + facility.Height) ?? false;
+                if (!hasFacility)
+                {
+                    return new OfficeCell(x, y);
+                }
+            }
+        }
+
+        return new OfficeCell(zone.X, zone.Y);
+    }
+
     private void RefreshCapacity()
     {
         var summary = CapacityPreviewController?.RefreshCapacityPreview() ?? string.Empty;
@@ -425,7 +466,26 @@ public partial class G2OperationsPanelController : Control
         var button = GetNodeOrNull<Button>(path);
         if (button != null)
         {
+            button.ToggleMode = path.StartsWith("TimeButtons/", StringComparison.Ordinal);
             button.Pressed += action;
+        }
+    }
+
+    private void SetSpeedButtonState(float speedMultiplier)
+    {
+        SetSpeedButtonPressed("TimeButtons/PauseButton", speedMultiplier, 0f);
+        SetSpeedButtonPressed("TimeButtons/NormalSpeedButton", speedMultiplier, 1f);
+        SetSpeedButtonPressed("TimeButtons/DoubleSpeedButton", speedMultiplier, 2f);
+        SetSpeedButtonPressed("TimeButtons/TripleSpeedButton", speedMultiplier, 3f);
+    }
+
+    private void SetSpeedButtonPressed(string path, float speedMultiplier, float expectedSpeed)
+    {
+        var button = GetNodeOrNull<Button>(path);
+        if (button != null)
+        {
+            button.ToggleMode = true;
+            button.ButtonPressed = speedMultiplier == expectedSpeed;
         }
     }
 
@@ -440,5 +500,38 @@ public partial class G2OperationsPanelController : Control
         {
             label.Text = text;
         }
+    }
+
+    private static string BuildMetricsText(TurnResultSnapshot result)
+    {
+        return string.Join(
+            "\n",
+            $"现金：{result.Cash}",
+            $"现金流可支撑时间：{BuildCashSupportTimeText(result)}",
+            $"MRR：{result.MonthlyRecurringRevenue}",
+            $"用户：{result.Users}",
+            $"产品：{result.ProductScore}");
+    }
+
+    private static string BuildCashSupportTimeText(TurnResultSnapshot result)
+    {
+        if (result.MonthlyBurn <= 0)
+        {
+            return "暂无固定消耗压力";
+        }
+
+        var supportMonths = (float)result.Cash / result.MonthlyBurn;
+        return $"{supportMonths:0.0} 个月";
+    }
+
+    private static string RequiredZoneText(string facilityTypeId)
+    {
+        return facilityTypeId switch
+        {
+            "product_whiteboard" => "研发区",
+            "starter_server_rack" => "服务器区",
+            "basic_desk" => "研发区或销售区",
+            _ => "匹配区域"
+        };
     }
 }

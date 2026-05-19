@@ -44,6 +44,7 @@ public partial class OfficeGridView : Node2D
     [Export] public bool GridVisibleByDefault { get; set; } = true;
     [Export] public float DefaultGridAlpha { get; set; } = 0.08f;
     [Export] public float BuildModeGridAlpha { get; set; } = 0.24f;
+    [Export] public float FloorTileTextureAlpha { get; set; } = 0.38f;
     [Export] public Color OfficeBackdropColor { get; set; } = new(0.17f, 0.19f, 0.18f, 1f);
     [Export] public Color FloorBaseColor { get; set; } = new(0.72f, 0.69f, 0.62f, 1f);
     [Export] public Color GridColor { get; set; } = new(0.25f, 0.42f, 0.66f, 0.55f);
@@ -246,26 +247,32 @@ public partial class OfficeGridView : Node2D
 
     private void DrawFloorTiles(Rect2 officeRect)
     {
-        if (OfficeTileAtlas == null)
-        {
-            return;
-        }
-
         for (var x = 0; x < GridWidth; x++)
         {
             for (var y = 0; y < GridHeight; y++)
             {
-                var sourceColumn = (x + y) % 4;
-                var sourceRow = x == 0 || y == 0 ? 0 : 1;
                 var cell = CellRect(x, y);
                 DrawRect(cell, FloorBaseColor, filled: true);
+
+                if (OfficeTileAtlas == null || !ShouldDrawDecorativeFloorTile(x, y))
+                {
+                    continue;
+                }
+
+                var sourceColumn = 0;
+                var sourceRow = 0;
                 DrawTextureRectRegion(
                     OfficeTileAtlas,
-                    CellRect(x, y).Grow(1f),
+                    cell.Grow(1f),
                     AtlasCell(OfficeTileAtlas, columns: 8, rows: 5, column: sourceColumn, row: sourceRow),
-                    new Color(1f, 1f, 1f, 0.92f));
+                    new Color(1f, 1f, 1f, FloorTileTextureAlpha));
             }
         }
+    }
+
+    private static bool ShouldDrawDecorativeFloorTile(int x, int y)
+    {
+        return x == 0 || y == 0 || (x + y) % 5 == 0;
     }
 
     private void DrawOccupiedCells()
@@ -315,7 +322,7 @@ public partial class OfficeGridView : Node2D
             };
             DrawTextureRectRegion(
                 FacilityAtlas,
-                CellRect(visual.X, visual.Y).Grow(-4),
+                FacilityVisualSlot(visual.X, visual.Y),
                 AtlasCell(FacilityAtlas, columns: 6, rows: 3, sourceColumn, row: 0),
                 Colors.White);
         }
@@ -339,7 +346,7 @@ public partial class OfficeGridView : Node2D
                 _ => 0
             };
             var sourceColumn = 9;
-            var destination = CellRect(visual.X, visual.Y).Grow(-10);
+            var destination = EmployeeVisualSlot(visual.X, visual.Y);
             destination.Position += new Vector2(offset * 4, -offset * 3);
             DrawTextureRectRegion(
                 EmployeeAtlas,
@@ -370,6 +377,20 @@ public partial class OfficeGridView : Node2D
             destination,
             AtlasCell(StatusIconAtlas, columns: 8, rows: 4, column: 12 % 8, row: 12 / 8),
             Colors.White);
+    }
+
+    private Rect2 FacilityVisualSlot(int x, int y)
+    {
+        return CellRect(x, y).Grow(-6f);
+    }
+
+    private Rect2 EmployeeVisualSlot(int x, int y)
+    {
+        return new Rect2(
+            x * CellSize + CellSize * 0.1f,
+            y * CellSize + CellSize * 0.04f,
+            CellSize * 0.52f,
+            CellSize * 0.78f);
     }
 
     private void DrawHoverCell()
