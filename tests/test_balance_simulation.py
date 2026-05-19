@@ -5,6 +5,9 @@ Asserts ending diversity ≥ 3 distinct ending types across the 5 strategies.
 
 import pytest
 
+from scripts.playtest import format_event_type as format_playtest_event_type
+from scripts.playtest import run_one_strategy as run_playtest_strategy
+from scripts.playtest import strategy_fundraise_then_growth as playtest_fundraise_then_growth
 from src.agents.customers import CustomerAgent
 from src.core.ending_evaluator import evaluate as eval_ending
 from src.core.models import (
@@ -206,3 +209,20 @@ class TestBalanceSimulation:
         assert (
             state_rnd.product_score > state_cons.product_score
         ), f"all_rnd({state_rnd.product_score}) > conservative({state_cons.product_score})"
+
+
+def test_playtest_script_has_at_least_one_non_bankrupt_path():
+    """The user-facing 12-month playtest should include a survivable reference path."""
+    result = run_playtest_strategy(
+        "playable_reference_path",
+        playtest_fundraise_then_growth,
+    )
+
+    assert result["ending"] != "bankruptcy"
+    assert result["fundraising_rejected_count"] == 0
+    assert result["cash"] > 0
+
+
+def test_playtest_event_names_use_player_visible_cash_support_copy():
+    assert format_playtest_event_type("runway_warning") == "现金流预警"
+    assert "runway" not in format_playtest_event_type("runway_warning")

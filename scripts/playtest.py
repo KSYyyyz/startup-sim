@@ -7,6 +7,7 @@ Alpha 1.2 平衡验证：走完整 TurnEngine.process_turn_raw 流程，
 
 from __future__ import annotations
 
+import random
 import sys
 from builtins import print as builtin_print
 from pathlib import Path
@@ -57,23 +58,28 @@ def strategy_all_marketing(month: int, state: CompanyState) -> str:
 
 
 def strategy_fundraise_then_growth(month: int, state: CompanyState) -> str:
-    """策略3: 先融资再增长 — 首回合融资500万/10%，5个月研发产品，然后营销。"""
-    if month == 1:
-        return "融资500万出让10%"
-    elif month <= 6:
-        budget_wan = min(10, state.cash // 10000)
+    """策略3: 先做出指标，再融资放大增长，目标是形成一条可通关参考路径。"""
+    if month <= 4:
+        budget_wan = min(3, state.cash // 10000)
         if budget_wan <= 0:
             return ""
         return f"花{budget_wan}万研发产品"
-    else:
-        budget_wan = min(15, state.cash // 10000)
+    if month == 5:
+        return "融资100万出让15%"
+    if month <= 7:
+        budget_wan = min(3, state.cash // 10000)
         if budget_wan <= 0:
             return ""
-        return f"花{budget_wan}万做营销"
+        return f"花{budget_wan}万研发产品"
+
+    budget_wan = min(5, state.cash // 10000)
+    if budget_wan <= 0:
+        return ""
+    return f"花{budget_wan}万做营销"
 
 
 def strategy_conservative(month: int, state: CompanyState) -> str:
-    """策略4: 保守现金流 — 每回合2万研发，尽量延长跑道。"""
+    """策略4: 保守现金流 — 每回合2万研发，尽量延长现金流可支撑时间。"""
     if state.cash < 20000:
         return ""
     return "花2万研发产品"
@@ -145,6 +151,7 @@ def run_one_strategy(name: str, strat_fn, difficulty=None) -> dict:
     Covers parse_multi, StateGuard, competitors, CustomerAgent, events, endings.
     Alpha 1.4: Collects snapshots and actions for post-game review.
     """
+    random.seed(f"playtest:{name}")
     initial_state = CompanyState()
     state = initial_state
     difficulty = difficulty or get_difficulty("normal")
@@ -238,6 +245,15 @@ def format_result(r: dict) -> str:
     )
 
 
+def format_event_type(event_type: str) -> str:
+    """Format engine event ids as player-visible playtest labels."""
+    return {
+        "runway_warning": "现金流预警",
+        "board_coup_risk": "董事会压力",
+        "product_breakthrough": "产品突破",
+    }.get(event_type, event_type)
+
+
 def main():
     print("=" * 90)
     print("  Startup Sim — 12回合自动试玩脚本 (Alpha 1.5)")
@@ -296,7 +312,7 @@ def main():
             f"创始人股权={r['founder_equity']}%"
         )
         if r.get("events"):
-            print(f"   事件: {', '.join(r['events'])}")
+            print(f"   事件: {', '.join(format_event_type(item) for item in r['events'])}")
 
         # Alpha 1.4: Generate and print mini-review
         if r.get("snapshots") and r["ending"] != "none":

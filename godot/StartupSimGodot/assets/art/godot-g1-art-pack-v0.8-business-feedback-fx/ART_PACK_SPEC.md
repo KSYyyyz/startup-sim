@@ -12,7 +12,8 @@ This pack adds small business feedback FX for the office simulation layer. It is
 
 | Asset | Export | Grid | Cell | Role |
 | --- | --- | --- | --- | --- |
-| business-feedback-fx-atlas-v0.8 | `exports/business-feedback-fx-atlas-v0.8.png` | 8 x 4 | 224 x 224 | Office-space feedback effects |
+| business-feedback-fx-atlas-v0.8 | `exports/business-feedback-fx-atlas-v0.8.png` | 8 x 4 | 224 x 224 | Transparent office-space feedback FX atlas |
+| sliced transparent icons | `exports/icons/*.png` | 32 files | 224 x 224 | Individual transparent icon PNGs |
 
 ## Columns
 
@@ -35,6 +36,7 @@ This pack adds small business feedback FX for the office simulation layer. It is
 ## Design Notes
 
 - Transparent RGBA PNG for layering above the office scene.
+- The atlas is also sliced into 32 individual transparent icon PNGs.
 - Icon-like FX only; no text, numbers, or UI panels.
 - Designed for short office-space feedback after a calculated business event or state change.
 - Godot should provide localized labels, numeric deltas, and detailed explanations separately.

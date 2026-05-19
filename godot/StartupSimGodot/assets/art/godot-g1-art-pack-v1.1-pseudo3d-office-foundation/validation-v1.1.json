@@ -1,0 +1,26 @@
+{
+  "source_size": [
+    1774,
+    887
+  ],
+  "atlas_size": [
+    1776,
+    888
+  ],
+  "icon_count": 32,
+  "cell_size": [
+    222,
+    222
+  ],
+  "atlas_sha256": "6eb03b1aff590b0a33d6536dbe75ffcf87c8070e31a0e6ec1b2bf0a07ad3a6b8",
+  "corner_alpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "shadow_cell_nonzero_alpha_pixels": {
+    "soft_workstation_shadow": 11377,
+    "large_facility_shadow": 18739
+  }
+}

@@ -7,6 +7,7 @@
 - Grid: `8 columns x 4 rows`
 - Cell: `224 x 224`
 - Alpha: transparent RGBA
+- Individual icons: `exports/icons/{column_label}-{row_label}-v0.8.png`
 
 ## Columns
 
@@ -40,3 +41,8 @@ h = 224
 ```
 
 Use the labels in `asset-index.json` for stable mapping instead of relying only on visible icon shape.
+
+## Individual Transparent Icons
+
+The atlas has been sliced into 32 standalone transparent PNG files in `exports/icons/`.
+Each sliced icon keeps the full `224 x 224` cell canvas so Godot placement pivots remain consistent.

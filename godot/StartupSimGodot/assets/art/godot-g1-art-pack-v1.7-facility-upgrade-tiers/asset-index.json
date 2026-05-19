@@ -1,0 +1,1971 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.7-facility-upgrade-tiers",
+  "version": "1.7",
+  "created_for": "Startup Sim Godot facility visual progression from scrappy startup to mature company",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "facility-upgrade-tier-atlas-v1.7",
+      "category": "facility_upgrade_tiers",
+      "file": "exports/facility-upgrade-tier-atlas-v1.7.png",
+      "sliced_icons_dir": "exports/facilities",
+      "sliced_icon_count": 48,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/facility-upgrade-tier-atlas-v1.7-source.png",
+      "raw_source": "sources/facility-upgrade-tier-atlas-v1.7-raw-generated.png",
+      "prompt": "prompts/facility-upgrade-tier-atlas-v1.7-prompt.md",
+      "slice_guide": "slice-guides/facility-upgrade-tier-atlas-v1.7-slice-guide.md",
+      "preview": "previews/facility-upgrade-tier-atlas-v1.7-transparent-contact-sheet.png",
+      "validation": "validation-1.7.json",
+      "grid": {
+        "columns": 8,
+        "rows": 6
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 1344
+      },
+      "row_labels": [
+        "product_workstation",
+        "sales_phone_pod",
+        "server_infrastructure",
+        "meeting_room",
+        "rest_recovery_area",
+        "recruiting_hr_area"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "product_workstation-product_workstation_level_1_idle",
+          "semantic_name": "product_workstation_level_1_idle",
+          "zh_name": "产品工位-1 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_level_1_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-1 级待机”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "level_1",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_workstation-product_workstation_level_2_idle",
+          "semantic_name": "product_workstation_level_2_idle",
+          "zh_name": "产品工位-2 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_level_2_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-2 级待机”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "level_2",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_workstation-product_workstation_level_3_idle",
+          "semantic_name": "product_workstation_level_3_idle",
+          "zh_name": "产品工位-3 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_level_3_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-3 级待机”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "level_3",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_workstation-product_workstation_level_1_active",
+          "semantic_name": "product_workstation_level_1_active",
+          "zh_name": "产品工位-1 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_level_1_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-1 级工作中”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "level_1",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_workstation-product_workstation_level_2_active",
+          "semantic_name": "product_workstation_level_2_active",
+          "zh_name": "产品工位-2 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_level_2_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-2 级工作中”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "level_2",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_workstation-product_workstation_level_3_active",
+          "semantic_name": "product_workstation_level_3_active",
+          "zh_name": "产品工位-3 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_level_3_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-3 级工作中”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "level_3",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_workstation-product_workstation_upgrading",
+          "semantic_name": "product_workstation_upgrading",
+          "zh_name": "产品工位-升级中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_upgrading.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-升级中”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_workstation-product_workstation_broken_blocked",
+          "semantic_name": "product_workstation_broken_blocked",
+          "zh_name": "产品工位-故障受阻",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/product_workstation-product_workstation_broken_blocked.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品工位-故障受阻”使用。",
+          "state_tags": [
+            "product",
+            "workstation",
+            "broken",
+            "blocked"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_level_1_idle",
+          "semantic_name": "sales_phone_pod_level_1_idle",
+          "zh_name": "销售电话舱-1 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_level_1_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-1 级待机”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "level_1",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_level_2_idle",
+          "semantic_name": "sales_phone_pod_level_2_idle",
+          "zh_name": "销售电话舱-2 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_level_2_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-2 级待机”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "level_2",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_level_3_idle",
+          "semantic_name": "sales_phone_pod_level_3_idle",
+          "zh_name": "销售电话舱-3 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_level_3_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-3 级待机”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "level_3",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_level_1_active",
+          "semantic_name": "sales_phone_pod_level_1_active",
+          "zh_name": "销售电话舱-1 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_level_1_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-1 级工作中”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "level_1",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_level_2_active",
+          "semantic_name": "sales_phone_pod_level_2_active",
+          "zh_name": "销售电话舱-2 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_level_2_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-2 级工作中”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "level_2",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_level_3_active",
+          "semantic_name": "sales_phone_pod_level_3_active",
+          "zh_name": "销售电话舱-3 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_level_3_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-3 级工作中”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "level_3",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_upgrading",
+          "semantic_name": "sales_phone_pod_upgrading",
+          "zh_name": "销售电话舱-升级中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_upgrading.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-升级中”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "sales_phone_pod-sales_phone_pod_broken_blocked",
+          "semantic_name": "sales_phone_pod_broken_blocked",
+          "zh_name": "销售电话舱-故障受阻",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/sales_phone_pod-sales_phone_pod_broken_blocked.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“销售电话舱-故障受阻”使用。",
+          "state_tags": [
+            "sales",
+            "phone",
+            "broken",
+            "blocked"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_level_1_idle",
+          "semantic_name": "server_infrastructure_level_1_idle",
+          "zh_name": "服务器设施-1 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_level_1_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-1 级待机”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "level_1",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_level_2_idle",
+          "semantic_name": "server_infrastructure_level_2_idle",
+          "zh_name": "服务器设施-2 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_level_2_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-2 级待机”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "level_2",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_level_3_idle",
+          "semantic_name": "server_infrastructure_level_3_idle",
+          "zh_name": "服务器设施-3 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_level_3_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-3 级待机”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "level_3",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_level_1_active",
+          "semantic_name": "server_infrastructure_level_1_active",
+          "zh_name": "服务器设施-1 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_level_1_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-1 级工作中”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "level_1",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_level_2_active",
+          "semantic_name": "server_infrastructure_level_2_active",
+          "zh_name": "服务器设施-2 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_level_2_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-2 级工作中”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "level_2",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_level_3_active",
+          "semantic_name": "server_infrastructure_level_3_active",
+          "zh_name": "服务器设施-3 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_level_3_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-3 级工作中”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "level_3",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_upgrading",
+          "semantic_name": "server_infrastructure_upgrading",
+          "zh_name": "服务器设施-升级中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_upgrading.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-升级中”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_infrastructure-server_infrastructure_broken_blocked",
+          "semantic_name": "server_infrastructure_broken_blocked",
+          "zh_name": "服务器设施-故障受阻",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/server_infrastructure-server_infrastructure_broken_blocked.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 1.35,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器设施-故障受阻”使用。",
+          "state_tags": [
+            "server",
+            "infrastructure",
+            "broken",
+            "blocked"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_level_1_idle",
+          "semantic_name": "meeting_room_level_1_idle",
+          "zh_name": "会议室-1 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_level_1_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-1 级待机”使用。",
+          "state_tags": [
+            "meeting",
+            "level_1",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_level_2_idle",
+          "semantic_name": "meeting_room_level_2_idle",
+          "zh_name": "会议室-2 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_level_2_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-2 级待机”使用。",
+          "state_tags": [
+            "meeting",
+            "level_2",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_level_3_idle",
+          "semantic_name": "meeting_room_level_3_idle",
+          "zh_name": "会议室-3 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_level_3_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-3 级待机”使用。",
+          "state_tags": [
+            "meeting",
+            "level_3",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_level_1_active",
+          "semantic_name": "meeting_room_level_1_active",
+          "zh_name": "会议室-1 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_level_1_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-1 级工作中”使用。",
+          "state_tags": [
+            "meeting",
+            "level_1",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_level_2_active",
+          "semantic_name": "meeting_room_level_2_active",
+          "zh_name": "会议室-2 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_level_2_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-2 级工作中”使用。",
+          "state_tags": [
+            "meeting",
+            "level_2",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_level_3_active",
+          "semantic_name": "meeting_room_level_3_active",
+          "zh_name": "会议室-3 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_level_3_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-3 级工作中”使用。",
+          "state_tags": [
+            "meeting",
+            "level_3",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_upgrading",
+          "semantic_name": "meeting_room_upgrading",
+          "zh_name": "会议室-升级中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_upgrading.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-升级中”使用。",
+          "state_tags": [
+            "meeting",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_room-meeting_room_broken_blocked",
+          "semantic_name": "meeting_room_broken_blocked",
+          "zh_name": "会议室-故障受阻",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/meeting_room-meeting_room_broken_blocked.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议室-故障受阻”使用。",
+          "state_tags": [
+            "meeting",
+            "broken",
+            "blocked"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_level_1_idle",
+          "semantic_name": "rest_recovery_area_level_1_idle",
+          "zh_name": "休息恢复区-1 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_level_1_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-1 级待机”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "level_1",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_level_2_idle",
+          "semantic_name": "rest_recovery_area_level_2_idle",
+          "zh_name": "休息恢复区-2 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_level_2_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-2 级待机”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "level_2",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_level_3_idle",
+          "semantic_name": "rest_recovery_area_level_3_idle",
+          "zh_name": "休息恢复区-3 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_level_3_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-3 级待机”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "level_3",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_level_1_active",
+          "semantic_name": "rest_recovery_area_level_1_active",
+          "zh_name": "休息恢复区-1 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_level_1_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-1 级工作中”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "level_1",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_level_2_active",
+          "semantic_name": "rest_recovery_area_level_2_active",
+          "zh_name": "休息恢复区-2 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_level_2_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-2 级工作中”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "level_2",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_level_3_active",
+          "semantic_name": "rest_recovery_area_level_3_active",
+          "zh_name": "休息恢复区-3 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_level_3_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-3 级工作中”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "level_3",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_upgrading",
+          "semantic_name": "rest_recovery_area_upgrading",
+          "zh_name": "休息恢复区-升级中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_upgrading.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-升级中”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "rest_recovery_area-rest_recovery_area_broken_blocked",
+          "semantic_name": "rest_recovery_area_broken_blocked",
+          "zh_name": "休息恢复区-故障受阻",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/rest_recovery_area-rest_recovery_area_broken_blocked.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“休息恢复区-故障受阻”使用。",
+          "state_tags": [
+            "rest",
+            "recovery",
+            "broken",
+            "blocked"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_level_1_idle",
+          "semantic_name": "recruiting_hr_area_level_1_idle",
+          "zh_name": "招聘 HR 区-1 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_level_1_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 0
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-1 级待机”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "level_1",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_level_2_idle",
+          "semantic_name": "recruiting_hr_area_level_2_idle",
+          "zh_name": "招聘 HR 区-2 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_level_2_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 1
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-2 级待机”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "level_2",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_level_3_idle",
+          "semantic_name": "recruiting_hr_area_level_3_idle",
+          "zh_name": "招聘 HR 区-3 级待机",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_level_3_idle.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 2
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-3 级待机”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "level_3",
+            "idle"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_level_1_active",
+          "semantic_name": "recruiting_hr_area_level_1_active",
+          "zh_name": "招聘 HR 区-1 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_level_1_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 3
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-1 级工作中”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "level_1",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_level_2_active",
+          "semantic_name": "recruiting_hr_area_level_2_active",
+          "zh_name": "招聘 HR 区-2 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_level_2_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 4
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-2 级工作中”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "level_2",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_level_3_active",
+          "semantic_name": "recruiting_hr_area_level_3_active",
+          "zh_name": "招聘 HR 区-3 级工作中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_level_3_active.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 5
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-3 级工作中”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "level_3",
+            "active"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_upgrading",
+          "semantic_name": "recruiting_hr_area_upgrading",
+          "zh_name": "招聘 HR 区-升级中",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_upgrading.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 6
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-升级中”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "upgrading"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "recruiting_hr_area-recruiting_hr_area_broken_blocked",
+          "semantic_name": "recruiting_hr_area_broken_blocked",
+          "zh_name": "招聘 HR 区-故障受阻",
+          "category": "facility_upgrade_tier",
+          "file": "exports/facilities/recruiting_hr_area-recruiting_hr_area_broken_blocked.png",
+          "atlas": "exports/facility-upgrade-tier-atlas-v1.7.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 1120,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 7
+          },
+          "intended_layer": "FacilityLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘 HR 区-故障受阻”使用。",
+          "state_tags": [
+            "recruiting",
+            "hr",
+            "broken",
+            "blocked"
+          ],
+          "godot_hint": {
+            "sorting": "place bottom_center on the occupied grid footprint and y-sort with facilities and employees",
+            "animation": "switch sprites by level and state; upgrading/broken are temporary visual states",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

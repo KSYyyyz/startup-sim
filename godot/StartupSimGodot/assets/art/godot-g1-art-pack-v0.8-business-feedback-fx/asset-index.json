@@ -13,11 +13,14 @@
       "id": "business-feedback-fx-atlas-v0.8",
       "category": "business_feedback_fx",
       "file": "exports/business-feedback-fx-atlas-v0.8.png",
+      "sliced_icons_dir": "exports/icons",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{column_label}-{row_label}-v0.8.png",
       "source": "sources/business-feedback-fx-atlas-v0.8-source.png",
       "raw_source": "sources/business-feedback-fx-atlas-v0.8-raw-generated.png",
       "prompt": "prompts/business-feedback-fx-atlas-v0.8-prompt.md",
       "slice_guide": "slice-guides/business-feedback-fx-atlas-v0.8-slice-guide.md",
-      "preview": "previews/business-feedback-fx-atlas-v0.8-contact-sheet.jpg",
+      "preview": "previews/business-feedback-fx-atlas-v0.8-transparent-contact-sheet.png",
       "grid": {
         "columns": 8,
         "rows": 4
@@ -49,9 +52,11 @@
       "godot_import": {
         "resource_type": "Texture2D",
         "suggested_usage": "AnimatedSprite2D/Sprite2D regions above office cells, facilities, or employees",
-        "region_size": "224x224"
+        "region_size": "224x224",
+        "alternate_usage": "Use individual PNGs from exports/icons when atlas slicing is not desired."
       },
       "notes": [
+        "The atlas and all 32 sliced icons are transparent RGBA PNGs.",
         "No readable text, numbers, or UI labels are intended.",
         "Use Godot-rendered text for any numeric deltas or localized messages.",
         "Rows describe animation roles; columns describe business signal families."

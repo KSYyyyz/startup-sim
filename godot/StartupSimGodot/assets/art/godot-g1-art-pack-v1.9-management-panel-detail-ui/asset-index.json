@@ -1,0 +1,1277 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.9-management-panel-detail-ui",
+  "version": "1.9",
+  "created_for": "Startup Sim Godot detail panels, resource bars, action icons, and small controls",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "management-panel-detail-ui-atlas-v1.9",
+      "category": "management_panel_detail_ui",
+      "file": "exports/management-panel-detail-ui-atlas-v1.9.png",
+      "sliced_icons_dir": "exports/ui",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/management-panel-detail-ui-atlas-v1.9-source.png",
+      "raw_source": "sources/management-panel-detail-ui-atlas-v1.9-raw-generated.png",
+      "prompt": "prompts/management-panel-detail-ui-atlas-v1.9-prompt.md",
+      "slice_guide": "slice-guides/management-panel-detail-ui-atlas-v1.9-slice-guide.md",
+      "preview": "previews/management-panel-detail-ui-atlas-v1.9-transparent-contact-sheet.png",
+      "validation": "validation-1.9.json",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 896
+      },
+      "row_labels": [
+        "detail_panels",
+        "resource_bars",
+        "action_icons",
+        "small_controls"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "detail_panels-employee_detail_panel",
+          "semantic_name": "employee_detail_panel",
+          "zh_name": "员工详情面板",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-employee_detail_panel.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“员工详情面板”使用。",
+          "state_tags": [
+            "panel",
+            "employee"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "detail_panels-facility_detail_panel",
+          "semantic_name": "facility_detail_panel",
+          "zh_name": "设施详情面板",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-facility_detail_panel.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设施详情面板”使用。",
+          "state_tags": [
+            "panel",
+            "facility"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "detail_panels-monthly_report_modal",
+          "semantic_name": "monthly_report_modal",
+          "zh_name": "月报弹窗",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-monthly_report_modal.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“月报弹窗”使用。",
+          "state_tags": [
+            "panel",
+            "monthly"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "detail_panels-recruiting_candidate_card",
+          "semantic_name": "recruiting_candidate_card",
+          "zh_name": "候选人卡片",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-recruiting_candidate_card.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“候选人卡片”使用。",
+          "state_tags": [
+            "card",
+            "recruiting"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "detail_panels-upgrade_confirm_modal",
+          "semantic_name": "upgrade_confirm_modal",
+          "zh_name": "升级确认弹窗",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-upgrade_confirm_modal.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“升级确认弹窗”使用。",
+          "state_tags": [
+            "panel",
+            "upgrade"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "detail_panels-objective_milestone_card",
+          "semantic_name": "objective_milestone_card",
+          "zh_name": "目标里程碑卡",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-objective_milestone_card.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“目标里程碑卡”使用。",
+          "state_tags": [
+            "card",
+            "objective"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "detail_panels-compact_tooltip_box",
+          "semantic_name": "compact_tooltip_box",
+          "zh_name": "紧凑提示框",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-compact_tooltip_box.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“紧凑提示框”使用。",
+          "state_tags": [
+            "tooltip"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "detail_panels-dark_inspector_header",
+          "semantic_name": "dark_inspector_header",
+          "zh_name": "深色检查器标题",
+          "category": "management_panel_chrome",
+          "file": "exports/ui/detail_panels-dark_inspector_header.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“深色检查器标题”使用。",
+          "state_tags": [
+            "header"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-pressure_bar_frame",
+          "semantic_name": "pressure_bar_frame",
+          "zh_name": "压力条框",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-pressure_bar_frame.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“压力条框”使用。",
+          "state_tags": [
+            "bar",
+            "pressure"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-efficiency_bar_frame",
+          "semantic_name": "efficiency_bar_frame",
+          "zh_name": "效率条框",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-efficiency_bar_frame.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“效率条框”使用。",
+          "state_tags": [
+            "bar",
+            "efficiency"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-stability_bar_frame",
+          "semantic_name": "stability_bar_frame",
+          "zh_name": "稳定性条框",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-stability_bar_frame.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“稳定性条框”使用。",
+          "state_tags": [
+            "bar",
+            "stability"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-product_progress_bar_frame",
+          "semantic_name": "product_progress_bar_frame",
+          "zh_name": "产品进度条框",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-product_progress_bar_frame.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品进度条框”使用。",
+          "state_tags": [
+            "bar",
+            "product"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-cash_runway_meter",
+          "semantic_name": "cash_runway_meter",
+          "zh_name": "现金流仪表",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-cash_runway_meter.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“现金流仪表”使用。",
+          "state_tags": [
+            "meter",
+            "runway"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-morale_meter",
+          "semantic_name": "morale_meter",
+          "zh_name": "士气仪表",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-morale_meter.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“士气仪表”使用。",
+          "state_tags": [
+            "meter",
+            "morale"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-server_health_meter",
+          "semantic_name": "server_health_meter",
+          "zh_name": "服务器健康仪表",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-server_health_meter.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器健康仪表”使用。",
+          "state_tags": [
+            "meter",
+            "server"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "resource_bars-recruitment_fit_meter",
+          "semantic_name": "recruitment_fit_meter",
+          "zh_name": "招聘匹配仪表",
+          "category": "resource_bar_chrome",
+          "file": "exports/ui/resource_bars-recruitment_fit_meter.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘匹配仪表”使用。",
+          "state_tags": [
+            "meter",
+            "recruiting"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-hire",
+          "semantic_name": "hire",
+          "zh_name": "招聘",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-hire.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“招聘”使用。",
+          "state_tags": [
+            "action",
+            "hire"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-train",
+          "semantic_name": "train",
+          "zh_name": "训练",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-train.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“训练”使用。",
+          "state_tags": [
+            "action",
+            "train"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-upgrade",
+          "semantic_name": "upgrade",
+          "zh_name": "升级",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-upgrade.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“升级”使用。",
+          "state_tags": [
+            "action",
+            "upgrade"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-repair",
+          "semantic_name": "repair",
+          "zh_name": "维修",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-repair.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“维修”使用。",
+          "state_tags": [
+            "action",
+            "repair"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-sell",
+          "semantic_name": "sell",
+          "zh_name": "出售",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-sell.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“出售”使用。",
+          "state_tags": [
+            "action",
+            "sell"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-move",
+          "semantic_name": "move",
+          "zh_name": "移动",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-move.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“移动”使用。",
+          "state_tags": [
+            "action",
+            "move"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-pause",
+          "semantic_name": "pause",
+          "zh_name": "暂停",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-pause.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“暂停”使用。",
+          "state_tags": [
+            "action",
+            "pause"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "action_icons-fast_forward",
+          "semantic_name": "fast_forward",
+          "zh_name": "快进",
+          "category": "management_action_icon",
+          "file": "exports/ui/action_icons-fast_forward.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“快进”使用。",
+          "state_tags": [
+            "action",
+            "speed"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-close_button",
+          "semantic_name": "close_button",
+          "zh_name": "关闭按钮",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-close_button.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“关闭按钮”使用。",
+          "state_tags": [
+            "control",
+            "close"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-expand_button",
+          "semantic_name": "expand_button",
+          "zh_name": "展开按钮",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-expand_button.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“展开按钮”使用。",
+          "state_tags": [
+            "control",
+            "expand"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-collapse_button",
+          "semantic_name": "collapse_button",
+          "zh_name": "收起按钮",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-collapse_button.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“收起按钮”使用。",
+          "state_tags": [
+            "control",
+            "collapse"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-filter_funnel",
+          "semantic_name": "filter_funnel",
+          "zh_name": "筛选漏斗",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-filter_funnel.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“筛选漏斗”使用。",
+          "state_tags": [
+            "control",
+            "filter"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-sort_arrows",
+          "semantic_name": "sort_arrows",
+          "zh_name": "排序箭头",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-sort_arrows.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“排序箭头”使用。",
+          "state_tags": [
+            "control",
+            "sort"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-pin_marker",
+          "semantic_name": "pin_marker",
+          "zh_name": "固定标记",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-pin_marker.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“固定标记”使用。",
+          "state_tags": [
+            "control",
+            "pin"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-notification_badge",
+          "semantic_name": "notification_badge",
+          "zh_name": "通知徽章",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-notification_badge.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“通知徽章”使用。",
+          "state_tags": [
+            "control",
+            "notification"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_controls-corner_bracket",
+          "semantic_name": "corner_bracket",
+          "zh_name": "小型角标框",
+          "category": "management_control_icon",
+          "file": "exports/ui/small_controls-corner_bracket.png",
+          "atlas": "exports/management-panel-detail-ui-atlas-v1.9.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "HudLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型角标框”使用。",
+          "state_tags": [
+            "control",
+            "corner"
+          ],
+          "godot_hint": {
+            "sorting": "draw in CanvasLayer HUD; Godot Control nodes own layout and text",
+            "animation": "buttons and bars can swap sprites by state; text and fills stay dynamic in Godot",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

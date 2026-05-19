@@ -1,0 +1,1345 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.1-pseudo3d-office-foundation",
+  "version": "1.1",
+  "created_for": "Startup Sim Godot pseudo-3D office foundation and scene readability",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow resize to 1776x888, local #ff00ff chroma-key removal, shadow-cell alpha preservation, sliced into individual props",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "pseudo3d-office-foundation-atlas-v1.1",
+      "category": "pseudo3d_office_foundation",
+      "file": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+      "sliced_icons_dir": "exports/props",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{row_label}-{column_label}.png",
+      "source": "sources/pseudo3d-office-foundation-atlas-v1.1-source.png",
+      "raw_source": "sources/pseudo3d-office-foundation-atlas-v1.1-raw-generated.png",
+      "prompt": "prompts/pseudo3d-office-foundation-atlas-v1.1-prompt.md",
+      "slice_guide": "slice-guides/pseudo3d-office-foundation-atlas-v1.1-slice-guide.md",
+      "preview": "previews/pseudo3d-office-foundation-atlas-v1.1-transparent-contact-sheet.png",
+      "validation": "validation-v1.1.json",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 222,
+        "cell_height_px": 222
+      },
+      "image": {
+        "width": 1776,
+        "height": 888
+      },
+      "row_labels": [
+        "office_shell_boundary",
+        "floor_light_overlays",
+        "build_zone_markers",
+        "small_office_props"
+      ],
+      "column_labels": [
+        [
+          "wall_corner_l_piece",
+          "window_wall_segment",
+          "glass_divider_segment",
+          "entrance_door_segment",
+          "square_column_pillar",
+          "exterior_threshold_strip",
+          "buildable_floor_edge_trim",
+          "blocked_floor_edge_trim"
+        ],
+        [
+          "office_floor_tile_patch",
+          "carpet_zone_patch",
+          "cable_run_strip",
+          "window_light_strip",
+          "soft_workstation_shadow",
+          "large_facility_shadow",
+          "hover_highlight_marker",
+          "selected_cell_marker"
+        ],
+        [
+          "placement_valid_marker",
+          "placement_invalid_marker",
+          "zone_start_marker",
+          "zone_end_marker",
+          "upgrade_progress_ring",
+          "capacity_warning_marker",
+          "traffic_arrow_marker",
+          "department_boundary_corner_marker"
+        ],
+        [
+          "potted_plant",
+          "printer_copier",
+          "water_cooler",
+          "coffee_machine",
+          "trash_bin",
+          "sticky_note_board",
+          "cable_hub_router_box",
+          "desk_accessory_cluster"
+        ]
+      ],
+      "godot_import": {
+        "resource_type": "Texture2D",
+        "suggested_usage": "Sprite2D/TextureRect regions layered above OfficeGridView for pseudo-3D shell, floor detail, build markers, and props",
+        "region_size": "222x222",
+        "alternate_usage": "Use individual PNGs from exports/props when atlas slicing is not desired."
+      },
+      "notes": [
+        "The atlas and all 32 sliced props are transparent RGBA PNGs.",
+        "The pack is intended to make the current rectangular office grid read as a pseudo-3D game space without changing gameplay coordinates.",
+        "No readable text, numbers, logos, or UI labels are intended.",
+        "Use Godot-rendered text for all localized labels and numeric values."
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "office_shell_boundary-wall_corner_l_piece",
+          "semantic_name": "wall_corner_l_piece",
+          "zh_name": "墙体 L 形转角",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-wall_corner_l_piece.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“墙体 L 形转角”使用。",
+          "state_tags": [
+            "wall",
+            "corner",
+            "boundary"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "office_shell_boundary-window_wall_segment",
+          "semantic_name": "window_wall_segment",
+          "zh_name": "窗户墙段",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-window_wall_segment.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.35
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“窗户墙段”使用。",
+          "state_tags": [
+            "wall",
+            "window",
+            "boundary"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "office_shell_boundary-glass_divider_segment",
+          "semantic_name": "glass_divider_segment",
+          "zh_name": "玻璃隔断段",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-glass_divider_segment.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.25
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“玻璃隔断段”使用。",
+          "state_tags": [
+            "glass",
+            "divider",
+            "boundary"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "office_shell_boundary-entrance_door_segment",
+          "semantic_name": "entrance_door_segment",
+          "zh_name": "入口门段",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-entrance_door_segment.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 1.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“入口门段”使用。",
+          "state_tags": [
+            "door",
+            "entrance",
+            "boundary"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "office_shell_boundary-square_column_pillar",
+          "semantic_name": "square_column_pillar",
+          "zh_name": "方形承重柱",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-square_column_pillar.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“方形承重柱”使用。",
+          "state_tags": [
+            "pillar",
+            "column",
+            "depth"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "office_shell_boundary-exterior_threshold_strip",
+          "semantic_name": "exterior_threshold_strip",
+          "zh_name": "外部门槛条",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-exterior_threshold_strip.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 0.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“外部门槛条”使用。",
+          "state_tags": [
+            "threshold",
+            "edge"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "office_shell_boundary-buildable_floor_edge_trim",
+          "semantic_name": "buildable_floor_edge_trim",
+          "zh_name": "可建造地面边条",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-buildable_floor_edge_trim.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "FloorDetailLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 0.4
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“可建造地面边条”使用。",
+          "state_tags": [
+            "edge",
+            "buildable"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "office_shell_boundary-blocked_floor_edge_trim",
+          "semantic_name": "blocked_floor_edge_trim",
+          "zh_name": "不可建造地面边条",
+          "category": "office_shell",
+          "file": "exports/props/office_shell_boundary-blocked_floor_edge_trim.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 0,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "FloorDetailLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 0.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“不可建造地面边条”使用。",
+          "state_tags": [
+            "edge",
+            "blocked",
+            "hazard"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-office_floor_tile_patch",
+          "semantic_name": "office_floor_tile_patch",
+          "zh_name": "办公室地砖块",
+          "category": "floor_overlay",
+          "file": "exports/props/floor_light_overlays-office_floor_tile_patch.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "FloorLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“办公室地砖块”使用。",
+          "state_tags": [
+            "floor",
+            "tile"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-carpet_zone_patch",
+          "semantic_name": "carpet_zone_patch",
+          "zh_name": "区域地毯块",
+          "category": "zone_overlay",
+          "file": "exports/props/floor_light_overlays-carpet_zone_patch.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“区域地毯块”使用。",
+          "state_tags": [
+            "zone",
+            "carpet"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-cable_run_strip",
+          "semantic_name": "cable_run_strip",
+          "zh_name": "线缆走线条",
+          "category": "floor_overlay",
+          "file": "exports/props/floor_light_overlays-cable_run_strip.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "FloorDetailLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 0.45
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“线缆走线条”使用。",
+          "state_tags": [
+            "cable",
+            "infrastructure"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-window_light_strip",
+          "semantic_name": "window_light_strip",
+          "zh_name": "窗光条",
+          "category": "light_overlay",
+          "file": "exports/props/floor_light_overlays-window_light_strip.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "LightOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2,
+            "h": 0.7
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“窗光条”使用。",
+          "state_tags": [
+            "light",
+            "window"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-soft_workstation_shadow",
+          "semantic_name": "soft_workstation_shadow",
+          "zh_name": "工位柔和阴影",
+          "category": "shadow_overlay",
+          "file": "exports/props/floor_light_overlays-soft_workstation_shadow.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "ShadowLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1.2,
+            "h": 0.75
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“工位柔和阴影”使用。",
+          "state_tags": [
+            "shadow",
+            "workstation"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-large_facility_shadow",
+          "semantic_name": "large_facility_shadow",
+          "zh_name": "大型设施阴影",
+          "category": "shadow_overlay",
+          "file": "exports/props/floor_light_overlays-large_facility_shadow.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "ShadowLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 2,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 2.2,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“大型设施阴影”使用。",
+          "state_tags": [
+            "shadow",
+            "large_facility"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-hover_highlight_marker",
+          "semantic_name": "hover_highlight_marker",
+          "zh_name": "悬停高亮标记",
+          "category": "build_marker",
+          "file": "exports/props/floor_light_overlays-hover_highlight_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“悬停高亮标记”使用。",
+          "state_tags": [
+            "hover",
+            "marker"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "floor_light_overlays-selected_cell_marker",
+          "semantic_name": "selected_cell_marker",
+          "zh_name": "选中格标记",
+          "category": "build_marker",
+          "file": "exports/props/floor_light_overlays-selected_cell_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 222,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“选中格标记”使用。",
+          "state_tags": [
+            "selected",
+            "marker"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-placement_valid_marker",
+          "semantic_name": "placement_valid_marker",
+          "zh_name": "可放置标记",
+          "category": "build_marker",
+          "file": "exports/props/build_zone_markers-placement_valid_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“可放置标记”使用。",
+          "state_tags": [
+            "placement",
+            "valid"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-placement_invalid_marker",
+          "semantic_name": "placement_invalid_marker",
+          "zh_name": "不可放置标记",
+          "category": "build_marker",
+          "file": "exports/props/build_zone_markers-placement_invalid_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“不可放置标记”使用。",
+          "state_tags": [
+            "placement",
+            "invalid",
+            "blocked"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-zone_start_marker",
+          "semantic_name": "zone_start_marker",
+          "zh_name": "区域起点标记",
+          "category": "build_marker",
+          "file": "exports/props/build_zone_markers-zone_start_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“区域起点标记”使用。",
+          "state_tags": [
+            "zone",
+            "start"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-zone_end_marker",
+          "semantic_name": "zone_end_marker",
+          "zh_name": "区域终点标记",
+          "category": "build_marker",
+          "file": "exports/props/build_zone_markers-zone_end_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“区域终点标记”使用。",
+          "state_tags": [
+            "zone",
+            "end"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-upgrade_progress_ring",
+          "semantic_name": "upgrade_progress_ring",
+          "zh_name": "升级进度环",
+          "category": "status_marker",
+          "file": "exports/props/build_zone_markers-upgrade_progress_ring.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“升级进度环”使用。",
+          "state_tags": [
+            "upgrade",
+            "progress"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-capacity_warning_marker",
+          "semantic_name": "capacity_warning_marker",
+          "zh_name": "容量警告标记",
+          "category": "status_marker",
+          "file": "exports/props/build_zone_markers-capacity_warning_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“容量警告标记”使用。",
+          "state_tags": [
+            "capacity",
+            "warning"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-traffic_arrow_marker",
+          "semantic_name": "traffic_arrow_marker",
+          "zh_name": "动线箭头标记",
+          "category": "build_marker",
+          "file": "exports/props/build_zone_markers-traffic_arrow_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "PlacementPreviewLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1.2,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“动线箭头标记”使用。",
+          "state_tags": [
+            "traffic",
+            "path"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "build_zone_markers-department_boundary_corner_marker",
+          "semantic_name": "department_boundary_corner_marker",
+          "zh_name": "部门边界角标",
+          "category": "zone_overlay",
+          "file": "exports/props/build_zone_markers-department_boundary_corner_marker.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 444,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "ZoneOverlayLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“部门边界角标”使用。",
+          "state_tags": [
+            "zone",
+            "boundary",
+            "corner"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "layer_then_cell",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-potted_plant",
+          "semantic_name": "potted_plant",
+          "zh_name": "盆栽",
+          "category": "prop",
+          "file": "exports/props/small_office_props-potted_plant.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“盆栽”使用。",
+          "state_tags": [
+            "decor",
+            "plant"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-printer_copier",
+          "semantic_name": "printer_copier",
+          "zh_name": "打印复印机",
+          "category": "prop",
+          "file": "exports/props/small_office_props-printer_copier.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 222,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.05
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“打印复印机”使用。",
+          "state_tags": [
+            "printer",
+            "office_prop"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-water_cooler",
+          "semantic_name": "water_cooler",
+          "zh_name": "饮水机",
+          "category": "prop",
+          "file": "exports/props/small_office_props-water_cooler.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 444,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“饮水机”使用。",
+          "state_tags": [
+            "water",
+            "office_prop"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-coffee_machine",
+          "semantic_name": "coffee_machine",
+          "zh_name": "咖啡机",
+          "category": "prop",
+          "file": "exports/props/small_office_props-coffee_machine.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 666,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.15
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“咖啡机”使用。",
+          "state_tags": [
+            "coffee",
+            "morale",
+            "office_prop"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-trash_bin",
+          "semantic_name": "trash_bin",
+          "zh_name": "垃圾桶",
+          "category": "prop",
+          "file": "exports/props/small_office_props-trash_bin.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 888,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.8,
+            "h": 0.9
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“垃圾桶”使用。",
+          "state_tags": [
+            "trash",
+            "office_prop"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-sticky_note_board",
+          "semantic_name": "sticky_note_board",
+          "zh_name": "便利贴白板",
+          "category": "prop",
+          "file": "exports/props/small_office_props-sticky_note_board.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1110,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1.2,
+            "h": 1.1
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“便利贴白板”使用。",
+          "state_tags": [
+            "board",
+            "notes",
+            "no_text"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-cable_hub_router_box",
+          "semantic_name": "cable_hub_router_box",
+          "zh_name": "线缆路由盒",
+          "category": "prop",
+          "file": "exports/props/small_office_props-cable_hub_router_box.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1332,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1.2,
+            "h": 0.9
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“线缆路由盒”使用。",
+          "state_tags": [
+            "router",
+            "cable",
+            "infrastructure"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        },
+        {
+          "id": "small_office_props-desk_accessory_cluster",
+          "semantic_name": "desk_accessory_cluster",
+          "zh_name": "桌面配件组",
+          "category": "prop",
+          "file": "exports/props/small_office_props-desk_accessory_cluster.png",
+          "atlas": "exports/pseudo3d-office-foundation-atlas-v1.1.png",
+          "atlas_region": {
+            "x": 1554,
+            "y": 666,
+            "w": 222,
+            "h": 222
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "PropLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 0.85
+          },
+          "usage": "在 Startup Sim 2.5D 办公室渲染器中作为“桌面配件组”使用。",
+          "state_tags": [
+            "desk",
+            "accessory",
+            "office_prop"
+          ],
+          "godot_hint": {
+            "draw_api": "DrawTextureRectRegion or Sprite2D region_rect",
+            "sort_key": "projected_y + footprint_cells.h",
+            "text_policy": "No baked text; render labels and metrics with Godot UI nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

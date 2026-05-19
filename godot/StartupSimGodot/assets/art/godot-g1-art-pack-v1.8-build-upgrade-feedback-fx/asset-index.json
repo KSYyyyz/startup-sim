@@ -1,0 +1,1279 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v1.8-build-upgrade-feedback-fx",
+  "version": "1.8",
+  "created_for": "Startup Sim Godot construction, upgrade, repair, placement, and monthly settlement effects",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "build-upgrade-feedback-fx-atlas-v1.8",
+      "category": "build_upgrade_feedback_fx",
+      "file": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+      "sliced_icons_dir": "exports/fx",
+      "sliced_icon_count": 32,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/build-upgrade-feedback-fx-atlas-v1.8-source.png",
+      "raw_source": "sources/build-upgrade-feedback-fx-atlas-v1.8-raw-generated.png",
+      "prompt": "prompts/build-upgrade-feedback-fx-atlas-v1.8-prompt.md",
+      "slice_guide": "slice-guides/build-upgrade-feedback-fx-atlas-v1.8-slice-guide.md",
+      "preview": "previews/build-upgrade-feedback-fx-atlas-v1.8-transparent-contact-sheet.png",
+      "validation": "validation-1.8.json",
+      "grid": {
+        "columns": 8,
+        "rows": 4
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 896
+      },
+      "row_labels": [
+        "construction_frames",
+        "upgrade_effects",
+        "repair_malfunction",
+        "placement_monthly"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "construction_frames-blueprint_base",
+          "semantic_name": "blueprint_base",
+          "zh_name": "蓝图底座",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-blueprint_base.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“蓝图底座”使用。",
+          "state_tags": [
+            "construction",
+            "frame_1"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "construction_frames-cones_tools",
+          "semantic_name": "cones_tools",
+          "zh_name": "施工锥与工具",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-cones_tools.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“施工锥与工具”使用。",
+          "state_tags": [
+            "construction",
+            "frame_2"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "construction_frames-half_built_structure",
+          "semantic_name": "half_built_structure",
+          "zh_name": "半成品结构",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-half_built_structure.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“半成品结构”使用。",
+          "state_tags": [
+            "construction",
+            "frame_3"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "construction_frames-nearly_done_sparkle",
+          "semantic_name": "nearly_done_sparkle",
+          "zh_name": "接近完成闪光",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-nearly_done_sparkle.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“接近完成闪光”使用。",
+          "state_tags": [
+            "construction",
+            "frame_4"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "construction_frames-tool_swing",
+          "semantic_name": "tool_swing",
+          "zh_name": "工具挥动",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-tool_swing.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“工具挥动”使用。",
+          "state_tags": [
+            "construction",
+            "tool"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "construction_frames-material_crate",
+          "semantic_name": "material_crate",
+          "zh_name": "材料箱",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-material_crate.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“材料箱”使用。",
+          "state_tags": [
+            "construction",
+            "material"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "construction_frames-work_light_glow",
+          "semantic_name": "work_light_glow",
+          "zh_name": "施工灯光",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-work_light_glow.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“施工灯光”使用。",
+          "state_tags": [
+            "construction",
+            "light"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "construction_frames-completion_pop",
+          "semantic_name": "completion_pop",
+          "zh_name": "完成弹光",
+          "category": "construction_fx",
+          "file": "exports/fx/construction_frames-completion_pop.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“完成弹光”使用。",
+          "state_tags": [
+            "construction",
+            "complete"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-upgrade_ring_small",
+          "semantic_name": "upgrade_ring_small",
+          "zh_name": "小升级环",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-upgrade_ring_small.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小升级环”使用。",
+          "state_tags": [
+            "upgrade",
+            "frame_1"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-upgrade_ring_medium",
+          "semantic_name": "upgrade_ring_medium",
+          "zh_name": "中升级环",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-upgrade_ring_medium.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“中升级环”使用。",
+          "state_tags": [
+            "upgrade",
+            "frame_2"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-upgrade_ring_bright",
+          "semantic_name": "upgrade_ring_bright",
+          "zh_name": "亮升级环",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-upgrade_ring_bright.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“亮升级环”使用。",
+          "state_tags": [
+            "upgrade",
+            "frame_3"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-upgrade_ring_burst",
+          "semantic_name": "upgrade_ring_burst",
+          "zh_name": "升级爆发环",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-upgrade_ring_burst.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“升级爆发环”使用。",
+          "state_tags": [
+            "upgrade",
+            "frame_4"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-gear_spin",
+          "semantic_name": "gear_spin",
+          "zh_name": "齿轮旋转",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-gear_spin.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“齿轮旋转”使用。",
+          "state_tags": [
+            "upgrade",
+            "gear"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-upward_arrows",
+          "semantic_name": "upward_arrows",
+          "zh_name": "上升箭头",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-upward_arrows.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“上升箭头”使用。",
+          "state_tags": [
+            "upgrade",
+            "arrow"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-polish_sparkle",
+          "semantic_name": "polish_sparkle",
+          "zh_name": "抛光闪光",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-polish_sparkle.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“抛光闪光”使用。",
+          "state_tags": [
+            "upgrade",
+            "sparkle"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "upgrade_effects-upgrade_complete",
+          "semantic_name": "upgrade_complete",
+          "zh_name": "升级完成",
+          "category": "upgrade_fx",
+          "file": "exports/fx/upgrade_effects-upgrade_complete.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“升级完成”使用。",
+          "state_tags": [
+            "upgrade",
+            "complete"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-small_smoke",
+          "semantic_name": "small_smoke",
+          "zh_name": "小烟雾",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-small_smoke.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小烟雾”使用。",
+          "state_tags": [
+            "repair",
+            "smoke"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-big_smoke",
+          "semantic_name": "big_smoke",
+          "zh_name": "大烟雾",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-big_smoke.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“大烟雾”使用。",
+          "state_tags": [
+            "repair",
+            "smoke"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-sparks",
+          "semantic_name": "sparks",
+          "zh_name": "火花",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-sparks.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“火花”使用。",
+          "state_tags": [
+            "repair",
+            "spark"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-warning_crackle",
+          "semantic_name": "warning_crackle",
+          "zh_name": "警告电弧",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-warning_crackle.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“警告电弧”使用。",
+          "state_tags": [
+            "repair",
+            "warning"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-wrench_repair",
+          "semantic_name": "wrench_repair",
+          "zh_name": "扳手维修",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-wrench_repair.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“扳手维修”使用。",
+          "state_tags": [
+            "repair",
+            "wrench"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-patch_panel",
+          "semantic_name": "patch_panel",
+          "zh_name": "补丁面板",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-patch_panel.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“补丁面板”使用。",
+          "state_tags": [
+            "repair",
+            "patch"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-cooling_fan",
+          "semantic_name": "cooling_fan",
+          "zh_name": "冷却风扇",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-cooling_fan.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“冷却风扇”使用。",
+          "state_tags": [
+            "repair",
+            "cooling"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "repair_malfunction-repaired_glow",
+          "semantic_name": "repaired_glow",
+          "zh_name": "修复完成光",
+          "category": "repair_fx",
+          "file": "exports/fx/repair_malfunction-repaired_glow.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“修复完成光”使用。",
+          "state_tags": [
+            "repair",
+            "complete"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-placement_valid_pulse",
+          "semantic_name": "placement_valid_pulse",
+          "zh_name": "可放置脉冲",
+          "category": "placement_fx",
+          "file": "exports/fx/placement_monthly-placement_valid_pulse.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“可放置脉冲”使用。",
+          "state_tags": [
+            "placement",
+            "valid"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-placement_invalid_pulse",
+          "semantic_name": "placement_invalid_pulse",
+          "zh_name": "不可放置脉冲",
+          "category": "placement_fx",
+          "file": "exports/fx/placement_monthly-placement_invalid_pulse.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“不可放置脉冲”使用。",
+          "state_tags": [
+            "placement",
+            "invalid"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-selected_cell_pulse",
+          "semantic_name": "selected_cell_pulse",
+          "zh_name": "选中格脉冲",
+          "category": "placement_fx",
+          "file": "exports/fx/placement_monthly-selected_cell_pulse.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“选中格脉冲”使用。",
+          "state_tags": [
+            "placement",
+            "selected"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-move_ghost_marker",
+          "semantic_name": "move_ghost_marker",
+          "zh_name": "移动虚影标记",
+          "category": "placement_fx",
+          "file": "exports/fx/placement_monthly-move_ghost_marker.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“移动虚影标记”使用。",
+          "state_tags": [
+            "placement",
+            "move"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-cash_gain_burst",
+          "semantic_name": "cash_gain_burst",
+          "zh_name": "现金收益爆发",
+          "category": "monthly_fx",
+          "file": "exports/fx/placement_monthly-cash_gain_burst.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“现金收益爆发”使用。",
+          "state_tags": [
+            "monthly",
+            "cash_gain"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-cash_loss_burst",
+          "semantic_name": "cash_loss_burst",
+          "zh_name": "现金损失爆发",
+          "category": "monthly_fx",
+          "file": "exports/fx/placement_monthly-cash_loss_burst.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“现金损失爆发”使用。",
+          "state_tags": [
+            "monthly",
+            "cash_loss"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-risk_burst",
+          "semantic_name": "risk_burst",
+          "zh_name": "风险爆发",
+          "category": "monthly_fx",
+          "file": "exports/fx/placement_monthly-risk_burst.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“风险爆发”使用。",
+          "state_tags": [
+            "monthly",
+            "risk"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "placement_monthly-objective_complete_burst",
+          "semantic_name": "objective_complete_burst",
+          "zh_name": "目标完成爆发",
+          "category": "monthly_fx",
+          "file": "exports/fx/placement_monthly-objective_complete_burst.png",
+          "atlas": "exports/build-upgrade-feedback-fx-atlas-v1.8.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "FeedbackFxLayer",
+          "anchor": "center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“目标完成爆发”使用。",
+          "state_tags": [
+            "monthly",
+            "objective"
+          ],
+          "godot_hint": {
+            "sorting": "draw above facilities and zones; transient effects can ignore gameplay footprint",
+            "animation": "play row sequences as short frame animations or one-shot effects",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

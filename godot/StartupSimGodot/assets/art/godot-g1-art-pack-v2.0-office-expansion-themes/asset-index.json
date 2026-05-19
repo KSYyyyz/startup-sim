@@ -1,0 +1,1624 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v2.0-office-expansion-themes",
+  "version": "2.0",
+  "created_for": "Startup Sim Godot modular office expansion themes and room boundary modules",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "office-expansion-theme-atlas-v2.0",
+      "category": "office_expansion_themes",
+      "file": "exports/office-expansion-theme-atlas-v2.0.png",
+      "sliced_icons_dir": "exports/modules",
+      "sliced_icon_count": 40,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/office-expansion-theme-atlas-v2.0-source.png",
+      "raw_source": "sources/office-expansion-theme-atlas-v2.0-raw-generated.png",
+      "prompt": "prompts/office-expansion-theme-atlas-v2.0-prompt.md",
+      "slice_guide": "slice-guides/office-expansion-theme-atlas-v2.0-slice-guide.md",
+      "preview": "previews/office-expansion-theme-atlas-v2.0-transparent-contact-sheet.png",
+      "validation": "validation-2.0.json",
+      "grid": {
+        "columns": 8,
+        "rows": 5
+      },
+      "slice": {
+        "cell_width_px": 224,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1792,
+        "height": 1120
+      },
+      "row_labels": [
+        "small_startup_office",
+        "growth_open_office",
+        "mature_glass_office",
+        "server_room",
+        "meeting_rest_front"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "small_startup_office-small_startup_office_floor_patch",
+          "semantic_name": "small_startup_office_floor_patch",
+          "zh_name": "小型创业办公室-地面块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_floor_patch.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-地面块”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "floor_patch"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_startup_office-small_startup_office_wall_corner",
+          "semantic_name": "small_startup_office_wall_corner",
+          "zh_name": "小型创业办公室-墙角",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_wall_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-墙角”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "wall_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_startup_office-small_startup_office_entrance_shell",
+          "semantic_name": "small_startup_office_entrance_shell",
+          "zh_name": "小型创业办公室-入口壳",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_entrance_shell.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-入口壳”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "entrance_shell"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_startup_office-small_startup_office_window_wall",
+          "semantic_name": "small_startup_office_window_wall",
+          "zh_name": "小型创业办公室-窗墙",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_window_wall.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-窗墙”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "window_wall"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_startup_office-small_startup_office_divider",
+          "semantic_name": "small_startup_office_divider",
+          "zh_name": "小型创业办公室-隔断",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_divider.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-隔断”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "divider"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_startup_office-small_startup_office_special_corner",
+          "semantic_name": "small_startup_office_special_corner",
+          "zh_name": "小型创业办公室-特色角落",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_special_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-特色角落”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "special_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_startup_office-small_startup_office_connector_strip",
+          "semantic_name": "small_startup_office_connector_strip",
+          "zh_name": "小型创业办公室-连接条",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_connector_strip.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-连接条”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "connector_strip"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "small_startup_office-small_startup_office_transition_tile",
+          "semantic_name": "small_startup_office_transition_tile",
+          "zh_name": "小型创业办公室-过渡块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/small_startup_office-small_startup_office_transition_tile.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 0,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“小型创业办公室-过渡块”使用。",
+          "state_tags": [
+            "startup",
+            "small",
+            "transition_tile"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_floor_patch",
+          "semantic_name": "growth_open_office_floor_patch",
+          "zh_name": "成长期开放办公区-地面块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_floor_patch.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-地面块”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "floor_patch"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_wall_corner",
+          "semantic_name": "growth_open_office_wall_corner",
+          "zh_name": "成长期开放办公区-墙角",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_wall_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-墙角”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "wall_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_entrance_shell",
+          "semantic_name": "growth_open_office_entrance_shell",
+          "zh_name": "成长期开放办公区-入口壳",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_entrance_shell.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-入口壳”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "entrance_shell"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_window_wall",
+          "semantic_name": "growth_open_office_window_wall",
+          "zh_name": "成长期开放办公区-窗墙",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_window_wall.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-窗墙”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "window_wall"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_divider",
+          "semantic_name": "growth_open_office_divider",
+          "zh_name": "成长期开放办公区-隔断",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_divider.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-隔断”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "divider"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_special_corner",
+          "semantic_name": "growth_open_office_special_corner",
+          "zh_name": "成长期开放办公区-特色角落",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_special_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-特色角落”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "special_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_connector_strip",
+          "semantic_name": "growth_open_office_connector_strip",
+          "zh_name": "成长期开放办公区-连接条",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_connector_strip.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-连接条”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "connector_strip"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "growth_open_office-growth_open_office_transition_tile",
+          "semantic_name": "growth_open_office_transition_tile",
+          "zh_name": "成长期开放办公区-过渡块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/growth_open_office-growth_open_office_transition_tile.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 224,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成长期开放办公区-过渡块”使用。",
+          "state_tags": [
+            "growth",
+            "open_office",
+            "transition_tile"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_floor_patch",
+          "semantic_name": "mature_glass_office_floor_patch",
+          "zh_name": "成熟玻璃办公室-地面块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_floor_patch.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-地面块”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "floor_patch"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_wall_corner",
+          "semantic_name": "mature_glass_office_wall_corner",
+          "zh_name": "成熟玻璃办公室-墙角",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_wall_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-墙角”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "wall_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_entrance_shell",
+          "semantic_name": "mature_glass_office_entrance_shell",
+          "zh_name": "成熟玻璃办公室-入口壳",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_entrance_shell.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-入口壳”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "entrance_shell"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_window_wall",
+          "semantic_name": "mature_glass_office_window_wall",
+          "zh_name": "成熟玻璃办公室-窗墙",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_window_wall.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-窗墙”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "window_wall"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_divider",
+          "semantic_name": "mature_glass_office_divider",
+          "zh_name": "成熟玻璃办公室-隔断",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_divider.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-隔断”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "divider"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_special_corner",
+          "semantic_name": "mature_glass_office_special_corner",
+          "zh_name": "成熟玻璃办公室-特色角落",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_special_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-特色角落”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "special_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_connector_strip",
+          "semantic_name": "mature_glass_office_connector_strip",
+          "zh_name": "成熟玻璃办公室-连接条",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_connector_strip.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-连接条”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "connector_strip"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "mature_glass_office-mature_glass_office_transition_tile",
+          "semantic_name": "mature_glass_office_transition_tile",
+          "zh_name": "成熟玻璃办公室-过渡块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/mature_glass_office-mature_glass_office_transition_tile.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 448,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“成熟玻璃办公室-过渡块”使用。",
+          "state_tags": [
+            "mature",
+            "glass",
+            "transition_tile"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_floor_patch",
+          "semantic_name": "server_room_floor_patch",
+          "zh_name": "服务器房-地面块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_floor_patch.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-地面块”使用。",
+          "state_tags": [
+            "server_room",
+            "floor_patch"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_wall_corner",
+          "semantic_name": "server_room_wall_corner",
+          "zh_name": "服务器房-墙角",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_wall_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-墙角”使用。",
+          "state_tags": [
+            "server_room",
+            "wall_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_entrance_shell",
+          "semantic_name": "server_room_entrance_shell",
+          "zh_name": "服务器房-入口壳",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_entrance_shell.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-入口壳”使用。",
+          "state_tags": [
+            "server_room",
+            "entrance_shell"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_window_wall",
+          "semantic_name": "server_room_window_wall",
+          "zh_name": "服务器房-窗墙",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_window_wall.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-窗墙”使用。",
+          "state_tags": [
+            "server_room",
+            "window_wall"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_divider",
+          "semantic_name": "server_room_divider",
+          "zh_name": "服务器房-隔断",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_divider.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-隔断”使用。",
+          "state_tags": [
+            "server_room",
+            "divider"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_special_corner",
+          "semantic_name": "server_room_special_corner",
+          "zh_name": "服务器房-特色角落",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_special_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-特色角落”使用。",
+          "state_tags": [
+            "server_room",
+            "special_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_connector_strip",
+          "semantic_name": "server_room_connector_strip",
+          "zh_name": "服务器房-连接条",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_connector_strip.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-连接条”使用。",
+          "state_tags": [
+            "server_room",
+            "connector_strip"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "server_room-server_room_transition_tile",
+          "semantic_name": "server_room_transition_tile",
+          "zh_name": "服务器房-过渡块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/server_room-server_room_transition_tile.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 672,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“服务器房-过渡块”使用。",
+          "state_tags": [
+            "server_room",
+            "transition_tile"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_floor_patch",
+          "semantic_name": "meeting_rest_front_floor_patch",
+          "zh_name": "会议休息前台-地面块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_floor_patch.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 0
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-地面块”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "floor_patch"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_wall_corner",
+          "semantic_name": "meeting_rest_front_wall_corner",
+          "zh_name": "会议休息前台-墙角",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_wall_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 224,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 1
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-墙角”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "wall_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_entrance_shell",
+          "semantic_name": "meeting_rest_front_entrance_shell",
+          "zh_name": "会议休息前台-入口壳",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_entrance_shell.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 448,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 2
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-入口壳”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "entrance_shell"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_window_wall",
+          "semantic_name": "meeting_rest_front_window_wall",
+          "zh_name": "会议休息前台-窗墙",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_window_wall.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 672,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 3
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-窗墙”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "window_wall"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_divider",
+          "semantic_name": "meeting_rest_front_divider",
+          "zh_name": "会议休息前台-隔断",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_divider.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 896,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 4
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-隔断”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "divider"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_special_corner",
+          "semantic_name": "meeting_rest_front_special_corner",
+          "zh_name": "会议休息前台-特色角落",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_special_corner.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1120,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 5
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-特色角落”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "special_corner"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_connector_strip",
+          "semantic_name": "meeting_rest_front_connector_strip",
+          "zh_name": "会议休息前台-连接条",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_connector_strip.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 6
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-连接条”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "connector_strip"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "meeting_rest_front-meeting_rest_front_transition_tile",
+          "semantic_name": "meeting_rest_front_transition_tile",
+          "zh_name": "会议休息前台-过渡块",
+          "category": "office_expansion_module",
+          "file": "exports/modules/meeting_rest_front-meeting_rest_front_transition_tile.png",
+          "atlas": "exports/office-expansion-theme-atlas-v2.0.png",
+          "atlas_region": {
+            "x": 1568,
+            "y": 896,
+            "w": 224,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 7
+          },
+          "intended_layer": "ShellLayer",
+          "anchor": "bottom_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“会议休息前台-过渡块”使用。",
+          "state_tags": [
+            "meeting",
+            "rest",
+            "front",
+            "transition_tile"
+          ],
+          "godot_hint": {
+            "sorting": "floor modules draw low; wall and shell modules use bottom_center and may y-sort above floor",
+            "animation": "static modular shells; use variants by company stage or room type",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -648,6 +648,110 @@ def test_godot_crisis_actions_are_mounted_and_use_core_bridge():
     assert "现金流可支撑时间" in panel_script
 
 
+def test_godot_tycoon_hud_uses_management_art_for_iconized_controls():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+
+    assert "godot-g1-art-pack-v1.9-management-panel-detail-ui" in scene
+    for resource_id in [
+        "ActionIconHire",
+        "ActionIconSell",
+        "ActionIconTrain",
+        "ActionIconUpgrade",
+        "ActionIconPause",
+        "ActionIconFastForward",
+        "ObjectiveProgressBarFrame",
+    ]:
+        assert resource_id in scene
+
+    for icon_assignment in [
+        'icon = ExtResource("ActionIconPause")',
+        'icon = ExtResource("ActionIconFastForward")',
+        'icon = ExtResource("ActionIconHire")',
+        'icon = ExtResource("ActionIconTrain")',
+        'icon = ExtResource("ActionIconSell")',
+    ]:
+        assert icon_assignment in scene
+
+
+def test_godot_selected_object_panel_is_wired_to_room_facility_and_employee_actions():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    for node_name in [
+        "ObjectActionPanel",
+        "ObjectActionTitleLabel",
+        "ObjectActionDetailLabel",
+        "UpgradeSelectedFacilityButton",
+        "SellSelectedFacilityButton",
+        "TrainSelectedObjectButton",
+    ]:
+        assert node_name in scene
+
+    assert "ShowObjectActionPanel(" in panel_script
+    assert "HideObjectActionPanel()" in panel_script
+    assert "UpdateObjectActionPanel(" in panel_script
+    assert (
+        'ConnectButton("ObjectActionPanel/UpgradeSelectedFacilityButton", UpgradeSelectedFacility)'
+        in panel_script
+    )
+    assert (
+        'ConnectButton("ObjectActionPanel/SellSelectedFacilityButton", SellSelectedFacility)'
+        in panel_script
+    )
+    assert (
+        'ConnectButton("ObjectActionPanel/TrainSelectedObjectButton", TrainSelectedEmployee)'
+        in panel_script
+    )
+
+
+def test_godot_selected_facility_sell_removes_core_layout_and_visual_object():
+    layout = (ROOT / "csharp" / "StartupSim.Core" / "Office" / "OfficeLayout.cs").read_text(
+        encoding="utf-8"
+    )
+    placement_script = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "public bool RemoveFacility(string facilityId)" in layout
+    assert "facilityOccupants.Remove(cell)" in layout
+    assert "facilities.Remove(facility)" in layout
+    assert "public bool SellFacility(string facilityId)" in placement_script
+    assert "Layout.RemoveFacility(facilityId)" in placement_script
+    assert "public void HideFacilityVisual(string facilityId)" in grid_script
+    assert "facilityVisuals.Remove(facilityId)" in grid_script
+    assert "FacilityPlacementController.SellFacility(selectedFacilityId)" in panel_script
+    assert "OfficeGridView?.HideFacilityVisual(selectedFacilityId)" in panel_script
+
+
+def test_godot_object_readability_badges_and_stage_progress_are_visible():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+    progress_script = (SCRIPTS / "CompanyProgressController.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "ObjectiveTracker" in scene
+    assert "ObjectiveProgressBar" in scene
+    assert "ObjectiveTitleLabel" in scene
+    assert "LastStageProgressPercent" in progress_script
+    assert "BuildStageProgressPercent(" in progress_script
+    assert "UpdateObjectiveProgressBar()" in panel_script
+
+    assert "Level { get; init; }" in grid_script
+    assert "DrawFacilityLevelBadge" in grid_script
+    assert "DrawEmployeeRoleBadge" in grid_script
+    assert "DrawSelectionObjectBadge" in grid_script
+
+
+def test_godot_event_feed_uses_lightweight_game_cues_not_developer_log_copy():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "EventCueBadge" in scene
+    assert "SetEventCue(" in panel_script
+    assert "FormatEventCue(" in panel_script
+    assert "SetLabel(StatusLabel, FormatEventCue" in panel_script
+
+
 def test_godot_facility_failure_feedback_explains_real_invalid_reason():
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
     placement_script = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")

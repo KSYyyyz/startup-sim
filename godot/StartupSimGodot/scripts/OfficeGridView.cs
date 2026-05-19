@@ -13,6 +13,7 @@ public partial class OfficeGridView : Node2D
         public string FacilityTypeId { get; init; } = string.Empty;
         public int X { get; init; }
         public int Y { get; init; }
+        public int Level { get; init; } = 1;
     }
 
     private sealed class EmployeeVisual
@@ -159,7 +160,7 @@ public partial class OfficeGridView : Node2D
         }
     }
 
-    public void ShowFacilityVisual(string facilityId, string facilityTypeId, int x, int y)
+    public void ShowFacilityVisual(string facilityId, string facilityTypeId, int x, int y, int level = 1)
     {
         if (string.IsNullOrWhiteSpace(facilityId))
         {
@@ -170,9 +171,18 @@ public partial class OfficeGridView : Node2D
         {
             FacilityTypeId = facilityTypeId,
             X = x,
-            Y = y
+            Y = y,
+            Level = Mathf.Max(1, level)
         };
         QueueRedraw();
+    }
+
+    public void HideFacilityVisual(string facilityId)
+    {
+        if (facilityVisuals.Remove(facilityId))
+        {
+            QueueRedraw();
+        }
     }
 
     public void ShowEmployeeVisual(string employeeId, string roleId, int x, int y)
@@ -649,6 +659,7 @@ public partial class OfficeGridView : Node2D
                 FacilityVisualSlot(projection, visual.X, visual.Y),
                 AtlasCell(FacilityAtlas, columns: 6, rows: 3, sourceColumn, row: 0),
                 Colors.White);
+            DrawFacilityLevelBadge(projection, visual);
         }
     }
 
@@ -699,6 +710,7 @@ public partial class OfficeGridView : Node2D
                 ProjectedTileAtlasSlot(projection, visual.X, visual.Y, widthScale, heightScale),
                 AtlasCell(LargeFacilityAtlas, columns: 8, rows: 4, column: column, row: row),
                 Colors.White);
+            DrawFacilityLevelBadge(projection, visual);
             return;
         }
 
@@ -719,6 +731,7 @@ public partial class OfficeGridView : Node2D
             FacilityVisualSlot(projection, visual.X, visual.Y),
             AtlasCell(FacilityAtlas, columns: 6, rows: 3, sourceColumn, row: 0),
             Colors.White);
+        DrawFacilityLevelBadge(projection, visual);
     }
 
     private static (int Row, int Column, float WidthScale, float HeightScale) LargeFacilityCell(string facilityTypeId)
@@ -752,6 +765,7 @@ public partial class OfficeGridView : Node2D
                 Colors.White);
 
             DrawBusinessFeedbackBubble(projection, visual.X, visual.Y, offset);
+            DrawEmployeeRoleBadge(projection, visual, offset);
             return;
         }
 
@@ -777,6 +791,7 @@ public partial class OfficeGridView : Node2D
             Colors.White);
 
         DrawStatusIcon(projection, visual.X, visual.Y, offset);
+        DrawEmployeeRoleBadge(projection, visual, offset);
     }
 
     private void DrawBusinessFeedbackBubble(OfficeProjection projection, int x, int y, int offset)
@@ -822,8 +837,46 @@ public partial class OfficeGridView : Node2D
                 Colors.White);
 
             DrawStatusIcon(projection, visual.X, visual.Y, offset);
+            DrawEmployeeRoleBadge(projection, visual, offset);
             offset++;
         }
+    }
+
+    private void DrawFacilityLevelBadge(OfficeProjection projection, FacilityVisual visual)
+    {
+        var anchor = UsePseudo3DProjection
+            ? projection.CellCenter(visual.X, visual.Y) + new Vector2(-22f, -42f)
+            : new Vector2(visual.X * CellSize + 8f, visual.Y * CellSize + 8f);
+        var badgeColor = visual.Level switch
+        {
+            >= 3 => new Color(0.95f, 0.78f, 0.26f, 0.95f),
+            2 => new Color(0.36f, 0.74f, 0.95f, 0.95f),
+            _ => new Color(0.82f, 0.86f, 0.72f, 0.9f)
+        };
+
+        for (var index = 0; index < visual.Level; index++)
+        {
+            DrawCircle(anchor + new Vector2(index * 7f, 0f), 3.2f, badgeColor);
+        }
+    }
+
+    private void DrawEmployeeRoleBadge(OfficeProjection projection, EmployeeVisual visual, int offset)
+    {
+        var anchor = UsePseudo3DProjection
+            ? projection.CellCenter(visual.X, visual.Y) + new Vector2(-8f + offset * 4f, -50f - offset * 3f)
+            : new Vector2(visual.X * CellSize + 6f + offset * 4f, visual.Y * CellSize + 6f + offset * 3f);
+        DrawRect(new Rect2(anchor, new Vector2(18f, 5f)), RoleBadgeColor(visual.RoleId), filled: true);
+    }
+
+    private static Color RoleBadgeColor(string roleId)
+    {
+        return roleId switch
+        {
+            "product_engineer" => new Color(0.24f, 0.48f, 0.86f, 0.95f),
+            "sales_specialist" => new Color(0.28f, 0.68f, 0.38f, 0.95f),
+            "ops_engineer" => new Color(0.52f, 0.38f, 0.82f, 0.95f),
+            _ => new Color(0.82f, 0.82f, 0.72f, 0.9f)
+        };
     }
 
     private void DrawStatusIcon(OfficeProjection projection, int x, int y, int offset)
@@ -946,12 +999,22 @@ public partial class OfficeGridView : Node2D
         {
             DrawProjectedCellMarker(selectedCell, new Color(SelectionColor.R, SelectionColor.G, SelectionColor.B, 0.16f), filled: true, width: 1f);
             DrawProjectedCellMarker(selectedCell, SelectionColor, filled: false, width: 3f);
+            DrawSelectionObjectBadge(selectedCell);
             return;
         }
 
         var rect = new Rect2(selectedCell.X * CellSize, selectedCell.Y * CellSize, CellSize, CellSize);
         DrawRect(rect.Grow(-3f), new Color(SelectionColor.R, SelectionColor.G, SelectionColor.B, 0.16f), filled: true);
         DrawRect(rect.Grow(-2f), SelectionColor, filled: false, width: 3f);
+        DrawSelectionObjectBadge(selectedCell);
+    }
+
+    private void DrawSelectionObjectBadge(OfficeCell cell)
+    {
+        var position = UsePseudo3DProjection
+            ? BuildProjection().CellCenter(cell.X, cell.Y) + new Vector2(24f, -22f)
+            : new Vector2(cell.X * CellSize + CellSize - 12f, cell.Y * CellSize + 12f);
+        DrawCircle(position, 5f, new Color(0.98f, 0.86f, 0.28f, 0.9f));
     }
 
     private void DrawProjectedCellMarker(OfficeCell cell, Color color, bool filled, float width)

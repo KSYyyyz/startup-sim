@@ -1,0 +1,2571 @@
+{
+  "pack_id": "startup-sim-godot-g1-art-pack-v2.1-employee-role-extensions",
+  "version": "2.1",
+  "created_for": "Startup Sim Godot additional employee and NPC role sprites with varied identities",
+  "storage_policy": "Primary copy lives inside godot/StartupSimGodot/assets/art. External D:/美术资源/startup-sim copy is backup only.",
+  "source_tooling": {
+    "generation": "built-in imagegen through the image-2 art route",
+    "post_processing": "Pillow atlas normalization, #ff00ff chroma-key removal, sliced into individual PNGs",
+    "transparency": "generated on #ff00ff chroma-key and converted to RGBA alpha"
+  },
+  "assets": [
+    {
+      "id": "employee-role-extension-atlas-v2.1",
+      "category": "employee_role_extensions",
+      "file": "exports/employee-role-extension-atlas-v2.1.png",
+      "sliced_icons_dir": "exports/sprites",
+      "sliced_icon_count": 64,
+      "sliced_icon_naming": "{row_label}-{semantic_name}.png",
+      "source": "sources/employee-role-extension-atlas-v2.1-source.png",
+      "raw_source": "sources/employee-role-extension-atlas-v2.1-raw-generated.png",
+      "prompt": "prompts/employee-role-extension-atlas-v2.1-prompt.md",
+      "slice_guide": "slice-guides/employee-role-extension-atlas-v2.1-slice-guide.md",
+      "preview": "previews/employee-role-extension-atlas-v2.1-transparent-contact-sheet.png",
+      "validation": "validation-2.1.json",
+      "grid": {
+        "columns": 8,
+        "rows": 8
+      },
+      "slice": {
+        "cell_width_px": 192,
+        "cell_height_px": 224
+      },
+      "image": {
+        "width": 1536,
+        "height": 1792
+      },
+      "row_labels": [
+        "founder_ceo",
+        "product_manager",
+        "designer",
+        "marketing_operator",
+        "customer_success",
+        "finance_legal_specialist",
+        "investor_advisor_npc",
+        "interview_candidate"
+      ],
+      "texture_metadata_schema": {
+        "id": "stable texture identifier used by integration code",
+        "semantic_name": "English machine-readable asset meaning",
+        "zh_name": "Chinese human-readable meaning",
+        "category": "semantic category for filtering",
+        "file": "individual transparent PNG path",
+        "atlas_region": "pixel region inside the atlas",
+        "grid_position": "zero-based atlas row and column",
+        "intended_layer": "recommended Godot render layer",
+        "anchor": "sprite anchoring point for placement/sorting",
+        "footprint_cells": "logical gameplay occupancy in grid cells",
+        "visual_size_cells": "approximate visual footprint for renderer scaling",
+        "usage": "short integration purpose",
+        "state_tags": "filterable behavior/status tags",
+        "godot_hint": "implementation hints for Godot renderer"
+      },
+      "textures": [
+        {
+          "id": "founder_ceo-founder_ceo_idle_front",
+          "semantic_name": "founder_ceo_idle_front",
+          "zh_name": "创始人 CEO-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-正面待机”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "founder_ceo-founder_ceo_idle_right",
+          "semantic_name": "founder_ceo_idle_right",
+          "zh_name": "创始人 CEO-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-右向待机”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "founder_ceo-founder_ceo_working",
+          "semantic_name": "founder_ceo_working",
+          "zh_name": "创始人 CEO-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-工作”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "founder_ceo-founder_ceo_presenting",
+          "semantic_name": "founder_ceo_presenting",
+          "zh_name": "创始人 CEO-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-演示”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "founder_ceo-founder_ceo_talking_negotiating",
+          "semantic_name": "founder_ceo_talking_negotiating",
+          "zh_name": "创始人 CEO-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-沟通谈判”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "founder_ceo-founder_ceo_stressed",
+          "semantic_name": "founder_ceo_stressed",
+          "zh_name": "创始人 CEO-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-压力状态”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "founder_ceo-founder_ceo_celebrating",
+          "semantic_name": "founder_ceo_celebrating",
+          "zh_name": "创始人 CEO-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-庆祝”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "founder_ceo-founder_ceo_thinking_decision",
+          "semantic_name": "founder_ceo_thinking_decision",
+          "zh_name": "创始人 CEO-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/founder_ceo-founder_ceo_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 0,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 0,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“创始人 CEO-思考决策”使用。",
+          "state_tags": [
+            "founder",
+            "ceo",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_idle_front",
+          "semantic_name": "product_manager_idle_front",
+          "zh_name": "产品经理-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-正面待机”使用。",
+          "state_tags": [
+            "product_manager",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_idle_right",
+          "semantic_name": "product_manager_idle_right",
+          "zh_name": "产品经理-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-右向待机”使用。",
+          "state_tags": [
+            "product_manager",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_working",
+          "semantic_name": "product_manager_working",
+          "zh_name": "产品经理-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-工作”使用。",
+          "state_tags": [
+            "product_manager",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_presenting",
+          "semantic_name": "product_manager_presenting",
+          "zh_name": "产品经理-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-演示”使用。",
+          "state_tags": [
+            "product_manager",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_talking_negotiating",
+          "semantic_name": "product_manager_talking_negotiating",
+          "zh_name": "产品经理-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-沟通谈判”使用。",
+          "state_tags": [
+            "product_manager",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_stressed",
+          "semantic_name": "product_manager_stressed",
+          "zh_name": "产品经理-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-压力状态”使用。",
+          "state_tags": [
+            "product_manager",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_celebrating",
+          "semantic_name": "product_manager_celebrating",
+          "zh_name": "产品经理-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-庆祝”使用。",
+          "state_tags": [
+            "product_manager",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "product_manager-product_manager_thinking_decision",
+          "semantic_name": "product_manager_thinking_decision",
+          "zh_name": "产品经理-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/product_manager-product_manager_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 224,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 1,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“产品经理-思考决策”使用。",
+          "state_tags": [
+            "product_manager",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_idle_front",
+          "semantic_name": "designer_idle_front",
+          "zh_name": "设计师-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-正面待机”使用。",
+          "state_tags": [
+            "designer",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_idle_right",
+          "semantic_name": "designer_idle_right",
+          "zh_name": "设计师-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-右向待机”使用。",
+          "state_tags": [
+            "designer",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_working",
+          "semantic_name": "designer_working",
+          "zh_name": "设计师-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-工作”使用。",
+          "state_tags": [
+            "designer",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_presenting",
+          "semantic_name": "designer_presenting",
+          "zh_name": "设计师-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-演示”使用。",
+          "state_tags": [
+            "designer",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_talking_negotiating",
+          "semantic_name": "designer_talking_negotiating",
+          "zh_name": "设计师-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-沟通谈判”使用。",
+          "state_tags": [
+            "designer",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_stressed",
+          "semantic_name": "designer_stressed",
+          "zh_name": "设计师-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-压力状态”使用。",
+          "state_tags": [
+            "designer",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_celebrating",
+          "semantic_name": "designer_celebrating",
+          "zh_name": "设计师-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-庆祝”使用。",
+          "state_tags": [
+            "designer",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "designer-designer_thinking_decision",
+          "semantic_name": "designer_thinking_decision",
+          "zh_name": "设计师-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/designer-designer_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 448,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 2,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“设计师-思考决策”使用。",
+          "state_tags": [
+            "designer",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_idle_front",
+          "semantic_name": "marketing_operator_idle_front",
+          "zh_name": "市场运营-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-正面待机”使用。",
+          "state_tags": [
+            "marketing",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_idle_right",
+          "semantic_name": "marketing_operator_idle_right",
+          "zh_name": "市场运营-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-右向待机”使用。",
+          "state_tags": [
+            "marketing",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_working",
+          "semantic_name": "marketing_operator_working",
+          "zh_name": "市场运营-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-工作”使用。",
+          "state_tags": [
+            "marketing",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_presenting",
+          "semantic_name": "marketing_operator_presenting",
+          "zh_name": "市场运营-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-演示”使用。",
+          "state_tags": [
+            "marketing",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_talking_negotiating",
+          "semantic_name": "marketing_operator_talking_negotiating",
+          "zh_name": "市场运营-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-沟通谈判”使用。",
+          "state_tags": [
+            "marketing",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_stressed",
+          "semantic_name": "marketing_operator_stressed",
+          "zh_name": "市场运营-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-压力状态”使用。",
+          "state_tags": [
+            "marketing",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_celebrating",
+          "semantic_name": "marketing_operator_celebrating",
+          "zh_name": "市场运营-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-庆祝”使用。",
+          "state_tags": [
+            "marketing",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "marketing_operator-marketing_operator_thinking_decision",
+          "semantic_name": "marketing_operator_thinking_decision",
+          "zh_name": "市场运营-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/marketing_operator-marketing_operator_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 672,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 3,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“市场运营-思考决策”使用。",
+          "state_tags": [
+            "marketing",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_idle_front",
+          "semantic_name": "customer_success_idle_front",
+          "zh_name": "客户成功-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-正面待机”使用。",
+          "state_tags": [
+            "customer_success",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_idle_right",
+          "semantic_name": "customer_success_idle_right",
+          "zh_name": "客户成功-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-右向待机”使用。",
+          "state_tags": [
+            "customer_success",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_working",
+          "semantic_name": "customer_success_working",
+          "zh_name": "客户成功-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-工作”使用。",
+          "state_tags": [
+            "customer_success",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_presenting",
+          "semantic_name": "customer_success_presenting",
+          "zh_name": "客户成功-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-演示”使用。",
+          "state_tags": [
+            "customer_success",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_talking_negotiating",
+          "semantic_name": "customer_success_talking_negotiating",
+          "zh_name": "客户成功-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-沟通谈判”使用。",
+          "state_tags": [
+            "customer_success",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_stressed",
+          "semantic_name": "customer_success_stressed",
+          "zh_name": "客户成功-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-压力状态”使用。",
+          "state_tags": [
+            "customer_success",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_celebrating",
+          "semantic_name": "customer_success_celebrating",
+          "zh_name": "客户成功-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-庆祝”使用。",
+          "state_tags": [
+            "customer_success",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "customer_success-customer_success_thinking_decision",
+          "semantic_name": "customer_success_thinking_decision",
+          "zh_name": "客户成功-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/customer_success-customer_success_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 896,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 4,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“客户成功-思考决策”使用。",
+          "state_tags": [
+            "customer_success",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_idle_front",
+          "semantic_name": "finance_legal_specialist_idle_front",
+          "zh_name": "财务法务-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-正面待机”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_idle_right",
+          "semantic_name": "finance_legal_specialist_idle_right",
+          "zh_name": "财务法务-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-右向待机”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_working",
+          "semantic_name": "finance_legal_specialist_working",
+          "zh_name": "财务法务-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-工作”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_presenting",
+          "semantic_name": "finance_legal_specialist_presenting",
+          "zh_name": "财务法务-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-演示”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_talking_negotiating",
+          "semantic_name": "finance_legal_specialist_talking_negotiating",
+          "zh_name": "财务法务-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-沟通谈判”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_stressed",
+          "semantic_name": "finance_legal_specialist_stressed",
+          "zh_name": "财务法务-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-压力状态”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_celebrating",
+          "semantic_name": "finance_legal_specialist_celebrating",
+          "zh_name": "财务法务-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-庆祝”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "finance_legal_specialist-finance_legal_specialist_thinking_decision",
+          "semantic_name": "finance_legal_specialist_thinking_decision",
+          "zh_name": "财务法务-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/finance_legal_specialist-finance_legal_specialist_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 1120,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 5,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“财务法务-思考决策”使用。",
+          "state_tags": [
+            "finance",
+            "legal",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_idle_front",
+          "semantic_name": "investor_advisor_npc_idle_front",
+          "zh_name": "投资人顾问 NPC-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-正面待机”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_idle_right",
+          "semantic_name": "investor_advisor_npc_idle_right",
+          "zh_name": "投资人顾问 NPC-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-右向待机”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_working",
+          "semantic_name": "investor_advisor_npc_working",
+          "zh_name": "投资人顾问 NPC-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-工作”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_presenting",
+          "semantic_name": "investor_advisor_npc_presenting",
+          "zh_name": "投资人顾问 NPC-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-演示”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_talking_negotiating",
+          "semantic_name": "investor_advisor_npc_talking_negotiating",
+          "zh_name": "投资人顾问 NPC-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-沟通谈判”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_stressed",
+          "semantic_name": "investor_advisor_npc_stressed",
+          "zh_name": "投资人顾问 NPC-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-压力状态”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_celebrating",
+          "semantic_name": "investor_advisor_npc_celebrating",
+          "zh_name": "投资人顾问 NPC-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-庆祝”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "investor_advisor_npc-investor_advisor_npc_thinking_decision",
+          "semantic_name": "investor_advisor_npc_thinking_decision",
+          "zh_name": "投资人顾问 NPC-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/investor_advisor_npc-investor_advisor_npc_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 1344,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 6,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“投资人顾问 NPC-思考决策”使用。",
+          "state_tags": [
+            "investor",
+            "advisor",
+            "npc",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_idle_front",
+          "semantic_name": "interview_candidate_idle_front",
+          "zh_name": "面试候选人-正面待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_idle_front.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 0,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 0
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-正面待机”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "idle",
+            "front"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_idle_right",
+          "semantic_name": "interview_candidate_idle_right",
+          "zh_name": "面试候选人-右向待机",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_idle_right.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 192,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 1
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-右向待机”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "idle",
+            "right"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_working",
+          "semantic_name": "interview_candidate_working",
+          "zh_name": "面试候选人-工作",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_working.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 384,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 2
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-工作”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "working"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_presenting",
+          "semantic_name": "interview_candidate_presenting",
+          "zh_name": "面试候选人-演示",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_presenting.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 576,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 3
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-演示”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "presenting"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_talking_negotiating",
+          "semantic_name": "interview_candidate_talking_negotiating",
+          "zh_name": "面试候选人-沟通谈判",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_talking_negotiating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 768,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 4
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-沟通谈判”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "talking",
+            "negotiating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_stressed",
+          "semantic_name": "interview_candidate_stressed",
+          "zh_name": "面试候选人-压力状态",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_stressed.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 960,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 5
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-压力状态”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "stressed"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_celebrating",
+          "semantic_name": "interview_candidate_celebrating",
+          "zh_name": "面试候选人-庆祝",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_celebrating.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1152,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 6
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-庆祝”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "celebrating"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        },
+        {
+          "id": "interview_candidate-interview_candidate_thinking_decision",
+          "semantic_name": "interview_candidate_thinking_decision",
+          "zh_name": "面试候选人-思考决策",
+          "category": "employee_role_extension",
+          "file": "exports/sprites/interview_candidate-interview_candidate_thinking_decision.png",
+          "atlas": "exports/employee-role-extension-atlas-v2.1.png",
+          "atlas_region": {
+            "x": 1344,
+            "y": 1568,
+            "w": 192,
+            "h": 224
+          },
+          "grid_position": {
+            "row": 7,
+            "column": 7
+          },
+          "intended_layer": "EmployeeLayer",
+          "anchor": "feet_center",
+          "footprint_cells": {
+            "w": 1,
+            "h": 1
+          },
+          "visual_size_cells": {
+            "w": 0.75,
+            "h": 1.2
+          },
+          "usage": "在 Startup Sim 2.5D Godot 表现层中作为“面试候选人-思考决策”使用。",
+          "state_tags": [
+            "candidate",
+            "interview",
+            "thinking",
+            "decision"
+          ],
+          "godot_hint": {
+            "sorting": "place feet_center on a grid cell or interaction point and y-sort with employees",
+            "animation": "state sprites are single poses; pair with v1.4 walk sprites when movement is required",
+            "text_policy": "No baked text; render Chinese labels, numbers, months, KPI values, and names with Godot Label nodes."
+          }
+        }
+      ]
+    }
+  ]
+}

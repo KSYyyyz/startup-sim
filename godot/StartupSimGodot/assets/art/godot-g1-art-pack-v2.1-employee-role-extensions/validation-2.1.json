@@ -1,0 +1,657 @@
+{
+  "asset_id": "employee-role-extension-atlas-v2.1",
+  "atlas_sha256": "df05534efa5dddcef8fe87f50045d3b8ee53d9807becb74618a44e65128b2545",
+  "png_count": 65,
+  "checks": [
+    {
+      "file": "exports\\employee-role-extension-atlas-v2.1.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\customer_success-customer_success_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\designer-designer_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\finance_legal_specialist-finance_legal_specialist_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\founder_ceo-founder_ceo_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\interview_candidate-interview_candidate_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\investor_advisor_npc-investor_advisor_npc_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\marketing_operator-marketing_operator_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_celebrating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_idle_front.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_idle_right.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_presenting.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_stressed.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_talking_negotiating.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_thinking_decision.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "file": "exports\\sprites\\product_manager-product_manager_working.png",
+      "mode": "RGBA",
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

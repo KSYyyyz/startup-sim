@@ -171,10 +171,139 @@ def test_godot_followup_art_packs_are_tracked_and_import_ready():
             {"columns": 8, "rows": 4},
             {"cell_width_px": 224, "cell_height_px": 224},
             (1792, 896),
+            32,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v0.9-facility-state-variants",
+            "facility-state-variant-atlas-v0.9",
+            {"columns": 8, "rows": 3},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 672),
+            24,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v1.0-employee-activity-states",
+            "employee-activity-state-atlas-v1.0",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 192, "cell_height_px": 192},
+            (1536, 768),
+            32,
+            (192, 192),
+        ),
+        (
+            "godot-g1-art-pack-v1.1-pseudo3d-office-foundation",
+            "pseudo3d-office-foundation-atlas-v1.1",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 222, "cell_height_px": 222},
+            (1776, 888),
+            32,
+            (222, 222),
+        ),
+        (
+            "godot-g1-art-pack-v1.1b-pseudo3d-office-structure",
+            "pseudo3d-office-structure-atlas-v1.1b",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 222, "cell_height_px": 222},
+            (1776, 888),
+            32,
+            (222, 222),
+        ),
+        (
+            "godot-g1-art-pack-v1.2-zone-carpets-build-markers",
+            "zone-carpet-build-marker-atlas-v1.2",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 222, "cell_height_px": 222},
+            (1776, 888),
+            32,
+            (222, 222),
+        ),
+        (
+            "godot-g1-art-pack-v1.3-large-facility-sprites",
+            "large-facility-sprite-atlas-v1.3",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 222, "cell_height_px": 222},
+            (1776, 888),
+            32,
+            (222, 222),
+        ),
+        (
+            "godot-g1-art-pack-v1.4-employee-pseudo3d-motion",
+            "employee-pseudo3d-motion-atlas-v1.4",
+            {"columns": 12, "rows": 4},
+            {"cell_width_px": 192, "cell_height_px": 224},
+            (2304, 896),
+            48,
+            (192, 224),
+        ),
+        (
+            "godot-g1-art-pack-v1.5-hud-kpi-ui-chrome",
+            "hud-kpi-ui-chrome-atlas-v1.5",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 896),
+            32,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v1.6-business-event-feedback-bubbles",
+            "business-event-feedback-bubble-atlas-v1.6",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 896),
+            32,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v1.7-facility-upgrade-tiers",
+            "facility-upgrade-tier-atlas-v1.7",
+            {"columns": 8, "rows": 6},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 1344),
+            48,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v1.8-build-upgrade-feedback-fx",
+            "build-upgrade-feedback-fx-atlas-v1.8",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 896),
+            32,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v1.9-management-panel-detail-ui",
+            "management-panel-detail-ui-atlas-v1.9",
+            {"columns": 8, "rows": 4},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 896),
+            32,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v2.0-office-expansion-themes",
+            "office-expansion-theme-atlas-v2.0",
+            {"columns": 8, "rows": 5},
+            {"cell_width_px": 224, "cell_height_px": 224},
+            (1792, 1120),
+            40,
+            (224, 224),
+        ),
+        (
+            "godot-g1-art-pack-v2.1-employee-role-extensions",
+            "employee-role-extension-atlas-v2.1",
+            {"columns": 8, "rows": 8},
+            {"cell_width_px": 192, "cell_height_px": 224},
+            (1536, 1792),
+            64,
+            (192, 224),
         ),
     ]
 
-    for pack_name, asset_id, grid, slice_size, image_size in expected_packs:
+    for pack_item in expected_packs:
+        pack_name, asset_id, grid, slice_size, image_size, *icon_expectation = pack_item
         pack = GODOT_ART_ROOT / pack_name
         index_path = pack / "asset-index.json"
         assert index_path.is_file(), f"missing index for {pack_name}"
@@ -207,6 +336,74 @@ def test_godot_followup_art_packs_are_tracked_and_import_ready():
 
         width, height = read_png_size(export_path)
         assert (width, height) == image_size
+
+        if icon_expectation:
+            expected_icon_count, expected_icon_size = icon_expectation
+            icon_dir = pack / asset["sliced_icons_dir"]
+            icon_paths = sorted(icon_dir.glob("*.png"))
+            assert len(icon_paths) == asset["sliced_icon_count"] == expected_icon_count
+            assert asset["preview"].endswith("-transparent-contact-sheet.png")
+            assert all(read_png_size(path) == expected_icon_size for path in icon_paths)
+
+        if (
+            pack_name.startswith("godot-g1-art-pack-v1.1")
+            or pack_name.startswith("godot-g1-art-pack-v1.2")
+            or pack_name.startswith("godot-g1-art-pack-v1.3")
+            or pack_name.startswith("godot-g1-art-pack-v1.4")
+            or pack_name.startswith("godot-g1-art-pack-v1.5")
+            or pack_name.startswith("godot-g1-art-pack-v1.6")
+            or pack_name.startswith("godot-g1-art-pack-v1.7")
+            or pack_name.startswith("godot-g1-art-pack-v1.8")
+            or pack_name.startswith("godot-g1-art-pack-v1.9")
+            or pack_name.startswith("godot-g1-art-pack-v2.0")
+            or pack_name.startswith("godot-g1-art-pack-v2.1")
+        ):
+            assert (ROOT / "docs" / "art_asset_metadata_standard.md").is_file()
+            assert "texture_metadata_schema" in asset
+            textures = asset["textures"]
+            assert len(textures) == asset["sliced_icon_count"] == expected_icon_count
+            required_texture_fields = {
+                "id",
+                "semantic_name",
+                "zh_name",
+                "category",
+                "file",
+                "atlas",
+                "atlas_region",
+                "grid_position",
+                "intended_layer",
+                "anchor",
+                "footprint_cells",
+                "visual_size_cells",
+                "usage",
+                "state_tags",
+                "godot_hint",
+            }
+            for texture in textures:
+                assert required_texture_fields <= set(texture), texture["id"]
+                assert (pack / texture["file"]).is_file()
+                assert texture["atlas"] == asset["file"]
+                assert texture["anchor"] in {"center", "bottom_center", "feet_center"}
+                assert texture["intended_layer"].endswith("Layer")
+                assert texture["zh_name"]
+                assert "???" not in texture["zh_name"]
+                assert texture["usage"]
+                assert "???" not in texture["usage"]
+                assert texture["state_tags"]
+                assert texture["godot_hint"]["text_policy"].startswith("No baked text")
+
+                region = texture["atlas_region"]
+                assert region["w"] == expected_icon_size[0]
+                assert region["h"] == expected_icon_size[1]
+                assert region["x"] == texture["grid_position"]["column"] * expected_icon_size[0]
+                assert region["y"] == texture["grid_position"]["row"] * expected_icon_size[1]
+
+                footprint = texture["footprint_cells"]
+                visual_size = texture["visual_size_cells"]
+                assert footprint["w"] > 0
+                assert footprint["h"] > 0
+                assert visual_size["w"] > 0
+                assert visual_size["h"] > 0
 
 
 def test_godot_company_main_scene_background_pack_is_import_ready():

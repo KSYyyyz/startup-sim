@@ -13,6 +13,9 @@ public partial class FacilityPlacementController : Node
     [Signal]
     public delegate void FacilityUpgradedEventHandler(string facilityId, int level);
 
+    [Signal]
+    public delegate void FacilitySoldEventHandler(string facilityId);
+
     private readonly Dictionary<string, OfficeFacilityDefinition> facilityDefinitions = new();
     private readonly Dictionary<string, OfficeFacilityUpgradeDefinition> upgradeDefinitions = new();
 
@@ -139,6 +142,22 @@ public partial class FacilityPlacementController : Node
         }
 
         return upgraded;
+    }
+
+    public bool SellFacility(string facilityId)
+    {
+        if (ZoneController == null || string.IsNullOrWhiteSpace(facilityId))
+        {
+            return false;
+        }
+
+        var sold = ZoneController.Layout.RemoveFacility(facilityId);
+        if (sold)
+        {
+            EmitSignal(SignalName.FacilitySold, facilityId);
+        }
+
+        return sold;
     }
 
     private OfficeFacility? FindFacility(string facilityId)

@@ -162,6 +162,23 @@ namespace StartupSim.Core.Office
             return true;
         }
 
+        public bool RemoveFacility(string facilityId)
+        {
+            var facility = facilities.FirstOrDefault(item => item.Id == facilityId);
+            if (facility == null)
+            {
+                return false;
+            }
+
+            foreach (var cell in facility.ToRect().Cells())
+            {
+                facilityOccupants.Remove(cell);
+            }
+
+            facilities.Remove(facility);
+            return true;
+        }
+
         public bool TryHireEmployee(EmployeeCandidate candidate, out OfficeEmployee? employee)
         {
             employee = null;

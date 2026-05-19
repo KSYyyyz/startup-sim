@@ -78,6 +78,28 @@ public sealed class OfficeFacilityTests
     }
 
     [Fact]
+    public void RemoveFacilityFreesOccupiedCellsAndCapacityCost()
+    {
+        var layout = new OfficeLayout(8, 6, 64, new[] { "product_zone" });
+        layout.TryDefineZone("product_zone", "研发区", new OfficeRect(0, 0, 4, 3), out var zone);
+        var whiteboard = new OfficeFacilityDefinition(
+            "product_whiteboard",
+            new[] { "product_zone" },
+            width: 2,
+            height: 1,
+            baseCost: 8000,
+            monthlyCost: 300);
+        layout.TryPlaceFacility(whiteboard, zone!.Id, 1, 1, out var facility);
+
+        Assert.True(layout.RemoveFacility(facility!.Id));
+        Assert.Empty(layout.Facilities);
+        var snapshot = layout.BuildCapacitySnapshot();
+        Assert.Equal(0, snapshot.ProductCapacity);
+        Assert.Equal(0, snapshot.MonthlyFixedCost);
+        Assert.True(layout.TryPlaceFacility(whiteboard, zone.Id, 1, 1, out _));
+    }
+
+    [Fact]
     public void FacilitySnapshotIsReadyForGodotPersistence()
     {
         var layout = new OfficeLayout(8, 6, 64, new[] { "product_zone" });

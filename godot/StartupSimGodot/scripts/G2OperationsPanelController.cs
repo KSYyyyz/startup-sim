@@ -14,6 +14,8 @@ public partial class G2OperationsPanelController : Control
     private string activeMode = string.Empty;
     private string selectedEmployeeId = string.Empty;
     private string selectedFacilityId = string.Empty;
+    private int selectedCellX = -1;
+    private int selectedCellY = -1;
     private bool hasZoneStart;
     private int zoneStartX;
     private int zoneStartY;
@@ -34,6 +36,8 @@ public partial class G2OperationsPanelController : Control
     [Export] public NodePath GoalsLabelPath { get; set; } = new NodePath("RoomContextPanel/GoalsLabel");
     [Export] public NodePath CapacityLabelPath { get; set; } = new NodePath("RoomContextPanel/CapacityLabel");
     [Export] public NodePath ContextLabelPath { get; set; } = new NodePath("RoomContextPanel/ContextLabel");
+    [Export] public NodePath ObjectiveProgressBarPath { get; set; } = new NodePath("ObjectiveTracker/ObjectiveProgressBar");
+    [Export] public NodePath ObjectiveTitleLabelPath { get; set; } = new NodePath("ObjectiveTracker/ObjectiveTitleLabel");
     [Export] public NodePath ReportLabelPath { get; set; } = new NodePath("MonthlyReportModal/ReportLabel");
     [Export] public NodePath ReplayLabelPath { get; set; } = new NodePath("MonthlyReportModal/ReplayLabel");
 
@@ -57,9 +61,13 @@ public partial class G2OperationsPanelController : Control
     private Label? GoalsLabel => GetNodeOrNull<Label>(GoalsLabelPath);
     private Label? CapacityLabel => GetNodeOrNull<Label>(CapacityLabelPath);
     private Label? ContextLabel => GetNodeOrNull<Label>(ContextLabelPath);
+    private Label? ObjectiveTitleLabel => GetNodeOrNull<Label>(ObjectiveTitleLabelPath);
+    private ProgressBar? ObjectiveProgressBar => GetNodeOrNull<ProgressBar>(ObjectiveProgressBarPath);
     private Label? ReportLabel => GetNodeOrNull<Label>(ReportLabelPath);
     private Label? ReplayLabel => GetNodeOrNull<Label>(ReplayLabelPath);
     private Label? ReportTitle => GetNodeOrNull<Label>(new NodePath("MonthlyReportModal/ReportTitle"));
+    private Label? ObjectActionTitleLabel => GetNodeOrNull<Label>(new NodePath("ObjectActionPanel/ObjectActionTitleLabel"));
+    private Label? ObjectActionDetailLabel => GetNodeOrNull<Label>(new NodePath("ObjectActionPanel/ObjectActionDetailLabel"));
 
     public override void _Ready()
     {
@@ -98,6 +106,9 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("BottomActionDock/CrisisTools/SellFacilityButton", SellSelectedFacility);
         ConnectButton("BottomActionDock/CrisisTools/ReduceCostButton", ReduceFixedCost);
         ConnectButton("BottomActionDock/CrisisTools/BridgeFundingButton", SeekBridgeFunding);
+        ConnectButton("ObjectActionPanel/UpgradeSelectedFacilityButton", UpgradeSelectedFacility);
+        ConnectButton("ObjectActionPanel/SellSelectedFacilityButton", SellSelectedFacility);
+        ConnectButton("ObjectActionPanel/TrainSelectedObjectButton", TrainSelectedEmployee);
         ConnectButton("TopStatusBar/TimeButtons/PauseButton", SetPaused);
         ConnectButton("TopStatusBar/TimeButtons/NormalSpeedButton", SetNormalSpeed);
         ConnectButton("TopStatusBar/TimeButtons/DoubleSpeedButton", SetDoubleSpeed);
@@ -109,6 +120,7 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport);
         SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 0f);
         SetReportAvailable(false);
+        HideObjectActionPanel();
         if (TimeProgressController != null)
         {
             TimeProgressController.MonthReady += OnMonthReady;
@@ -117,7 +129,7 @@ public partial class G2OperationsPanelController : Control
         RefreshInitialMetrics();
         RefreshCompanyProgress();
 
-        UpdateStatus("游戏已暂停。先布置办公室，再推进月份；现金流可支撑时间由 C# Core 月结结果解释。");
+        SetEventCue("开局", "游戏已暂停。先布置办公室，再推进月份；现金流可支撑时间由 C# Core 月结结果解释。");
     }
 
     public void SelectProductZoneTool()
@@ -215,7 +227,57 @@ public partial class G2OperationsPanelController : Control
 
     public void SellSelectedFacility()
     {
+        ClearActiveBuildMode();
+        if (string.IsNullOrWhiteSpace(selectedFacilityId))
+        {
+            SetEventCue("设施", "先点选办公室里的设施，再执行出售。");
+            return;
+        }
+
+        if (FacilityPlacementController == null
+            || !FacilityPlacementController.SellFacility(selectedFacilityId))
+        {
+            SetEventCue("设施", "出售失败，请重新选中一个已摆放设施。");
+            return;
+        }
+
+        OfficeGridView?.HideFacilityVisual(selectedFacilityId);
+        selectedFacilityId = string.Empty;
+        HideObjectActionPanel();
+        RefreshCapacity();
         ApplyBridgeCommand("出售设施节流20万", "已出售闲置设施并执行节流，");
+    }
+
+    public void UpgradeSelectedFacility()
+    {
+        ClearActiveBuildMode();
+        if (string.IsNullOrWhiteSpace(selectedFacilityId))
+        {
+            SetEventCue("升级", "先点选一个设施，再升级。");
+            return;
+        }
+
+        if (FacilityPlacementController == null
+            || !FacilityPlacementController.UpgradeFacility(selectedFacilityId))
+        {
+            SetEventCue("升级", "升级失败，当前设施可能已达到可用等级上限。");
+            return;
+        }
+
+        var facility = FindFacility(selectedFacilityId);
+        if (facility != null)
+        {
+            OfficeGridView?.ShowFacilityVisual(
+                facility.Id,
+                facility.FacilityTypeId,
+                facility.X,
+                facility.Y,
+                facility.Level);
+            UpdateObjectActionPanel(FindZoneAt(facility.X, facility.Y), facility, facility.Id);
+        }
+
+        RefreshCapacity();
+        SetEventCue("升级", "设施等级提升，月固定成本和产能已更新。");
     }
 
     public void ReduceFixedCost()
@@ -384,8 +446,11 @@ public partial class G2OperationsPanelController : Control
 
     private void UpdateRoomContext(int x, int y, string occupantId)
     {
+        selectedCellX = x;
+        selectedCellY = y;
         var zone = FindZoneAt(x, y);
         var facility = FindFacilityAt(x, y);
+        selectedFacilityId = facility?.Id ?? string.Empty;
         var zoneText = zone == null ? "未划分房间" : zone.DisplayName;
         var facilityText = facility == null ? "无设施" : FacilityDisplayName(facility.FacilityTypeId);
         var occupantText = string.IsNullOrWhiteSpace(occupantId) ? "空闲格" : occupantId;
@@ -394,6 +459,7 @@ public partial class G2OperationsPanelController : Control
         SetLabel(
             ContextLabel,
             $"选中：({x}, {y}) / {zoneText}\n内容：{occupantText} / {facilityText}\n{advice}");
+        UpdateObjectActionPanel(zone, facility, occupantText);
     }
 
     private void UpdateBuildPreview(int x, int y)
@@ -534,6 +600,7 @@ public partial class G2OperationsPanelController : Control
             x,
             y);
         RefreshCapacity();
+        UpdateObjectActionPanel(zone, FindFacility(facilityId), facilityId);
         UpdateStatus($"已摆放设施 {facilityId}。");
     }
 
@@ -570,6 +637,10 @@ public partial class G2OperationsPanelController : Control
                 employee?.RoleId ?? string.Empty,
                 FindEmployeeVisualCellX(zone),
                 FindEmployeeVisualCellY(zone));
+            if (employee != null)
+            {
+                ShowEmployeeObjectActionPanel(employee, zone);
+            }
         }
 
         EmployeeManagementController.TrainEmployee(employeeId, skillId);
@@ -602,6 +673,17 @@ public partial class G2OperationsPanelController : Control
 
         return ZonePaintingController.Layout.Employees.FirstOrDefault(
             employee => employee.Id == employeeId);
+    }
+
+    private OfficeFacility? FindFacility(string facilityId)
+    {
+        if (ZonePaintingController == null || string.IsNullOrWhiteSpace(facilityId))
+        {
+            return null;
+        }
+
+        return ZonePaintingController.Layout.Facilities.FirstOrDefault(
+            facility => facility.Id == facilityId);
     }
 
     private int FindEmployeeVisualCellX(OfficeZone zone)
@@ -660,6 +742,18 @@ public partial class G2OperationsPanelController : Control
         var summary = CompanyProgressController?.RefreshProgress(lastResult, lastIntent)
             ?? "公司目标：等待目标数据。";
         SetLabel(GoalsLabel, summary);
+        UpdateObjectiveProgressBar();
+    }
+
+    private void UpdateObjectiveProgressBar()
+    {
+        var progress = CompanyProgressController?.LastStageProgressPercent ?? 0;
+        if (ObjectiveProgressBar != null)
+        {
+            ObjectiveProgressBar.Value = progress;
+        }
+
+        SetLabel(ObjectiveTitleLabel, $"阶段目标 {progress}%");
     }
 
     private void ConnectButton(string path, Action action)
@@ -770,7 +864,17 @@ public partial class G2OperationsPanelController : Control
 
     private void UpdateStatus(string message)
     {
-        SetLabel(StatusLabel, message);
+        SetEventCue("经营提示", message);
+    }
+
+    private void SetEventCue(string title, string message)
+    {
+        SetLabel(StatusLabel, FormatEventCue(title, message));
+    }
+
+    private static string FormatEventCue(string title, string message)
+    {
+        return $"{title}：{message}";
     }
 
     private void SetReportAvailable(bool available)
@@ -980,5 +1084,97 @@ public partial class G2OperationsPanelController : Control
                 && x < facility.X + facility.Width
                 && y >= facility.Y
                 && y < facility.Y + facility.Height);
+    }
+
+    private void UpdateObjectActionPanel(
+        OfficeZone? zone,
+        OfficeFacility? facility,
+        string occupantText)
+    {
+        if (facility != null)
+        {
+            ShowObjectActionPanel(
+                $"设施：{FacilityDisplayName(facility.FacilityTypeId)}",
+                string.Join(
+                    "\n",
+                    $"坐标：({facility.X}, {facility.Y})  等级：{facility.Level}",
+                    $"月成本：{facility.MonthlyCost}  房间：{zone?.DisplayName ?? "未划分"}",
+                    "可操作：升级、出售、围绕该设施调整房间。"),
+                upgradeVisible: true,
+                sellVisible: true,
+                trainVisible: false);
+            return;
+        }
+
+        if (zone != null)
+        {
+            ShowObjectActionPanel(
+                $"房间：{zone.DisplayName}",
+                string.Join(
+                    "\n",
+                    $"范围：{zone.Width}x{zone.Height}  当前：{occupantText}",
+                    BuildRoomAdvice(zone, null, occupantText)),
+                upgradeVisible: false,
+                sellVisible: false,
+                trainVisible: false);
+            return;
+        }
+
+        ShowObjectActionPanel(
+            $"格子：({selectedCellX}, {selectedCellY})",
+            "未划分房间。先从底部经营菜单选择房间类型，再框选办公室区域。",
+            upgradeVisible: false,
+            sellVisible: false,
+            trainVisible: false);
+    }
+
+    private void ShowEmployeeObjectActionPanel(OfficeEmployee employee, OfficeZone? zone)
+    {
+        ShowObjectActionPanel(
+            $"员工：{employee.Name}",
+            string.Join(
+                "\n",
+                $"岗位：{EmployeeRoleName(employee.RoleId)}  等级：{employee.Level}",
+                $"分配：{zone?.DisplayName ?? "未分配"}  心情：{employee.Mood}  疲劳：{employee.Fatigue}",
+                "可操作：训练员工，或扩建匹配房间提升产能。"),
+            upgradeVisible: false,
+            sellVisible: false,
+            trainVisible: true);
+    }
+
+    private void ShowObjectActionPanel(
+        string title,
+        string detail,
+        bool upgradeVisible,
+        bool sellVisible,
+        bool trainVisible)
+    {
+        SetNodeVisible("ObjectActionPanel", true);
+        SetLabel(ObjectActionTitleLabel, title);
+        SetLabel(ObjectActionDetailLabel, detail);
+        SetButtonVisible("ObjectActionPanel/UpgradeSelectedFacilityButton", upgradeVisible);
+        SetButtonVisible("ObjectActionPanel/SellSelectedFacilityButton", sellVisible);
+        SetButtonVisible("ObjectActionPanel/TrainSelectedObjectButton", trainVisible);
+    }
+
+    private void HideObjectActionPanel()
+    {
+        SetNodeVisible("ObjectActionPanel", false);
+    }
+
+    private void SetButtonVisible(string path, bool visible)
+    {
+        SetNodeVisible(path, visible);
+    }
+
+    private static string EmployeeRoleName(string roleId)
+    {
+        return roleId switch
+        {
+            "sales_specialist" => "销售",
+            "ops_engineer" => "运维",
+            "product_engineer" => "研发",
+            _ => roleId
+        };
     }
 }

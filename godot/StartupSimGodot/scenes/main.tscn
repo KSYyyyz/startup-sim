@@ -24,6 +24,14 @@
 [ext_resource type="Texture2D" uid="uid://cfnipaqrp7eto" path="res://assets/art/godot-g1-art-pack-v1.3-large-facility-sprites/exports/large-facility-sprite-atlas-v1.3.png" id="22"]
 [ext_resource type="Texture2D" uid="uid://dnvgiy27lxe1f" path="res://assets/art/godot-g1-art-pack-v1.4-employee-pseudo3d-motion/exports/employee-pseudo3d-motion-atlas-v1.4.png" id="23"]
 [ext_resource type="Texture2D" uid="uid://dvbqpti657fm" path="res://assets/art/godot-g1-art-pack-v1.6-business-event-feedback-bubbles/exports/business-event-feedback-bubble-atlas-v1.6.png" id="25"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/action_icons-hire.png" id="ActionIconHire"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/action_icons-sell.png" id="ActionIconSell"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/action_icons-train.png" id="ActionIconTrain"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/action_icons-upgrade.png" id="ActionIconUpgrade"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/action_icons-pause.png" id="ActionIconPause"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/action_icons-fast_forward.png" id="ActionIconFastForward"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/resource_bars-product_progress_bar_frame.png" id="ObjectiveProgressBarFrame"]
+[ext_resource type="Texture2D" path="res://assets/art/godot-g1-art-pack-v1.9-management-panel-detail-ui/exports/ui/small_controls-notification_badge.png" id="EventNotificationBadge"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_feedback_portrait"]
 atlas = ExtResource("17")
@@ -124,23 +132,64 @@ offset_bottom = 44.0
 
 [node name="PauseButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=1810753262]
 layout_mode = 2
+icon = ExtResource("ActionIconPause")
 text = "暂停"
 
 [node name="NormalSpeedButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=918911404]
 layout_mode = 2
+icon = ExtResource("ActionIconFastForward")
 text = "1x"
 
 [node name="DoubleSpeedButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=690320320]
 layout_mode = 2
+icon = ExtResource("ActionIconFastForward")
 text = "2x"
 
 [node name="TripleSpeedButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=127748113]
 layout_mode = 2
+icon = ExtResource("ActionIconFastForward")
 text = "3x"
 
 [node name="AdvanceMonthButton" type="Button" parent="G2OperationsPanel/TopStatusBar/TimeButtons" unique_id=694755657]
 layout_mode = 2
+icon = ExtResource("ActionIconFastForward")
 text = "推进月份"
+
+[node name="ObjectiveTracker" type="ColorRect" parent="G2OperationsPanel" unique_id=1278266394]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 64.0
+offset_right = 280.0
+offset_bottom = 138.0
+mouse_filter = 2
+color = Color(0.075, 0.085, 0.082, 0.78)
+
+[node name="ObjectiveTitleLabel" type="Label" parent="G2OperationsPanel/ObjectiveTracker" unique_id=1847484063]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 238.0
+offset_bottom = 28.0
+text = "阶段目标 0%"
+
+[node name="ObjectiveFrame" type="TextureRect" parent="G2OperationsPanel/ObjectiveTracker" unique_id=215665361]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 36.0
+offset_right = 250.0
+offset_bottom = 58.0
+texture = ExtResource("ObjectiveProgressBarFrame")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ObjectiveProgressBar" type="ProgressBar" parent="G2OperationsPanel/ObjectiveTracker" unique_id=1894104963]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 39.0
+offset_right = 244.0
+offset_bottom = 55.0
+max_value = 100.0
+show_percentage = false
 
 [node name="FloatingEventFeed" type="ColorRect" parent="G2OperationsPanel" unique_id=1663353251]
 layout_mode = 0
@@ -151,9 +200,19 @@ offset_bottom = 138.0
 mouse_filter = 2
 color = Color(0.92, 0.92, 0.86, 0.9)
 
+[node name="EventCueBadge" type="TextureRect" parent="G2OperationsPanel/FloatingEventFeed" unique_id=136208886]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("EventNotificationBadge")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="StatusLabel" type="Label" parent="G2OperationsPanel/FloatingEventFeed" unique_id=1887555158]
 layout_mode = 0
-offset_left = 14.0
+offset_left = 40.0
 offset_top = 8.0
 offset_right = 432.0
 offset_bottom = 66.0
@@ -187,14 +246,17 @@ offset_bottom = 50.0
 
 [node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/BottomActionDock/BuildTools" unique_id=1320403870]
 layout_mode = 2
+icon = ExtResource("ActionIconUpgrade")
 text = "研发区"
 
 [node name="SalesZoneButton" type="Button" parent="G2OperationsPanel/BottomActionDock/BuildTools" unique_id=1286078008]
 layout_mode = 2
+icon = ExtResource("ActionIconUpgrade")
 text = "销售区"
 
 [node name="ServerZoneButton" type="Button" parent="G2OperationsPanel/BottomActionDock/BuildTools" unique_id=1122815278]
 layout_mode = 2
+icon = ExtResource("ActionIconUpgrade")
 text = "服务器区"
 
 [node name="FacilityTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=741361227]
@@ -206,14 +268,17 @@ offset_bottom = 50.0
 
 [node name="DeskButton" type="Button" parent="G2OperationsPanel/BottomActionDock/FacilityTools" unique_id=529168171]
 layout_mode = 2
+icon = ExtResource("ActionIconUpgrade")
 text = "办公桌"
 
 [node name="WhiteboardButton" type="Button" parent="G2OperationsPanel/BottomActionDock/FacilityTools" unique_id=693717160]
 layout_mode = 2
+icon = ExtResource("ActionIconUpgrade")
 text = "白板"
 
 [node name="ServerRackButton" type="Button" parent="G2OperationsPanel/BottomActionDock/FacilityTools" unique_id=627315752]
 layout_mode = 2
+icon = ExtResource("ActionIconUpgrade")
 text = "机柜"
 
 [node name="EmployeeTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=1694857138]
@@ -225,18 +290,22 @@ offset_bottom = 50.0
 
 [node name="HireProductButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=369488227]
 layout_mode = 2
+icon = ExtResource("ActionIconHire")
 text = "招研发"
 
 [node name="HireSalesButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=2108880734]
 layout_mode = 2
+icon = ExtResource("ActionIconHire")
 text = "招销售"
 
 [node name="HireOpsButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=58007684]
 layout_mode = 2
+icon = ExtResource("ActionIconHire")
 text = "招运维"
 
 [node name="TrainButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=1491081058]
 layout_mode = 2
+icon = ExtResource("ActionIconTrain")
 text = "训练"
 
 [node name="CrisisTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=936854211]
@@ -248,14 +317,17 @@ offset_bottom = 50.0
 
 [node name="SellFacilityButton" type="Button" parent="G2OperationsPanel/BottomActionDock/CrisisTools" unique_id=1449203623]
 layout_mode = 2
+icon = ExtResource("ActionIconSell")
 text = "出售"
 
 [node name="ReduceCostButton" type="Button" parent="G2OperationsPanel/BottomActionDock/CrisisTools" unique_id=2016045151]
 layout_mode = 2
+icon = ExtResource("ActionIconTrain")
 text = "节流"
 
 [node name="BridgeFundingButton" type="Button" parent="G2OperationsPanel/BottomActionDock/CrisisTools" unique_id=1026122350]
 layout_mode = 2
+icon = ExtResource("ActionIconUpgrade")
 text = "融资"
 
 [node name="MetaTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=249058179]
@@ -311,6 +383,62 @@ offset_bottom = 52.0
 text = "选中：等待玩家选择办公室格子。"
 autowrap_mode = 3
 clip_text = true
+
+[node name="ObjectActionPanel" type="ColorRect" parent="G2OperationsPanel" unique_id=1903186653]
+visible = false
+layout_mode = 0
+offset_left = 858.0
+offset_top = 150.0
+offset_right = 1134.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.075, 0.085, 0.082, 0.86)
+
+[node name="ObjectActionTitleLabel" type="Label" parent="G2OperationsPanel/ObjectActionPanel" unique_id=466798828]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 258.0
+offset_bottom = 34.0
+text = "对象"
+clip_text = true
+
+[node name="ObjectActionDetailLabel" type="Label" parent="G2OperationsPanel/ObjectActionPanel" unique_id=1224883926]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 42.0
+offset_right = 258.0
+offset_bottom = 136.0
+text = "选择房间、设施或员工后显示操作。"
+autowrap_mode = 3
+clip_text = true
+
+[node name="UpgradeSelectedFacilityButton" type="Button" parent="G2OperationsPanel/ObjectActionPanel" unique_id=77763815]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 150.0
+offset_right = 88.0
+offset_bottom = 184.0
+icon = ExtResource("ActionIconUpgrade")
+text = "升级"
+
+[node name="SellSelectedFacilityButton" type="Button" parent="G2OperationsPanel/ObjectActionPanel" unique_id=1762420893]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 150.0
+offset_right = 170.0
+offset_bottom = 184.0
+icon = ExtResource("ActionIconSell")
+text = "出售"
+
+[node name="TrainSelectedObjectButton" type="Button" parent="G2OperationsPanel/ObjectActionPanel" unique_id=463932863]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 150.0
+offset_right = 252.0
+offset_bottom = 184.0
+icon = ExtResource("ActionIconTrain")
+text = "训练"
 
 [node name="MonthlyReportModal" type="ColorRect" parent="G2OperationsPanel" unique_id=695110329]
 visible = false

@@ -8,6 +8,7 @@ public partial class CompanyProgressController : Node
     public ContentDatabase Database { get; } = new();
     public string LastGoalSummary { get; private set; } = string.Empty;
     public string LastAchievementSummary { get; private set; } = string.Empty;
+    public int LastStageProgressPercent { get; private set; }
 
     public override void _Ready()
     {
@@ -20,7 +21,24 @@ public partial class CompanyProgressController : Node
         EnsureLoaded();
         LastGoalSummary = BuildGoalSummary(result, intent);
         LastAchievementSummary = BuildAchievementSummary(result, intent);
+        LastStageProgressPercent = BuildStageProgressPercent(result);
         return $"{LastGoalSummary}\n{LastAchievementSummary}";
+    }
+
+    public int BuildStageProgressPercent(TurnResultSnapshot? result)
+    {
+        if (result == null)
+        {
+            return 0;
+        }
+
+        var productProgress = Mathf.Clamp(result.ProductScore / 80f, 0f, 1f);
+        var userProgress = Mathf.Clamp(result.Users / 60f, 0f, 1f);
+        var revenueProgress = Mathf.Clamp((float)(result.MonthlyRecurringRevenue / 30_000m), 0f, 1f);
+        var cashProgress = result.MonthlyBurn <= 0
+            ? 1f
+            : Mathf.Clamp((float)(result.Cash / result.MonthlyBurn) / 3f, 0f, 1f);
+        return Mathf.RoundToInt((productProgress + userProgress + revenueProgress + cashProgress) * 25f);
     }
 
     private void EnsureLoaded()
