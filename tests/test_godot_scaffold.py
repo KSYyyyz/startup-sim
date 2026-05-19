@@ -266,6 +266,7 @@ def test_godot_main_scene_looks_like_tycoon_office_scene_not_grid_editor():
 def test_godot_main_scene_uses_mad_games_tycoon_style_hud_layout():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    project = (GODOT / "project.godot").read_text(encoding="utf-8")
     design = (ROOT / "docs" / "godot_tycoon_main_ui_design.md").read_text(encoding="utf-8")
 
     assert "疯狂游戏大亨 2" in design
@@ -273,8 +274,14 @@ def test_godot_main_scene_uses_mad_games_tycoon_style_hud_layout():
     assert "底部工具栏" in design
     assert "右侧常驻看板退场" in design
 
-    assert "offset_right = 1152.0" in scene
-    assert "offset_bottom = 648.0" in scene
+    assert "window/size/mode=2" in project
+    assert 'window/stretch/mode="canvas_items"' in project
+    assert 'window/stretch/aspect="expand"' in project
+    assert "offset_right = 1152.0" not in scene
+    assert "offset_bottom = 648.0" not in scene
+    assert "anchors_preset = 15" in scene
+    assert "anchor_right = 1.0" in scene
+    assert "anchor_bottom = 1.0" in scene
     assert "offset_left = 816.0" not in scene
     assert "offset_top = 24.0" not in scene
     panel_block = scene.split('[node name="G2OperationsPanel" type="Control" parent="."', 1)[
@@ -294,11 +301,11 @@ def test_godot_main_scene_uses_mad_games_tycoon_style_hud_layout():
     assert 'new NodePath("MonthlyReportModal/ReportLabel")' in panel_script
 
     assert (
-        'ConnectButton("BottomActionDock/BuildTools/ProductZoneButton", SelectProductZoneTool)'
+        'ConnectButton("BottomActionDock/ToolGroups/BuildTools/ProductZoneButton", SelectProductZoneTool)'
         in panel_script
     )
     assert (
-        'ConnectButton("BottomActionDock/EmployeeTools/HireProductButton", HireProductEmployee)'
+        'ConnectButton("BottomActionDock/ToolGroups/EmployeeTools/HireProductButton", HireProductEmployee)'
         in panel_script
     )
     assert (
@@ -309,6 +316,8 @@ def test_godot_main_scene_uses_mad_games_tycoon_style_hud_layout():
         'ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport)' in panel_script
     )
     assert "ShowMonthlyReport()" in panel_script
+    assert "EnsureResponsiveHudLayout()" in panel_script
+    assert "LayoutBottomDock(" in panel_script
 
 
 def test_godot_auto_month_report_is_non_blocking_and_reopenable():
@@ -322,7 +331,7 @@ def test_godot_auto_month_report_is_non_blocking_and_reopenable():
     assert 'ConnectButton("FloatingEventFeed/OpenReportButton", ShowMonthlyReport)' in panel_script
     assert "SetReportAvailable(false)" in panel_script
     assert "SetReportAvailable(true)" in panel_script
-    assert "SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true)" in panel_script
+    assert "SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: false)" in panel_script
     assert "SettleMonthFromCurrentIntent(clearBuildMode: false, showReport: false)" in panel_script
     assert "if (showReport)" in panel_script
     assert "第 {result.Month} 月已结算，点击查看月报。" in panel_script
@@ -559,19 +568,26 @@ def test_godot_g2_local_save_and_replay_panel_are_mounted():
     assert "现金流可支撑时间" in progress_script
     assert "Runway" not in progress_script
 
-    assert 'ConnectButton("BottomActionDock/MetaTools/SaveButton", SaveRun)' in panel_script
-    assert 'ConnectButton("BottomActionDock/MetaTools/LoadButton", LoadRun)' in panel_script
+    assert (
+        'ConnectButton("BottomActionDock/ToolGroups/MetaTools/SaveButton", SaveRun)' in panel_script
+    )
+    assert (
+        'ConnectButton("BottomActionDock/ToolGroups/MetaTools/LoadButton", LoadRun)' in panel_script
+    )
     assert "SetLabel(GoalsLabel" in panel_script
     assert "SetLabel(ReplayLabel" in panel_script
 
 
 def test_godot_main_scene_keeps_operations_hud_inside_default_viewport():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
 
     assert 'node name="TopStatusBar" type="ColorRect" parent="G2OperationsPanel"' in scene
     assert 'node name="BottomActionDock" type="ColorRect" parent="G2OperationsPanel"' in scene
-    assert "offset_right = 1152.0" in scene
-    assert "offset_bottom = 648.0" in scene
+    assert "offset_right = 1152.0" not in scene
+    assert "offset_bottom = 648.0" not in scene
+    assert "EnsureResponsiveHudLayout()" in panel_script
+    assert "GetViewportRect().Size" in panel_script
     assert "offset_left = 816.0" not in scene
     assert "offset_top = 24.0" not in scene
     assert "offset_left = 840.0" not in scene
@@ -635,15 +651,15 @@ def test_godot_crisis_actions_are_mounted_and_use_core_bridge():
         assert node_name in scene
 
     assert (
-        'ConnectButton("BottomActionDock/CrisisTools/SellFacilityButton", SellSelectedFacility)'
+        'ConnectButton("BottomActionDock/ToolGroups/CrisisTools/SellFacilityButton", SellSelectedFacility)'
         in panel_script
     )
     assert (
-        'ConnectButton("BottomActionDock/CrisisTools/ReduceCostButton", ReduceFixedCost)'
+        'ConnectButton("BottomActionDock/ToolGroups/CrisisTools/ReduceCostButton", ReduceFixedCost)'
         in panel_script
     )
     assert (
-        'ConnectButton("BottomActionDock/CrisisTools/BridgeFundingButton", SeekBridgeFunding)'
+        'ConnectButton("BottomActionDock/ToolGroups/CrisisTools/BridgeFundingButton", SeekBridgeFunding)'
         in panel_script
     )
     assert "融资60万出让8%" in panel_script
@@ -676,15 +692,28 @@ def test_godot_tycoon_hud_uses_management_art_for_iconized_controls():
         assert icon_assignment in scene
 
 
-def test_godot_tycoon_icon_buttons_are_size_constrained_for_1152px_viewport():
+def test_godot_tycoon_icon_buttons_are_grouped_for_adaptive_viewports():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
 
     assert "custom_minimum_size = Vector2(56, 36)" in scene
-    assert "custom_minimum_size = Vector2(72, 48)" in scene
+    assert "custom_minimum_size = Vector2(64, 48)" in scene
     assert "custom_minimum_size = Vector2(74, 36)" in scene
     assert "expand_icon = true" in scene
+    assert "DockCategoryTabs" in scene
+    assert "RoomsCategoryButton" in scene
+    assert "FacilitiesCategoryButton" in scene
+    assert "EmployeesCategoryButton" in scene
+    assert "FinanceCategoryButton" in scene
+    assert "SystemCategoryButton" in scene
+    assert "BottomActionDock/ToolGroups/BuildTools" in scene
+    assert "BottomActionDock/ToolGroups/FacilityTools" in scene
+    assert "BottomActionDock/ToolGroups/EmployeeTools" in scene
+    assert "BottomActionDock/ToolGroups/CrisisTools" in scene
+    assert "BottomActionDock/ToolGroups/MetaTools" in scene
     assert "ConstrainHudButtons()" in panel_script
+    assert "ConnectDockCategoryButtons()" in panel_script
+    assert "ShowDockCategory(" in panel_script
     assert "ApplyButtonChrome(" in panel_script
     assert "ApplyButtonIcon(" in panel_script
     assert "godot-g1-art-pack-v2.2-tycoon-action-icons/exports/icons_48" in panel_script
@@ -692,10 +721,31 @@ def test_godot_tycoon_icon_buttons_are_size_constrained_for_1152px_viewport():
     assert '"facility_sell_icon.png"' in panel_script
     assert 'ActionIcon("monthly_report_icon.png")' in panel_script
     assert "new Vector2(56f, 36f)" in panel_script
-    assert "new Vector2(72f, 48f)" in panel_script
+    assert "new Vector2(64f, 48f)" in panel_script
     assert "new Vector2(74f, 36f)" in panel_script
     assert 'SetButtonIconExpand("TopStatusBar/TimeButtons/AdvanceMonthButton")' in panel_script
     assert '!path.EndsWith("AdvanceMonthButton", StringComparison.Ordinal)' in panel_script
+
+
+def test_godot_building_and_object_operations_pause_time_without_losing_speed():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "PauseForPlayerOperation()" in panel_script
+    assert "RestoreSpeedAfterPlayerOperation()" in panel_script
+    assert "speedBeforePlayerOperation" in panel_script
+    assert "playerOperationPausedTime" in panel_script
+    assert "PauseForPlayerOperation();" in panel_script
+    assert "RestoreSpeedAfterPlayerOperation();" in panel_script
+
+
+def test_godot_mcp_client_accepts_array_args_without_editor_errors():
+    client = (GODOT / "addons" / "godot_mcp" / "mcp_client.gd").read_text(encoding="utf-8")
+
+    assert "func _normalize_tool_args(raw_args: Variant) -> Dictionary:" in client
+    assert "raw_args is Dictionary" in client
+    assert "raw_args is Array" in client
+    assert 'return {"items": raw_args}' in client
+    assert 'var args: Dictionary = _normalize_tool_args(message.get(&"args", {}))' in client
 
 
 def test_godot_selected_object_panel_is_wired_to_room_facility_and_employee_actions():

@@ -10,8 +10,14 @@ public partial class G2OperationsPanelController : Control
 {
     private const string PaintZoneMode = "paint_zone";
     private const string PlaceFacilityMode = "place_facility";
+    private const string DockRoomsCategory = "rooms";
+    private const string DockFacilitiesCategory = "facilities";
+    private const string DockEmployeesCategory = "employees";
+    private const string DockFinanceCategory = "finance";
+    private const string DockSystemCategory = "system";
 
     private string activeMode = string.Empty;
+    private string activeDockCategory = DockRoomsCategory;
     private string selectedEmployeeId = string.Empty;
     private string selectedFacilityId = string.Empty;
     private int selectedCellX = -1;
@@ -20,6 +26,8 @@ public partial class G2OperationsPanelController : Control
     private int zoneStartX;
     private int zoneStartY;
     private bool endgameReached;
+    private float speedBeforePlayerOperation;
+    private bool playerOperationPausedTime;
 
     [Export] public NodePath ZonePaintingControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath FacilityPlacementControllerPath { get; set; } = new NodePath("");
@@ -93,19 +101,20 @@ public partial class G2OperationsPanelController : Control
             OfficeGridView.GridCellHovered += OnGridCellHovered;
         }
 
-        ConnectButton("BottomActionDock/BuildTools/ProductZoneButton", SelectProductZoneTool);
-        ConnectButton("BottomActionDock/BuildTools/SalesZoneButton", SelectSalesZoneTool);
-        ConnectButton("BottomActionDock/BuildTools/ServerZoneButton", SelectServerZoneTool);
-        ConnectButton("BottomActionDock/FacilityTools/DeskButton", SelectDeskFacilityTool);
-        ConnectButton("BottomActionDock/FacilityTools/WhiteboardButton", SelectWhiteboardFacilityTool);
-        ConnectButton("BottomActionDock/FacilityTools/ServerRackButton", SelectServerFacilityTool);
-        ConnectButton("BottomActionDock/EmployeeTools/HireProductButton", HireProductEmployee);
-        ConnectButton("BottomActionDock/EmployeeTools/HireSalesButton", HireSalesEmployee);
-        ConnectButton("BottomActionDock/EmployeeTools/HireOpsButton", HireOpsEmployee);
-        ConnectButton("BottomActionDock/EmployeeTools/TrainButton", TrainSelectedEmployee);
-        ConnectButton("BottomActionDock/CrisisTools/SellFacilityButton", SellSelectedFacility);
-        ConnectButton("BottomActionDock/CrisisTools/ReduceCostButton", ReduceFixedCost);
-        ConnectButton("BottomActionDock/CrisisTools/BridgeFundingButton", SeekBridgeFunding);
+        ConnectDockCategoryButtons();
+        ConnectButton("BottomActionDock/ToolGroups/BuildTools/ProductZoneButton", SelectProductZoneTool);
+        ConnectButton("BottomActionDock/ToolGroups/BuildTools/SalesZoneButton", SelectSalesZoneTool);
+        ConnectButton("BottomActionDock/ToolGroups/BuildTools/ServerZoneButton", SelectServerZoneTool);
+        ConnectButton("BottomActionDock/ToolGroups/FacilityTools/DeskButton", SelectDeskFacilityTool);
+        ConnectButton("BottomActionDock/ToolGroups/FacilityTools/WhiteboardButton", SelectWhiteboardFacilityTool);
+        ConnectButton("BottomActionDock/ToolGroups/FacilityTools/ServerRackButton", SelectServerFacilityTool);
+        ConnectButton("BottomActionDock/ToolGroups/EmployeeTools/HireProductButton", HireProductEmployee);
+        ConnectButton("BottomActionDock/ToolGroups/EmployeeTools/HireSalesButton", HireSalesEmployee);
+        ConnectButton("BottomActionDock/ToolGroups/EmployeeTools/HireOpsButton", HireOpsEmployee);
+        ConnectButton("BottomActionDock/ToolGroups/EmployeeTools/TrainButton", TrainSelectedEmployee);
+        ConnectButton("BottomActionDock/ToolGroups/CrisisTools/SellFacilityButton", SellSelectedFacility);
+        ConnectButton("BottomActionDock/ToolGroups/CrisisTools/ReduceCostButton", ReduceFixedCost);
+        ConnectButton("BottomActionDock/ToolGroups/CrisisTools/BridgeFundingButton", SeekBridgeFunding);
         ConnectButton("ObjectActionPanel/UpgradeSelectedFacilityButton", UpgradeSelectedFacility);
         ConnectButton("ObjectActionPanel/SellSelectedFacilityButton", SellSelectedFacility);
         ConnectButton("ObjectActionPanel/TrainSelectedObjectButton", TrainSelectedEmployee);
@@ -114,8 +123,8 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("TopStatusBar/TimeButtons/DoubleSpeedButton", SetDoubleSpeed);
         ConnectButton("TopStatusBar/TimeButtons/TripleSpeedButton", SetTripleSpeed);
         ConnectButton("TopStatusBar/TimeButtons/AdvanceMonthButton", AdvanceMonth);
-        ConnectButton("BottomActionDock/MetaTools/SaveButton", SaveRun);
-        ConnectButton("BottomActionDock/MetaTools/LoadButton", LoadRun);
+        ConnectButton("BottomActionDock/ToolGroups/MetaTools/SaveButton", SaveRun);
+        ConnectButton("BottomActionDock/ToolGroups/MetaTools/LoadButton", LoadRun);
         ConnectButton("FloatingEventFeed/OpenReportButton", ShowMonthlyReport);
         ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport);
         SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 0f);
@@ -129,8 +138,18 @@ public partial class G2OperationsPanelController : Control
         RefreshInitialMetrics();
         RefreshCompanyProgress();
         ConstrainHudButtons();
+        ShowDockCategory(DockRoomsCategory);
+        EnsureResponsiveHudLayout();
 
         SetEventCue("开局", "先布置办公室，再推进月份查看经营反馈。");
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what == NotificationResized)
+        {
+            EnsureResponsiveHudLayout();
+        }
     }
 
     public void SelectProductZoneTool()
@@ -350,7 +369,7 @@ public partial class G2OperationsPanelController : Control
             return;
         }
 
-        SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true);
+        SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: false);
     }
 
     public void SaveRun()
@@ -374,6 +393,7 @@ public partial class G2OperationsPanelController : Control
 
     public void ShowMonthlyReport()
     {
+        HideObjectActionPanel();
         SetNodeVisible("MonthlyReportModal", true);
         SetReportButtonVisible(false);
     }
@@ -503,6 +523,7 @@ public partial class G2OperationsPanelController : Control
             return;
         }
 
+        PauseForPlayerOperation();
         activeMode = PaintZoneMode;
         hasZoneStart = false;
         OfficeGridView?.ClearBuildPreview();
@@ -519,6 +540,7 @@ public partial class G2OperationsPanelController : Control
             return;
         }
 
+        PauseForPlayerOperation();
         activeMode = PlaceFacilityMode;
         hasZoneStart = false;
         OfficeGridView?.ClearBuildPreview();
@@ -532,6 +554,54 @@ public partial class G2OperationsPanelController : Control
         hasZoneStart = false;
         OfficeGridView?.SetBuildMode(false);
         OfficeGridView?.ClearBuildPreview();
+        RestoreSpeedAfterPlayerOperation();
+    }
+
+    private void PauseForPlayerOperation()
+    {
+        if (!playerOperationPausedTime)
+        {
+            speedBeforePlayerOperation = TimeProgressController?.SpeedMultiplier ?? 0f;
+            playerOperationPausedTime = true;
+        }
+
+        TimeProgressController?.SetPaused();
+        SetSpeedButtonState(0f);
+    }
+
+    private void RestoreSpeedAfterPlayerOperation()
+    {
+        if (!playerOperationPausedTime)
+        {
+            return;
+        }
+
+        playerOperationPausedTime = false;
+        if (endgameReached)
+        {
+            return;
+        }
+
+        if (speedBeforePlayerOperation >= 3f)
+        {
+            TimeProgressController?.SetTripleSpeed();
+            SetSpeedButtonState(3f);
+        }
+        else if (speedBeforePlayerOperation >= 2f)
+        {
+            TimeProgressController?.SetDoubleSpeed();
+            SetSpeedButtonState(2f);
+        }
+        else if (speedBeforePlayerOperation >= 1f)
+        {
+            TimeProgressController?.SetNormalSpeed();
+            SetSpeedButtonState(1f);
+        }
+        else
+        {
+            TimeProgressController?.SetPaused();
+            SetSpeedButtonState(0f);
+        }
     }
 
     private void PaintZoneByGridClick(int x, int y)
@@ -805,6 +875,95 @@ public partial class G2OperationsPanelController : Control
         SetLabel(ObjectiveTitleLabel, $"阶段目标 {progress}%");
     }
 
+    private void EnsureResponsiveHudLayout()
+    {
+        var viewportSize = GetViewportRect().Size;
+        if (viewportSize.X <= 0f || viewportSize.Y <= 0f)
+        {
+            viewportSize = Size;
+        }
+
+        if (viewportSize.X <= 0f || viewportSize.Y <= 0f)
+        {
+            return;
+        }
+
+        LayoutBottomDock(viewportSize);
+        SetControlRect("TopStatusBar", 0f, 0f, viewportSize.X, 54f);
+        SetControlRect("TopStatusBar/MetricsLabel", 18f, 12f, MathF.Max(360f, viewportSize.X - 430f), 30f);
+        SetControlRect("TopStatusBar/TimeButtons", MathF.Max(744f, viewportSize.X - 408f), 9f, 394f, 36f);
+        SetControlRect("ObjectiveTracker", 18f, 64f, 262f, 74f);
+        SetControlRect("FloatingEventFeed", MathF.Max(300f, viewportSize.X - 418f), 66f, 400f, 56f);
+        SetControlRect("FloatingEventFeed/StatusLabel", 40f, 8f, 250f, 40f);
+        SetControlRect("FloatingEventFeed/OpenReportButton", 292f, 14f, 96f, 28f);
+        SetControlRect("RoomContextPanel", 18f, MathF.Max(190f, viewportSize.Y - 306f), 354f, 144f);
+        SetControlRect("ObjectActionPanel", MathF.Max(386f, viewportSize.X - 294f), 150f, 276f, 210f);
+        SetControlRect(
+            "MonthlyReportModal",
+            MathF.Max(18f, (viewportSize.X - 526f) * 0.5f),
+            MathF.Max(80f, (viewportSize.Y - 370f) * 0.5f),
+            526f,
+            370f);
+    }
+
+    private void LayoutBottomDock(Vector2 viewportSize)
+    {
+        SetControlRect("BottomActionDock", 0f, MathF.Max(0f, viewportSize.Y - 88f), viewportSize.X, 88f);
+        SetControlRect("BottomActionDock/DockCategoryTabs", 8f, 6f, 392f, 28f);
+        SetControlRect("BottomActionDock/ToolGroups", 8f, 38f, MathF.Max(320f, viewportSize.X - 16f), 48f);
+    }
+
+    private void SetControlRect(string path, float x, float y, float width, float height)
+    {
+        var control = GetNodeOrNull<Control>(new NodePath(path));
+        if (control == null)
+        {
+            return;
+        }
+
+        control.Position = new Vector2(x, y);
+        control.Size = new Vector2(width, height);
+    }
+
+    private void ConnectDockCategoryButtons()
+    {
+        ConnectButton("BottomActionDock/DockCategoryTabs/RoomsCategoryButton", () => ShowDockCategory(DockRoomsCategory));
+        ConnectButton("BottomActionDock/DockCategoryTabs/FacilitiesCategoryButton", () => ShowDockCategory(DockFacilitiesCategory));
+        ConnectButton("BottomActionDock/DockCategoryTabs/EmployeesCategoryButton", () => ShowDockCategory(DockEmployeesCategory));
+        ConnectButton("BottomActionDock/DockCategoryTabs/FinanceCategoryButton", () => ShowDockCategory(DockFinanceCategory));
+        ConnectButton("BottomActionDock/DockCategoryTabs/SystemCategoryButton", () => ShowDockCategory(DockSystemCategory));
+    }
+
+    private void ShowDockCategory(string category)
+    {
+        activeDockCategory = category;
+        SetNodeVisible("BottomActionDock/ToolGroups/BuildTools", category == DockRoomsCategory);
+        SetNodeVisible("BottomActionDock/ToolGroups/FacilityTools", category == DockFacilitiesCategory);
+        SetNodeVisible("BottomActionDock/ToolGroups/EmployeeTools", category == DockEmployeesCategory);
+        SetNodeVisible("BottomActionDock/ToolGroups/CrisisTools", category == DockFinanceCategory);
+        SetNodeVisible("BottomActionDock/ToolGroups/MetaTools", category == DockSystemCategory);
+        SetDockCategoryButtonState();
+    }
+
+    private void SetDockCategoryButtonState()
+    {
+        SetCategoryButtonPressed("BottomActionDock/DockCategoryTabs/RoomsCategoryButton", DockRoomsCategory);
+        SetCategoryButtonPressed("BottomActionDock/DockCategoryTabs/FacilitiesCategoryButton", DockFacilitiesCategory);
+        SetCategoryButtonPressed("BottomActionDock/DockCategoryTabs/EmployeesCategoryButton", DockEmployeesCategory);
+        SetCategoryButtonPressed("BottomActionDock/DockCategoryTabs/FinanceCategoryButton", DockFinanceCategory);
+        SetCategoryButtonPressed("BottomActionDock/DockCategoryTabs/SystemCategoryButton", DockSystemCategory);
+    }
+
+    private void SetCategoryButtonPressed(string path, string category)
+    {
+        var button = GetNodeOrNull<Button>(new NodePath(path));
+        if (button != null)
+        {
+            button.ToggleMode = true;
+            button.ButtonPressed = activeDockCategory == category;
+        }
+    }
+
     private void ConstrainHudButtons()
     {
         ApplyButtonChrome("TopStatusBar/TimeButtons/PauseButton", new Vector2(56f, 36f));
@@ -818,24 +977,24 @@ public partial class G2OperationsPanelController : Control
 
         foreach (var (path, iconName) in new[]
         {
-            ("BottomActionDock/BuildTools/ProductZoneButton", "product_room_icon.png"),
-            ("BottomActionDock/BuildTools/SalesZoneButton", "sales_room_icon.png"),
-            ("BottomActionDock/BuildTools/ServerZoneButton", "server_room_icon.png"),
-            ("BottomActionDock/FacilityTools/DeskButton", "facility_upgrade_icon.png"),
-            ("BottomActionDock/FacilityTools/WhiteboardButton", "product_progress_icon.png"),
-            ("BottomActionDock/FacilityTools/ServerRackButton", "server_stability_icon.png"),
-            ("BottomActionDock/EmployeeTools/HireProductButton", "recruiting_icon.png"),
-            ("BottomActionDock/EmployeeTools/HireSalesButton", "recruiting_icon.png"),
-            ("BottomActionDock/EmployeeTools/HireOpsButton", "recruiting_icon.png"),
-            ("BottomActionDock/EmployeeTools/TrainButton", "training_icon.png"),
-            ("BottomActionDock/CrisisTools/SellFacilityButton", "facility_sell_icon.png"),
-            ("BottomActionDock/CrisisTools/ReduceCostButton", "cost_cutting_icon.png"),
-            ("BottomActionDock/CrisisTools/BridgeFundingButton", "bridge_funding_icon.png"),
-            ("BottomActionDock/MetaTools/SaveButton", "view_detail_icon.png"),
-            ("BottomActionDock/MetaTools/LoadButton", "view_detail_icon.png"),
+            ("BottomActionDock/ToolGroups/BuildTools/ProductZoneButton", "product_room_icon.png"),
+            ("BottomActionDock/ToolGroups/BuildTools/SalesZoneButton", "sales_room_icon.png"),
+            ("BottomActionDock/ToolGroups/BuildTools/ServerZoneButton", "server_room_icon.png"),
+            ("BottomActionDock/ToolGroups/FacilityTools/DeskButton", "facility_upgrade_icon.png"),
+            ("BottomActionDock/ToolGroups/FacilityTools/WhiteboardButton", "product_progress_icon.png"),
+            ("BottomActionDock/ToolGroups/FacilityTools/ServerRackButton", "server_stability_icon.png"),
+            ("BottomActionDock/ToolGroups/EmployeeTools/HireProductButton", "recruiting_icon.png"),
+            ("BottomActionDock/ToolGroups/EmployeeTools/HireSalesButton", "recruiting_icon.png"),
+            ("BottomActionDock/ToolGroups/EmployeeTools/HireOpsButton", "recruiting_icon.png"),
+            ("BottomActionDock/ToolGroups/EmployeeTools/TrainButton", "training_icon.png"),
+            ("BottomActionDock/ToolGroups/CrisisTools/SellFacilityButton", "facility_sell_icon.png"),
+            ("BottomActionDock/ToolGroups/CrisisTools/ReduceCostButton", "cost_cutting_icon.png"),
+            ("BottomActionDock/ToolGroups/CrisisTools/BridgeFundingButton", "bridge_funding_icon.png"),
+            ("BottomActionDock/ToolGroups/MetaTools/SaveButton", "view_detail_icon.png"),
+            ("BottomActionDock/ToolGroups/MetaTools/LoadButton", "view_detail_icon.png"),
         })
         {
-            ApplyButtonChrome(path, new Vector2(72f, 48f));
+            ApplyButtonChrome(path, new Vector2(64f, 48f));
             ApplyButtonIcon(path, ActionIcon(iconName));
         }
 

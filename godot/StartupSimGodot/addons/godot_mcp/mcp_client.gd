@@ -139,7 +139,7 @@ func _handle_message(json_string: String) -> void:
 		"tool_invoke":
 			var request_id: String = message.get(&"id", "")
 			var tool_name: String = message.get(&"tool", "")
-			var args: Dictionary = message.get(&"args", {})
+			var args: Dictionary = _normalize_tool_args(message.get(&"args", {}))
 			print("[MCP] Tool request: ", tool_name, " (", request_id, ")")
 			tool_requested.emit(request_id, tool_name, args)
 		"client_status":
@@ -152,6 +152,13 @@ func _handle_message(json_string: String) -> void:
 				runtime_status_changed.emit(rconn)
 		_:
 			print("[MCP] Unknown message type: ", msg_type)
+
+func _normalize_tool_args(raw_args: Variant) -> Dictionary:
+	if raw_args is Dictionary:
+		return raw_args
+	if raw_args is Array:
+		return {"items": raw_args}
+	return {}
 
 func send_tool_result(request_id: String, success: bool, result = null, error: String = "") -> void:
 	var response := {
