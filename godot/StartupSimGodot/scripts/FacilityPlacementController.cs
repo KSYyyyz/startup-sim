@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using StartupSim.Core.Office;
 
@@ -19,6 +20,16 @@ public partial class FacilityPlacementController : Node
     [Export] public string SelectedFacilityTypeId { get; set; } = "basic_desk";
 
     public ZonePaintingController? ZoneController { get; private set; }
+    public int SelectedFacilityWidth => facilityDefinitions.TryGetValue(
+        SelectedFacilityTypeId,
+        out var definition)
+            ? definition.Width
+            : 1;
+    public int SelectedFacilityHeight => facilityDefinitions.TryGetValue(
+        SelectedFacilityTypeId,
+        out var definition)
+            ? definition.Height
+            : 1;
 
     public override void _Ready()
     {
@@ -55,6 +66,26 @@ public partial class FacilityPlacementController : Node
 
         EmitSignal(SignalName.FacilityPlaced, facility.Id, facility.FacilityTypeId, facility.ZoneId);
         return facility.Id;
+    }
+
+    public bool CanPlaceSelectedFacility(string zoneId, int x, int y)
+    {
+        if (ZoneController == null
+            || !facilityDefinitions.TryGetValue(SelectedFacilityTypeId, out var definition))
+        {
+            return false;
+        }
+
+        var zone = ZoneController.Layout.Zones.FirstOrDefault(item => item.Id == zoneId);
+        if (zone == null || !definition.AllowedZoneTypeIds.Contains(zone.ZoneTypeId))
+        {
+            return false;
+        }
+
+        var rect = new OfficeRect(x, y, definition.Width, definition.Height);
+        var cells = rect.Cells().ToArray();
+        return cells.Length > 0
+            && cells.All(cell => ZoneContains(zone, cell) && !FacilityOccupies(cell));
     }
 
     public bool UpgradeFacility(string facilityId)
@@ -97,6 +128,23 @@ public partial class FacilityPlacementController : Node
         }
 
         return null;
+    }
+
+    private bool FacilityOccupies(OfficeCell cell)
+    {
+        return ZoneController?.Layout.Facilities.Any(
+            facility => cell.X >= facility.X
+                && cell.X < facility.X + facility.Width
+                && cell.Y >= facility.Y
+                && cell.Y < facility.Y + facility.Height) ?? false;
+    }
+
+    private static bool ZoneContains(OfficeZone zone, OfficeCell cell)
+    {
+        return cell.X >= zone.X
+            && cell.X < zone.X + zone.Width
+            && cell.Y >= zone.Y
+            && cell.Y < zone.Y + zone.Height;
     }
 
     private void RegisterG1Definitions()

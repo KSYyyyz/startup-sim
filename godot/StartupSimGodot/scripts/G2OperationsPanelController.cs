@@ -140,7 +140,7 @@ public partial class G2OperationsPanelController : Control
 
     public void TrainSelectedEmployee()
     {
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
 
         if (EmployeeManagementController == null || ZonePaintingController == null)
         {
@@ -176,7 +176,7 @@ public partial class G2OperationsPanelController : Control
 
     public void SetPaused()
     {
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
         TimeProgressController?.SetPaused();
         SetSpeedButtonState(0f);
         UpdateStatus("已暂停。");
@@ -184,7 +184,7 @@ public partial class G2OperationsPanelController : Control
 
     public void SetNormalSpeed()
     {
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
         TimeProgressController?.SetNormalSpeed();
         SetSpeedButtonState(1f);
         UpdateStatus("正常速度推进。");
@@ -192,7 +192,7 @@ public partial class G2OperationsPanelController : Control
 
     public void SetDoubleSpeed()
     {
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
         TimeProgressController?.SetDoubleSpeed();
         SetSpeedButtonState(2f);
         UpdateStatus("二倍速推进。");
@@ -200,7 +200,7 @@ public partial class G2OperationsPanelController : Control
 
     public void SetTripleSpeed()
     {
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
         TimeProgressController?.SetTripleSpeed();
         SetSpeedButtonState(3f);
         UpdateStatus("三倍速推进。");
@@ -208,7 +208,7 @@ public partial class G2OperationsPanelController : Control
 
     public void AdvanceMonth()
     {
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
 
         if (TimeProgressController == null)
         {
@@ -249,6 +249,7 @@ public partial class G2OperationsPanelController : Control
 
     private void OnGridCellHovered(int x, int y, string occupantId)
     {
+        UpdateBuildPreview(x, y);
         var occupancyHint = string.IsNullOrWhiteSpace(occupantId) ? "空格子" : $"已有内容：{occupantId}";
         var actionHint = activeMode switch
         {
@@ -261,6 +262,35 @@ public partial class G2OperationsPanelController : Control
         UpdateStatus($"悬停格子 ({x}, {y})，{occupancyHint}。{actionHint}");
     }
 
+    private void UpdateBuildPreview(int x, int y)
+    {
+        if (OfficeGridView == null)
+        {
+            return;
+        }
+
+        if (activeMode == PaintZoneMode && hasZoneStart)
+        {
+            OfficeGridView.ShowZoneSelectionPreview(zoneStartX, zoneStartY, x, y, ZonePaintingController?.SelectedZoneTypeId ?? string.Empty);
+            return;
+        }
+
+        if (activeMode == PlaceFacilityMode && FacilityPlacementController != null)
+        {
+            var zone = FindZoneAt(x, y);
+            var isValid = zone != null && FacilityPlacementController.CanPlaceSelectedFacility(zone.Id, x, y);
+            OfficeGridView.ShowFacilityPlacementPreview(
+                x,
+                y,
+                FacilityPlacementController.SelectedFacilityWidth,
+                FacilityPlacementController.SelectedFacilityHeight,
+                isValid);
+            return;
+        }
+
+        OfficeGridView.ClearBuildPreview();
+    }
+
     private void SelectZoneTool(string zoneTypeId, string displayName)
     {
         if (ZonePaintingController == null || !ZonePaintingController.SelectZoneType(zoneTypeId))
@@ -271,6 +301,7 @@ public partial class G2OperationsPanelController : Control
 
         activeMode = PaintZoneMode;
         hasZoneStart = false;
+        OfficeGridView?.ClearBuildPreview();
         OfficeGridView?.SetBuildMode(true);
         UpdateStatus($"正在划分{displayName}：点击起点，再点击终点。");
     }
@@ -285,8 +316,18 @@ public partial class G2OperationsPanelController : Control
         }
 
         activeMode = PlaceFacilityMode;
+        hasZoneStart = false;
+        OfficeGridView?.ClearBuildPreview();
         OfficeGridView?.SetBuildMode(true);
         UpdateStatus($"正在摆放{displayName}：点击匹配区域内的格子。");
+    }
+
+    private void ClearActiveBuildMode()
+    {
+        activeMode = string.Empty;
+        hasZoneStart = false;
+        OfficeGridView?.SetBuildMode(false);
+        OfficeGridView?.ClearBuildPreview();
     }
 
     private void PaintZoneByGridClick(int x, int y)
@@ -311,7 +352,11 @@ public partial class G2OperationsPanelController : Control
         hasZoneStart = false;
         if (!string.IsNullOrWhiteSpace(zoneId))
         {
-            OfficeGridView?.SetBuildMode(false);
+            ClearActiveBuildMode();
+        }
+        else
+        {
+            OfficeGridView?.ClearBuildPreview();
         }
 
         RefreshCapacity();
@@ -344,7 +389,7 @@ public partial class G2OperationsPanelController : Control
         }
 
         selectedFacilityId = facilityId;
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
         OfficeGridView?.ShowFacilityVisual(
             facilityId,
             FacilityPlacementController.SelectedFacilityTypeId,
@@ -360,7 +405,7 @@ public partial class G2OperationsPanelController : Control
         string skillId,
         string displayName)
     {
-        OfficeGridView?.SetBuildMode(false);
+        ClearActiveBuildMode();
 
         if (EmployeeManagementController == null || ZonePaintingController == null)
         {

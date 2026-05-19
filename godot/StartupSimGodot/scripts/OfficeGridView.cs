@@ -30,6 +30,9 @@ public partial class OfficeGridView : Node2D
     private OfficeGrid grid = new(12, 8, 64);
     private OfficeCell hoveredCell = new(-1, -1);
     private OfficeCell selectedCell = new(-1, -1);
+    private OfficeRect? zonePreviewRect;
+    private OfficeRect? facilityPreviewRect;
+    private bool facilityPreviewValid;
     private readonly Dictionary<string, string> zoneTypeByZoneId = new();
     private readonly Dictionary<string, FacilityVisual> facilityVisuals = new();
     private readonly Dictionary<string, EmployeeVisual> employeeVisuals = new();
@@ -56,6 +59,9 @@ public partial class OfficeGridView : Node2D
     [Export] public Color HoverColor { get; set; } = new(0.2f, 0.55f, 0.95f, 0.22f);
     [Export] public Color SelectionColor { get; set; } = new(0.98f, 0.86f, 0.28f, 0.75f);
     [Export] public Color OccupiedColor { get; set; } = new(0.95f, 0.72f, 0.25f, 0.25f);
+    [Export] public Color ZonePreviewColor { get; set; } = new(0.34f, 0.72f, 1f, 0.28f);
+    [Export] public Color PreviewValidColor { get; set; } = new(0.32f, 0.86f, 0.42f, 0.34f);
+    [Export] public Color PreviewInvalidColor { get; set; } = new(0.95f, 0.24f, 0.18f, 0.36f);
 
     public OfficeGrid Grid => grid;
     private bool buildModeEnabled;
@@ -184,11 +190,40 @@ public partial class OfficeGridView : Node2D
         QueueRedraw();
     }
 
+    public void ShowZoneSelectionPreview(int startX, int startY, int endX, int endY, string zoneTypeId)
+    {
+        _ = zoneTypeId;
+        zonePreviewRect = SelectionRect(startX, startY, endX, endY);
+        facilityPreviewRect = null;
+        QueueRedraw();
+    }
+
+    public void ShowFacilityPlacementPreview(int x, int y, int width, int height, bool isValid)
+    {
+        zonePreviewRect = null;
+        facilityPreviewRect = new OfficeRect(x, y, Mathf.Max(1, width), Mathf.Max(1, height));
+        facilityPreviewValid = isValid;
+        QueueRedraw();
+    }
+
+    public void ClearBuildPreview()
+    {
+        if (zonePreviewRect == null && facilityPreviewRect == null)
+        {
+            return;
+        }
+
+        zonePreviewRect = null;
+        facilityPreviewRect = null;
+        QueueRedraw();
+    }
+
     public override void _Draw()
     {
         DrawOfficeBackdrop();
         DrawOfficeFrame();
         DrawOccupiedCells();
+        DrawBuildPreviews();
         DrawFacilityVisuals();
         DrawEmployeeVisuals();
         if (ShouldDrawGrid())
@@ -410,6 +445,59 @@ public partial class OfficeGridView : Node2D
         DrawDiamondOutline(diamond, new Color(zoneColor.R, zoneColor.G, zoneColor.B, 0.58f), 1.5f);
     }
 
+    private void DrawBuildPreviews()
+    {
+        if (zonePreviewRect != null)
+        {
+            DrawProjectedRectPreview(zonePreviewRect.Value, ZonePreviewColor);
+        }
+
+        if (facilityPreviewRect != null)
+        {
+            var facilityColor = facilityPreviewValid ? PreviewValidColor : PreviewInvalidColor;
+            DrawProjectedRectPreview(facilityPreviewRect.Value, facilityColor);
+        }
+    }
+
+    private void DrawProjectedRectPreview(OfficeRect rect, Color color)
+    {
+        var outlineColor = new Color(
+            Mathf.Clamp(color.R + 0.18f, 0f, 1f),
+            Mathf.Clamp(color.G + 0.18f, 0f, 1f),
+            Mathf.Clamp(color.B + 0.18f, 0f, 1f),
+            Mathf.Clamp(color.A + 0.32f, 0f, 1f));
+
+        if (!UsePseudo3DProjection)
+        {
+            foreach (var cell in rect.Cells())
+            {
+                if (!grid.Contains(cell))
+                {
+                    continue;
+                }
+
+                var cellRect = CellRect(cell.X, cell.Y).Grow(-2f);
+                DrawRect(cellRect, color, filled: true);
+                DrawRect(cellRect, outlineColor, filled: false, width: 2f);
+            }
+
+            return;
+        }
+
+        var projection = BuildProjection();
+        foreach (var cell in rect.Cells())
+        {
+            if (!grid.Contains(cell))
+            {
+                continue;
+            }
+
+            var diamond = projection.CellDiamond(cell.X, cell.Y);
+            DrawPolygon(diamond, Fill(color, diamond.Length));
+            DrawDiamondOutline(diamond, outlineColor, 2.5f);
+        }
+    }
+
     private int ZoneOverlayColumn(string occupantId)
     {
         return zoneTypeByZoneId.TryGetValue(occupantId, out var zoneTypeId)
@@ -612,6 +700,17 @@ public partial class OfficeGridView : Node2D
     private bool ShouldDrawGrid()
     {
         return buildModeEnabled || GridVisibleByDefault;
+    }
+
+    private static OfficeRect SelectionRect(int startX, int startY, int endX, int endY)
+    {
+        var x = Mathf.Min(startX, endX);
+        var y = Mathf.Min(startY, endY);
+        return new OfficeRect(
+            x,
+            y,
+            Mathf.Abs(endX - startX) + 1,
+            Mathf.Abs(endY - startY) + 1);
     }
 
     private Rect2 CellRect(int x, int y)

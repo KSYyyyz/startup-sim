@@ -288,6 +288,38 @@ def test_godot_office_view_has_projection_foundation_not_static_background():
     assert 'texture = ExtResource("16")' not in scene
 
 
+def test_godot_office_view_draws_pseudo3d_build_previews():
+    grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
+
+    assert "private OfficeRect? zonePreviewRect;" in grid_script
+    assert "private OfficeRect? facilityPreviewRect;" in grid_script
+    assert "PreviewValidColor" in grid_script
+    assert "PreviewInvalidColor" in grid_script
+    assert "ShowZoneSelectionPreview" in grid_script
+    assert "ShowFacilityPlacementPreview" in grid_script
+    assert "ClearBuildPreview" in grid_script
+    assert "DrawBuildPreviews();" in grid_script
+    assert "DrawProjectedRectPreview" in grid_script
+    assert "facilityPreviewValid ? PreviewValidColor : PreviewInvalidColor" in grid_script
+
+
+def test_godot_operations_panel_updates_previews_from_hovered_cells():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    facility_script = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")
+
+    assert "UpdateBuildPreview(x, y);" in panel_script
+    assert "ShowZoneSelectionPreview(zoneStartX, zoneStartY, x, y" in panel_script
+    assert "ShowFacilityPlacementPreview(" in panel_script
+    assert "CanPlaceSelectedFacility(zone.Id, x, y)" in panel_script
+    assert "OfficeGridView?.ClearBuildPreview();" in panel_script
+    assert "ClearActiveBuildMode()" in panel_script
+
+    assert "SelectedFacilityWidth" in facility_script
+    assert "SelectedFacilityHeight" in facility_script
+    assert "CanPlaceSelectedFacility" in facility_script
+    assert "definition.AllowedZoneTypeIds.Contains(zone.ZoneTypeId)" in facility_script
+
+
 def test_godot_main_scene_keeps_operations_panel_inside_default_viewport():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
 
