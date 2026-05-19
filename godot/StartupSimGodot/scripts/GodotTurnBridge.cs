@@ -6,7 +6,7 @@ namespace StartupSim.Godot;
 
 public partial class GodotTurnBridge : Node
 {
-    private readonly ITurnEngine turnEngine = new DeterministicTurnEngine();
+    private readonly DeterministicTurnEngine turnEngine = new();
 
     public GameState CurrentState { get; private set; } = new();
 
@@ -29,5 +29,12 @@ public partial class GodotTurnBridge : Node
     public TurnResultSnapshot ExecutePreparedAction(PreparedActionSnapshot snapshot)
     {
         return ExecuteCommand(snapshot?.Command ?? string.Empty);
+    }
+
+    public TurnResultSnapshot ExecuteBusinessIntent(BusinessIntentSnapshot intent)
+    {
+        var result = turnEngine.ExecuteBusinessIntent(CurrentState, intent.ToCoreIntent());
+        CurrentState = result.State;
+        return TurnResultSnapshot.FromTurnResult(result);
     }
 }

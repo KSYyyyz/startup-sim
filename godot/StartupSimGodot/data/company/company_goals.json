@@ -1,0 +1,32 @@
+{
+  "schema_version": "godot-content.g2",
+  "items": [
+    {
+      "id": "goal_mvp_ready",
+      "display_name": "做出可销售 MVP",
+      "description": "把产品能力推进到足以支撑第一批付费客户。",
+      "metric": "product_score",
+      "target_value": 60,
+      "stage": "seed",
+      "reward_hint": "解锁第一轮收入目标"
+    },
+    {
+      "id": "goal_first_growth_loop",
+      "display_name": "形成早期增长闭环",
+      "description": "让产品、销售和稳定性同时支撑持续获客。",
+      "metric": "users",
+      "target_value": 150,
+      "stage": "seed",
+      "reward_hint": "董事会开始认可增长节奏"
+    },
+    {
+      "id": "goal_cash_buffer",
+      "display_name": "拉长现金流可支撑时间",
+      "description": "用收入增长和成本纪律换取更长的经营缓冲。",
+      "metric": "cash_support_months",
+      "target_value": 6,
+      "stage": "seed",
+      "reward_hint": "降低破产风险提示频率"
+    }
+  ]
+}

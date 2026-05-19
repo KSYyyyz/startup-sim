@@ -1,0 +1,29 @@
+{
+  "schema_version": "godot-content.g2",
+  "items": [
+    {
+      "id": "intent_product_from_office",
+      "display_name": "办公室产能转产品推进",
+      "description": "研发区、研发设施和研发员工会形成产品推进意图。",
+      "action_type": "product",
+      "budget_scale": 80000,
+      "source_capacity": "product_capacity"
+    },
+    {
+      "id": "intent_sales_from_office",
+      "display_name": "办公室产能转销售增长",
+      "description": "销售区、办公桌和销售员工会形成增长意图。",
+      "action_type": "marketing",
+      "budget_scale": 60000,
+      "source_capacity": "sales_capacity"
+    },
+    {
+      "id": "intent_stability_from_office",
+      "display_name": "办公室产能转稳定性投入",
+      "description": "服务器区和运维能力会形成稳定性经营意图。",
+      "action_type": "strategy",
+      "budget_scale": 40000,
+      "source_capacity": "stability"
+    }
+  ]
+}

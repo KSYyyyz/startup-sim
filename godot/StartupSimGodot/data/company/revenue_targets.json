@@ -1,0 +1,29 @@
+{
+  "schema_version": "godot-content.g2",
+  "items": [
+    {
+      "id": "revenue_first_paid_users",
+      "display_name": "第一批付费客户",
+      "description": "验证客户愿意为当前产品价值付费。",
+      "monthly_recurring_revenue": 50000,
+      "cash_support_months": 3,
+      "stage": "seed"
+    },
+    {
+      "id": "revenue_repeatable_sales",
+      "display_name": "可重复销售节奏",
+      "description": "让月经常收入足以解释销售区和办公设施投入。",
+      "monthly_recurring_revenue": 150000,
+      "cash_support_months": 5,
+      "stage": "seed"
+    },
+    {
+      "id": "revenue_survival_buffer",
+      "display_name": "现金流缓冲达标",
+      "description": "收入和固定支出进入更健康的比例。",
+      "monthly_recurring_revenue": 300000,
+      "cash_support_months": 8,
+      "stage": "early_growth"
+    }
+  ]
+}

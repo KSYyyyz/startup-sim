@@ -7,6 +7,8 @@ namespace StartupSim.Core.Contracts
         public GameState State { get; set; } = new GameState();
         public IList<string> ReplayBasis { get; set; } = new List<string>();
         public IList<string> ChangedMetrics { get; set; } = new List<string>();
+        public IList<BusinessFactSnapshot> BusinessFacts { get; set; } =
+            new List<BusinessFactSnapshot>();
         public string NextPressure { get; set; } = string.Empty;
         public string Authority { get; set; } = "csharp-startup-sim-core";
     }

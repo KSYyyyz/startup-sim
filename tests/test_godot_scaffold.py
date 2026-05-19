@@ -320,6 +320,113 @@ def test_godot_operations_panel_updates_previews_from_hovered_cells():
     assert "definition.AllowedZoneTypeIds.Contains(zone.ZoneTypeId)" in facility_script
 
 
+def test_godot_g2_company_progress_data_and_loader_exist():
+    content_database = (SCRIPTS / "ContentDatabase.cs").read_text(encoding="utf-8")
+    validator = (ROOT / "scripts" / "validate_godot_content.py").read_text(encoding="utf-8")
+
+    for data_file in [
+        GODOT / "data" / "company" / "company_goals.json",
+        GODOT / "data" / "company" / "revenue_targets.json",
+        GODOT / "data" / "company" / "achievements.json",
+        GODOT / "data" / "actions" / "derived_actions.json",
+    ]:
+        assert data_file.is_file(), f"missing G2 content data: {data_file.relative_to(ROOT)}"
+        text = data_file.read_text(encoding="utf-8")
+        assert '"schema_version": "godot-content.g2"' in text
+        assert '"items"' in text
+
+    assert "CompanyGoals" in content_database
+    assert "RevenueTargets" in content_database
+    assert "Achievements" in content_database
+    assert "DerivedActions" in content_database
+    assert 'LoadItems("company/company_goals.json")' in content_database
+    assert 'LoadItems("actions/derived_actions.json")' in content_database
+
+    assert '"company_goals"' in validator
+    assert '"revenue_targets"' in validator
+    assert '"achievements"' in validator
+    assert '"derived_actions"' in validator
+    assert '"godot-content.g2"' in validator
+
+
+def test_godot_g2_business_intent_and_core_facts_are_wired():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    bridge = (SCRIPTS / "GodotTurnBridge.cs").read_text(encoding="utf-8")
+    intent_snapshot = (SCRIPTS / "BusinessIntentSnapshot.cs").read_text(encoding="utf-8")
+    intent_controller = (SCRIPTS / "BusinessIntentController.cs").read_text(encoding="utf-8")
+    result_snapshot = (SCRIPTS / "TurnResultSnapshot.cs").read_text(encoding="utf-8")
+    core_intent = (
+        ROOT / "csharp" / "StartupSim.Core" / "Contracts" / "BusinessIntentSnapshot.cs"
+    ).read_text(encoding="utf-8")
+    core_fact = (
+        ROOT / "csharp" / "StartupSim.Core" / "Contracts" / "BusinessFactSnapshot.cs"
+    ).read_text(encoding="utf-8")
+    core_result = (ROOT / "csharp" / "StartupSim.Core" / "Contracts" / "TurnResult.cs").read_text(
+        encoding="utf-8"
+    )
+    engine = (
+        ROOT / "csharp" / "StartupSim.Core" / "Engines" / "DeterministicTurnEngine.cs"
+    ).read_text(encoding="utf-8")
+
+    assert "BusinessIntentController" in scene
+    assert 'CapacityPreviewControllerPath = NodePath("../CapacityPreviewController")' in scene
+    assert "BuildCurrentIntent" in intent_controller
+    assert "BusinessIntentSnapshot.FromOfficeCapacity" in intent_controller
+    assert "ExecuteBusinessIntent" in bridge
+    assert "ExecuteBusinessIntent(CurrentState, intent.ToCoreIntent())" in bridge
+
+    assert "ProductFocus" in intent_snapshot
+    assert "SalesFocus" in intent_snapshot
+    assert "StabilityFocus" in intent_snapshot
+    assert "OrganizationFocus" in intent_snapshot
+    assert "MonthlyFixedCost" in intent_snapshot
+    assert "ToCoreIntent()" in intent_snapshot
+
+    assert "public sealed class BusinessIntentSnapshot" in core_intent
+    assert "public sealed class BusinessFactSnapshot" in core_fact
+    assert "IList<BusinessFactSnapshot> BusinessFacts" in core_result
+    assert "BuildBusinessFacts" in engine
+    assert "ExecuteBusinessIntent(GameState currentState, BusinessIntentSnapshot intent)" in engine
+
+    assert "BusinessFactsText" in result_snapshot
+    assert "string.Join" in result_snapshot
+
+
+def test_godot_g2_local_save_and_replay_panel_are_mounted():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    save_script = (SCRIPTS / "LocalSaveController.cs").read_text(encoding="utf-8")
+    progress_script = (SCRIPTS / "CompanyProgressController.cs").read_text(encoding="utf-8")
+
+    assert "LocalSaveController" in scene
+    assert "CompanyProgressController" in scene
+    assert "ReplayLabel" in scene
+    assert "SaveButton" in scene
+    assert "LoadButton" in scene
+    assert "GoalsLabelPath" in scene
+    assert "ReplayLabelPath" in scene
+    assert "LocalSaveControllerPath" in scene
+    assert "CompanyProgressControllerPath" in scene
+    assert "BusinessIntentControllerPath" in scene
+
+    assert "SaveCurrentRun" in save_script
+    assert "LoadCurrentRun" in save_script
+    assert "BuildReplaySummary" in save_script
+    assert "user://startup-sim-save.json" in save_script
+    assert "GodotTurnBridge" not in save_script
+
+    assert "RefreshProgress" in progress_script
+    assert "BuildGoalSummary" in progress_script
+    assert "BuildAchievementSummary" in progress_script
+    assert "现金流可支撑时间" in progress_script
+    assert "Runway" not in progress_script
+
+    assert 'ConnectButton("MetaButtons/SaveButton", SaveRun)' in panel_script
+    assert 'ConnectButton("MetaButtons/LoadButton", LoadRun)' in panel_script
+    assert "SetLabel(GoalsLabel" in panel_script
+    assert "SetLabel(ReplayLabel" in panel_script
+
+
 def test_godot_main_scene_keeps_operations_panel_inside_default_viewport():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
 

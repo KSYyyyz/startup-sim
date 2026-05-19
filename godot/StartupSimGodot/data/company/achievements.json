@@ -1,0 +1,29 @@
+{
+  "schema_version": "godot-content.g2",
+  "items": [
+    {
+      "id": "achievement_first_zone",
+      "display_name": "第一块部门区域",
+      "description": "公司开始从临时协作走向部门化经营。",
+      "trigger_metric": "zone_count",
+      "threshold": 1,
+      "story_tag": "office_foundation"
+    },
+    {
+      "id": "achievement_first_revenue",
+      "display_name": "收入开始出现",
+      "description": "产品和客户之间第一次形成付费闭环。",
+      "trigger_metric": "monthly_recurring_revenue",
+      "threshold": 50000,
+      "story_tag": "first_revenue"
+    },
+    {
+      "id": "achievement_product_team",
+      "display_name": "研发团队成型",
+      "description": "研发区、设施和员工共同支撑产品能力。",
+      "trigger_metric": "product_capacity",
+      "threshold": 8,
+      "story_tag": "product_team"
+    }
+  ]
+}

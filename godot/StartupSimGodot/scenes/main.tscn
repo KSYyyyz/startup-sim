@@ -16,6 +16,9 @@
 [ext_resource type="Texture2D" uid="uid://b8te6oq3epjjr" path="res://assets/art/godot-g1-art-pack-v0.2-employee-motion/exports/employee-motion-atlas-v0.2.png" id="14"]
 [ext_resource type="Texture2D" uid="uid://bxoqsaedn2tuv" path="res://assets/art/godot-g1-art-pack-v0.5-employee-status-icons/exports/employee-status-icon-atlas-v0.5.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://gll0e2ycr5q7" path="res://assets/art/godot-g1-art-pack-v0.7-feedback-portraits/exports/feedback-portrait-sheet-v0.7.png" id="17"]
+[ext_resource type="Script" uid="uid://b6h5g4wlme18d" path="res://scripts/BusinessIntentController.cs" id="17_muem4"]
+[ext_resource type="Script" uid="uid://ix5afjinatl2" path="res://scripts/CompanyProgressController.cs" id="18_dp3eg"]
+[ext_resource type="Script" uid="uid://dqtfgqyknfjgk" path="res://scripts/LocalSaveController.cs" id="19_0ld40"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_feedback_portrait"]
 atlas = ExtResource("17")
@@ -82,7 +85,13 @@ EmployeeManagementControllerPath = NodePath("../EmployeeManagementController")
 CapacityPreviewControllerPath = NodePath("../CapacityPreviewController")
 TimeProgressControllerPath = NodePath("../TimeProgressController")
 MonthlyReportControllerPath = NodePath("../MonthlyReportController")
+BusinessIntentControllerPath = NodePath("../BusinessIntentController")
+CompanyProgressControllerPath = NodePath("../CompanyProgressController")
+LocalSaveControllerPath = NodePath("../LocalSaveController")
 OfficeGridViewPath = NodePath("../OfficeGridView")
+GoalsLabelPath = NodePath("GoalsLabel")
+ReportLabelPath = NodePath("ReportLabel")
+ReplayLabelPath = NodePath("ReplayLabel")
 
 [node name="PanelBacking" type="ColorRect" parent="G2OperationsPanel" unique_id=816224283]
 layout_mode = 0
@@ -121,9 +130,9 @@ autowrap_mode = 3
 
 [node name="ZoneButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=952563871]
 layout_mode = 0
-offset_top = 260.0
+offset_top = 300.0
 offset_right = 304.0
-offset_bottom = 296.0
+offset_bottom = 332.0
 
 [node name="ProductZoneButton" type="Button" parent="G2OperationsPanel/ZoneButtons" unique_id=1320403870]
 layout_mode = 2
@@ -139,9 +148,9 @@ text = "服务器区"
 
 [node name="FacilityButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=741361227]
 layout_mode = 0
-offset_top = 308.0
+offset_top = 336.0
 offset_right = 304.0
-offset_bottom = 344.0
+offset_bottom = 368.0
 
 [node name="DeskButton" type="Button" parent="G2OperationsPanel/FacilityButtons" unique_id=529168171]
 layout_mode = 2
@@ -157,9 +166,9 @@ text = "机柜"
 
 [node name="EmployeeButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=1694857138]
 layout_mode = 0
-offset_top = 356.0
+offset_top = 372.0
 offset_right = 304.0
-offset_bottom = 392.0
+offset_bottom = 404.0
 
 [node name="HireProductButton" type="Button" parent="G2OperationsPanel/EmployeeButtons" unique_id=369488227]
 layout_mode = 2
@@ -179,7 +188,7 @@ text = "训练"
 
 [node name="TimeButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=662512030]
 layout_mode = 0
-offset_top = 404.0
+offset_top = 408.0
 offset_right = 304.0
 offset_bottom = 440.0
 
@@ -205,26 +214,69 @@ text = "推进月份"
 
 [node name="CapacityLabel" type="Label" parent="G2OperationsPanel" unique_id=1796383618]
 layout_mode = 0
-offset_top = 472.0
+offset_top = 502.0
 offset_right = 304.0
-offset_bottom = 508.0
+offset_bottom = 532.0
 text = "产能预览：等待区域、设施和员工。"
 autowrap_mode = 3
 
 [node name="ReportLabel" type="Label" parent="G2OperationsPanel" unique_id=1906407572]
 layout_mode = 0
-offset_top = 500.0
-offset_right = 198.0
-offset_bottom = 610.0
+offset_top = 532.0
+offset_right = 212.0
+offset_bottom = 580.0
 text = "月报将在推进月份后出现。"
 autowrap_mode = 3
+clip_text = true
 
 [node name="FeedbackPortrait" type="TextureRect" parent="G2OperationsPanel" unique_id=1021164674]
 layout_mode = 0
 offset_left = 224.0
-offset_top = 536.0
+offset_top = 544.0
 offset_right = 288.0
-offset_bottom = 600.0
+offset_bottom = 608.0
 texture = SubResource("AtlasTexture_feedback_portrait")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="GoalsLabel" type="Label" parent="G2OperationsPanel" unique_id=1630133752]
+layout_mode = 0
+offset_top = 236.0
+offset_right = 304.0
+offset_bottom = 292.0
+text = "公司目标：等待目标数据。"
+autowrap_mode = 3
+clip_text = true
+
+[node name="MetaButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=249058179]
+layout_mode = 0
+offset_top = 468.0
+offset_right = 304.0
+offset_bottom = 500.0
+
+[node name="SaveButton" type="Button" parent="G2OperationsPanel/MetaButtons" unique_id=35149053]
+layout_mode = 2
+text = "存档"
+
+[node name="LoadButton" type="Button" parent="G2OperationsPanel/MetaButtons" unique_id=442249202]
+layout_mode = 2
+text = "读取"
+
+[node name="ReplayLabel" type="Label" parent="G2OperationsPanel" unique_id=45727514]
+layout_mode = 0
+offset_top = 582.0
+offset_right = 212.0
+offset_bottom = 610.0
+text = "复盘记录：等待存档或月结。"
+autowrap_mode = 3
+clip_text = true
+
+[node name="BusinessIntentController" type="Node" parent="." unique_id=1321224658]
+script = ExtResource("17_muem4")
+CapacityPreviewControllerPath = NodePath("../CapacityPreviewController")
+
+[node name="CompanyProgressController" type="Node" parent="." unique_id=86312957]
+script = ExtResource("18_dp3eg")
+
+[node name="LocalSaveController" type="Node" parent="." unique_id=1243000785]
+script = ExtResource("19_0ld40")

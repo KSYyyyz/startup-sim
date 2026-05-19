@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using StartupSim.Core.Contracts;
 
@@ -20,6 +21,7 @@ public partial class TurnResultSnapshot : Resource
     [Export] public int Valuation { get; set; }
     [Export] public string ChangedMetricsText { get; set; } = string.Empty;
     [Export] public string ReplayBasisText { get; set; } = string.Empty;
+    [Export] public string BusinessFactsText { get; set; } = string.Empty;
     [Export] public string NextPressure { get; set; } = string.Empty;
 
     public static TurnResultSnapshot FromTurnResult(TurnResult result)
@@ -41,6 +43,9 @@ public partial class TurnResultSnapshot : Resource
             Valuation = DecimalToInt(metrics.Valuation),
             ChangedMetricsText = string.Join("\n", result.ChangedMetrics),
             ReplayBasisText = string.Join("\n", result.ReplayBasis),
+            BusinessFactsText = string.Join(
+                "\n",
+                result.BusinessFacts.Select(fact => $"{fact.Title}：{fact.Description}")),
             NextPressure = result.NextPressure
         };
     }

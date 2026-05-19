@@ -23,11 +23,16 @@ public partial class G2OperationsPanelController : Control
     [Export] public NodePath CapacityPreviewControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath TimeProgressControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath MonthlyReportControllerPath { get; set; } = new NodePath("");
+    [Export] public NodePath BusinessIntentControllerPath { get; set; } = new NodePath("");
+    [Export] public NodePath CompanyProgressControllerPath { get; set; } = new NodePath("");
+    [Export] public NodePath LocalSaveControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath OfficeGridViewPath { get; set; } = new NodePath("");
     [Export] public NodePath StatusLabelPath { get; set; } = new NodePath("StatusLabel");
     [Export] public NodePath MetricsLabelPath { get; set; } = new NodePath("MetricsLabel");
+    [Export] public NodePath GoalsLabelPath { get; set; } = new NodePath("GoalsLabel");
     [Export] public NodePath CapacityLabelPath { get; set; } = new NodePath("CapacityLabel");
     [Export] public NodePath ReportLabelPath { get; set; } = new NodePath("ReportLabel");
+    [Export] public NodePath ReplayLabelPath { get; set; } = new NodePath("ReplayLabel");
 
     public ZonePaintingController? ZonePaintingController { get; private set; }
     public FacilityPlacementController? FacilityPlacementController { get; private set; }
@@ -35,12 +40,20 @@ public partial class G2OperationsPanelController : Control
     public CapacityPreviewController? CapacityPreviewController { get; private set; }
     public TimeProgressController? TimeProgressController { get; private set; }
     public MonthlyReportController? MonthlyReportController { get; private set; }
+    public BusinessIntentController? BusinessIntentController { get; private set; }
+    public CompanyProgressController? CompanyProgressController { get; private set; }
+    public LocalSaveController? LocalSaveController { get; private set; }
     public OfficeGridView? OfficeGridView { get; private set; }
+
+    private TurnResultSnapshot? lastResult;
+    private BusinessIntentSnapshot? lastIntent;
 
     private Label? StatusLabel => GetNodeOrNull<Label>(StatusLabelPath);
     private Label? MetricsLabel => GetNodeOrNull<Label>(MetricsLabelPath);
+    private Label? GoalsLabel => GetNodeOrNull<Label>(GoalsLabelPath);
     private Label? CapacityLabel => GetNodeOrNull<Label>(CapacityLabelPath);
     private Label? ReportLabel => GetNodeOrNull<Label>(ReportLabelPath);
+    private Label? ReplayLabel => GetNodeOrNull<Label>(ReplayLabelPath);
 
     public override void _Ready()
     {
@@ -53,6 +66,11 @@ public partial class G2OperationsPanelController : Control
             CapacityPreviewControllerPath);
         TimeProgressController = GetNodeOrNull<TimeProgressController>(TimeProgressControllerPath);
         MonthlyReportController = GetNodeOrNull<MonthlyReportController>(MonthlyReportControllerPath);
+        BusinessIntentController = GetNodeOrNull<BusinessIntentController>(
+            BusinessIntentControllerPath);
+        CompanyProgressController = GetNodeOrNull<CompanyProgressController>(
+            CompanyProgressControllerPath);
+        LocalSaveController = GetNodeOrNull<LocalSaveController>(LocalSaveControllerPath);
         OfficeGridView = GetNodeOrNull<OfficeGridView>(OfficeGridViewPath);
 
         if (OfficeGridView != null)
@@ -76,7 +94,10 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("TimeButtons/DoubleSpeedButton", SetDoubleSpeed);
         ConnectButton("TimeButtons/TripleSpeedButton", SetTripleSpeed);
         ConnectButton("TimeButtons/AdvanceMonthButton", AdvanceMonth);
+        ConnectButton("MetaButtons/SaveButton", SaveRun);
+        ConnectButton("MetaButtons/LoadButton", LoadRun);
         SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 1f);
+        RefreshCompanyProgress();
 
         UpdateStatus("选择区域、设施或员工操作，现金流可支撑时间由 C# Core 月结结果解释。");
     }
@@ -216,18 +237,41 @@ public partial class G2OperationsPanelController : Control
             return;
         }
 
-        var result = TimeProgressController.SubmitMonthSettlement(
-            "推进月份：根据办公室产能继续打磨产品和获取客户。");
+        lastIntent = BusinessIntentController?.BuildCurrentIntent();
+        var result = lastIntent == null || TimeProgressController.TurnBridge == null
+            ? TimeProgressController.SubmitMonthSettlement(
+                "推进月份：根据办公室产能继续打磨产品和获取客户。")
+            : TimeProgressController.TurnBridge.ExecuteBusinessIntent(lastIntent);
         if (result == null)
         {
             UpdateStatus("月度结算失败：C# Core bridge 未就绪。");
             return;
         }
 
+        lastResult = result;
         var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
         SetLabel(MetricsLabel, BuildMetricsText(result));
-        SetLabel(ReportLabel, report);
+        SetLabel(ReportLabel, BuildReportText(result, report));
+        RefreshCompanyProgress();
         UpdateStatus($"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。");
+    }
+
+    public void SaveRun()
+    {
+        lastIntent ??= BusinessIntentController?.BuildCurrentIntent();
+        var saved = LocalSaveController?.SaveCurrentRun(
+            lastResult,
+            lastIntent,
+            CompanyProgressController?.LastGoalSummary ?? string.Empty,
+            MonthlyReportController?.LastReport ?? string.Empty) ?? false;
+        UpdateStatus(saved ? "本地存档已保存。" : "本地存档失败。");
+    }
+
+    public void LoadRun()
+    {
+        var summary = LocalSaveController?.LoadCurrentRun() ?? "本地存档控制器未就绪。";
+        SetLabel(ReplayLabel, summary);
+        UpdateStatus("已读取本地存档复盘。");
     }
 
     private void OnGridCellSelected(int x, int y, string occupantId)
@@ -501,9 +545,18 @@ public partial class G2OperationsPanelController : Control
     private void RefreshCapacity()
     {
         var summary = CapacityPreviewController?.RefreshCapacityPreview() ?? string.Empty;
+        lastIntent = BusinessIntentController?.BuildCurrentIntent();
         SetLabel(CapacityLabel, string.IsNullOrWhiteSpace(summary)
             ? "产能预览：等待区域、设施和员工。"
             : $"产能预览：{summary}");
+        RefreshCompanyProgress();
+    }
+
+    private void RefreshCompanyProgress()
+    {
+        var summary = CompanyProgressController?.RefreshProgress(lastResult, lastIntent)
+            ?? "公司目标：等待目标数据。";
+        SetLabel(GoalsLabel, summary);
     }
 
     private void ConnectButton(string path, Action action)
@@ -556,6 +609,16 @@ public partial class G2OperationsPanelController : Control
             $"MRR：{result.MonthlyRecurringRevenue}",
             $"用户：{result.Users}",
             $"产品：{result.ProductScore}");
+    }
+
+    private static string BuildReportText(TurnResultSnapshot result, string report)
+    {
+        if (string.IsNullOrWhiteSpace(result.BusinessFactsText))
+        {
+            return report;
+        }
+
+        return $"{report}\n{result.BusinessFactsText}";
     }
 
     private static string BuildCashSupportTimeText(TurnResultSnapshot result)

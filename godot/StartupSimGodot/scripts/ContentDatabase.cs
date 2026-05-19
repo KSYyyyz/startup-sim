@@ -19,6 +19,10 @@ public sealed class ContentDatabase
     public IReadOnlyList<ContentItem> EmployeeGrowthTracks { get; private set; } = new List<ContentItem>();
     public IReadOnlyList<ContentItem> EmployeeTrainingActions { get; private set; } =
         new List<ContentItem>();
+    public IReadOnlyList<ContentItem> CompanyGoals { get; private set; } = new List<ContentItem>();
+    public IReadOnlyList<ContentItem> RevenueTargets { get; private set; } = new List<ContentItem>();
+    public IReadOnlyList<ContentItem> Achievements { get; private set; } = new List<ContentItem>();
+    public IReadOnlyList<ContentItem> DerivedActions { get; private set; } = new List<ContentItem>();
 
     public void LoadAll()
     {
@@ -30,6 +34,10 @@ public sealed class ContentDatabase
         EmployeeSkills = LoadItems("employees/employee_skills.json");
         EmployeeGrowthTracks = LoadItems("employees/employee_growth_tracks.json");
         EmployeeTrainingActions = LoadItems("employees/employee_training_actions.json");
+        CompanyGoals = LoadItems("company/company_goals.json");
+        RevenueTargets = LoadItems("company/revenue_targets.json");
+        Achievements = LoadItems("company/achievements.json");
+        DerivedActions = LoadItems("actions/derived_actions.json");
     }
 
     private static IReadOnlyList<ContentItem> LoadItems(string relativePath)

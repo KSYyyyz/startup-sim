@@ -41,6 +41,127 @@ namespace StartupSim.Core.Engines
             return result;
         }
 
+        public TurnResult ExecuteBusinessIntent(GameState currentState, BusinessIntentSnapshot intent)
+        {
+            if (currentState == null)
+            {
+                throw new ArgumentNullException(nameof(currentState));
+            }
+
+            intent = intent ?? new BusinessIntentSnapshot();
+            var next = currentState.Clone();
+            var startingMonthlyBurn = Math.Max(next.Metrics.MonthlyBurn, intent.MonthlyFixedCost);
+            next.Metrics.Month += 1;
+
+            var result = new TurnResult
+            {
+                State = next,
+                NextPressure = "下月继续观察办公室产能是否转化为收入增长。"
+            };
+
+            foreach (var action in BuildActionsFromBusinessIntent(intent))
+            {
+                ApplyAction(next, result, action);
+            }
+
+            if (intent.MonthlyFixedCost > next.Metrics.MonthlyBurn)
+            {
+                next.Metrics.MonthlyBurn = intent.MonthlyFixedCost;
+                result.ChangedMetrics.Add($"办公室固定支出 {intent.MonthlyFixedCost / 10_000m:0}万");
+            }
+
+            ApplyMonthlyOperations(next, result, startingMonthlyBurn);
+            ApplyPostTurnStateChecks(next, result);
+            BuildBusinessFacts(next, result, intent);
+
+            if (result.ChangedMetrics.Count == 0)
+            {
+                result.ReplayBasis.Add("本月办公室产能保持观察，尚未形成强变化。");
+                result.ChangedMetrics.Add("现金 稳定");
+            }
+
+            return result;
+        }
+
+        private static PlayerAction[] BuildActionsFromBusinessIntent(BusinessIntentSnapshot intent)
+        {
+            var actions = new System.Collections.Generic.List<PlayerAction>();
+            if (intent.ProductFocus > 0m)
+            {
+                actions.Add(new PlayerAction
+                {
+                    Type = ActionType.Product,
+                    Intent = "办公室研发产能转化为产品推进",
+                    Budget = intent.ProductFocus * 10_000m,
+                    RiskLevel = RiskLevel.Medium
+                });
+            }
+
+            if (intent.SalesFocus > 0m)
+            {
+                actions.Add(new PlayerAction
+                {
+                    Type = ActionType.Marketing,
+                    Intent = "办公室销售产能转化为获客增长",
+                    Budget = intent.SalesFocus * 8_000m,
+                    RiskLevel = RiskLevel.Medium
+                });
+            }
+
+            if (intent.StabilityFocus + intent.OrganizationFocus > 0m)
+            {
+                actions.Add(new PlayerAction
+                {
+                    Type = ActionType.Strategy,
+                    Intent = "办公室稳定性转化为经营韧性",
+                    Budget = (intent.StabilityFocus + intent.OrganizationFocus) * 4_000m,
+                    RiskLevel = RiskLevel.Low
+                });
+            }
+
+            return actions.ToArray();
+        }
+
+        private static void BuildBusinessFacts(
+            GameState state,
+            TurnResult result,
+            BusinessIntentSnapshot intent)
+        {
+            result.BusinessFacts.Add(new BusinessFactSnapshot
+            {
+                FactType = "office_intent",
+                Title = "办公室产能已进入经营结算",
+                Description = string.IsNullOrWhiteSpace(intent.SourceSummary)
+                    ? "本月根据办公室区域、设施和员工状态生成经营意图。"
+                    : intent.SourceSummary,
+                Severity = "info"
+            });
+
+            result.BusinessFacts.Add(new BusinessFactSnapshot
+            {
+                FactType = "cash",
+                Title = "现金流可支撑时间",
+                Description = state.Metrics.MonthlyBurn <= 0m
+                    ? "当前没有固定消耗压力。"
+                    : $"{state.Metrics.Cash / state.Metrics.MonthlyBurn:0.0} 个月",
+                Severity = state.Metrics.MonthlyBurn > 0m
+                    && state.Metrics.Cash / state.Metrics.MonthlyBurn < 3m
+                        ? "warning"
+                        : "info"
+            });
+
+            if (state.Metrics.MonthlyRecurringRevenue > 0m)
+            {
+                result.BusinessFacts.Add(new BusinessFactSnapshot
+                {
+                    FactType = "revenue",
+                    Title = "收入闭环",
+                    Description = $"月经常收入达到 {state.Metrics.MonthlyRecurringRevenue / 10_000m:0} 万。",
+                    Severity = "positive"
+                });
+            }
+        }
+
         private static void ApplyMonthlyOperations(GameState state, TurnResult result, decimal monthlyBurn)
         {
             if (monthlyBurn > 0m)

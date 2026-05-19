@@ -70,6 +70,29 @@ CONTENT_FILES: dict[str, tuple[Path, set[str]]] = {
             "effects",
         },
     ),
+    "company_goals": (
+        DATA / "company" / "company_goals.json",
+        {"id", "display_name", "description", "metric", "target_value", "stage", "reward_hint"},
+    ),
+    "revenue_targets": (
+        DATA / "company" / "revenue_targets.json",
+        {
+            "id",
+            "display_name",
+            "description",
+            "monthly_recurring_revenue",
+            "cash_support_months",
+            "stage",
+        },
+    ),
+    "achievements": (
+        DATA / "company" / "achievements.json",
+        {"id", "display_name", "description", "trigger_metric", "threshold", "story_tag"},
+    ),
+    "derived_actions": (
+        DATA / "actions" / "derived_actions.json",
+        {"id", "display_name", "description", "action_type", "budget_scale", "source_capacity"},
+    ),
 }
 
 
@@ -97,8 +120,10 @@ def load_bundle(path: Path, required_fields: set[str]) -> dict[str, Any]:
     except json.JSONDecodeError as exc:
         raise ValueError(f"JSON 格式错误: {path.relative_to(ROOT)}: {exc}") from exc
 
-    if data.get("schema_version") != "godot-content.g1":
-        raise ValueError(f"{path.relative_to(ROOT)} 缺少 schema_version=godot-content.g1")
+    if data.get("schema_version") not in {"godot-content.g1", "godot-content.g2"}:
+        raise ValueError(
+            f"{path.relative_to(ROOT)} 缺少 schema_version=godot-content.g1/godot-content.g2"
+        )
 
     items = data.get("items")
     if not isinstance(items, list) or not items:
@@ -160,6 +185,25 @@ def validate_references(bundles: dict[str, dict[str, Any]]) -> None:
         require_known_values(training_action, "target_skill_ids", skill_ids)
         if training_action["duration_days"] <= 0 or training_action["cost"] <= 0:
             raise ValueError(f"{training_action['id']} 培训时间和成本必须大于 0")
+
+    for goal in bundles["company_goals"]["items"]:
+        if goal["target_value"] <= 0:
+            raise ValueError(f"{goal['id']} 目标值必须大于 0")
+
+    for target in bundles["revenue_targets"]["items"]:
+        if target["monthly_recurring_revenue"] <= 0 or target["cash_support_months"] <= 0:
+            raise ValueError(f"{target['id']} 收入和现金流目标必须大于 0")
+
+    for achievement in bundles["achievements"]["items"]:
+        if achievement["threshold"] <= 0:
+            raise ValueError(f"{achievement['id']} 成就阈值必须大于 0")
+
+    allowed_action_types = {"product", "marketing", "team", "strategy", "fundraising"}
+    for derived_action in bundles["derived_actions"]["items"]:
+        if derived_action["action_type"] not in allowed_action_types:
+            raise ValueError(f"{derived_action['id']} action_type 无效")
+        if derived_action["budget_scale"] <= 0:
+            raise ValueError(f"{derived_action['id']} budget_scale 必须大于 0")
 
 
 def collect_ids(bundle: dict[str, Any]) -> set[str]:
