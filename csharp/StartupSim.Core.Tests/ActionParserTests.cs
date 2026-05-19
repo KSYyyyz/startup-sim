@@ -45,6 +45,19 @@ public sealed class ActionParserTests
     }
 
     [Fact]
+    public void ParseMultiRecognizesCostControlActions()
+    {
+        var plan = ActionParser.ParseMulti("出售设施节流20万，融资60万出让8%");
+
+        Assert.Equal(2, plan.Actions.Count);
+        Assert.Equal(ActionType.CostControl, plan.Actions[0].Type);
+        Assert.Equal("出售设施节流20万", plan.Actions[0].Intent);
+        Assert.Equal(200_000m, plan.Actions[0].Budget);
+        Assert.Equal(RiskLevel.Low, plan.Actions[0].RiskLevel);
+        Assert.Equal(ActionType.Fundraising, plan.Actions[1].Type);
+    }
+
+    [Fact]
     public void ParseMultiDetectsRiskCuesPerClause()
     {
         var plan = ActionParser.ParseMulti("小规模花5万研发产品，激进投放30万广告");

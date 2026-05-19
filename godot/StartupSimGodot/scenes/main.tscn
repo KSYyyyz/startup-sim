@@ -77,6 +77,7 @@ ZonePaintingControllerPath = NodePath("../ZonePaintingController")
 script = ExtResource("7")
 TurnBridgePath = NodePath("../GodotTurnBridge")
 EmployeeManagementControllerPath = NodePath("../EmployeeManagementController")
+SpeedMultiplier = 0.0
 
 [node name="MonthlyReportController" type="Node" parent="." unique_id=1443830916]
 script = ExtResource("9")
@@ -219,7 +220,7 @@ text = "机柜"
 layout_mode = 0
 offset_left = 574.0
 offset_top = 14.0
-offset_right = 876.0
+offset_right = 784.0
 offset_bottom = 50.0
 
 [node name="HireProductButton" type="Button" parent="G2OperationsPanel/BottomActionDock/EmployeeTools" unique_id=369488227]
@@ -238,11 +239,30 @@ text = "招运维"
 layout_mode = 2
 text = "训练"
 
+[node name="CrisisTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=936854211]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 14.0
+offset_right = 982.0
+offset_bottom = 50.0
+
+[node name="SellFacilityButton" type="Button" parent="G2OperationsPanel/BottomActionDock/CrisisTools" unique_id=1449203623]
+layout_mode = 2
+text = "出售"
+
+[node name="ReduceCostButton" type="Button" parent="G2OperationsPanel/BottomActionDock/CrisisTools" unique_id=2016045151]
+layout_mode = 2
+text = "节流"
+
+[node name="BridgeFundingButton" type="Button" parent="G2OperationsPanel/BottomActionDock/CrisisTools" unique_id=1026122350]
+layout_mode = 2
+text = "融资"
+
 [node name="MetaTools" type="HBoxContainer" parent="G2OperationsPanel/BottomActionDock" unique_id=249058179]
 layout_mode = 0
-offset_left = 910.0
+offset_left = 1000.0
 offset_top = 14.0
-offset_right = 1060.0
+offset_right = 1132.0
 offset_bottom = 50.0
 
 [node name="SaveButton" type="Button" parent="G2OperationsPanel/BottomActionDock/MetaTools" unique_id=35149053]

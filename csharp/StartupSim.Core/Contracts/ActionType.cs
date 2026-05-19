@@ -6,6 +6,7 @@ namespace StartupSim.Core.Contracts
         Marketing,
         Fundraising,
         Team,
-        Strategy
+        Strategy,
+        CostControl
     }
 }

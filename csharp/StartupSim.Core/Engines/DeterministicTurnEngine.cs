@@ -29,7 +29,7 @@ namespace StartupSim.Core.Engines
                 ApplyAction(next, result, action);
             }
 
-            ApplyMonthlyOperations(next, result, startingMonthlyBurn);
+            ApplyMonthlyOperations(next, result, CurrentTurnBurn(startingMonthlyBurn, next));
             ApplyPostTurnStateChecks(next, result);
 
             if (result.ChangedMetrics.Count == 0)
@@ -70,7 +70,7 @@ namespace StartupSim.Core.Engines
                 result.ChangedMetrics.Add($"办公室固定支出 {intent.MonthlyFixedCost / 10_000m:0}万");
             }
 
-            ApplyMonthlyOperations(next, result, startingMonthlyBurn);
+            ApplyMonthlyOperations(next, result, CurrentTurnBurn(startingMonthlyBurn, next));
             ApplyPostTurnStateChecks(next, result);
             BuildBusinessFacts(next, result, intent);
 
@@ -179,6 +179,11 @@ namespace StartupSim.Core.Engines
             }
         }
 
+        private static decimal CurrentTurnBurn(decimal startingMonthlyBurn, GameState state)
+        {
+            return Math.Min(startingMonthlyBurn, Math.Max(0m, state.Metrics.MonthlyBurn));
+        }
+
         private static void ApplyPostTurnStateChecks(GameState state, TurnResult result)
         {
             if (state.Metrics.Cash >= 0m)
@@ -211,6 +216,9 @@ namespace StartupSim.Core.Engines
                     break;
                 case ActionType.Fundraising:
                     ApplyFundraisingAction(state, result, action);
+                    break;
+                case ActionType.CostControl:
+                    ApplyCostControlAction(state, result, action);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action.Type, null);
@@ -293,6 +301,33 @@ namespace StartupSim.Core.Engines
             result.ChangedMetrics.Add($"创始人股权 -{action.EquityOffered:0}%");
             result.ChangedMetrics.Add($"估值 {state.Metrics.Valuation / 10_000m:0}万");
             result.NextPressure = "现金更充足了，但需要把融资换成可验证的业务进展。";
+        }
+
+        private static void ApplyCostControlAction(GameState state, TurnResult result, PlayerAction action)
+        {
+            var budgetSignal = action.Budget > 0m ? action.Budget : 100_000m;
+            var burnReduction = Math.Min(
+                state.Metrics.MonthlyBurn,
+                Math.Max(20_000m, Math.Floor(budgetSignal * 0.3m)));
+            var saleRecovery = action.Intent.Contains("出售", StringComparison.Ordinal)
+                || action.Intent.Contains("卖", StringComparison.Ordinal)
+                    ? Math.Floor(budgetSignal * 0.2m)
+                    : 0m;
+
+            state.Metrics.MonthlyBurn = Math.Max(0m, state.Metrics.MonthlyBurn - burnReduction);
+            state.Metrics.Cash += saleRecovery;
+            state.Metrics.TeamMorale = Math.Max(0, state.Metrics.TeamMorale - 4);
+
+            result.ReplayBasis.Add("节流降低了固定消耗");
+            result.ReplayBasis.Add("团队士气因节流承压。");
+            result.ChangedMetrics.Add($"固定支出 -{burnReduction / 10_000m:0}万");
+            if (saleRecovery > 0m)
+            {
+                result.ChangedMetrics.Add($"出售设施回收现金 +{saleRecovery / 10_000m:0}万");
+            }
+
+            result.ChangedMetrics.Add("士气 -4");
+            result.NextPressure = "现金流可支撑时间改善了，但要避免节流压垮增长能力。";
         }
     }
 }

@@ -160,6 +160,32 @@ public sealed class DeterministicTurnEngineTests
     }
 
     [Fact]
+    public void CostControlReducesMonthlyBurnAndCanRecoverCashFromSoldFacilities()
+    {
+        var engine = new DeterministicTurnEngine();
+        var initial = new GameState
+        {
+            Metrics = new GameMetrics
+            {
+                Month = 1,
+                Cash = 300_000m,
+                MonthlyBurn = 180_000m,
+                TeamMorale = 70
+            }
+        };
+
+        var result = engine.Execute(initial, new TurnCommand { RawText = "出售设施节流20万" });
+
+        Assert.Equal(2, result.State.Metrics.Month);
+        Assert.Equal(220_000m, result.State.Metrics.Cash);
+        Assert.Equal(120_000m, result.State.Metrics.MonthlyBurn);
+        Assert.Equal(66, result.State.Metrics.TeamMorale);
+        Assert.Contains("出售设施回收现金 +4万", result.ChangedMetrics);
+        Assert.Contains("固定支出 -6万", result.ChangedMetrics);
+        Assert.Contains("节流降低了固定消耗", result.ReplayBasis);
+    }
+
+    [Fact]
     public void MultiActionTurnAggregatesAllParsedActions()
     {
         var engine = new DeterministicTurnEngine();

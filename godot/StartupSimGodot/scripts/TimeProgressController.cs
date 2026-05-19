@@ -19,7 +19,7 @@ public partial class TimeProgressController : Node
 
     [Export] public NodePath TurnBridgePath { get; set; } = new NodePath("");
     [Export] public NodePath EmployeeManagementControllerPath { get; set; } = new NodePath("");
-    [Export] public float SpeedMultiplier { get; set; } = 1f;
+    [Export] public float SpeedMultiplier { get; set; } = 0f;
     [Export] public float GameHoursPerRealSecond { get; set; } = 24f;
     [Export] public int MonthIndex { get; set; } = 1;
 
@@ -100,6 +100,12 @@ public partial class TimeProgressController : Node
         MonthIndex = result.Month;
         EmitSignal(SignalName.MonthSettled, result);
         return result;
+    }
+
+    public void SyncExternalSettlement(TurnResultSnapshot result)
+    {
+        MonthIndex = result.Month;
+        EmitSignal(SignalName.MonthSettled, result);
     }
 
     public TurnResultSnapshot? SubmitBusinessIntent(BusinessIntentSnapshot intent)

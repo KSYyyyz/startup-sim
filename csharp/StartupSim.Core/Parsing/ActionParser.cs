@@ -37,6 +37,10 @@ namespace StartupSim.Core.Parsing
                 ActionType.Strategy,
                 RiskLevel.High),
             new KeywordRule(
+                new[] { "节流", "降本", "削减", "出售设施", "卖设施", "缩减", "成本控制", "cost control" },
+                ActionType.CostControl,
+                RiskLevel.Low),
+            new KeywordRule(
                 new[] { "降价", "投放", "广告", "营销", "推广", "获客", "市场", "增长", "seo", "sem", "marketing", "ads", "广告投放", "种子客户", "种子用户" },
                 ActionType.Marketing,
                 RiskLevel.Medium),
@@ -161,7 +165,9 @@ namespace StartupSim.Core.Parsing
                 ? RiskLevel.Low
                 : actionType == ActionType.Strategy
                     ? RiskLevel.High
-                    : RiskLevel.Medium;
+                    : actionType == ActionType.CostControl
+                        ? RiskLevel.Low
+                        : RiskLevel.Medium;
         }
 
         private static decimal ExtractBudgetPerSegment(string text)

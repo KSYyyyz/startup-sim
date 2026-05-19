@@ -610,6 +610,67 @@ def test_godot_speed_buttons_show_persistent_selected_state():
     assert ".ButtonPressed = speedMultiplier" in panel_script
 
 
+def test_godot_endgame_loop_starts_paused_and_stops_on_terminal_month():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    time_script = (SCRIPTS / "TimeProgressController.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "SpeedMultiplier = 0.0" in scene
+    assert "public float SpeedMultiplier { get; set; } = 0f;" in time_script
+    assert "IsEndgameResult(result)" in panel_script
+    assert "ShowEndingReview(result)" in panel_script
+    assert "TimeProgressController?.SetPaused();" in panel_script
+    assert "第 12 月" in panel_script
+    assert "现金耗尽" in panel_script
+
+
+def test_godot_crisis_actions_are_mounted_and_use_core_bridge():
+    scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    for node_name in ["SellFacilityButton", "ReduceCostButton", "BridgeFundingButton"]:
+        assert node_name in scene
+
+    assert (
+        'ConnectButton("BottomActionDock/CrisisTools/SellFacilityButton", SellSelectedFacility)'
+        in panel_script
+    )
+    assert (
+        'ConnectButton("BottomActionDock/CrisisTools/ReduceCostButton", ReduceFixedCost)'
+        in panel_script
+    )
+    assert (
+        'ConnectButton("BottomActionDock/CrisisTools/BridgeFundingButton", SeekBridgeFunding)'
+        in panel_script
+    )
+    assert "融资60万出让8%" in panel_script
+    assert "TurnBridge.ExecuteCommand" in panel_script
+    assert "现金流可支撑时间" in panel_script
+
+
+def test_godot_facility_failure_feedback_explains_real_invalid_reason():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    placement_script = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")
+
+    assert "GetSelectedFacilityPlacementFailure" in placement_script
+    assert "需要 1x2 连续服务器区" in panel_script
+    assert "格子已被其他设施占用" in placement_script
+    assert "当前房间类型不匹配" in placement_script
+    assert "设施占地超出当前房间" in placement_script
+
+
+def test_godot_room_context_shows_bottleneck_and_next_action():
+    progress_script = (SCRIPTS / "CompanyProgressController.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "阶段目标：" in progress_script
+    assert "瓶颈：" in progress_script
+    assert "下一步：" in progress_script
+    assert "BuildRoomAdvice" in panel_script
+    assert "房间产出" in panel_script
+    assert "推荐操作" in panel_script
+
+
 def test_godot_time_loop_drives_monthly_business_settlement():
     controller = (SCRIPTS / "TimeProgressController.cs").read_text(encoding="utf-8")
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")

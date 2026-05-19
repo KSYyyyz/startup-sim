@@ -40,12 +40,18 @@ public partial class CompanyProgressController : Node
         }
 
         var progress = result == null
-            ? "进度待月结"
-            : $"产品{result.ProductScore} 用户{result.Users} MRR{result.MonthlyRecurringRevenue}";
+            ? "进度：等待第一轮月结"
+            : $"进度：产品{result.ProductScore} 用户{result.Users} MRR{result.MonthlyRecurringRevenue}";
         var support = result == null
-            ? "现金流可支撑时间待月结"
-            : $"现金流可支撑时间{BuildCashSupportTimeText(result)}";
-        return $"目标：{goal.DisplayName}\n{progress} / {support}";
+            ? "现金流可支撑时间：等待月结"
+            : $"现金流可支撑时间：{BuildCashSupportTimeText(result)}";
+        return string.Join(
+            "\n",
+            $"阶段目标：{goal.DisplayName}",
+            progress,
+            support,
+            $"瓶颈：{BuildBottleneckText(result)}",
+            $"下一步：{BuildNextActionText(result, intent)}");
     }
 
     public string BuildAchievementSummary(TurnResultSnapshot? result, BusinessIntentSnapshot? intent)
@@ -78,5 +84,59 @@ public partial class CompanyProgressController : Node
         }
 
         return $"{(float)result.Cash / result.MonthlyBurn:0.0} 个月";
+    }
+
+    private static string BuildBottleneckText(TurnResultSnapshot? result)
+    {
+        if (result == null)
+        {
+            return "等待办公室产能进入月结";
+        }
+
+        if (result.MonthlyBurn > 0 && result.Cash / result.MonthlyBurn < 2m)
+        {
+            return "现金流可支撑时间过短";
+        }
+
+        if (result.ProductScore < 80)
+        {
+            return "产品能力还不足以支撑稳定增长";
+        }
+
+        if (result.Users < 60 || result.MonthlyRecurringRevenue < 30_000m)
+        {
+            return "客户和收入验证不足";
+        }
+
+        return "准备第 12 月结局复盘";
+    }
+
+    private static string BuildNextActionText(
+        TurnResultSnapshot? result,
+        BusinessIntentSnapshot? intent)
+    {
+        if (result == null)
+        {
+            return intent == null
+                ? "先划分研发区、销售区和服务器区"
+                : "推进一次月结验证办公室配置";
+        }
+
+        if (result.MonthlyBurn > 0 && result.Cash / result.MonthlyBurn < 2m)
+        {
+            return "节流、出售设施或临时融资";
+        }
+
+        if (result.ProductScore < 80)
+        {
+            return "扩研发区、摆白板、训练研发";
+        }
+
+        if (result.Users < 60 || result.MonthlyRecurringRevenue < 30_000m)
+        {
+            return "扩销售区、招销售、观察 MRR";
+        }
+
+        return "稳住现金流并推进到第 12 月";
     }
 }

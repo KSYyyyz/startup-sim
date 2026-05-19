@@ -76,16 +76,40 @@ public partial class FacilityPlacementController : Node
             return false;
         }
 
+        return string.IsNullOrWhiteSpace(GetSelectedFacilityPlacementFailure(zoneId, x, y));
+    }
+
+    public string GetSelectedFacilityPlacementFailure(string zoneId, int x, int y)
+    {
+        if (ZoneController == null)
+        {
+            return "设施控制器未就绪。";
+        }
+
+        if (!facilityDefinitions.TryGetValue(SelectedFacilityTypeId, out var definition))
+        {
+            return "设施定义缺失。";
+        }
+
         var zone = ZoneController.Layout.Zones.FirstOrDefault(item => item.Id == zoneId);
         if (zone == null || !definition.AllowedZoneTypeIds.Contains(zone.ZoneTypeId))
         {
-            return false;
+            return "当前房间类型不匹配。";
         }
 
         var rect = new OfficeRect(x, y, definition.Width, definition.Height);
         var cells = rect.Cells().ToArray();
-        return cells.Length > 0
-            && cells.All(cell => ZoneContains(zone, cell) && !FacilityOccupies(cell));
+        if (cells.Length == 0 || cells.Any(cell => !ZoneContains(zone, cell)))
+        {
+            return "设施占地超出当前房间。";
+        }
+
+        if (cells.Any(FacilityOccupies))
+        {
+            return "格子已被其他设施占用。";
+        }
+
+        return string.Empty;
     }
 
     public bool UpgradeFacility(string facilityId)

@@ -137,6 +137,7 @@ public sealed class GoldenCaseTests
             ActionType.Fundraising => "fundraising",
             ActionType.Team => "team",
             ActionType.Strategy => "strategy",
+            ActionType.CostControl => "cost_control",
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }

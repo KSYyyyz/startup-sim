@@ -17,6 +17,7 @@ public partial class G2OperationsPanelController : Control
     private bool hasZoneStart;
     private int zoneStartX;
     private int zoneStartY;
+    private bool endgameReached;
 
     [Export] public NodePath ZonePaintingControllerPath { get; set; } = new NodePath("");
     [Export] public NodePath FacilityPlacementControllerPath { get; set; } = new NodePath("");
@@ -58,6 +59,7 @@ public partial class G2OperationsPanelController : Control
     private Label? ContextLabel => GetNodeOrNull<Label>(ContextLabelPath);
     private Label? ReportLabel => GetNodeOrNull<Label>(ReportLabelPath);
     private Label? ReplayLabel => GetNodeOrNull<Label>(ReplayLabelPath);
+    private Label? ReportTitle => GetNodeOrNull<Label>(new NodePath("MonthlyReportModal/ReportTitle"));
 
     public override void _Ready()
     {
@@ -93,6 +95,9 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("BottomActionDock/EmployeeTools/HireSalesButton", HireSalesEmployee);
         ConnectButton("BottomActionDock/EmployeeTools/HireOpsButton", HireOpsEmployee);
         ConnectButton("BottomActionDock/EmployeeTools/TrainButton", TrainSelectedEmployee);
+        ConnectButton("BottomActionDock/CrisisTools/SellFacilityButton", SellSelectedFacility);
+        ConnectButton("BottomActionDock/CrisisTools/ReduceCostButton", ReduceFixedCost);
+        ConnectButton("BottomActionDock/CrisisTools/BridgeFundingButton", SeekBridgeFunding);
         ConnectButton("TopStatusBar/TimeButtons/PauseButton", SetPaused);
         ConnectButton("TopStatusBar/TimeButtons/NormalSpeedButton", SetNormalSpeed);
         ConnectButton("TopStatusBar/TimeButtons/DoubleSpeedButton", SetDoubleSpeed);
@@ -102,7 +107,7 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("BottomActionDock/MetaTools/LoadButton", LoadRun);
         ConnectButton("FloatingEventFeed/OpenReportButton", ShowMonthlyReport);
         ConnectButton("MonthlyReportModal/ReportCloseButton", HideMonthlyReport);
-        SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 1f);
+        SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 0f);
         SetReportAvailable(false);
         if (TimeProgressController != null)
         {
@@ -112,7 +117,7 @@ public partial class G2OperationsPanelController : Control
         RefreshInitialMetrics();
         RefreshCompanyProgress();
 
-        UpdateStatus("选择区域、设施或员工操作，现金流可支撑时间由 C# Core 月结结果解释。");
+        UpdateStatus("游戏已暂停。先布置办公室，再推进月份；现金流可支撑时间由 C# Core 月结结果解释。");
     }
 
     public void SelectProductZoneTool()
@@ -208,6 +213,21 @@ public partial class G2OperationsPanelController : Control
         UpdateStatus($"{employee.Name} 已训练，短期效率会下降，但长期产能会提升。");
     }
 
+    public void SellSelectedFacility()
+    {
+        ApplyBridgeCommand("出售设施节流20万", "已出售闲置设施并执行节流，");
+    }
+
+    public void ReduceFixedCost()
+    {
+        ApplyBridgeCommand("节流20万", "已执行固定支出削减，");
+    }
+
+    public void SeekBridgeFunding()
+    {
+        ApplyBridgeCommand("融资60万出让8%", "已完成过桥融资，");
+    }
+
     public void SetPaused()
     {
         ClearActiveBuildMode();
@@ -218,6 +238,12 @@ public partial class G2OperationsPanelController : Control
 
     public void SetNormalSpeed()
     {
+        if (endgameReached)
+        {
+            UpdateStatus("结局复盘已触发，无法继续推进。");
+            return;
+        }
+
         ClearActiveBuildMode();
         TimeProgressController?.SetNormalSpeed();
         SetSpeedButtonState(1f);
@@ -226,6 +252,12 @@ public partial class G2OperationsPanelController : Control
 
     public void SetDoubleSpeed()
     {
+        if (endgameReached)
+        {
+            UpdateStatus("结局复盘已触发，无法继续推进。");
+            return;
+        }
+
         ClearActiveBuildMode();
         TimeProgressController?.SetDoubleSpeed();
         SetSpeedButtonState(2f);
@@ -234,6 +266,12 @@ public partial class G2OperationsPanelController : Control
 
     public void SetTripleSpeed()
     {
+        if (endgameReached)
+        {
+            UpdateStatus("结局复盘已触发，无法继续推进。");
+            return;
+        }
+
         ClearActiveBuildMode();
         TimeProgressController?.SetTripleSpeed();
         SetSpeedButtonState(3f);
@@ -242,6 +280,12 @@ public partial class G2OperationsPanelController : Control
 
     public void AdvanceMonth()
     {
+        if (endgameReached)
+        {
+            UpdateStatus("结局复盘已触发，无法继续推进。");
+            return;
+        }
+
         SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true);
     }
 
@@ -274,6 +318,34 @@ public partial class G2OperationsPanelController : Control
     {
         SetNodeVisible("MonthlyReportModal", false);
         SetReportButtonVisible(reportAvailable);
+    }
+
+    private void ApplyBridgeCommand(string command, string statusPrefix)
+    {
+        ClearActiveBuildMode();
+        if (TimeProgressController?.TurnBridge == null)
+        {
+            UpdateStatus("危机操作失败：C# Core bridge 未就绪。");
+            return;
+        }
+
+        var result = TimeProgressController.TurnBridge.ExecuteCommand(command);
+        TimeProgressController.SyncExternalSettlement(result);
+        lastResult = result;
+        lastIntent = BusinessIntentController?.BuildCurrentIntent();
+        var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
+        SetLabel(ReportTitle, "月度经营报告");
+        SetLabel(MetricsLabel, BuildMetricsText(result));
+        SetLabel(ReportLabel, BuildReportText(result, report));
+        SetReportAvailable(true);
+        RefreshCompanyProgress();
+        if (IsEndgameResult(result))
+        {
+            ShowEndingReview(result);
+            return;
+        }
+
+        UpdateStatus($"{statusPrefix}现金流可支撑时间：{BuildCashSupportTimeText(result)}。");
     }
 
     private void OnGridCellSelected(int x, int y, string occupantId)
@@ -317,10 +389,11 @@ public partial class G2OperationsPanelController : Control
         var zoneText = zone == null ? "未划分房间" : zone.DisplayName;
         var facilityText = facility == null ? "无设施" : FacilityDisplayName(facility.FacilityTypeId);
         var occupantText = string.IsNullOrWhiteSpace(occupantId) ? "空闲格" : occupantId;
+        var advice = BuildRoomAdvice(zone, facility, occupantText);
 
         SetLabel(
             ContextLabel,
-            $"选中：({x}, {y}) / {zoneText}\n内容：{occupantText} / {facilityText}");
+            $"选中：({x}, {y}) / {zoneText}\n内容：{occupantText} / {facilityText}\n{advice}");
     }
 
     private void UpdateBuildPreview(int x, int y)
@@ -437,7 +510,9 @@ public partial class G2OperationsPanelController : Control
         var zone = FindZoneAt(x, y);
         if (zone == null)
         {
-            UpdateStatus("请在已划分区域内摆放设施。");
+            UpdateStatus(FacilityPlacementController.SelectedFacilityTypeId == "starter_server_rack"
+                ? "请在已划分服务器区内摆放设施，需要 1x2 连续服务器区。"
+                : "请在已划分区域内摆放设施。");
             return;
         }
 
@@ -445,7 +520,9 @@ public partial class G2OperationsPanelController : Control
         if (string.IsNullOrWhiteSpace(facilityId))
         {
             var requiredZone = RequiredZoneText(FacilityPlacementController.SelectedFacilityTypeId);
-            UpdateStatus($"设施摆放失败：当前设施只能放在{requiredZone}。");
+            var failure = FacilityPlacementController.GetSelectedFacilityPlacementFailure(zone.Id, x, y);
+            UpdateStatus(
+                $"设施摆放失败：{BuildFacilityFailureMessage(failure, FacilityPlacementController.SelectedFacilityTypeId, requiredZone)}");
             return;
         }
 
@@ -597,6 +674,11 @@ public partial class G2OperationsPanelController : Control
 
     private void OnMonthReady(int monthIndex)
     {
+        if (endgameReached)
+        {
+            return;
+        }
+
         SettleMonthFromCurrentIntent(clearBuildMode: false, showReport: false);
     }
 
@@ -626,6 +708,7 @@ public partial class G2OperationsPanelController : Control
 
         lastResult = result;
         var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
+        SetLabel(ReportTitle, "月度经营报告");
         SetLabel(MetricsLabel, BuildMetricsText(result));
         SetLabel(ReportLabel, BuildReportText(result, report));
         SetReportAvailable(true);
@@ -635,9 +718,36 @@ public partial class G2OperationsPanelController : Control
         }
 
         RefreshCompanyProgress();
+        if (IsEndgameResult(result))
+        {
+            ShowEndingReview(result);
+            return;
+        }
+
         UpdateStatus(showReport
             ? $"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。"
             : $"第 {result.Month} 月已结算，点击查看月报。");
+    }
+
+    private bool IsEndgameResult(TurnResultSnapshot result)
+    {
+        return result.Month >= 12
+            || result.Cash <= 0
+            || !string.Equals(result.Status, "active", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void ShowEndingReview(TurnResultSnapshot result)
+    {
+        endgameReached = true;
+        TimeProgressController?.SetPaused();
+        SetSpeedButtonState(0f);
+        SetLabel(ReportTitle, BuildEndingTitle(result));
+        SetLabel(ReportLabel, BuildEndingReportText(result));
+        SetLabel(ReplayLabel, BuildEndingReplayText(result));
+        SetReportAvailable(false);
+        ShowMonthlyReport();
+        RefreshCompanyProgress();
+        UpdateStatus($"第 {result.Month} 月进入结局复盘：{BuildEndingTitle(result)}。");
     }
 
     private void SetSpeedButtonState(float speedMultiplier)
@@ -729,6 +839,45 @@ public partial class G2OperationsPanelController : Control
         return $"{report}\n{result.BusinessFactsText}";
     }
 
+    private static string BuildEndingTitle(TurnResultSnapshot result)
+    {
+        if (result.Cash <= 0 || string.Equals(result.Status, "bankruptcy", StringComparison.OrdinalIgnoreCase))
+        {
+            return "现金耗尽";
+        }
+
+        return result.Month >= 12 ? "第 12 月结局复盘" : "阶段结局复盘";
+    }
+
+    private static string BuildEndingReportText(TurnResultSnapshot result)
+    {
+        var endingName = BuildEndingTitle(result);
+        var businessReadiness = result.ProductScore >= 80
+            && result.Users >= 60
+            && result.MonthlyRecurringRevenue >= 30_000
+            && result.Cash > 0
+                ? "具备下一阶段融资叙事"
+                : "仍缺少稳定商业化证明";
+        return string.Join(
+            "\n",
+            $"结局：{endingName}",
+            $"第 {result.Month} 月复盘，第 12 月是当前版本的标准结算终点。",
+            $"现金流可支撑时间：{BuildCashSupportTimeText(result)}",
+            $"产品：{result.ProductScore} / 用户：{result.Users} / MRR：{result.MonthlyRecurringRevenue}",
+            $"判断：{businessReadiness}",
+            $"压力：{result.NextPressure}");
+    }
+
+    private static string BuildEndingReplayText(TurnResultSnapshot result)
+    {
+        if (!string.IsNullOrWhiteSpace(result.ReplayBasisText))
+        {
+            return $"复盘记录：\n{result.ReplayBasisText}";
+        }
+
+        return "复盘记录：本局缺少可追踪经营动作，下一局优先建立研发、销售和现金流闭环。";
+    }
+
     private static string BuildCashSupportTimeText(TurnResultSnapshot result)
     {
         if (result.MonthlyBurn <= 0)
@@ -760,6 +909,52 @@ public partial class G2OperationsPanelController : Control
             "basic_desk" => "研发区或销售区",
             _ => "匹配区域"
         };
+    }
+
+    private static string BuildFacilityFailureMessage(
+        string failure,
+        string facilityTypeId,
+        string requiredZone)
+    {
+        var reason = string.IsNullOrWhiteSpace(failure)
+            ? $"当前设施只能放在{requiredZone}。"
+            : failure;
+        return facilityTypeId == "starter_server_rack"
+            ? $"{reason}服务器机柜需要 1x2 连续服务器区。"
+            : reason;
+    }
+
+    private static string BuildRoomAdvice(
+        OfficeZone? zone,
+        OfficeFacility? facility,
+        string occupantText)
+    {
+        if (zone == null)
+        {
+            return "房间产出：无\n推荐操作：先从底部工具栏划分研发区、销售区或服务器区";
+        }
+
+        var output = zone.ZoneTypeId switch
+        {
+            "product_zone" => "产品分和研发产能",
+            "sales_zone" => "用户增长和 MRR",
+            "server_zone" => "稳定性和运维余量",
+            _ => "基础办公产能"
+        };
+        var hasFacility = facility != null;
+        var hasOccupant = occupantText != "空闲格";
+        var advice = zone.ZoneTypeId switch
+        {
+            "product_zone" when !hasFacility => "摆放办公桌或产品白板",
+            "product_zone" when !hasOccupant => "招研发员工并训练",
+            "sales_zone" when !hasFacility => "摆放办公桌",
+            "sales_zone" when !hasOccupant => "招销售员工验证收入",
+            "server_zone" when !hasFacility => "摆放服务器机柜，注意需要 1x2 连续服务器区",
+            "server_zone" when !hasOccupant => "招运维员工降低稳定性风险",
+            _ => "继续观察月报瓶颈，再决定扩建或节流"
+        };
+
+        return $"房间产出：{output}\n推荐操作：{advice}";
     }
 
     private static string FacilityDisplayName(string facilityTypeId)

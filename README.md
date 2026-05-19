@@ -162,7 +162,7 @@ Pydantic 强类型 + 规则引擎，所有状态变更必须通过校验：
 ## 🧪 自动化测试
 
 ```bash
-pytest tests/ -v    # 402 passed
+pytest tests/ -v    # 456 passed
 ```
 
 测试覆盖：
@@ -444,4 +444,4 @@ startup-sim/
 
 ---
 
-*体验验证版 Alpha 1.9.1 — 402 tests passed；后续开发以 Godot 表现层和 C# Core 规则迁移为主。*
+*体验验证版 Alpha 1.9.1 — 456 tests passed；后续开发以 Godot 表现层和 C# Core 规则迁移为主。*
