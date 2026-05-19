@@ -522,6 +522,33 @@ def test_godot_speed_buttons_show_persistent_selected_state():
     assert ".ButtonPressed = speedMultiplier" in panel_script
 
 
+def test_godot_time_loop_drives_monthly_business_settlement():
+    controller = (SCRIPTS / "TimeProgressController.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "public override void _Process(double delta)" in controller
+    assert "GameHoursPerRealSecond" in controller
+    assert "AdvanceGameHours((float)delta * GameHoursPerRealSecond)" in controller
+    assert "accumulatedNeedHours" in controller
+    assert "while (accumulatedMonthHours >= HoursPerMonth)" in controller
+    assert "SubmitBusinessIntent(BusinessIntentSnapshot intent)" in controller
+    assert "MonthIndex = result.Month" in controller
+
+    assert "TimeProgressController.MonthReady += OnMonthReady" in panel_script
+    assert "private void OnMonthReady(int monthIndex)" in panel_script
+    assert "SettleMonthFromCurrentIntent(clearBuildMode: false)" in panel_script
+    assert "TimeProgressController.SubmitBusinessIntent(lastIntent)" in panel_script
+
+
+def test_godot_metrics_show_initial_core_state_before_first_month():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "RefreshInitialMetrics()" in panel_script
+    assert "TimeProgressController?.TurnBridge?.CurrentState.Metrics" in panel_script
+    assert "private static string BuildMetricsText(GameMetrics metrics)" in panel_script
+    assert "等待月结" not in panel_script
+
+
 def test_godot_office_grid_uses_low_noise_floor_and_separate_visual_slots():
     grid_script = (SCRIPTS / "OfficeGridView.cs").read_text(encoding="utf-8")
 

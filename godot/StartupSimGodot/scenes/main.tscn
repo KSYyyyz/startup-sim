@@ -132,11 +132,11 @@ layout_mode = 0
 offset_top = 108.0
 offset_right = 304.0
 offset_bottom = 236.0
-text = "现金：等待月结
-现金流可支撑时间：等待月结
-MRR：等待月结
-用户：等待月结
-产品：等待月结"
+text = "现金：1000000
+现金流可支撑时间：8.3 个月
+MRR：0
+用户：0
+产品：20"
 autowrap_mode = 3
 
 [node name="ZoneButtons" type="HBoxContainer" parent="G2OperationsPanel" unique_id=952563871]

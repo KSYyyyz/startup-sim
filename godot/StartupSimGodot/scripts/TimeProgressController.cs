@@ -6,6 +6,7 @@ public partial class TimeProgressController : Node
 {
     private const float HoursPerMonth = 720f;
     private float accumulatedMonthHours;
+    private float accumulatedNeedHours;
 
     [Signal]
     public delegate void TimeSpeedChangedEventHandler(float speedMultiplier);
@@ -19,6 +20,7 @@ public partial class TimeProgressController : Node
     [Export] public NodePath TurnBridgePath { get; set; } = new NodePath("");
     [Export] public NodePath EmployeeManagementControllerPath { get; set; } = new NodePath("");
     [Export] public float SpeedMultiplier { get; set; } = 1f;
+    [Export] public float GameHoursPerRealSecond { get; set; } = 24f;
     [Export] public int MonthIndex { get; set; } = 1;
 
     public GodotTurnBridge? TurnBridge { get; private set; }
@@ -36,6 +38,11 @@ public partial class TimeProgressController : Node
             EmployeeManagement = GetNodeOrNull<EmployeeManagementController>(
                 EmployeeManagementControllerPath);
         }
+    }
+
+    public override void _Process(double delta)
+    {
+        AdvanceGameHours((float)delta * GameHoursPerRealSecond);
     }
 
     public void SetPaused()
@@ -66,15 +73,20 @@ public partial class TimeProgressController : Node
         }
 
         var gameHours = realHours * SpeedMultiplier;
-        EmployeeManagement?.AdvanceEmployeeNeeds((int)gameHours);
-        accumulatedMonthHours += gameHours;
-        if (accumulatedMonthHours < HoursPerMonth)
+        accumulatedNeedHours += gameHours;
+        if (accumulatedNeedHours >= 1f)
         {
-            return;
+            var wholeHours = (int)accumulatedNeedHours;
+            accumulatedNeedHours -= wholeHours;
+            EmployeeManagement?.AdvanceEmployeeNeeds(wholeHours);
         }
 
-        accumulatedMonthHours -= HoursPerMonth;
-        EmitSignal(SignalName.MonthReady, MonthIndex);
+        accumulatedMonthHours += gameHours;
+        while (accumulatedMonthHours >= HoursPerMonth)
+        {
+            accumulatedMonthHours -= HoursPerMonth;
+            EmitSignal(SignalName.MonthReady, MonthIndex);
+        }
     }
 
     public TurnResultSnapshot? SubmitMonthSettlement(string command)
@@ -85,6 +97,19 @@ public partial class TimeProgressController : Node
         }
 
         var result = TurnBridge.ExecuteCommand(command);
+        MonthIndex = result.Month;
+        EmitSignal(SignalName.MonthSettled, result);
+        return result;
+    }
+
+    public TurnResultSnapshot? SubmitBusinessIntent(BusinessIntentSnapshot intent)
+    {
+        if (TurnBridge == null)
+        {
+            return null;
+        }
+
+        var result = TurnBridge.ExecuteBusinessIntent(intent);
         MonthIndex = result.Month;
         EmitSignal(SignalName.MonthSettled, result);
         return result;

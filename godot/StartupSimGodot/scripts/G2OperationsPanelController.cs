@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Godot;
+using StartupSim.Core.Contracts;
 using StartupSim.Core.Office;
 
 namespace StartupSim.Godot;
@@ -97,6 +98,12 @@ public partial class G2OperationsPanelController : Control
         ConnectButton("MetaButtons/SaveButton", SaveRun);
         ConnectButton("MetaButtons/LoadButton", LoadRun);
         SetSpeedButtonState(TimeProgressController?.SpeedMultiplier ?? 1f);
+        if (TimeProgressController != null)
+        {
+            TimeProgressController.MonthReady += OnMonthReady;
+        }
+
+        RefreshInitialMetrics();
         RefreshCompanyProgress();
 
         UpdateStatus("选择区域、设施或员工操作，现金流可支撑时间由 C# Core 月结结果解释。");
@@ -229,31 +236,7 @@ public partial class G2OperationsPanelController : Control
 
     public void AdvanceMonth()
     {
-        ClearActiveBuildMode();
-
-        if (TimeProgressController == null)
-        {
-            UpdateStatus("时间控制器未就绪。");
-            return;
-        }
-
-        lastIntent = BusinessIntentController?.BuildCurrentIntent();
-        var result = lastIntent == null || TimeProgressController.TurnBridge == null
-            ? TimeProgressController.SubmitMonthSettlement(
-                "推进月份：根据办公室产能继续打磨产品和获取客户。")
-            : TimeProgressController.TurnBridge.ExecuteBusinessIntent(lastIntent);
-        if (result == null)
-        {
-            UpdateStatus("月度结算失败：C# Core bridge 未就绪。");
-            return;
-        }
-
-        lastResult = result;
-        var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
-        SetLabel(MetricsLabel, BuildMetricsText(result));
-        SetLabel(ReportLabel, BuildReportText(result, report));
-        RefreshCompanyProgress();
-        UpdateStatus($"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。");
+        SettleMonthFromCurrentIntent(clearBuildMode: true);
     }
 
     public void SaveRun()
@@ -552,6 +535,15 @@ public partial class G2OperationsPanelController : Control
         RefreshCompanyProgress();
     }
 
+    private void RefreshInitialMetrics()
+    {
+        var metrics = TimeProgressController?.TurnBridge?.CurrentState.Metrics;
+        if (metrics != null)
+        {
+            SetLabel(MetricsLabel, BuildMetricsText(metrics));
+        }
+    }
+
     private void RefreshCompanyProgress()
     {
         var summary = CompanyProgressController?.RefreshProgress(lastResult, lastIntent)
@@ -567,6 +559,43 @@ public partial class G2OperationsPanelController : Control
             button.ToggleMode = path.StartsWith("TimeButtons/", StringComparison.Ordinal);
             button.Pressed += action;
         }
+    }
+
+    private void OnMonthReady(int monthIndex)
+    {
+        SettleMonthFromCurrentIntent(clearBuildMode: false);
+    }
+
+    private void SettleMonthFromCurrentIntent(bool clearBuildMode)
+    {
+        if (clearBuildMode)
+        {
+            ClearActiveBuildMode();
+        }
+
+        if (TimeProgressController == null)
+        {
+            UpdateStatus("时间控制器未就绪。");
+            return;
+        }
+
+        lastIntent = BusinessIntentController?.BuildCurrentIntent();
+        var result = lastIntent == null || TimeProgressController.TurnBridge == null
+            ? TimeProgressController.SubmitMonthSettlement(
+                "推进月份：根据办公室产能继续打磨产品和获取客户。")
+            : TimeProgressController.SubmitBusinessIntent(lastIntent);
+        if (result == null)
+        {
+            UpdateStatus("月度结算失败：C# Core bridge 未就绪。");
+            return;
+        }
+
+        lastResult = result;
+        var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
+        SetLabel(MetricsLabel, BuildMetricsText(result));
+        SetLabel(ReportLabel, BuildReportText(result, report));
+        RefreshCompanyProgress();
+        UpdateStatus($"第 {result.Month} 月已结算，现金流可支撑时间请查看月报反馈。");
     }
 
     private void SetSpeedButtonState(float speedMultiplier)
@@ -611,6 +640,17 @@ public partial class G2OperationsPanelController : Control
             $"产品：{result.ProductScore}");
     }
 
+    private static string BuildMetricsText(GameMetrics metrics)
+    {
+        return string.Join(
+            "\n",
+            $"现金：{metrics.Cash}",
+            $"现金流可支撑时间：{BuildCashSupportTimeText(metrics)}",
+            $"MRR：{metrics.MonthlyRecurringRevenue}",
+            $"用户：{metrics.Users}",
+            $"产品：{metrics.ProductScore}");
+    }
+
     private static string BuildReportText(TurnResultSnapshot result, string report)
     {
         if (string.IsNullOrWhiteSpace(result.BusinessFactsText))
@@ -629,6 +669,17 @@ public partial class G2OperationsPanelController : Control
         }
 
         var supportMonths = (float)result.Cash / result.MonthlyBurn;
+        return $"{supportMonths:0.0} 个月";
+    }
+
+    private static string BuildCashSupportTimeText(GameMetrics metrics)
+    {
+        if (metrics.MonthlyBurn <= 0)
+        {
+            return "暂无固定消耗压力";
+        }
+
+        var supportMonths = (float)(metrics.Cash / metrics.MonthlyBurn);
         return $"{supportMonths:0.0} 个月";
     }
 
