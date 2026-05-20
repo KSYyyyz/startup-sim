@@ -139,6 +139,7 @@ public partial class G2OperationsPanelController : Control
         RefreshCompanyProgress();
         ConfigureReadableLabels();
         ConstrainHudButtons();
+        ConfigureActionTooltips();
         SetGameplayControlsLocked(false);
         ShowDockCategory(DockRoomsCategory);
         EnsureResponsiveHudLayout();
@@ -151,6 +152,27 @@ public partial class G2OperationsPanelController : Control
         if (what == NotificationResized)
         {
             EnsureResponsiveHudLayout();
+        }
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (!IsBuildModeActive())
+        {
+            return;
+        }
+
+        if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
+        {
+            CancelCurrentBuildMode();
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.Escape })
+        {
+            CancelCurrentBuildMode();
+            GetViewport().SetInputAsHandled();
         }
     }
 
@@ -446,6 +468,7 @@ public partial class G2OperationsPanelController : Control
         SetLabel(ReportTitle, "月度经营报告");
         SetLabel(MetricsLabel, BuildMetricsText(result));
         SetLabel(ReportLabel, BuildReportText(result, report));
+        SetLabel(ReplayLabel, BuildBusinessFactsText(result));
         SetReportAvailable(true);
         RefreshCompanyProgress();
         if (IsEndgameResult(result))
@@ -479,6 +502,11 @@ public partial class G2OperationsPanelController : Control
     private void OnGridCellHovered(int x, int y, string occupantId)
     {
         UpdateBuildPreview(x, y);
+        if (IsBuildModeActive())
+        {
+            return;
+        }
+
         var occupancyHint = string.IsNullOrWhiteSpace(occupantId) ? "空格子" : $"已有内容：{occupantId}";
         var actionHint = activeMode switch
         {
@@ -518,26 +546,77 @@ public partial class G2OperationsPanelController : Control
             return;
         }
 
-        if (activeMode == PaintZoneMode && hasZoneStart)
+        if (activeMode == PaintZoneMode && ZonePaintingController != null)
         {
-            OfficeGridView.ShowZoneSelectionPreview(zoneStartX, zoneStartY, x, y, ZonePaintingController?.SelectedZoneTypeId ?? string.Empty);
+            var startX = hasZoneStart ? zoneStartX : x;
+            var startY = hasZoneStart ? zoneStartY : y;
+            OfficeGridView.ShowZoneSelectionPreview(
+                startX,
+                startY,
+                x,
+                y,
+                ZonePaintingController.SelectedZoneTypeId);
+            SetEventCue("建造预览", BuildZonePreviewStatus(startX, startY, x, y));
             return;
         }
 
         if (activeMode == PlaceFacilityMode && FacilityPlacementController != null)
         {
             var zone = FindZoneAt(x, y);
-            var isValid = zone != null && FacilityPlacementController.CanPlaceSelectedFacility(zone.Id, x, y);
+            var zoneId = zone?.Id ?? string.Empty;
+            var failure = FacilityPlacementController.GetSelectedFacilityPlacementFailure(zoneId, x, y);
+            var isValid = string.IsNullOrWhiteSpace(failure);
             OfficeGridView.ShowFacilityPlacementPreview(
                 x,
                 y,
                 FacilityPlacementController.SelectedFacilityWidth,
                 FacilityPlacementController.SelectedFacilityHeight,
                 isValid);
+            SetEventCue("设施预览", BuildFacilityPreviewStatus(zone, failure, isValid));
             return;
         }
 
         OfficeGridView.ClearBuildPreview();
+    }
+
+    private static string BuildZonePreviewStatus(int startX, int startY, int endX, int endY)
+    {
+        var width = Math.Abs(endX - startX) + 1;
+        var height = Math.Abs(endY - startY) + 1;
+        var cells = width * height;
+        return $"预览区域：{width}x{height}，共 {cells} 格。成本：房间本身不直接结算，后续设施和员工会形成月成本与产出。右键或 Esc 取消。";
+    }
+
+    private string BuildFacilityPreviewStatus(OfficeZone? zone, string failure, bool isValid)
+    {
+        var definition = FacilityPlacementController?.SelectedFacilityDefinition;
+        var facilityName = FacilityDisplayName(FacilityPlacementController?.SelectedFacilityTypeId ?? string.Empty);
+        var sizeText = definition == null ? "占地待确认" : $"{definition.Width}x{definition.Height}";
+        var costText = definition == null
+            ? "成本待确认"
+            : $"成本 {definition.BaseCost}，月成本 {definition.MonthlyCost}";
+        var outputText = BuildFacilityOutputHint(FacilityPlacementController?.SelectedFacilityTypeId ?? string.Empty);
+        var fitText = zone == null ? "未选中房间" : $"适用检查：当前为{zone.DisplayName}";
+        if (isValid)
+        {
+            return $"可放置：{facilityName}（{sizeText}，{costText}）。产出：{outputText}。{fitText}。右键或 Esc 取消。";
+        }
+
+        var reason = string.IsNullOrWhiteSpace(failure)
+            ? "当前位置不可放置"
+            : failure.Trim().TrimEnd('。', '.', ' ');
+        return $"不可放置：{facilityName}（{sizeText}，{costText}）。原因：{reason}。{fitText}。右键或 Esc 取消。";
+    }
+
+    private static string BuildFacilityOutputHint(string facilityTypeId)
+    {
+        return facilityTypeId switch
+        {
+            "basic_desk" => "提供研发或销售工位，让员工把房间能力转成产品/用户增长",
+            "product_whiteboard" => "提高研发区产品产能，帮助产品分进入可销售阶段",
+            "starter_server_rack" => "提高服务器区稳定性，为用户增长和 MRR 承接做准备",
+            _ => "提高对应房间产能"
+        };
     }
 
     private void SelectZoneTool(string zoneTypeId, string displayName)
@@ -590,6 +669,17 @@ public partial class G2OperationsPanelController : Control
         OfficeGridView?.SetBuildMode(false);
         OfficeGridView?.ClearBuildPreview();
         RestoreSpeedAfterPlayerOperation();
+    }
+
+    private void CancelCurrentBuildMode()
+    {
+        ClearActiveBuildMode();
+        UpdateStatus("已取消当前建造操作。右键或 Esc 可随时取消建造/摆放模式。");
+    }
+
+    private bool IsBuildModeActive()
+    {
+        return activeMode == PaintZoneMode || activeMode == PlaceFacilityMode;
     }
 
     private void PauseForPlayerOperation()
@@ -946,8 +1036,8 @@ public partial class G2OperationsPanelController : Control
         ApplyReadableLabel(CapacityLabel, 16);
         ApplyReadableLabel(ContextLabel, 18);
         ApplyReadableLabel(ObjectActionDetailLabel, 20);
-        ApplyReadableLabel(ReportLabel, 20);
-        ApplyReadableLabel(ReplayLabel, 20);
+        ApplyReadableLabel(ReportLabel, 16);
+        ApplyReadableLabel(ReplayLabel, 15);
     }
 
     private static void ApplyReadableLabel(Label? label, int fontSize)
@@ -995,8 +1085,9 @@ public partial class G2OperationsPanelController : Control
             MathF.Max(64f, (viewportSize.Y - 460f) * 0.5f),
             640f,
             460f);
-        SetControlRect("MonthlyReportModal/ReportLabel", 20f, 62f, 600f, 188f);
-        SetControlRect("MonthlyReportModal/ReplayLabel", 20f, 258f, 600f, 144f);
+        SetControlRect("MonthlyReportModal/ReportLabel", 20f, 62f, 492f, 292f);
+        SetControlRect("MonthlyReportModal/ReplayLabel", 20f, 362f, 492f, 40f);
+        SetControlRect("MonthlyReportModal/FeedbackPortrait", 520f, 78f, 84f, 84f);
         SetControlRect("MonthlyReportModal/ReportCloseButton", 520f, 414f, 96f, 32f);
     }
 
@@ -1109,6 +1200,58 @@ public partial class G2OperationsPanelController : Control
         }
     }
 
+    private void ConfigureActionTooltips()
+    {
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/BuildTools/ProductZoneButton",
+            "研发区：划定产品研发房间。成本：房间本身不直接结算；产出：承接办公桌、产品白板和研发员工，提升产品分。适用：MVP 和产品迭代。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/BuildTools/SalesZoneButton",
+            "销售区：划定商业化房间。成本：房间本身不直接结算；产出：承接办公桌和销售员工，把产品能力转成用户和 MRR。适用：产品分达标后扩张收入。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/BuildTools/ServerZoneButton",
+            "服务器区：划定基础设施房间。成本：房间本身不直接结算；产出：承接服务器机柜和运维员工，支撑用户增长稳定性。适用：用户和 MRR 增长前。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/FacilityTools/DeskButton",
+            "办公桌：成本 3000，月成本 200；产出：提供 1 个研发/销售工位。适用：研发区或销售区。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/FacilityTools/WhiteboardButton",
+            "产品白板：成本 8000，月成本 300；产出：提高产品产能。适用：研发区，占地 2x1。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/FacilityTools/ServerRackButton",
+            "服务器机柜：成本 30000，月成本 3000；产出：提高基础设施能力，支撑用户和 MRR。适用：服务器区，占地 1x2。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/EmployeeTools/HireProductButton",
+            "招聘研发：成本体现在月度人员消耗；产出：把研发区工位转成产品分增长。适用：先有研发区和办公桌。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/EmployeeTools/HireSalesButton",
+            "招聘销售：成本体现在月度人员消耗；产出：把销售区能力转成用户和 MRR。适用：产品分开始成型后。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/EmployeeTools/HireOpsButton",
+            "招聘运维：成本体现在月度人员消耗；产出：提高服务器区稳定性，避免用户增长后基础设施拖后腿。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/EmployeeTools/TrainButton",
+            "训练员工：短期效率下降，长期产出提高。适用：现金流可支撑时间足够时再训练。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/CrisisTools/SellFacilityButton",
+            "出售设施：减少固定成本并回收现金。适用：现金流可支撑时间过短、设施闲置时。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/CrisisTools/ReduceCostButton",
+            "节流：压低固定支出，延长现金流可支撑时间。适用：收入链路尚未打通前。");
+        SetButtonTooltip(
+            "BottomActionDock/ToolGroups/CrisisTools/BridgeFundingButton",
+            "过桥融资：获得短期现金但稀释股权。适用：产品到用户/MRR 已接近闭环但现金流可支撑时间不足时。");
+    }
+
+    private void SetButtonTooltip(string path, string tooltip)
+    {
+        var button = GetNodeOrNull<Button>(path);
+        if (button != null)
+        {
+            button.TooltipText = tooltip;
+        }
+    }
+
     private void ApplyButtonChrome(string path, Vector2 minimumSize)
     {
         var button = GetNodeOrNull<Button>(path);
@@ -1197,6 +1340,7 @@ public partial class G2OperationsPanelController : Control
         SetLabel(ReportTitle, "月度经营报告");
         SetLabel(MetricsLabel, BuildMetricsText(result));
         SetLabel(ReportLabel, BuildReportText(result, report));
+        SetLabel(ReplayLabel, BuildBusinessFactsText(result));
         SetReportAvailable(true);
         if (showReport)
         {
@@ -1357,12 +1501,24 @@ public partial class G2OperationsPanelController : Control
 
     private static string BuildReportText(TurnResultSnapshot result, string report)
     {
+        _ = result;
+        return report;
+    }
+
+    private static string BuildBusinessFactsText(TurnResultSnapshot result)
+    {
         if (string.IsNullOrWhiteSpace(result.BusinessFactsText))
         {
-            return report;
+            return "经营事实：等待办公室产能进入结算。";
         }
 
-        return $"{report}\n{result.BusinessFactsText}";
+        var facts = result.BusinessFactsText
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => line.Trim())
+            .Where(line => line.Length > 0)
+            .Take(2);
+        return $"经营事实：{string.Join("；", facts)}";
     }
 
     private static string BuildEndingTitle(TurnResultSnapshot result)

@@ -33,6 +33,11 @@ public partial class FacilityPlacementController : Node
         out var definition)
             ? definition.Height
             : 1;
+    public OfficeFacilityDefinition? SelectedFacilityDefinition => facilityDefinitions.TryGetValue(
+        SelectedFacilityTypeId,
+        out var definition)
+            ? definition
+            : null;
 
     public override void _Ready()
     {

@@ -469,9 +469,10 @@ def test_godot_operations_panel_updates_previews_from_hovered_cells():
     facility_script = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")
 
     assert "UpdateBuildPreview(x, y);" in panel_script
-    assert "ShowZoneSelectionPreview(zoneStartX, zoneStartY, x, y" in panel_script
+    assert "var startX = hasZoneStart ? zoneStartX : x;" in panel_script
+    assert "ShowZoneSelectionPreview(" in panel_script
     assert "ShowFacilityPlacementPreview(" in panel_script
-    assert "CanPlaceSelectedFacility(zone.Id, x, y)" in panel_script
+    assert "GetSelectedFacilityPlacementFailure(zoneId, x, y)" in panel_script
     assert "OfficeGridView?.ClearBuildPreview();" in panel_script
     assert "ClearActiveBuildMode()" in panel_script
 
@@ -1186,3 +1187,105 @@ def test_godot_g1_acceptance_report_exists():
     assert "时间推进与月度结算" in text
     assert "月报与反馈" in text
     assert "G1 纵向切片" in text
+
+
+def test_godot_action_buttons_explain_cost_output_and_business_role():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "ConfigureActionTooltips();" in panel_script
+    assert "private void ConfigureActionTooltips()" in panel_script
+    assert "SetButtonTooltip(" in panel_script
+    for path in [
+        "BottomActionDock/ToolGroups/BuildTools/ProductZoneButton",
+        "BottomActionDock/ToolGroups/BuildTools/SalesZoneButton",
+        "BottomActionDock/ToolGroups/BuildTools/ServerZoneButton",
+        "BottomActionDock/ToolGroups/FacilityTools/DeskButton",
+        "BottomActionDock/ToolGroups/FacilityTools/WhiteboardButton",
+        "BottomActionDock/ToolGroups/FacilityTools/ServerRackButton",
+        "BottomActionDock/ToolGroups/EmployeeTools/HireProductButton",
+        "BottomActionDock/ToolGroups/EmployeeTools/HireSalesButton",
+        "BottomActionDock/ToolGroups/EmployeeTools/HireOpsButton",
+        "BottomActionDock/ToolGroups/EmployeeTools/TrainButton",
+        "BottomActionDock/ToolGroups/CrisisTools/SellFacilityButton",
+        "BottomActionDock/ToolGroups/CrisisTools/ReduceCostButton",
+        "BottomActionDock/ToolGroups/CrisisTools/BridgeFundingButton",
+    ]:
+        assert path in panel_script
+
+    for label in [
+        "研发区",
+        "销售区",
+        "服务器区",
+        "办公桌",
+        "产品白板",
+        "服务器机柜",
+        "成本",
+        "月成本",
+        "产出",
+        "适用",
+        "现金流可支撑时间",
+    ]:
+        assert label in panel_script
+    assert "Runway" not in panel_script
+    assert "跑道" not in panel_script
+
+
+def test_godot_build_preview_explains_area_cost_and_failure_reasons():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    facility_script = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")
+
+    hover_body = _method_body(
+        panel_script, "private void OnGridCellHovered(int x, int y, string occupantId)"
+    )
+    assert "if (IsBuildModeActive())" in hover_body
+    assert "BuildZonePreviewStatus(" in panel_script
+    assert "BuildFacilityPreviewStatus(" in panel_script
+    assert "GetSelectedFacilityPlacementFailure(zoneId, x, y)" in panel_script
+    assert "ShowFacilityPlacementPreview(" in panel_script
+    assert "isValid" in panel_script
+    for label in ["预览", "格", "成本", "不可放置", "右键或 Esc 取消"]:
+        assert label in panel_script
+
+    assert "public OfficeFacilityDefinition? SelectedFacilityDefinition" in facility_script
+    assert "GetSelectedFacilityPlacementFailure" in facility_script
+
+
+def test_godot_build_mode_can_be_cancelled_by_right_click_or_escape():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "public override void _UnhandledInput(InputEvent @event)" in panel_script
+    assert "InputEventMouseButton" in panel_script
+    assert "MouseButton.Right" in panel_script
+    assert "InputEventKey" in panel_script
+    assert "Key.Escape" in panel_script
+    assert "CancelCurrentBuildMode();" in panel_script
+
+
+def test_godot_monthly_report_is_structured_business_report():
+    report_script = (SCRIPTS / "MonthlyReportController.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "BuildCashSupportTimeText(snapshot)" in report_script
+    assert "BuildNextMonthAdvice(snapshot)" in report_script
+    for label in ["收入", "成本", "产品", "用户", "现金流", "下月建议"]:
+        assert label in report_script
+    assert "销售区" in report_script
+    assert "销售员工" in report_script
+    assert "服务器区" in report_script
+    assert "MRR" in report_script
+    assert "经营事实" in panel_script
+
+    assert "DeterministicTurnEngine" not in report_script
+    assert "StartupSim.Core.Engines" not in report_script
+
+
+def test_godot_commercialization_chain_is_visible_without_rewriting_rules():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    report_script = (SCRIPTS / "MonthlyReportController.cs").read_text(encoding="utf-8")
+
+    combined = panel_script + "\n" + report_script
+    for label in ["产品", "用户", "MRR", "销售区", "销售员工", "服务器区"]:
+        assert label in combined
+    assert "BuildCommercializationHint(" in report_script
+    assert "C# Core" not in report_script
+    assert "DeterministicTurnEngine" not in panel_script
