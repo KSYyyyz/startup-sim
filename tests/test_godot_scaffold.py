@@ -985,7 +985,8 @@ def test_godot_hud_feedback_text_is_readable_and_not_clipped():
     assert 'SetControlRect("FloatingEventFeed"' in panel_script
     assert "520f, 72f" in panel_script
     assert 'SetControlRect("ObjectActionPanel"' in panel_script
-    assert "360f, 260f" in panel_script
+    assert "440f, 310f" in panel_script
+    assert 'SetControlRect("ObjectActionPanel/UpgradeSelectedFacilityButton"' in panel_script
     assert 'SetControlRect(\n            "MonthlyReportModal"' in panel_script
     assert "640f" in panel_script
     assert "460f" in panel_script
@@ -1289,3 +1290,32 @@ def test_godot_commercialization_chain_is_visible_without_rewriting_rules():
     assert "BuildCommercializationHint(" in report_script
     assert "C# Core" not in report_script
     assert "DeterministicTurnEngine" not in panel_script
+
+
+def test_godot_object_action_panel_previews_decision_tradeoffs():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+    facility_script = (SCRIPTS / "FacilityPlacementController.cs").read_text(encoding="utf-8")
+
+    assert "public OfficeFacilityUpgradeDefinition? GetUpgradeDefinition(" in facility_script
+    assert "BuildFacilityDecisionText(" in panel_script
+    assert "BuildEmployeeDecisionText(" in panel_script
+    assert "BuildSellFacilityTradeoffText(" in panel_script
+    assert "BuildTrainingTradeoffText(" in panel_script
+    assert "现金流可支撑时间" in panel_script
+    assert "升级成本" in panel_script
+    assert "月成本变化" in panel_script
+    assert "预计收益" in panel_script
+    assert "副作用" in panel_script
+    assert "出售取舍" in panel_script
+    assert "适合时机" in panel_script
+
+    facility_body = _method_body(
+        panel_script,
+        "private void UpdateObjectActionPanel(\n        OfficeZone? zone,\n        OfficeFacility? facility,\n        string occupantText)",
+    )
+    assert "BuildFacilityDecisionText(zone, facility)" in facility_body
+    employee_body = _method_body(
+        panel_script,
+        "private void ShowEmployeeObjectActionPanel(OfficeEmployee employee, OfficeZone? zone)",
+    )
+    assert "BuildEmployeeDecisionText(employee, zone)" in employee_body

@@ -149,6 +149,13 @@ public partial class FacilityPlacementController : Node
         return upgraded;
     }
 
+    public OfficeFacilityUpgradeDefinition? GetUpgradeDefinition(string facilityTypeId)
+    {
+        return upgradeDefinitions.TryGetValue(facilityTypeId, out var upgrade)
+            ? upgrade
+            : null;
+    }
+
     public bool SellFacility(string facilityId)
     {
         if (ZoneController == null || string.IsNullOrWhiteSpace(facilityId))

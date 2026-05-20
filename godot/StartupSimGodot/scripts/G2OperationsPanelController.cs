@@ -1035,7 +1035,7 @@ public partial class G2OperationsPanelController : Control
         ApplyReadableLabel(GoalsLabel, 16);
         ApplyReadableLabel(CapacityLabel, 16);
         ApplyReadableLabel(ContextLabel, 18);
-        ApplyReadableLabel(ObjectActionDetailLabel, 20);
+        ApplyReadableLabel(ObjectActionDetailLabel, 16);
         ApplyReadableLabel(ReportLabel, 16);
         ApplyReadableLabel(ReplayLabel, 15);
     }
@@ -1077,8 +1077,12 @@ public partial class G2OperationsPanelController : Control
         SetControlRect("RoomContextPanel/ContextLabel", 14f, 10f, 322f, 70f);
         SetControlRect("RoomContextPanel/GoalsLabel", 14f, 88f, 322f, 170f);
         SetControlRect("RoomContextPanel/CapacityLabel", 14f, 270f, 322f, 78f);
-        SetControlRect("ObjectActionPanel", MathF.Max(386f, viewportSize.X - 378f), 150f, 360f, 260f);
-        SetControlRect("ObjectActionPanel/ObjectActionDetailLabel", 14f, 48f, 330f, 132f);
+        SetControlRect("ObjectActionPanel", MathF.Max(386f, viewportSize.X - 458f), 150f, 440f, 310f);
+        SetControlRect("ObjectActionPanel/ObjectActionTitleLabel", 14f, 12f, 412f, 28f);
+        SetControlRect("ObjectActionPanel/ObjectActionDetailLabel", 14f, 48f, 412f, 184f);
+        SetControlRect("ObjectActionPanel/UpgradeSelectedFacilityButton", 14f, 250f, 74f, 36f);
+        SetControlRect("ObjectActionPanel/SellSelectedFacilityButton", 96f, 250f, 74f, 36f);
+        SetControlRect("ObjectActionPanel/TrainSelectedObjectButton", 178f, 250f, 74f, 36f);
         SetControlRect(
             "MonthlyReportModal",
             MathF.Max(18f, (viewportSize.X - 640f) * 0.5f),
@@ -1727,11 +1731,7 @@ public partial class G2OperationsPanelController : Control
         {
             ShowObjectActionPanel(
                 $"设施：{FacilityDisplayName(facility.FacilityTypeId)}",
-                string.Join(
-                    "\n",
-                    $"等级：{facility.Level}  月成本：{facility.MonthlyCost}",
-                    $"房间：{zone?.DisplayName ?? "未划分"}  坐标：({facility.X}, {facility.Y})",
-                    "影响：提升房间产能；升级更强，出售降低月成本。"),
+                BuildFacilityDecisionText(zone, facility),
                 upgradeVisible: true,
                 sellVisible: true,
                 trainVisible: false);
@@ -1765,14 +1765,61 @@ public partial class G2OperationsPanelController : Control
     {
         ShowObjectActionPanel(
             $"员工：{employee.Name}",
-            string.Join(
-                "\n",
-                $"岗位：{EmployeeRoleName(employee.RoleId)}  等级：{employee.Level}",
-                $"分配：{zone?.DisplayName ?? "未分配"}  心情：{employee.Mood}  疲劳：{employee.Fatigue}",
-                "训练：短期效率下降，长期产能提升。"),
+            BuildEmployeeDecisionText(employee, zone),
             upgradeVisible: false,
             sellVisible: false,
             trainVisible: true);
+    }
+
+    private string BuildFacilityDecisionText(OfficeZone? zone, OfficeFacility facility)
+    {
+        var upgrade = FacilityPlacementController?.GetUpgradeDefinition(facility.FacilityTypeId);
+        var upgradeText = upgrade == null
+            ? "升级预判：当前设施暂无可用升级。"
+            : string.Join(
+                "  ",
+                $"升级成本：{upgrade.UpgradeCost}",
+                $"月成本变化：+{upgrade.MonthlyCostDelta}",
+                $"预计收益：{upgrade.Level}级强化{FacilityOutputText(facility.FacilityTypeId)}");
+        return string.Join(
+            "\n",
+            $"等级：{facility.Level}  月成本：{facility.MonthlyCost}",
+            $"房间：{zone?.DisplayName ?? "未划分"}  坐标：({facility.X}, {facility.Y})",
+            upgradeText,
+            BuildSellFacilityTradeoffText(facility),
+            "适合时机：现金流可支撑时间充足再升级；紧张或闲置就出售。");
+    }
+
+    private static string BuildEmployeeDecisionText(OfficeEmployee employee, OfficeZone? zone)
+    {
+        return string.Join(
+            "\n",
+            $"岗位：{EmployeeRoleName(employee.RoleId)}  等级：{employee.Level}  薪资：{employee.Salary}",
+            $"分配：{zone?.DisplayName ?? "未分配"}  心情：{employee.Mood}  疲劳：{employee.Fatigue}",
+            BuildTrainingTradeoffText(employee),
+            "适合时机：现金流可支撑时间充足、目标岗位明确时训练。");
+    }
+
+    private static string BuildSellFacilityTradeoffText(OfficeFacility facility)
+    {
+        return $"出售取舍：月成本 -{facility.MonthlyCost}，但损失{FacilityOutputText(facility.FacilityTypeId)}。";
+    }
+
+    private static string BuildTrainingTradeoffText(OfficeEmployee employee)
+    {
+        var fatigueWarning = employee.Fatigue >= 60 ? "当前疲劳较高，建议先缓一缓。" : "当前疲劳可控。";
+        return $"训练预判：预计收益为长期产能提升；副作用是短期效率下降。{fatigueWarning}";
+    }
+
+    private static string FacilityOutputText(string facilityTypeId)
+    {
+        return facilityTypeId switch
+        {
+            "basic_desk" => "研发/销售工位",
+            "product_whiteboard" => "产品研发产能",
+            "starter_server_rack" => "服务器承载与稳定性",
+            _ => "房间产能"
+        };
     }
 
     private void ShowObjectActionPanel(
