@@ -748,6 +748,34 @@ def test_godot_mcp_client_accepts_array_args_without_editor_errors():
     assert 'var args: Dictionary = _normalize_tool_args(message.get(&"args", {}))' in client
 
 
+def test_godot_plugin_spike_addons_are_vendored_with_rule_boundaries():
+    plugin_expectations = {
+        "phantom_camera": ("Phantom Camera", "0.11.0.2"),
+        "dialogue_manager": ("Dialogue Manager", "3.10.4"),
+        "gdUnit4": ("gdUnit4", "6.1.3"),
+    }
+
+    for addon_dir, (plugin_name, version) in plugin_expectations.items():
+        plugin_cfg = GODOT / "addons" / addon_dir / "plugin.cfg"
+        assert plugin_cfg.exists(), f"{addon_dir} plugin.cfg is missing"
+        content = plugin_cfg.read_text(encoding="utf-8")
+        assert f'name="{plugin_name}"' in content
+        assert f'version="{version}"' in content
+
+    notes = (ROOT / "docs" / "godot_plugin_integration_notes.md").read_text(encoding="utf-8")
+    assert "C# Core 是规则核心" in notes
+    assert "Godot 插件只负责表现层、交互层、编辑器效率和测试辅助" in notes
+    assert "Phantom Camera" in notes
+    assert "Dialogue Manager" in notes
+    assert "GdUnit4" in notes
+
+
+def test_godot_plugin_spike_keeps_third_party_csharp_out_of_project_build():
+    csproj = (GODOT / "StartupSimGodot.csproj").read_text(encoding="utf-8")
+
+    assert '<Compile Remove="addons\\**\\*.cs" />' in csproj
+
+
 def test_godot_selected_object_panel_is_wired_to_room_facility_and_employee_actions():
     scene = (SCENES / "main.tscn").read_text(encoding="utf-8")
     panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
