@@ -137,7 +137,9 @@ public partial class G2OperationsPanelController : Control
 
         RefreshInitialMetrics();
         RefreshCompanyProgress();
+        ConfigureReadableLabels();
         ConstrainHudButtons();
+        SetGameplayControlsLocked(false);
         ShowDockCategory(DockRoomsCategory);
         EnsureResponsiveHudLayout();
 
@@ -211,6 +213,11 @@ public partial class G2OperationsPanelController : Control
 
     public void TrainSelectedEmployee()
     {
+        if (GuardEndgameOperation("训练员工"))
+        {
+            return;
+        }
+
         ClearActiveBuildMode();
 
         if (EmployeeManagementController == null || ZonePaintingController == null)
@@ -248,6 +255,11 @@ public partial class G2OperationsPanelController : Control
 
     public void SellSelectedFacility()
     {
+        if (GuardEndgameOperation("出售设施"))
+        {
+            return;
+        }
+
         ClearActiveBuildMode();
         if (string.IsNullOrWhiteSpace(selectedFacilityId))
         {
@@ -271,6 +283,11 @@ public partial class G2OperationsPanelController : Control
 
     public void UpgradeSelectedFacility()
     {
+        if (GuardEndgameOperation("升级设施"))
+        {
+            return;
+        }
+
         ClearActiveBuildMode();
         if (string.IsNullOrWhiteSpace(selectedFacilityId))
         {
@@ -369,7 +386,8 @@ public partial class G2OperationsPanelController : Control
             return;
         }
 
-        SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: false);
+        PauseForSettlementReview();
+        SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true);
     }
 
     public void SaveRun()
@@ -393,6 +411,7 @@ public partial class G2OperationsPanelController : Control
 
     public void ShowMonthlyReport()
     {
+        PauseForSettlementReview();
         HideObjectActionPanel();
         SetNodeVisible("MonthlyReportModal", true);
         SetReportButtonVisible(false);
@@ -406,6 +425,11 @@ public partial class G2OperationsPanelController : Control
 
     private void ApplyBridgeCommand(string command, string statusPrefix)
     {
+        if (GuardEndgameOperation("危机操作"))
+        {
+            return;
+        }
+
         ClearActiveBuildMode();
         if (TimeProgressController?.TurnBridge == null)
         {
@@ -415,6 +439,7 @@ public partial class G2OperationsPanelController : Control
 
         var result = TimeProgressController.TurnBridge.ExecuteCommand(command);
         TimeProgressController.SyncExternalSettlement(result);
+        PauseForSettlementReview();
         lastResult = result;
         lastIntent = BusinessIntentController?.BuildCurrentIntent();
         var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
@@ -517,6 +542,11 @@ public partial class G2OperationsPanelController : Control
 
     private void SelectZoneTool(string zoneTypeId, string displayName)
     {
+        if (GuardEndgameOperation($"划分{displayName}"))
+        {
+            return;
+        }
+
         if (ZonePaintingController == null || !ZonePaintingController.SelectZoneType(zoneTypeId))
         {
             UpdateStatus($"{displayName} 工具不可用。");
@@ -533,6 +563,11 @@ public partial class G2OperationsPanelController : Control
 
     private void SelectFacilityTool(string facilityTypeId, string displayName)
     {
+        if (GuardEndgameOperation($"摆放{displayName}"))
+        {
+            return;
+        }
+
         if (FacilityPlacementController == null
             || !FacilityPlacementController.SelectFacilityType(facilityTypeId))
         {
@@ -567,6 +602,30 @@ public partial class G2OperationsPanelController : Control
 
         TimeProgressController?.SetPaused();
         SetSpeedButtonState(0f);
+    }
+
+    private void PauseForSettlementReview()
+    {
+        playerOperationPausedTime = false;
+        speedBeforePlayerOperation = 0f;
+        TimeProgressController?.SetPaused();
+        TimeProgressController?.ResetMonthProgress();
+        SetSpeedButtonState(0f);
+    }
+
+    private bool GuardEndgameOperation(string operationName)
+    {
+        if (!endgameReached)
+        {
+            return false;
+        }
+
+        PauseForSettlementReview();
+        ClearActiveBuildMode();
+        HideObjectActionPanel();
+        SetGameplayControlsLocked(true);
+        SetEventCue("结局", $"结局复盘已锁定经营操作，{operationName}不会生效。请读取存档或重新开始。");
+        return true;
     }
 
     private void RestoreSpeedAfterPlayerOperation()
@@ -692,6 +751,11 @@ public partial class G2OperationsPanelController : Control
         string skillId,
         string displayName)
     {
+        if (GuardEndgameOperation($"招聘{displayName}"))
+        {
+            return;
+        }
+
         ClearActiveBuildMode();
 
         if (EmployeeManagementController == null || ZonePaintingController == null)
@@ -819,7 +883,7 @@ public partial class G2OperationsPanelController : Control
         lastIntent = BusinessIntentController?.BuildCurrentIntent();
         SetLabel(CapacityLabel, string.IsNullOrWhiteSpace(summary)
             ? "产能预览：等待区域、设施和员工。"
-            : $"产能预览：{summary}");
+            : $"产能预览：{FormatCapacitySummary(summary)}");
         RefreshCompanyProgress();
         RefreshSelectedObjectContext();
     }
@@ -837,7 +901,7 @@ public partial class G2OperationsPanelController : Control
     {
         var summary = CompanyProgressController?.RefreshProgress(lastResult, lastIntent)
             ?? "公司目标：等待目标数据。";
-        SetLabel(GoalsLabel, summary);
+        SetLabel(GoalsLabel, FormatGoalSummary(summary));
         UpdateObjectiveProgressBar();
     }
 
@@ -875,6 +939,29 @@ public partial class G2OperationsPanelController : Control
         SetLabel(ObjectiveTitleLabel, $"阶段目标 {progress}%");
     }
 
+    private void ConfigureReadableLabels()
+    {
+        ApplyReadableLabel(StatusLabel, 22);
+        ApplyReadableLabel(GoalsLabel, 16);
+        ApplyReadableLabel(CapacityLabel, 16);
+        ApplyReadableLabel(ContextLabel, 18);
+        ApplyReadableLabel(ObjectActionDetailLabel, 20);
+        ApplyReadableLabel(ReportLabel, 20);
+        ApplyReadableLabel(ReplayLabel, 20);
+    }
+
+    private static void ApplyReadableLabel(Label? label, int fontSize)
+    {
+        if (label == null)
+        {
+            return;
+        }
+
+        label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        label.ClipText = false;
+        label.AddThemeFontSizeOverride("font_size", fontSize);
+    }
+
     private void EnsureResponsiveHudLayout()
     {
         var viewportSize = GetViewportRect().Size;
@@ -893,17 +980,24 @@ public partial class G2OperationsPanelController : Control
         SetControlRect("TopStatusBar/MetricsLabel", 18f, 12f, MathF.Max(360f, viewportSize.X - 430f), 30f);
         SetControlRect("TopStatusBar/TimeButtons", MathF.Max(744f, viewportSize.X - 408f), 9f, 394f, 36f);
         SetControlRect("ObjectiveTracker", 18f, 64f, 262f, 74f);
-        SetControlRect("FloatingEventFeed", MathF.Max(300f, viewportSize.X - 418f), 66f, 400f, 56f);
-        SetControlRect("FloatingEventFeed/StatusLabel", 40f, 8f, 250f, 40f);
-        SetControlRect("FloatingEventFeed/OpenReportButton", 292f, 14f, 96f, 28f);
-        SetControlRect("RoomContextPanel", 18f, MathF.Max(190f, viewportSize.Y - 306f), 354f, 144f);
-        SetControlRect("ObjectActionPanel", MathF.Max(386f, viewportSize.X - 294f), 150f, 276f, 210f);
+        SetControlRect("FloatingEventFeed", MathF.Max(300f, viewportSize.X - 538f), 66f, 520f, 72f);
+        SetControlRect("FloatingEventFeed/StatusLabel", 40f, 8f, 360f, 56f);
+        SetControlRect("FloatingEventFeed/OpenReportButton", 410f, 18f, 96f, 32f);
+        SetControlRect("RoomContextPanel", 18f, MathF.Max(190f, viewportSize.Y - 526f), 354f, 364f);
+        SetControlRect("RoomContextPanel/ContextLabel", 14f, 10f, 322f, 70f);
+        SetControlRect("RoomContextPanel/GoalsLabel", 14f, 88f, 322f, 170f);
+        SetControlRect("RoomContextPanel/CapacityLabel", 14f, 270f, 322f, 78f);
+        SetControlRect("ObjectActionPanel", MathF.Max(386f, viewportSize.X - 378f), 150f, 360f, 260f);
+        SetControlRect("ObjectActionPanel/ObjectActionDetailLabel", 14f, 48f, 330f, 132f);
         SetControlRect(
             "MonthlyReportModal",
-            MathF.Max(18f, (viewportSize.X - 526f) * 0.5f),
-            MathF.Max(80f, (viewportSize.Y - 370f) * 0.5f),
-            526f,
-            370f);
+            MathF.Max(18f, (viewportSize.X - 640f) * 0.5f),
+            MathF.Max(64f, (viewportSize.Y - 460f) * 0.5f),
+            640f,
+            460f);
+        SetControlRect("MonthlyReportModal/ReportLabel", 20f, 62f, 600f, 188f);
+        SetControlRect("MonthlyReportModal/ReplayLabel", 20f, 258f, 600f, 144f);
+        SetControlRect("MonthlyReportModal/ReportCloseButton", 520f, 414f, 96f, 32f);
     }
 
     private void LayoutBottomDock(Vector2 viewportSize)
@@ -936,6 +1030,11 @@ public partial class G2OperationsPanelController : Control
 
     private void ShowDockCategory(string category)
     {
+        if (activeDockCategory != category)
+        {
+            ClearActiveBuildMode();
+        }
+
         activeDockCategory = category;
         SetNodeVisible("BottomActionDock/ToolGroups/BuildTools", category == DockRoomsCategory);
         SetNodeVisible("BottomActionDock/ToolGroups/FacilityTools", category == DockFacilitiesCategory);
@@ -1092,6 +1191,7 @@ public partial class G2OperationsPanelController : Control
             return;
         }
 
+        PauseForSettlementReview();
         lastResult = result;
         var report = MonthlyReportController?.BuildMonthlyReport(result) ?? string.Empty;
         SetLabel(ReportTitle, "月度经营报告");
@@ -1125,8 +1225,10 @@ public partial class G2OperationsPanelController : Control
     private void ShowEndingReview(TurnResultSnapshot result)
     {
         endgameReached = true;
-        TimeProgressController?.SetPaused();
-        SetSpeedButtonState(0f);
+        PauseForSettlementReview();
+        ClearActiveBuildMode();
+        HideObjectActionPanel();
+        SetGameplayControlsLocked(true);
         SetLabel(ReportTitle, BuildEndingTitle(result));
         SetLabel(ReportLabel, BuildEndingReportText(result));
         SetLabel(ReplayLabel, BuildEndingReplayText(result));
@@ -1201,6 +1303,34 @@ public partial class G2OperationsPanelController : Control
         {
             label.Text = text;
         }
+    }
+
+    private static string FormatCapacitySummary(string summary)
+    {
+        var lines = summary
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => line.Trim())
+            .Where(line => line.Length > 0)
+            .Take(3);
+        return string.Join("\n", lines);
+    }
+
+    private static string FormatGoalSummary(string summary)
+    {
+        var lines = summary
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => line.Trim())
+            .Where(line => line.Length > 0)
+            .Where(line =>
+                line.StartsWith("阶段目标", StringComparison.Ordinal)
+                || line.StartsWith("进度", StringComparison.Ordinal)
+                || line.StartsWith("下一步", StringComparison.Ordinal)
+                || line.StartsWith("成就", StringComparison.Ordinal))
+            .Take(4)
+            .ToArray();
+        return lines.Length == 0 ? summary : string.Join("\n", lines);
     }
 
     private static string BuildMetricsText(TurnResultSnapshot result)
@@ -1507,6 +1637,45 @@ public partial class G2OperationsPanelController : Control
     private void HideObjectActionPanel()
     {
         SetNodeVisible("ObjectActionPanel", false);
+    }
+
+    private void SetGameplayControlsLocked(bool locked)
+    {
+        foreach (var path in new[]
+        {
+            "BottomActionDock/ToolGroups/BuildTools/ProductZoneButton",
+            "BottomActionDock/ToolGroups/BuildTools/SalesZoneButton",
+            "BottomActionDock/ToolGroups/BuildTools/ServerZoneButton",
+            "BottomActionDock/ToolGroups/FacilityTools/DeskButton",
+            "BottomActionDock/ToolGroups/FacilityTools/WhiteboardButton",
+            "BottomActionDock/ToolGroups/FacilityTools/ServerRackButton",
+            "BottomActionDock/ToolGroups/EmployeeTools/HireProductButton",
+            "BottomActionDock/ToolGroups/EmployeeTools/HireSalesButton",
+            "BottomActionDock/ToolGroups/EmployeeTools/HireOpsButton",
+            "BottomActionDock/ToolGroups/EmployeeTools/TrainButton",
+            "BottomActionDock/ToolGroups/CrisisTools/SellFacilityButton",
+            "BottomActionDock/ToolGroups/CrisisTools/ReduceCostButton",
+            "BottomActionDock/ToolGroups/CrisisTools/BridgeFundingButton",
+            "ObjectActionPanel/UpgradeSelectedFacilityButton",
+            "ObjectActionPanel/SellSelectedFacilityButton",
+            "ObjectActionPanel/TrainSelectedObjectButton",
+            "TopStatusBar/TimeButtons/NormalSpeedButton",
+            "TopStatusBar/TimeButtons/DoubleSpeedButton",
+            "TopStatusBar/TimeButtons/TripleSpeedButton",
+            "TopStatusBar/TimeButtons/AdvanceMonthButton",
+        })
+        {
+            SetButtonDisabled(path, locked);
+        }
+    }
+
+    private void SetButtonDisabled(string path, bool disabled)
+    {
+        var button = GetNodeOrNull<Button>(new NodePath(path));
+        if (button != null)
+        {
+            button.Disabled = disabled;
+        }
     }
 
     private void SetButtonVisible(string path, bool visible)

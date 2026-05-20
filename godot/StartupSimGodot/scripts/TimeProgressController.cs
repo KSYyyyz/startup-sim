@@ -89,6 +89,11 @@ public partial class TimeProgressController : Node
         }
     }
 
+    public void ResetMonthProgress()
+    {
+        accumulatedMonthHours = 0f;
+    }
+
     public TurnResultSnapshot? SubmitMonthSettlement(string command)
     {
         if (TurnBridge == null)

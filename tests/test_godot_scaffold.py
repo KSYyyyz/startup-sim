@@ -6,6 +6,20 @@ SCRIPTS = GODOT / "scripts"
 SCENES = GODOT / "scenes"
 
 
+def _method_body(source: str, signature: str) -> str:
+    start = source.index(signature)
+    brace = source.index("{", start)
+    depth = 0
+    for index in range(brace, len(source)):
+        if source[index] == "{":
+            depth += 1
+        elif source[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return source[brace : index + 1]
+    raise AssertionError(f"method body not found: {signature}")
+
+
 def test_godot_migration_plan_exists_and_sets_godot_only_frontend_route():
     doc = ROOT / "docs" / "godot_migration_plan.md"
 
@@ -331,7 +345,7 @@ def test_godot_auto_month_report_is_non_blocking_and_reopenable():
     assert 'ConnectButton("FloatingEventFeed/OpenReportButton", ShowMonthlyReport)' in panel_script
     assert "SetReportAvailable(false)" in panel_script
     assert "SetReportAvailable(true)" in panel_script
-    assert "SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: false)" in panel_script
+    assert "SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true)" in panel_script
     assert "SettleMonthFromCurrentIntent(clearBuildMode: false, showReport: false)" in panel_script
     assert "if (showReport)" in panel_script
     assert "第 {result.Month} 月已结算，点击查看月报。" in panel_script
@@ -899,6 +913,81 @@ def test_godot_time_loop_drives_monthly_business_settlement():
     assert "private void OnMonthReady(int monthIndex)" in panel_script
     assert "SettleMonthFromCurrentIntent(clearBuildMode: false, showReport: false)" in panel_script
     assert "TimeProgressController.SubmitBusinessIntent(lastIntent)" in panel_script
+
+
+def test_godot_month_settlement_pauses_and_resets_time_after_each_month():
+    controller = (SCRIPTS / "TimeProgressController.cs").read_text(encoding="utf-8")
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "public void ResetMonthProgress()" in controller
+    assert "accumulatedMonthHours = 0f" in controller
+
+    advance_body = _method_body(panel_script, "public void AdvanceMonth()")
+    assert "PauseForSettlementReview();" in advance_body
+    assert "SettleMonthFromCurrentIntent(clearBuildMode: true, showReport: true)" in advance_body
+
+    settle_body = _method_body(
+        panel_script,
+        "private void SettleMonthFromCurrentIntent(bool clearBuildMode, bool showReport)",
+    )
+    assert "PauseForSettlementReview();" in settle_body
+    pause_body = _method_body(panel_script, "private void PauseForSettlementReview()")
+    assert "TimeProgressController?.ResetMonthProgress();" in pause_body
+    assert "SetSpeedButtonState(0f);" in panel_script
+
+
+def test_godot_endgame_locks_mutating_gameplay_operations():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "private bool GuardEndgameOperation(string operationName)" in panel_script
+    assert "结局复盘已锁定经营操作" in panel_script
+
+    for signature in [
+        "private void SelectZoneTool(string zoneTypeId, string displayName)",
+        "private void SelectFacilityTool(string facilityTypeId, string displayName)",
+        "private void HireAndAssignEmployee(",
+        "public void TrainSelectedEmployee()",
+        "public void SellSelectedFacility()",
+        "public void UpgradeSelectedFacility()",
+        "private void ApplyBridgeCommand(string command, string statusPrefix)",
+    ]:
+        body = _method_body(panel_script, signature)
+        assert "GuardEndgameOperation" in body
+
+    ending_body = _method_body(
+        panel_script, "private void ShowEndingReview(TurnResultSnapshot result)"
+    )
+    assert "ClearActiveBuildMode();" in ending_body
+    assert "HideObjectActionPanel();" in ending_body
+    assert "SetGameplayControlsLocked(true);" in ending_body
+
+
+def test_godot_dock_category_switch_cancels_hidden_build_or_place_mode():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    body = _method_body(panel_script, "private void ShowDockCategory(string category)")
+    assert "ClearActiveBuildMode();" in body
+    assert body.index("ClearActiveBuildMode();") < body.index("activeDockCategory = category;")
+
+
+def test_godot_hud_feedback_text_is_readable_and_not_clipped():
+    panel_script = (SCRIPTS / "G2OperationsPanelController.cs").read_text(encoding="utf-8")
+
+    assert "ConfigureReadableLabels();" in panel_script
+    assert "ApplyReadableLabel(StatusLabel" in panel_script
+    assert "ApplyReadableLabel(ObjectActionDetailLabel" in panel_script
+    assert "ApplyReadableLabel(ReportLabel" in panel_script
+    assert "FormatGoalSummary(summary)" in panel_script
+    assert "FormatCapacitySummary(summary)" in panel_script
+    assert ".Take(3)" in panel_script
+    assert "ClipText = false" in panel_script
+    assert 'SetControlRect("FloatingEventFeed"' in panel_script
+    assert "520f, 72f" in panel_script
+    assert 'SetControlRect("ObjectActionPanel"' in panel_script
+    assert "360f, 260f" in panel_script
+    assert 'SetControlRect(\n            "MonthlyReportModal"' in panel_script
+    assert "640f" in panel_script
+    assert "460f" in panel_script
 
 
 def test_godot_metrics_show_initial_core_state_before_first_month():
