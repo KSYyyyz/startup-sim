@@ -1,71 +1,71 @@
-# Get The Best Repository Bootstrap Implementation Plan
+# Get The Best 新仓库基线初始化执行计划
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **给执行代理的要求：** 必须使用 `superpowers:subagent-driven-development`（推荐）或 `superpowers:executing-plans`，按任务逐项执行。步骤使用复选框语法，方便执行中持续更新状态。
 
-**Goal:** Initialize the new `KSYyyyz/get-the-best` repository as the clean V2 home for 《壮志凌云 / Get The Best》 without carrying over the old panel-driven Godot frontend.
+**目标：** 将 `KSYyyyz/get-the-best` 初始化为《壮志凌云 / Get The Best》的干净 V2 项目仓库，不迁移旧面板式 Godot 前端。
 
-**Architecture:** The new repository starts as a documentation and project-governance baseline, not as a rushed Godot implementation. It imports the approved V2 direction docs, establishes hard boundaries against old `StartupSimGodot` contamination, and prepares the next implementation stage where a fresh Godot desktop frontend can be created.
+**架构：** 新仓库先作为文档和项目治理基线，不急着创建 Godot 工程。它导入已经批准的 V2 路线文档，建立防止旧 `StartupSimGodot` 原型污染新项目的硬边界，并为后续新 Godot 桌面前端工程做准备。
 
-**Tech Stack:** GitHub CLI, Markdown documentation, future Godot 4 .NET desktop frontend, C# Core reuse by planned migration/reference, no Web/Vercel frontend.
-
----
-
-## File Structure
-
-The bootstrap should create or update these files in the new repository:
-
-- Create: `README.md`
-  - Public entry point for 《壮志凌云 / Get The Best》.
-  - States project identity, current status, and non-negotiable direction.
-
-- Create: `docs/get_the_best_v2_execution_index.md`
-  - Copy from `D:\Startup-sim\docs\get_the_best_v2_execution_index.md`.
-  - Acts as the V2 route index.
-
-- Create: `docs/get_the_best_v2_reference_game_study.md`
-  - Copy from `D:\Startup-sim\docs\get_the_best_v2_reference_game_study.md`.
-  - Defines same-genre research and anti-copy boundaries.
-
-- Create: `docs/get_the_best_v2_engine_plugin_strategy.md`
-  - Copy from `D:\Startup-sim\docs\get_the_best_v2_engine_plugin_strategy.md`.
-  - Defines language, engine, plugin, and placeholder asset strategy.
-
-- Create: `docs/get_the_best_v2_reset_architecture.md`
-  - Copy from `D:\Startup-sim\docs\get_the_best_v2_reset_architecture.md`.
-  - Defines isolation from the old panel UI prototype.
-
-- Create: `docs/README.md`
-  - Short navigation file listing the V2 documents.
-
-- Create: `.github/workflows/docs.yml`
-  - Minimal CI that checks Markdown files are readable UTF-8 and forbids banned player-facing terms in docs where appropriate.
-
-- Create: `scripts/check_docs_bootstrap.py`
-  - Small deterministic validation script for the new repository.
-  - Keeps the initial CI lightweight before code migration begins.
-
-Do not create the Godot project in this bootstrap task. The Godot project requires a separate implementation plan after the repo baseline is stable.
+**技术栈：** GitHub CLI、Markdown 文档、未来 Godot 4 .NET 桌面前端、计划复用或迁移的 C# Core，不做 Web/Vercel 前端。
 
 ---
 
-### Task 1: Prepare A Local Working Copy Under `D:\Startup-sim\.work`
+## 文件结构
 
-**Files:**
-- Create local clone folder: `D:\Startup-sim\.work\get-the-best`
+本次初始化在新仓库中创建或更新以下文件：
 
-- [ ] **Step 1: Verify the new repository exists**
+- 创建或修改：`README.md`
+  - 作为《壮志凌云 / Get The Best》的公开入口。
+  - 说明项目身份、当前状态和不可变方向。
 
-Run:
+- 创建：`docs/get_the_best_v2_execution_index.md`
+  - 从 `D:\Startup-sim\docs\get_the_best_v2_execution_index.md` 复制。
+  - 作为 V2 路线索引。
+
+- 创建：`docs/get_the_best_v2_reference_game_study.md`
+  - 从 `D:\Startup-sim\docs\get_the_best_v2_reference_game_study.md` 复制。
+  - 定义同类游戏研究结论和反照搬边界。
+
+- 创建：`docs/get_the_best_v2_engine_plugin_strategy.md`
+  - 从 `D:\Startup-sim\docs\get_the_best_v2_engine_plugin_strategy.md` 复制。
+  - 定义语言、引擎、插件和占位素材策略。
+
+- 创建：`docs/get_the_best_v2_reset_architecture.md`
+  - 从 `D:\Startup-sim\docs\get_the_best_v2_reset_architecture.md` 复制。
+  - 定义与旧面板 UI 原型的隔离方式。
+
+- 创建：`docs/README.md`
+  - 简短列出 V2 文档入口。
+
+- 创建：`.github/workflows/docs.yml`
+  - 最小 CI：检查 Markdown 文件可读，并检查项目文档语言和禁用词。
+
+- 创建：`scripts/check_docs_bootstrap.py`
+  - 新仓库的确定性文档校验脚本。
+  - 在代码迁移前先保持 CI 轻量。
+
+本次任务不创建 Godot 工程。Godot 工程需要在仓库基线稳定后另写实施计划。
+
+---
+
+### 任务 1：在 `D:\Startup-sim\.work` 下准备本地工作副本
+
+**文件：**
+- 创建本地克隆目录：`D:\Startup-sim\.work\get-the-best`
+
+- [ ] **步骤 1：确认新仓库存在**
+
+运行：
 
 ```powershell
 gh repo view KSYyyyz/get-the-best --json nameWithOwner,url,visibility
 ```
 
-Expected: output includes `"nameWithOwner":"KSYyyyz/get-the-best"` and `"visibility":"PUBLIC"`.
+预期：输出包含 `"nameWithOwner":"KSYyyyz/get-the-best"` 和 `"visibility":"PUBLIC"`。
 
-- [ ] **Step 2: Clone into the allowed workspace**
+- [ ] **步骤 2：克隆到允许的工作目录**
 
-Run:
+运行：
 
 ```powershell
 if (!(Test-Path 'D:\Startup-sim\.work')) {
@@ -77,30 +77,30 @@ if (Test-Path 'D:\Startup-sim\.work\get-the-best') {
 gh repo clone KSYyyyz/get-the-best 'D:\Startup-sim\.work\get-the-best'
 ```
 
-Expected: clone completes and `D:\Startup-sim\.work\get-the-best\.git` exists.
+预期：克隆完成，并且 `D:\Startup-sim\.work\get-the-best\.git` 存在。
 
-- [ ] **Step 3: Confirm the clone status**
+- [ ] **步骤 3：确认克隆状态**
 
-Run:
+运行：
 
 ```powershell
 git -C 'D:\Startup-sim\.work\get-the-best' status --short
 git -C 'D:\Startup-sim\.work\get-the-best' branch --show-current
 ```
 
-Expected: status is empty and branch is `main`.
+预期：状态为空，分支为 `main`。
 
 ---
 
-### Task 2: Add Repository README And Document Navigation
+### 任务 2：添加仓库说明和文档导航
 
-**Files:**
-- Modify: `D:\Startup-sim\.work\get-the-best\README.md`
-- Create: `D:\Startup-sim\.work\get-the-best\docs\README.md`
+**文件：**
+- 修改：`D:\Startup-sim\.work\get-the-best\README.md`
+- 创建：`D:\Startup-sim\.work\get-the-best\docs\README.md`
 
-- [ ] **Step 1: Replace README with the approved identity**
+- [ ] **步骤 1：用批准后的项目身份替换 README**
 
-Set `README.md` to:
+将 `README.md` 写为：
 
 ```markdown
 # Get The Best / 壮志凌云
@@ -136,11 +136,15 @@ Set `README.md` to:
 - 不复制旧 G2OperationsPanel。
 - 不让 HUD 和日志成为主游戏体验。
 - 不绕过 C# Core 实现经营规则。
+
+## 文档语言
+
+项目文档、执行计划、交接记录和 CI 说明默认使用中文。英文名 Get The Best、仓库名、代码标识符、命令、文件路径和 URL 可以保留原文。
 ```
 
-- [ ] **Step 2: Add docs navigation**
+- [ ] **步骤 2：添加文档导航**
 
-Create `docs/README.md`:
+创建 `docs/README.md`：
 
 ```markdown
 # Get The Best 文档索引
@@ -155,31 +159,35 @@ Create `docs/README.md`:
 ## 执行规则
 
 新实现必须优先保护办公室经营主视角，不能把旧面板点击原型迁移进 V2。
+
+## 文档语言
+
+除英文名、仓库名、代码标识符、命令、文件路径和 URL 外，项目文档正文必须使用中文。
 ```
 
-- [ ] **Step 3: Check status**
+- [ ] **步骤 3：检查状态**
 
-Run:
+运行：
 
 ```powershell
 git -C 'D:\Startup-sim\.work\get-the-best' status --short
 ```
 
-Expected: `README.md` modified and `docs/README.md` added.
+预期：`README.md` 已修改，`docs/README.md` 已新增。
 
 ---
 
-### Task 3: Copy Approved V2 Documents Into New Repository
+### 任务 3：复制已批准的 V2 文档
 
-**Files:**
-- Create: `D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_execution_index.md`
-- Create: `D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_reference_game_study.md`
-- Create: `D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_engine_plugin_strategy.md`
-- Create: `D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_reset_architecture.md`
+**文件：**
+- 创建：`D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_execution_index.md`
+- 创建：`D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_reference_game_study.md`
+- 创建：`D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_engine_plugin_strategy.md`
+- 创建：`D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_reset_architecture.md`
 
-- [ ] **Step 1: Copy the documents**
+- [ ] **步骤 1：复制文档**
 
-Run:
+运行：
 
 ```powershell
 Copy-Item -LiteralPath 'D:\Startup-sim\docs\get_the_best_v2_execution_index.md' -Destination 'D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_execution_index.md'
@@ -188,33 +196,33 @@ Copy-Item -LiteralPath 'D:\Startup-sim\docs\get_the_best_v2_engine_plugin_strate
 Copy-Item -LiteralPath 'D:\Startup-sim\docs\get_the_best_v2_reset_architecture.md' -Destination 'D:\Startup-sim\.work\get-the-best\docs\get_the_best_v2_reset_architecture.md'
 ```
 
-Expected: all four files exist in the new repository.
+预期：四份文件都存在于新仓库。
 
-- [ ] **Step 2: Verify the naming**
+- [ ] **步骤 2：验证命名**
 
-Run:
+运行：
 
 ```powershell
 Select-String -Path 'D:\Startup-sim\.work\get-the-best\docs\*.md' -Pattern 'Get The Best|壮志凌云|get-the-best'
 ```
 
-Expected: matches appear in the copied V2 docs.
+预期：复制的 V2 文档中能查到这些命名。
 
 ---
 
-### Task 4: Add Minimal Docs CI
+### 任务 4：添加最小文档 CI
 
-**Files:**
-- Create: `D:\Startup-sim\.work\get-the-best\scripts\check_docs_bootstrap.py`
-- Create: `D:\Startup-sim\.work\get-the-best\.github\workflows\docs.yml`
+**文件：**
+- 创建：`D:\Startup-sim\.work\get-the-best\scripts\check_docs_bootstrap.py`
+- 创建：`D:\Startup-sim\.work\get-the-best\.github\workflows\docs.yml`
 
-- [ ] **Step 1: Create the validation script**
+- [ ] **步骤 1：创建文档校验脚本**
 
-Create `scripts/check_docs_bootstrap.py`:
+创建 `scripts/check_docs_bootstrap.py`：
 
 ```python
 #!/usr/bin/env python3
-"""Validate the Get The Best repository bootstrap docs."""
+"""校验 Get The Best 新仓库初始化文档。"""
 
 from pathlib import Path
 
@@ -237,32 +245,32 @@ def main() -> int:
     failures: list[str] = []
     for path in REQUIRED_FILES:
         if not path.exists():
-            failures.append(f"Missing required file: {path.relative_to(ROOT)}")
+            failures.append(f"缺少必需文件: {path.relative_to(ROOT)}")
             continue
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError as exc:
-            failures.append(f"File is not valid UTF-8: {path.relative_to(ROOT)}: {exc}")
+            failures.append(f"文件不是有效 UTF-8: {path.relative_to(ROOT)}: {exc}")
             continue
         if "\x00" in text:
-            failures.append(f"File contains NUL byte: {path.relative_to(ROOT)}")
+            failures.append(f"文件包含 NUL 字节: {path.relative_to(ROOT)}")
 
     combined = "\n".join(
         path.read_text(encoding="utf-8") for path in REQUIRED_FILES if path.exists()
     )
     for term in REQUIRED_TERMS:
         if term not in combined:
-            failures.append(f"Missing required term: {term}")
+            failures.append(f"缺少必需词: {term}")
     for term in BANNED_TERMS:
         if term in combined:
-            failures.append(f"Banned player-facing term found: {term}")
+            failures.append(f"发现禁用玩家可见词: {term}")
 
     if failures:
-        print("Get The Best docs bootstrap check failed:")
+        print("Get The Best 文档初始化检查失败:")
         for failure in failures:
             print(f"  - {failure}")
         return 1
-    print("Get The Best docs bootstrap check passed.")
+    print("Get The Best 文档初始化检查通过。")
     return 0
 
 
@@ -270,12 +278,12 @@ if __name__ == "__main__":
     raise SystemExit(main())
 ```
 
-- [ ] **Step 2: Create GitHub Actions workflow**
+- [ ] **步骤 2：创建 GitHub Actions 工作流**
 
-Create `.github/workflows/docs.yml`:
+创建 `.github/workflows/docs.yml`：
 
 ```yaml
-name: Docs
+name: 文档检查
 
 on:
   push:
@@ -289,107 +297,108 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Check bootstrap docs
+      - name: 检查初始化文档
         run: python scripts/check_docs_bootstrap.py
 ```
 
-- [ ] **Step 3: Run the validation locally**
+- [ ] **步骤 3：本地运行校验**
 
-Run:
+运行：
 
 ```powershell
 python 'D:\Startup-sim\.work\get-the-best\scripts\check_docs_bootstrap.py'
 ```
 
-Expected: `Get The Best docs bootstrap check passed.`
+预期：输出 `Get The Best 文档初始化检查通过。`
 
 ---
 
-### Task 5: Commit And Push New Repository Baseline
+### 任务 5：提交并推送新仓库基线
 
-**Files:**
-- Commit all changes in `D:\Startup-sim\.work\get-the-best`
+**文件：**
+- 提交 `D:\Startup-sim\.work\get-the-best` 中的所有变更
 
-- [ ] **Step 1: Inspect diff**
+- [ ] **步骤 1：检查差异**
 
-Run:
+运行：
 
 ```powershell
 git -C 'D:\Startup-sim\.work\get-the-best' diff --check
 git -C 'D:\Startup-sim\.work\get-the-best' status --short
 ```
 
-Expected: no whitespace errors; only README, docs, script, and workflow files changed.
+预期：没有空白错误；只出现 README、docs、script 和 workflow 文件变更。
 
-- [ ] **Step 2: Commit**
+- [ ] **步骤 2：提交**
 
-Run:
+运行：
 
 ```powershell
 git -C 'D:\Startup-sim\.work\get-the-best' add README.md docs scripts .github
 git -C 'D:\Startup-sim\.work\get-the-best' commit -m "docs: establish get the best v2 baseline"
 ```
 
-Expected: commit succeeds.
+预期：提交成功。
 
-- [ ] **Step 3: Push**
+- [ ] **步骤 3：推送**
 
-Run:
+运行：
 
 ```powershell
 git -C 'D:\Startup-sim\.work\get-the-best' push
 ```
 
-Expected: `main -> main`.
+预期：输出包含 `main -> main`。
 
 ---
 
-### Task 6: Check New Repository CI
+### 任务 6：检查新仓库 CI
 
-**Files:**
-- No file changes.
+**文件：**
+- 不修改文件。
 
-- [ ] **Step 1: Watch the Docs workflow**
+- [ ] **步骤 1：观察文档工作流**
 
-Run:
+运行：
 
 ```powershell
 $run = gh run list --repo KSYyyyz/get-the-best --branch main --limit 1 --json databaseId --jq '.[0].databaseId'
 gh run watch $run --repo KSYyyyz/get-the-best --exit-status
 ```
 
-Expected: workflow passes.
+预期：工作流通过。
 
-- [ ] **Step 2: Confirm final repository status**
+- [ ] **步骤 2：确认最终仓库状态**
 
-Run:
+运行：
 
 ```powershell
 git -C 'D:\Startup-sim\.work\get-the-best' status --short
 gh repo view KSYyyyz/get-the-best --json nameWithOwner,url,visibility
 ```
 
-Expected: local status is empty; repository remains public.
+预期：本地状态为空；仓库仍为 public。
 
 ---
 
-## Self-Review
+## 自检
 
-Spec coverage:
+规格覆盖：
 
-- New repository baseline is covered by Tasks 1-6.
-- V2 naming is covered by Task 2 and Task 4 validation.
-- Approved V2 docs are copied by Task 3.
-- CI is added and checked by Tasks 4 and 6.
-- No Godot implementation is included, which matches the current “plan before code” decision.
+- 新仓库基线由任务 1-6 覆盖。
+- V2 命名由任务 2 和任务 4 校验覆盖。
+- 已批准的 V2 文档由任务 3 复制。
+- CI 由任务 4 添加，并由任务 6 检查。
+- 不包含 Godot 实现，符合当前“先计划再写代码”的决定。
 
-Placeholder scan:
+占位扫描：
 
-- This plan contains no TBD/TODO placeholders.
-- Every command has an expected result.
+- 本计划没有 TBD、TODO 或“以后补充”式占位。
+- 每条命令都有预期结果。
 
-Type and naming consistency:
+命名一致性：
 
-- Repository slug is consistently `get-the-best`.
-- Game English name is consistently `Get The Best`.
-- Chinese name is consistently `壮志凌云`.
+- 仓库 slug 统一为 `get-the-best`。
+- 游戏英文名统一为 `Get The Best`。
+- 中文名统一为 `壮志凌云`。
+- 文档正文默认中文；英文名、仓库名、代码标识符、命令、文件路径和 URL 可保留原文。
